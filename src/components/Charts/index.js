@@ -23,7 +23,11 @@ const Charts = (props) => {
     return null
   })
 
-  return <ChartsView chartObject={chartObject} />
+  return (
+    <div id={'chartscontianer'}>
+      <ChartsView chartObject={chartObject} />
+    </div>
+  )
 }
 
 Charts.propTypes = {
