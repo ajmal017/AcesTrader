@@ -24,12 +24,12 @@ const Appnav = function() {
               <NavItem eventKey={4}>Positions</NavItem>
             </LinkContainer>
 
-            <LinkContainer to="/executions">
-              <NavItem eventKey={4}>Executions</NavItem>
-            </LinkContainer>
-
             <LinkContainer to="/watchlist">
               <NavItem eventKey={4}>WatchList</NavItem>
+            </LinkContainer>
+
+            <LinkContainer to="/executions">
+              <NavItem eventKey={4}>Executions</NavItem>
             </LinkContainer>
 
             {/* <LinkContainer to="/forecaster">
