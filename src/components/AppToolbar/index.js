@@ -33,34 +33,42 @@ const AppToolbar = function(props) {
     // debugger
   }
 
-  // function onClick(e) {
-  //   evt.preventDefault()
-  //   evt.stopPropagation()
-  //   const flag = evt.target.id
-  // }
-
   let menuItems = []
   if (chartkeys) {
     menuItems = chartkeys.map(function(keyvalue, index) {
       return (
-        <a href={'#' + keyvalue.replace(/[\W_]/g, '')} key={index.toString()}>
-          {keyvalue}
+        <a key={index.toString()}>
+          <Scrollchor to={keyvalue.replace(/[\W_]/g, '')} animate={{ offset: -110 }} className="nav-link">
+            {/* <Scrollchor to={keyvalue.replace(/[\W_]/g, '')} animate={{ offset: -110, duration: 500 }} className="nav-link"> */}
+            {keyvalue}
+          </Scrollchor>
         </a>
       )
     })
   }
 
-  let scrollItems = []
-  if (chartkeys) {
-    scrollItems = chartkeys.map(function(keyvalue, index) {
-      // Note: adjust offset value for positioning the scroll target location relative to the Scroll button.
-      return (
-        <div id={keyvalue.replace(/[\W_]/g, '')} key={index.toString()}>
-          <Scrollchor to={keyvalue.replace(/[\W_]/g, '')} animate={{ offset: -19, duration: 1000 }} className="nav-link" />
-        </div>
-      )
-    })
-  }
+  // let menuItems = []
+  // if (chartkeys) {
+  //   menuItems = chartkeys.map(function(keyvalue, index) {
+  //     return (
+  //       <a href={'#' + keyvalue.replace(/[\W_]/g, '')} key={index.toString()}>
+  //         {keyvalue}
+  //       </a>
+  //     )
+  //   })
+  // }
+
+  // let scrollItems = []
+  // if (chartkeys) {
+  //   scrollItems = chartkeys.map(function(keyvalue, index) {
+  //     // Note: adjust offset value for positioning the scroll target location relative to the Scroll button.
+  //     return (
+  //       <div id={keyvalue.replace(/[\W_]/g, '')} key={index.toString()}>
+  //         <Scrollchor to={keyvalue.replace(/[\W_]/g, '')} animate={{ offset: -110, duration: 1000 }} className="nav-link" />
+  //       </div>
+  //     )
+  //   })
+  // }
 
   return (
     <div>
@@ -68,7 +76,7 @@ const AppToolbar = function(props) {
         <div className="scrollmenu">{menuItems}</div>
       </div>
       <Charts chartObject={chartObject} />
-      <div>{scrollItems}</div>
+      {/* <div>{scrollItems}</div> */}
     </div>
   )
 }

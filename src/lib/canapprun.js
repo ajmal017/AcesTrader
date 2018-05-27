@@ -39,5 +39,6 @@ export default function() {
   }
 
   document.getElementById('loading-gif').className = 'hide'
+  document.getElementById('splash-logo').className = 'hide'
   return true //screen size and grid support are both okay, splash screen still showing for PIN entry
 }
