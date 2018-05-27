@@ -1,0 +1,210 @@
+#treelogo {
+  margin-top: 6px;
+}
+#tree-icon {
+  margin-right: 6px;
+  margin-left: 6px;
+}
+#duck-icon {
+  margin-right: 6px;
+  margin-left: 6px;
+}
+.logo-text {
+  font-family: Georgia, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; */
+  /* font-family: Arial, "Helvetica Neue", Helvetica, Arial, sans-serif; */
+  /* font-style: italic; */
+  font-size: 16px;
+  font-weight: bold;
+  color: #5c7cfa;
+}
+/* .treeheadlogo {
+    font-size: 16px;
+} */
+
+.xtree {
+  padding: 0;
+  margin: 0;
+  color: #444;
+  font-size: 18px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+/* font-family: FallbackArial, "Trebuchet MS", "Lucida Grande", Tahoma, Verdana, sans-serif; */
+
+#tree {
+  margin-bottom: 10px; /*clear bottom scroll bar*/
+}
+
+.xtree {
+  margin: 0;
+  padding-top: 0px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 0px;
+  color: #333;
+}
+
+.xtree li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  line-height: 14px;
+  text-align: left;
+  white-space: nowrap;
+  outline: 0;
+}
+
+.xtree li a.curSelectedNode {
+  /*indicate the selected node*/
+  padding-top: 0;
+  background-color: #cde6fa;
+  color: black;
+  height: 26px;
+  /*margin-bottom:4px;*/
+  border: 1px solid #1217b3;
+  opacity: 0.8;
+}
+
+.xtree li ul {
+  margin: 0;
+  padding: 0 0 0 18px;
+}
+
+.xtree li.level-0 {
+  margin: 0 0 0 0px;
+} /*indents item parent*/
+.xtree li.level-1 {
+  margin: 0 0 0 6px;
+} /*indents item object*/
+.xtree li.level-2 {
+  margin: 0 0 0 6px;
+} /*indents instruction parent*/
+.xtree li.level-3 {
+  margin: 0 0 0 6px;
+} /*indents instruction object*/
+
+.xtree li ul.line {
+  background-repeat: repeat-y;
+  background-attachment: scroll;
+  background-image: url(./../../../images/treeview-svgs/line.svg);
+}
+
+.xtree li span.button {
+  line-height: 0;
+  margin: 0 0 0 0;
+  width: 26px;
+  height: 22px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 0 none;
+  cursor: pointer;
+  outline: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+.xtree li span.button.icon {
+  /*this area can contain cards/card or instuctions/instruction image*/
+  /* width:34px; */
+  /* height:30px; */
+  padding-top: 4px;
+  /* margin-top: 0px; */
+}
+
+.xtree li span.button.switch {
+  /*this area can contain opened/closed or mid/end image*/
+  width: 34px;
+  height: 30px;
+  margin-top: -2px;
+}
+
+.xtree li span.button.center_docu {
+  background-repeat: no-repeat;
+  background-image: url(./../../../images/treeview-svgs/mid.svg);
+}
+
+.xtree li span.button.bottom_docu {
+  background-repeat: no-repeat;
+  background-image: url(./../../../images/treeview-svgs/end.svg);
+}
+
+.xtree li span.button.roots_opened,
+.xtree li span.button.center_opened {
+  background-repeat: no-repeat;
+  background-image: url(./../../../images/treeview-svgs/minus.svg);
+}
+
+.xtree li span.button.bottom_opened {
+  background-repeat: no-repeat;
+  background-image: url(./../../../images/treeview-svgs/minusbottom.svg);
+}
+
+.xtree li span.button.bottom_closed {
+  background-repeat: no-repeat;
+  background-image: url(./../../../images/treeview-svgs/plusbottom.svg);
+}
+
+.xtree li span.button.center_closed {
+  background-repeat: no-repeat;
+  background-image: url(./../../../images/treeview-svgs/plus.svg);
+}
+
+.xtree li span.branchText {
+  padding-left: 6px;
+  padding-top: 6px;
+  margin-top: 0;
+  vertical-align: middle;
+}
+.xtree li span.branchTextIgnore {
+  padding-left: 6px;
+  padding-top: 6px;
+  margin-top: 0;
+  vertical-align: middle;
+  color: #ff6b6b;
+  text-decoration: line-through;
+}
+
+/* .xtree li a.ignoreNow {
+  color: red;
+  text-decoration: line-through;
+} */
+
+.xtree li a {
+  padding: 1px 3px 0 0;
+  margin-left: -4px; /*moves the icon closer to the switch*/
+  cursor: pointer;
+  height: 27px;
+  color: #333;
+  background-color: transparent;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.xtree li .center_tree-cards {
+  background-repeat: no-repeat;
+  background-image: url(./../../../images/treeview-svgs/treecards.svg);
+}
+
+.xtree li .center_tree-card {
+  background-repeat: no-repeat;
+  background-image: url(./../../../images/treeview-svgs/treecard.svg);
+}
+
+.xtree li .center_tree-instructions {
+  background-repeat: no-repeat;
+  background-image: url(./../../../images/treeview-svgs/treeinstructions.svg);
+}
+/* 
+.xtree li .center_tree-instruction {
+  background-repeat: no-repeat;
+  background-image: url(./../../../images/treeview-svgs/treeinstruction.svg);
+} */
+.xtree li .tree-toggle-on {
+  background-repeat: no-repeat;
+  background-image: url(./../../../images/treeview-svgs/if-toggle-on.svg);
+}
+.xtree li .tree-toggle-off {
+  background-repeat: no-repeat;
+  background-image: url(./../../../images/treeview-svgs/if-toggle-off.svg);
+}

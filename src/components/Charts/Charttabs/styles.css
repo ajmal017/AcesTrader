@@ -1,0 +1,9 @@
+/*Charttabs styles*/
+
+/*chart-cell height determined by total of these contents: */
+/*chart-title + graph-wrapper + grid-wrapper*/
+
+
+.tabs {
+    font-weight: bold;
+}

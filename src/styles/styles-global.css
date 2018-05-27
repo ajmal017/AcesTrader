@@ -1,0 +1,56 @@
+/*apply a natural box layout model to all elements,*/
+/*while allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/*Favors the system font of host OS*/
+/*But Bootstrap overrides it with its own font selection in certain elements*/
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  padding-top: 56px;
+}
+/*use the above padding-top when Appnav is "navbar-fixed" to keep other pages positioned below it */
+
+/*This may override Bootstrap style, so don't use*/
+/*a.active{
+    color: #000000 !important;
+    text-decoration: underline !important;
+}*/
+
+/* To see every single "box" that makes up a page, */
+/* Put this in the stylesheet temporarily: */
+/** {
+   border: 1px solid red !important;
+}*/
+
+/* For Money Plan SPA page layout */
+
+body {
+  background-color: #eeeeee; /*overrides bootstrap*/
+}
+
+.duck-jumbotron-font {
+  font-family: Georgia, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.overflowHidden {
+  overflow: hidden;
+}
+
+/* #root {
+    position:relative;
+    overflow: hidden;
+} */
+
+/* This positions pages that are not relative, i.e. they do not contain absolute children */
+/* For instance: Home and BetaNotice */
+/*page margin-top moves content below the fixed navbar*/
+/* #router-parent {
+  margin-top: 54px;
+} */

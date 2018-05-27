@@ -1,0 +1,42 @@
+.namelist {
+  display: grid;
+  /* grid-gap: 10px; */
+  background-color: #eeeeee; /*#ced4da; gray 4*/
+  grid-template-columns: 1fr 680px 1fr;
+  /* grid-template-rows: 80px  1fr; */
+}
+.bb {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.list-text {
+  width: 680px;
+  /* padding-top: 20px; */
+  /* margin: auto; */
+}
+
+ul {
+  margin: 0;
+  padding: 0 0 0 18px;
+}
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  line-height: 14px;
+  text-align: left;
+  white-space: nowrap;
+  outline: 0;
+}
+
+li a {
+  padding: 1px 3px 0 0;
+  margin-left: -4px; /*moves the icon closer to the switch*/
+  cursor: pointer;
+  height: 27px;
+  color: #333;
+  background-color: transparent;
+  text-decoration: none;
+  display: inline-block;
+}

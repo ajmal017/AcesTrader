@@ -1,0 +1,61 @@
+body {
+  background-color: #eeeeee; /*overrides bootstrap*/
+}
+
+.splash {
+  text-align: center;
+  margin: 0 0 0 0;
+}
+
+.splash.hide {
+  display: none;
+}
+
+#splash-message {
+  display: static;
+}
+
+#splash-logo {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  /* font-family: Georgia, "Helvetica Neue", Helvetica, Arial, sans-serif; */
+  font-size: 63px;
+  font-weight: bold;
+  color: #5c7cfa;
+  line-height: 1.5em;
+  text-align: center;
+  padding-top: 104px;
+}
+
+#loading-gif {
+  text-align: center;
+  margin: 10% 0 0 0;
+}
+
+.fa-spinner {
+  text-align: center;
+  display: inline-block;
+  font-size: 5em;
+  margin-top: 50px;
+}
+
+.splash-container {
+  margin-left: 50px;
+}
+
+.browser-list {
+  display: inline;
+}
+
+.browser-object {
+  width: 60px;
+}
+
+.browser-text {
+  font-size: 10px;
+}
+
+@supports (display: grid) {
+  #no-cssgrid {
+    display: none;
+  } /*hide error message*/
+}

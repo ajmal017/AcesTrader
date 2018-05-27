@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg id="Layer_1" style="enable-background:new 0 0 48 48;" version="1.1" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 15 36 L 33 36 C 40.18 36 46 30.18 46 23 L 46 23 C 46 15.82 40.18 10 33 10 L 15 10 C 7.82 10 2 15.82 2 23 L 2 23 C 2 30.18 7.82 36 15 36 Z" style="fill: rgb(176, 190, 197); fill-opacity: 0.4;" transform="matrix(-1, 0, 0, -1, 48, 46)"/>
+  <g transform="matrix(0, 1, -1, 0, 47, -1)">
+    <circle cx="15" cy="23" r="11" style="fill: rgb(45, 208, 78);" transform="matrix(0, 1, -1, 0, 47, -1)"/>
+  </g>
+</svg>

@@ -1,0 +1,56 @@
+/* Appnav/styles.css */
+
+.navbar-fixed {
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 1000;
+  padding-left: 0px;
+  margin-left: 0px;
+}
+
+/*Navbar.Header {
+    margin-top: 10px;
+}*/
+
+/*nav*/
+.container {
+  margin-left: 10px;
+  /*margin-left: auto;*/
+}
+
+/* override bootstrap's margin 0f -15px to keep spinner on screen */
+.navbar-right {
+  margin-right: 0;
+}
+
+.navbar {
+  margin-bottom: 0; /*overrides bootstrap*/
+}
+
+/*overrides bootstrap*/
+.navbar-brand {
+  font-size: 14px;
+  list-style-type: none;
+}
+
+.navbar-nav li.loader {
+  margin: 12px 6px 0 6px;
+  visibility: hidden;
+}
+
+.navbar-nav li.loader.active {
+  visibility: visible;
+}
+
+.navbar-logo {
+  /* font-family: Georgia, 'Helvetica Neue', Helvetica, Arial, sans-serif; */
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #f8f9fa;
+}

@@ -1,0 +1,23 @@
+{
+  "objectidstamp": "5e6eb922-f2f1-4625-96b3-e7b5b53ddf4c",
+  "description": "",
+  "parmchangeeffectiveyear": 2018,
+  "parmchangeearningsrate": -1,
+  "parmchangefederalincometax": 0,
+  "parmchangestateincometax": -1,
+  "parmchangecapitalgainstax": -1,
+  "parmchangeinflationrate": -1,
+  "parmchangelivingexpensechangedelta": -1,
+  "parmchangelivingexpensechangefactor": -1,
+  "parmchangelifetimegifttaxexclusion": -1,
+  "parmchangeindividualyearlygifttaxexclusion": -1,
+  "parmchangeunifiedcredittaxexemption": -1,
+  "parmchangeyearlygiftexclusionindexrate": -1,
+  "parmchangeunifiedcreditexemptionindexrate": -1,
+  "parmchangeexcessestatetaxrate": -1,
+  "parmchangeexcessgifttaxrate": -1,
+  "ignorenow": false,
+  "parenttitle": "Parmchanges",
+  "objecttype": "parameterchange",
+  "breadcrumbs": "forecaster.iras.ira.2.parameterchanges.parameterchange.0"
+}

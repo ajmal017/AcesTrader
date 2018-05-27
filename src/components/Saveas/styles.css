@@ -1,0 +1,104 @@
+/* Saveas/styles.css */
+
+#saveas-host {
+  position: relative;
+  width: 100%;
+  background-color: #f5f5f5;
+  margin-top: 8px;
+  /*body's padding-top plus this page margin-top moves content below the fixed navbar*/
+}
+
+#saveas-container {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  bottom: 0;
+  right: 10px;
+  background-color: beige;
+  padding: 0 10px 10px 10px;
+  border: 1px solid blue;
+  border-radius: 3px;
+  overflow: auto;
+}
+
+#saveas-layout {
+  /* margin: 0 10px 0 10px; */
+  display: grid;
+  justify-items: stretch;
+  align-items: stretch;
+  grid-template-columns: 1fr;
+  /* grid-template-rows: 20px 44px minmax(100px, max-content) 50px 1fr; */
+  grid-template-rows: 20px 44px auto 50px 1fr;
+  /* grid-gap: 5px; */
+  grid-template-areas:
+    '.'
+    'title'
+    'content'
+    'buttons'
+    '.';
+}
+
+.title {
+  grid-area: title;
+  background-color: beige;
+  padding-left: 30px;
+  /* padding-top: 4px; */
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.content-box {
+  grid-area: content;
+  border-radius: 3px;
+  background-color: white;
+  border: 1px solid blue;
+  padding: 14px 40px 14px 40px;
+  font-size: 18px;
+}
+
+input[type='text'],
+select {
+  width: 96%;
+  padding: 10px 20px;
+  /* margin: 8px 0; */
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.buttons {
+  grid-area: buttons;
+  background-color: beige;
+  padding-left: 30px;
+  padding-top: 30px;
+  font-size: 18px;
+  /* font-weight: bold; */
+}
+
+.buttons > button {
+  border: 1px solid;
+  border-radius: 6px;
+  margin: 4px 4px 4px 12px;
+  padding: 4px 8px 4px 10px;
+  background-color: #e9ecef;
+  color: #495057;
+  cursor: pointer;
+}
+
+.buttons > button:hover {
+  background-color: #f8f9fa;
+}
+
+.saveaserrmsg {
+  margin-top: 14px;
+  color: red;
+}
+
+.sahidecheckbox {
+  display: none;
+}
+.sashowcheckbox {
+  display: block;
+  padding: 20px 0 0 50px;
+}

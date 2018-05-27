@@ -1,0 +1,15 @@
+.footnote {
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /*background-color: blue;*/
+  display: flex;
+  justify-content: space-between;
+}
+.duckimagecredit {
+  margin-top: 2px;
+  /*margin-left: 50px;*/
+  font-size: 86%;
+}

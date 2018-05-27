@@ -1,0 +1,49 @@
+﻿#keypadOverlay {
+	z-index: 1000;
+    position:relative;
+    top:0;
+    left:0;
+}
+
+#keypadContainer {
+    position:absolute;
+    top:0;
+    left:0;
+	width:100%;
+	height:100%;
+	display: -webkit-flex;
+	display: flex; /*allows child item to use margins to position itself in center*/
+}
+
+#keypadButtons {
+	margin-top: 10%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#keypadButtons .buttons td {
+	width:78px;
+	height:78px;
+	padding-left:13px;
+}
+
+.keypad .buttons td div {
+	color: #4a5360;
+	border: 1px solid #4a5360;
+	text-align: center;
+	font-size: 26px;
+	padding: 13px 0 13px 0;
+	width: 52px;
+	line-height: 26px;
+	border-radius: 26px;
+}
+.keypad .buttons td div:hover {
+    cursor:pointer;
+}
+
+.buttonColor1 {
+    background: #cce6ff;
+}
+.buttonColor2 {
+    background: #A3B8CC;
+}

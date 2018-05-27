@@ -1,0 +1,46 @@
+{
+  "files": {
+    "staleCharts": false,
+    "dirty": false,
+    "saving": false,
+    "saved": false,
+    "loading": false,
+    "loaded": false,
+    "error": false,
+    "planFileData": "",
+    "planXmlBase64": "",
+    "planXml": "",
+    "planBase64": "",
+    "planJson": "",
+    "exampleChartObject": null,
+    "planName": null,
+    "planObject": null
+  },
+
+  "charts": {
+    "chartObject": null,
+    "traceRequest": null,
+    "traceResult": null,
+    "warningMessage": null,
+    "errorMessage": null,
+    "montecarloAllowed": false,
+    "calculating": false
+  },
+
+  "plan": {
+    "showCharts": false,
+    "selectedTreeNode": "forecaster.parameters.params.0"
+  },
+
+  "common": {
+    "plansList": ["Dummy user plan name 1", "Dummy user plan name 2", "Dummy user plan name 3", "Dummy user plan name 4"],
+    "pinpaddigits": null,
+    "initialized": false,
+    "initializedDate": "3/11/2018",
+    "newPlansListDate": "3/11/2018",
+    "newVersionDate": "3/11/2018",
+    "currentVersion": "5.0.0"
+  },
+
+  "modal": null
+}

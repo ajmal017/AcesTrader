@@ -1,0 +1,59 @@
+.about-host {
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-top: 0px;
+  background-color: rgba(245, 248, 243, 0.5);
+}
+
+#about-title {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#about-plan-image {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#about-chart-image {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#image-title {
+  width: 600px;
+  padding-top: 10px;
+}
+
+.about-text {
+  display: flex;
+  justify-content: center;
+  font-size: larger;
+}
+.about-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.about-list {
+  display: flex;
+  justify-content: left;
+  /* padding-top: 20px; */
+  margin: auto;
+}
+
+.about-paragraph {
+  width: 680px;
+  padding-top: 20px;
+  margin: auto;
+}
+.about-working {
+  font-size: larger;
+}
+
+.about-email {
+  padding-left: 5px;
+}

@@ -1,0 +1,10 @@
+.docs-host {
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*top: i00px;*/
+    /*bottom: 0;*/
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-top: 0px;
+}

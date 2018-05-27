@@ -1,0 +1,178 @@
+#filepanel-host {
+  position: relative;
+  width: 100%;
+  background-color: #f5f5f5;
+  margin-top: 8px;
+  /*body's padding-top plus this page margin-top moves content below the fixed navbar*/
+}
+
+#filepanel-container {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  bottom: 0;
+  right: 10px;
+  background-color: beige;
+  padding: 0 10px 10px 10px;
+  border: 1px solid blue;
+  border-radius: 3px;
+  overflow: auto;
+}
+
+#filepanel-layout {
+  /* margin: 0 10px 0 10px; */
+  display: grid;
+  justify-items: stretch;
+  align-items: stretch;
+  grid-template-columns: 1fr;
+  grid-template-rows: 26px minmax(100px, max-content) 30px 1fr;
+  /* grid-gap: 5px; */
+  grid-template-areas:
+    'userplansheader'
+    'userplans'
+    'exampleplansheader'
+    'exampleplans';
+}
+
+.userplans-header {
+  grid-area: userplansheader;
+  background-color: beige;
+  padding-left: 30px;
+  /* padding-top: 4px; */
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.userplans-box {
+  grid-area: userplans;
+  border-radius: 3px;
+  background-color: white;
+  border: 1px solid blue;
+  padding: 14px 0 10px 40px;
+}
+
+.exampleplans-header {
+  grid-area: exampleplansheader;
+  background-color: beige;
+  padding-left: 30px;
+  padding-top: 1px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.exampleplans-box {
+  grid-area: exampleplans;
+  border-radius: 3px;
+  border: 1px solid blue;
+  background-color: white;
+  padding: 14px 0 10px 40px;
+  overflow: auto;
+}
+
+.namerow {
+  color: #333;
+  font-size: 18px;
+}
+
+.grid-headers {
+  font-size: 18px;
+}
+
+.namerow li {
+  padding-bottom: 5px;
+  margin: 0;
+  list-style: none;
+  line-height: 14px;
+  text-align: left;
+  white-space: nowrap;
+  outline: 0;
+}
+
+.namerow li span.button {
+  line-height: 0;
+  margin: 3px 0 0 0;
+  width: 26px;
+  height: 22px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 0 none;
+  cursor: default;
+  outline: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+.namerow li span.branchText {
+  /* padding-left: 16px; */
+  margin-left: 16px;
+  margin-top: 0;
+  vertical-align: middle;
+}
+.namerow li span.branchTextSelected {
+  /* padding-left: 16px; */
+  margin-left: 16px;
+  margin-top: 0;
+  vertical-align: middle;
+  background-color: #cde6fa;
+  border: 1px solid #1217b3;
+  opacity: 0.8;
+}
+
+.namerow li a {
+  padding: 1px 3px 0 0;
+  cursor: pointer;
+  height: 27px;
+  color: #333;
+  background-color: transparent;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.namerow li .plan-accounting {
+  background-repeat: no-repeat;
+  /* background-image: url(./../../../images/plan-accounting-22.png); */
+}
+
+.namerow li .center_tree-instruction {
+  background-repeat: no-repeat;
+  /* background-image: url(./../../../images/duck.svg); */
+}
+
+#userPlanNameRows {
+  width: 98%;
+}
+
+.userPlanNameRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.userPlanNameRowImage {
+  margin-top: 3px;
+}
+.userRowMenuIcon {
+  margin-top: 3px;
+}
+
+.rc-dropdown-menu-item {
+  font-size: 16px !important;
+}
+
+/* This "!important" overrides the icon content for a selected menu item, */
+/* this keeps the check mark from appearing after menu item is selected */
+.rc-dropdown-menu-item-selected:after {
+  content: '' !important;
+  font-family: 'anticon';
+  font-weight: bold;
+  position: absolute;
+  top: 6px;
+  right: 16px;
+  color: #3cb8f0;
+}
+
+.menuItem {
+  cursor: pointer;
+}

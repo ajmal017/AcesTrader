@@ -1,0 +1,45 @@
+.home-row4 {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 80px 1fr 1fr 1fr 1fr 1fr 1fr 80px;
+  grid-gap: 15px;
+  grid-template-areas: '. item1 item1 item1 item2 item2 item2 .';
+  grid-template-rows: auto;
+  margin-top: 30px;
+  background-color: #ecf0f1;
+}
+.home-row4-item1 {
+  grid-area: item1;
+  width: 40%;
+  padding-top: 20px;
+}
+.home-row4-item2 {
+  grid-area: item2;
+  width: 80%;
+}
+/* Tablet in desktop narrow window, OR */
+/* Device in portait mode. */
+/* The OR condition is specified by the comma at end of line. */
+@media only screen and (max-width: 768px), (orientation: portait) {
+  .home-row4 {
+    margin-top: 40px;
+    background-color: #ecf0f1;
+    display: grid;
+    justify-items: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-gap: 15px;
+    grid-template-areas:
+      '. item1 item1 item1 .'
+      '. item2 item2 item2 .';
+  }
+  .home-row4-item1 {
+    grid-area: item2;
+    width: 60%;
+    padding-top: 20px;
+  }
+  .home-row4-item2 {
+    grid-area: item1;
+    width: 80%;
+  }
+}
