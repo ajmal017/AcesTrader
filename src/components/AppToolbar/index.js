@@ -47,36 +47,12 @@ const AppToolbar = function(props) {
     })
   }
 
-  // let menuItems = []
-  // if (chartkeys) {
-  //   menuItems = chartkeys.map(function(keyvalue, index) {
-  //     return (
-  //       <a href={'#' + keyvalue.replace(/[\W_]/g, '')} key={index.toString()}>
-  //         {keyvalue}
-  //       </a>
-  //     )
-  //   })
-  // }
-
-  // let scrollItems = []
-  // if (chartkeys) {
-  //   scrollItems = chartkeys.map(function(keyvalue, index) {
-  //     // Note: adjust offset value for positioning the scroll target location relative to the Scroll button.
-  //     return (
-  //       <div id={keyvalue.replace(/[\W_]/g, '')} key={index.toString()}>
-  //         <Scrollchor to={keyvalue.replace(/[\W_]/g, '')} animate={{ offset: -110, duration: 1000 }} className="nav-link" />
-  //       </div>
-  //     )
-  //   })
-  // }
-
   return (
     <div>
       <div className="scrollmenucontainer">
         <div className="scrollmenu">{menuItems}</div>
       </div>
       <Charts chartObject={chartObject} />
-      {/* <div>{scrollItems}</div> */}
     </div>
   )
 }
