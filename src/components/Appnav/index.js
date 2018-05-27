@@ -24,17 +24,13 @@ const Appnav = function() {
               <NavItem eventKey={4}>Positions</NavItem>
             </LinkContainer>
 
-            <LinkContainer to="/watchlist">
-              <NavItem eventKey={4}>WatchList</NavItem>
+            <LinkContainer to="/potentials">
+              <NavItem eventKey={4}>Potentials</NavItem>
             </LinkContainer>
 
             <LinkContainer to="/executions">
               <NavItem eventKey={4}>Executions</NavItem>
             </LinkContainer>
-
-            {/* <LinkContainer to="/forecaster">
-              <NavItem eventKey={4}>Forecaster</NavItem>
-            </LinkContainer> */}
 
             <NavDropdown eventKey={5} title="Tools" id="5-basic-nav-dropdown">
               <LinkContainer to="/managelists">
@@ -55,26 +51,7 @@ const Appnav = function() {
                 </MenuItem>
               </LinkContainer>
             </NavDropdown>
-
-            <NavDropdown eventKey={6} title="Help" id="6-basic-nav-dropdown">
-              <LinkContainer to="/readme">
-                <MenuItem eventKey={6.3}>Read Me</MenuItem>
-              </LinkContainer>
-              <LinkContainer to="/docs">
-                <MenuItem eventKey={6.2}>Documentation...</MenuItem>
-              </LinkContainer>
-
-              <LinkContainer to="/about">
-                <MenuItem eventKey={6.4}>About AcesTrader</MenuItem>
-              </LinkContainer>
-            </NavDropdown>
           </Nav>
-
-          {/* <Nav pullRight>
-            <LinkContainer to="/Signin">
-              <NavItem eventKey={8}>Sign In</NavItem>
-            </LinkContainer>
-          </Nav> */}
         </Navbar.Collapse>
       </Navbar>
     </div>
