@@ -13,7 +13,7 @@ html {
 /*But Bootstrap overrides it with its own font selection in certain elements*/
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  /* padding-top: 20px; */
+  padding-top: 50px;
 }
 /*use the above padding-top when Appnav is "navbar-fixed" to keep other pages positioned below it */
 

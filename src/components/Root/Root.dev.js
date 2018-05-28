@@ -3,9 +3,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
-// import DevTools from '../../DevTools'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Appnav from '../../components/Appnav/'
+import Alerts from '../../components/Alerts/'
 import Potentials from '../../components/Potentials/'
 import Positions from '../../components/Positions/'
 import Executions from '../../components/Executions/'
@@ -36,7 +36,8 @@ const Root = ({ store }) => (
         <div>
           <Route component={Appnav} />
           <Switch>
-            <Route exact path="/" component={Forecaster} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/alerts" component={Alerts} />
             <Route exact path="/potentials" component={Potentials} />
             <Route exact path="/positions" component={Positions} />
             <Route exact path="/executions" component={Executions} />
@@ -58,7 +59,6 @@ const Root = ({ store }) => (
             <Route exact path="/readtracelog" component={Readtracelog} />
             <Route exact path="/readerrorlog" component={Readerrorlog} />
           </Switch>
-          {/* <DevTools /> */}
         </div>
       </Router>
     </div>

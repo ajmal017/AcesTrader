@@ -20,6 +20,10 @@ const Appnav = function() {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
+            <LinkContainer to="/alerts">
+              <NavItem eventKey={4}>Alerts</NavItem>
+            </LinkContainer>
+
             <LinkContainer to="/positions">
               <NavItem eventKey={4}>Positions</NavItem>
             </LinkContainer>
