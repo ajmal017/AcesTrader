@@ -11,7 +11,6 @@ import examplechartdata from '../../components/Charts/examplechartdata'
 class Potentials extends Component {
   constructor(props) {
     super(props)
-    this.chartPickDone = false //switch that flags the presence of a hash url in history
     this.handleClick = this.handleClick.bind(this) //children callbacks
   }
 
@@ -37,8 +36,9 @@ class Potentials extends Component {
   // *** Handle all callbacks from child components ***
   // ***************************************
   handleClick(evt, flag) {
-    if (flag === 'chartpicker') {
-      this.chartPickDone = true // flags a possible presence of a chart hash url
+    if (flag === '???') {
+      //no flags yet
+      console.log('Flag=' + flag)
     } else {
       // https://github.com/igorprado/react-notification-system
       this._addNotification('warning', 'Work In Progress', flag + ' is not ready yet.', 'Work In Progress')
@@ -58,11 +58,6 @@ class Potentials extends Component {
       return null
     })
 
-    if (this.chartPickDone === true) {
-      //user clicked the ChartPicker toolbar
-      this.chartPickDone = false //reset the one-time switch
-      this.props.history.push('/potentials') // removes the chart hash route in url history
-    }
     return (
       <div>
         <NotificationSystem ref="notificationSystem" />
