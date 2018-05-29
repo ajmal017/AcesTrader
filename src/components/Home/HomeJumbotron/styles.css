@@ -1,36 +1,36 @@
 #duck-home {
-    margin-bottom: 20px;
-    margin-right: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
 }
 
 /* Georgia font is experimental usage*/
 .duck-jumbotron {
-    font-family: Georgia, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: bold;
-    color: #5c7cfa;
+  /* font-family: Georgia, "Helvetica Neue", Helvetica, Arial, sans-serif; */
+  font-family: Arial Rounded MT Bold, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  color: #5c7cfa;
 }
 
 .duck-slogan {
-    font-family: Arial Rounded MT Bold, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: bold;
-    color: #5c7cfa;
-
+  font-family: Arial Rounded MT Bold, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  color: #5c7cfa;
 }
 
 /*Additional rules for Bootstrap over-rides*/
 
 .home-row0 {
-    height: 300px;
-    margin-top: -4px;
-    margin-bottom: 0px;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    /*background-color: #efc100;*/
+  height: 256px;
+  margin-top: -4px;
+  margin-bottom: 0px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  /*background-color: #efc100;*/
 }
 
 .home-row0-background {
-    /*background-position: center; */
-    /*background-image: url(./../../../images/springlakebeachbig.jpg);*/
-    background-image: url(./../../../images/dollar-pexels-photo-164661-B.png);
-    background-size: cover;
+  /*background-position: center; */
+  /*background-image: url(./../../../images/springlakebeachbig.jpg);*/
+  background-image: url(./../../../images/dollar-pexels-photo-164661-B.png);
+  background-size: cover;
 }

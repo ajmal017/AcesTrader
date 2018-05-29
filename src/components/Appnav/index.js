@@ -28,7 +28,7 @@ const Appnav = function() {
               <NavItem eventKey={4}>Positions</NavItem>
             </LinkContainer>
 
-            <NavDropdown eventKey={5} title="Potentials" id="5-basic-nav-dropdown">
+            <NavDropdown eventKey={5} title="Prospects" id="5-basic-nav-dropdown">
               <LinkContainer to="/potentialbuys">
                 <MenuItem eventKey={5.1}>Buys</MenuItem>
               </LinkContainer>
