@@ -12,7 +12,8 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Appnav from '../../components/Appnav/'
 import Alerts from '../../components/Alerts/'
-import Potentials from '../../components/Potentials/'
+import PotentialBuys from '../../components/PotentialBuys/'
+import PotentialSells from '../../components/PotentialSells/'
 import Positions from '../../components/Positions/'
 import Executions from '../../components/Executions/'
 import Managelists from '../../components/Managelists/'
@@ -44,7 +45,8 @@ const Root = ({ store }) => (
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/alerts" component={Alerts} />
-            <Route exact path="/potentials" component={Potentials} />
+            <Route exact path="/potentialbuys" component={PotentialBuys} />
+            <Route exact path="/potentialsells" component={PotentialSells} />
             <Route exact path="/positions" component={Positions} />
             <Route exact path="/executions" component={Executions} />
             <Route exact path="/managelists" component={Managelists} />
