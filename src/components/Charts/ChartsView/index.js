@@ -56,5 +56,5 @@ export default class ChartsView extends Component {
 
 ChartsView.propTypes = {
   chartObject: PropTypes.object.isRequired,
-  planJson: PropTypes.string,
+  // planJson: PropTypes.string,
 }

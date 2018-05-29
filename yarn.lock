@@ -4525,6 +4525,10 @@ jsx-ast-utils@^2.0.0:
   dependencies:
     array-includes "^3.0.3"
 
+jump.js@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/jump.js/-/jump.js-1.0.1.tgz#0de2b1631ba9a1c2c6b8572ad277d877e8503600"
+
 keycode@^2.1.2:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/keycode/-/keycode-2.2.0.tgz#3d0af56dc7b8b8e5cba8d0a97f107204eec22b04"
@@ -6363,6 +6367,12 @@ react-router-dom@4.2.2:
     react-router "^4.2.0"
     warning "^3.0.0"
 
+react-router-hash-link@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-router-hash-link/-/react-router-hash-link-1.2.0.tgz#ce824cc5f0502ce9b0686bb6dd9c08659b24094c"
+  dependencies:
+    prop-types "^15.6.0"
+
 react-router@4.2.0, react-router@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.2.0.tgz#61f7b3e3770daeb24062dae3eedef1b054155986"
@@ -6419,11 +6429,18 @@ react-scripts@1.1.0:
   optionalDependencies:
     fsevents "1.1.2"
 
-react-scrollchor@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/react-scrollchor/-/react-scrollchor-4.2.1.tgz#0fe5f63ac4bcfcf5775bec942d87d7192953b29d"
+react-scrollable-anchor@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/react-scrollable-anchor/-/react-scrollable-anchor-0.6.1.tgz#fd6e78026c744f76414053d06903b82adccb54d9"
   dependencies:
-    requestanimationframe-timer "^1.0.2"
+    jump.js "1.0.1"
+    prop-types "^15.5.10"
+
+react-scrollchor@5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/react-scrollchor/-/react-scrollchor-5.0.2.tgz#cc28ca711332d0fef3f46706bd16c918898c0ac2"
+  dependencies:
+    requestanimationframe-timer "1.x.x"
 
 react-sizes@1.0.0:
   version "1.0.0"
@@ -6793,7 +6810,7 @@ request@^2.79.0:
     tunnel-agent "^0.6.0"
     uuid "^3.1.0"
 
-requestanimationframe-timer@^1.0.2:
+requestanimationframe-timer@1.x.x:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/requestanimationframe-timer/-/requestanimationframe-timer-1.0.4.tgz#3b48fe55f4359f07c54745caec7437e2532f89d8"
   dependencies:

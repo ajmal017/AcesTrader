@@ -3,9 +3,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
-// import DevTools from '../../DevTools'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Appnav from '../../components/Appnav/'
+import Alerts from '../../components/Alerts/'
+import Potentials from '../../components/Potentials/'
+import Positions from '../../components/Positions/'
+import Executions from '../../components/Executions/'
 import Managelists from '../../components/Managelists/'
 import Home from '../../components/Home/'
 import New from '../../components/New/'
@@ -17,13 +20,9 @@ import Delete from '../../components/Delete/'
 import Close from '../../components/Close/'
 import Exit from '../../components/Exit/'
 // import Plan from '../../components/Plan/'
-// import Charts from '../../components/Charts/'
+import Charts from '../../components/Charts/'
 import MonteCarlo from '../../components/MonteCarlo/'
 import Forecaster from '../../components/Forecaster/'
-import Signin from '../../components/Signin/'
-import Docs from '../../components/Docs/'
-import Readme from '../../components/Readme/'
-import About from '../../components/About/'
 import Requesttrace from '../../components/Requesttrace/'
 import Readtracelog from '../../components/Readtracelog/'
 import Readerrorlog from '../../components/Readerrorlog/'
@@ -37,7 +36,11 @@ const Root = ({ store }) => (
         <div>
           <Route component={Appnav} />
           <Switch>
-            <Route exact path="/" component={Forecaster} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/alerts" component={Alerts} />
+            <Route exact path="/potentials" component={Potentials} />
+            <Route exact path="/positions" component={Positions} />
+            <Route exact path="/executions" component={Executions} />
             <Route exact path="/managelists" component={Managelists} />
             <Route exact path="/home" component={Home} />
             <Route exact path="/new" component={New} />
@@ -49,19 +52,13 @@ const Root = ({ store }) => (
             <Route exact path="/close" component={Close} />
             <Route exact path="/exit" component={Exit} />
             {/* <Route exact path="/plan" component={Plan} /> */}
-            {/* <Route exact path="/charts" component={Charts} /> */}
+            <Route exact path="/charts" component={Charts} />
             <Route exact path="/montecarlo" component={MonteCarlo} />
             <Route exact path="/forecaster" component={Forecaster} />
             <Route exact path="/requesttrace" component={Requesttrace} />
             <Route exact path="/readtracelog" component={Readtracelog} />
             <Route exact path="/readerrorlog" component={Readerrorlog} />
-            {/* <Route exact path="/examples" component={Examples} /> */}
-            <Route exact path="/docs" component={Docs} />
-            <Route exact path="/readme" component={Readme} />
-            <Route exact path="/about" component={About} />
-            <Route exact path="/signin" component={Signin} />
           </Switch>
-          {/* <DevTools /> */}
         </div>
       </Router>
     </div>
