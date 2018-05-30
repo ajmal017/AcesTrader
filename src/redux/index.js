@@ -1,10 +1,7 @@
 // redux/index.js
 
 import { combineReducers } from 'redux'
-import filesReducer from './ducksFiles'
-import planReducer from './ducksPlan'
 import chartsReducer from './ducksCharts'
-import commonReducer from './ducksCommon'
 import modalReducer from './ducksModal'
 
 //The RESET_STATE is a secret action for use in fixing unique problems.
@@ -44,10 +41,7 @@ export const importPlanAllSlices = (planName, planData) => {
 }
 
 const rootReducer = combineReducers({
-  files: filesReducer,
-  plan: planReducer,
   charts: chartsReducer,
-  common: commonReducer,
   modal: modalReducer,
 })
 

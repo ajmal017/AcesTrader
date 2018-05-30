@@ -18,7 +18,7 @@ const CALCULATION_FAILURE = 'blueduck.charts.CALCULATION_FAILURE'
 // so we create a corresponding slice of the defaultState as well.
 const defaultCharts = cloneDeep(defaultState.charts) //in case state is undefined
 
-export default function chartsReducer(state = defaultCharts, action) {
+export default function chartsReducer(state = defaultState, action) {
   switch (action.type) {
     case NEW_PLAN_ALL_SLICES: {
       return defaultCharts
