@@ -12,10 +12,11 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Appnav from '../../components/Appnav/'
 import Alerts from '../../components/Alerts/'
-import PotentialBuys from '../../components/PotentialBuys/'
-import PotentialSells from '../../components/PotentialSells/'
-import Positions from '../../components/Positions/'
-import Executions from '../../components/Executions/'
+import ProspectBuys from '../../components/ProspectBuys/'
+import ProspectSells from '../../components/ProspectSells/'
+import PositionLongs from '../../components/PositionLongs/'
+import PositionShorts from '../../components/PositionShorts/'
+import Trades from '../../components/Trades/'
 import Managelists from '../../components/Managelists/'
 import Home from '../../components/Home/'
 import New from '../../components/New/'
@@ -45,10 +46,11 @@ const Root = ({ store }) => (
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/alerts" component={Alerts} />
-            <Route exact path="/potentialbuys" component={PotentialBuys} />
-            <Route exact path="/potentialsells" component={PotentialSells} />
-            <Route exact path="/positions" component={Positions} />
-            <Route exact path="/executions" component={Executions} />
+            <Route exact path="/positionlongs" component={PositionLongs} />
+            <Route exact path="/positionshorts" component={PositionShorts} />
+            <Route exact path="/prospectbuys" component={ProspectBuys} />
+            <Route exact path="/prospectsells" component={ProspectSells} />
+            <Route exact path="/trades" component={Trades} />
             <Route exact path="/managelists" component={Managelists} />
             <Route exact path="/home" component={Home} />
             <Route exact path="/new" component={New} />

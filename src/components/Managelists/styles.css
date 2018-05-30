@@ -4,6 +4,10 @@ table {
   font-family: Courier, monospace;
 }
 
+.rating-circle {
+  padding: 2px 4px;
+}
+
 .stocks-container {
   margin-bottom: 1.5em;
   width: 100%;

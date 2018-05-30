@@ -24,24 +24,29 @@ const Appnav = function() {
               <NavItem eventKey={3}>Alerts</NavItem>
             </LinkContainer>
 
-            <LinkContainer to="/positions">
-              <NavItem eventKey={4}>Positions</NavItem>
-            </LinkContainer>
-
             <NavDropdown eventKey={5} title="Prospects" id="5-basic-nav-dropdown">
-              <LinkContainer to="/potentialbuys">
+              <LinkContainer to="/prospectbuys">
                 <MenuItem eventKey={5.1}>Buys</MenuItem>
               </LinkContainer>
-              <LinkContainer to="/potentialsells">
+              <LinkContainer to="/prospectsells">
                 <MenuItem eventKey={5.2}>Sells</MenuItem>
               </LinkContainer>
             </NavDropdown>
 
-            <LinkContainer to="/executions">
-              <NavItem eventKey={6}>Executions</NavItem>
+            <NavDropdown eventKey={4} title="Positions" id="5-basic-nav-dropdown">
+              <LinkContainer to="/positionlongs">
+                <MenuItem eventKey={4.1}>Longs</MenuItem>
+              </LinkContainer>
+              <LinkContainer to="/positionshorts">
+                <MenuItem eventKey={4.2}>Shorts</MenuItem>
+              </LinkContainer>
+            </NavDropdown>
+
+            <LinkContainer to="/trades">
+              <NavItem eventKey={6}>Trades</NavItem>
             </LinkContainer>
 
-            <NavDropdown eventKey={7} title="Tools" id="5-basic-nav-dropdown">
+            <NavDropdown eventKey={7} title="More" id="5-basic-nav-dropdown">
               <LinkContainer to="/managelists">
                 <MenuItem eventKey={7.0}>Manage WatchList</MenuItem>
               </LinkContainer>
@@ -54,10 +59,8 @@ const Appnav = function() {
                 </MenuItem>
               </LinkContainer>
               <MenuItem divider />
-              <LinkContainer to="/readerrorlog">
-                <MenuItem eventKey={7.3} disabled={true}>
-                  Read Error Log
-                </MenuItem>
+              <LinkContainer to="/home">
+                <MenuItem eventKey={7.3}>About AcesTrader</MenuItem>
               </LinkContainer>
             </NavDropdown>
           </Nav>
