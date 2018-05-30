@@ -47,16 +47,11 @@ const Appnav = function() {
             </LinkContainer>
 
             <NavDropdown eventKey={7} title="More" id="5-basic-nav-dropdown">
-              <LinkContainer to="/managelists">
-                <MenuItem eventKey={7.0}>Manage WatchList</MenuItem>
+              <LinkContainer to="/managebuyprospects">
+                <MenuItem eventKey={7.0}>Manage Buy Prospects</MenuItem>
               </LinkContainer>
-              <LinkContainer to="/requesttrace">
-                <MenuItem eventKey={7.1}>Request Trace...</MenuItem>
-              </LinkContainer>
-              <LinkContainer to="/readtracelog">
-                <MenuItem eventKey={7.2} disabled={true}>
-                  Read Trace Log
-                </MenuItem>
+              <LinkContainer to="/managesellprospects">
+                <MenuItem eventKey={7.2}>Manage Sell Prospects</MenuItem>
               </LinkContainer>
               <MenuItem divider />
               <LinkContainer to="/home">

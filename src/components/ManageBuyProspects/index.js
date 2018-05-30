@@ -1,4 +1,4 @@
-// Managelists/index.js
+// ManageBuyProspects/index.js
 
 // http://stockcharts.com/h-sc/ui?s=msft
 
@@ -8,7 +8,7 @@ import React, { Component } from 'react'
 import BetaNotice from '../BetaNotice'
 // import './styles.css'
 
-class Managelists extends Component {
+class ManageBuyProspects extends Component {
   componentDidMount() {
     window.scrollTo(0, 0)
   }
@@ -376,4 +376,4 @@ class Managelists extends Component {
     )
   }
 }
-export default Managelists
+export default ManageBuyProspects

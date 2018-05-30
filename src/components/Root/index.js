@@ -17,7 +17,8 @@ import ProspectSells from '../../components/ProspectSells/'
 import PositionLongs from '../../components/PositionLongs/'
 import PositionShorts from '../../components/PositionShorts/'
 import Trades from '../../components/Trades/'
-import Managelists from '../../components/Managelists/'
+import ManageBuyProspects from '../../components/ManageBuyProspects/'
+import ManageSellProspects from '../../components/ManageSellProspects/'
 import Home from '../../components/Home/'
 import New from '../../components/New/'
 import Select from '../../components/Select/'
@@ -51,7 +52,8 @@ const Root = ({ store }) => (
             <Route exact path="/prospectbuys" component={ProspectBuys} />
             <Route exact path="/prospectsells" component={ProspectSells} />
             <Route exact path="/trades" component={Trades} />
-            <Route exact path="/managelists" component={Managelists} />
+            <Route exact path="/managebuyprospects" component={ManageBuyProspects} />
+            <Route exact path="/managesellprospects" component={ManageSellProspects} />
             <Route exact path="/home" component={Home} />
             <Route exact path="/new" component={New} />
             <Route exact path="/select" component={Select} />
