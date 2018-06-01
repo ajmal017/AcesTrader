@@ -1,7 +1,7 @@
 // PotentialBuys/index.js
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { notification } from '../../redux/ducksModal'
+import { notification } from '../../redux/reducerModal'
 import AppToolbar from '../../components/AppToolbar'
 
 // this is to get one chart's data for this mock display

@@ -15,7 +15,7 @@ import { createStore } from 'redux'
 import rootReducer from './redux'
 import ErrorBoundary from './components/ErrorBoundary/'
 import Root from './components/Root'
-import { loadState, saveState } from './redux/localStorage'
+import { loadState, saveState } from './lib/localStorage'
 import throttle from 'lodash/throttle'
 
 // Import the utility code which tests if the screen size

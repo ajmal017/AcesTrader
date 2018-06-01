@@ -20,9 +20,9 @@ export const deletePlan = (planName) => {
 }
 
 export const loadState = () => {
-  // localStorage.removeItem('mp-state') //TEMP to reset state
+  // localStorage.removeItem('at-state') //TEMP to reset state
   try {
-    let serializedState = localStorage.getItem('mp-state')
+    let serializedState = localStorage.getItem('at-state')
     if (serializedState === null) {
       return undefined // so that reducers will use default state
     }
@@ -41,7 +41,7 @@ export const saveState = (state) => {
   try {
     let serializedState = JSON.stringify(state)
     serializedState = base64.encode(serializedState)
-    localStorage.setItem('mp-state', serializedState)
+    localStorage.setItem('at-state', serializedState)
     return true
   } catch (err) {
     if (isQuotaExceeded(err)) {

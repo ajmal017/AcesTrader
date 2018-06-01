@@ -1,0 +1,7 @@
+{
+  "session": "NORMAL",
+  "duration": "DAY",
+  "orderType": "MARKET",
+  "quantity": "ALL_SHARES",
+  "instruction": "BUY"
+}

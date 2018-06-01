@@ -14,6 +14,7 @@
     "redux-logger": "^3.0.6"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "base-64": "^0.1.0",
     "bootstrap": "^3.3.7",
     "chart.js": "^2.4.0",
@@ -45,6 +46,7 @@
     "redux-promise-middleware": "^5.0.0",
     "redux-thunk": "^2.2.0",
     "uuid": "^3.1.0",
+    "x-ray": "^2.3.2",
     "xml2js": "0.4.19"
   },
   "scripts": {

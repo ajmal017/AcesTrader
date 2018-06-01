@@ -1,4 +1,7 @@
 {
-  "charts": [],
+  "buys": [{}],
+  "sells": [{}],
+  "longs": [{}],
+  "shorts": [{}],
   "modal": null
 }

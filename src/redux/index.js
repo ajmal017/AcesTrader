@@ -1,8 +1,11 @@
 // redux/index.js
 
 import { combineReducers } from 'redux'
-import chartsReducer from './ducksCharts'
-import modalReducer from './ducksModal'
+import buysReducer from './reducerBuys'
+import sellsReducer from './reducerSells'
+import longsReducer from './reducerLongs'
+import shortsReducer from './reducerShorts'
+import modalReducer from './reducerModal'
 
 //The RESET_STATE is a secret action for use in fixing unique problems.
 //Triggered by typing special code string into the SaveAs data entry screen, pressing Cancel.
@@ -41,7 +44,10 @@ export const importPlanAllSlices = (planName, planData) => {
 }
 
 const rootReducer = combineReducers({
-  charts: chartsReducer,
+  buys: buysReducer,
+  sells: sellsReducer,
+  longs: longsReducer,
+  shorts: shortsReducer,
   modal: modalReducer,
 })
 

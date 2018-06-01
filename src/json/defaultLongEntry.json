@@ -1,0 +1,8 @@
+{
+  "session": "NORMAL",
+  "duration": "DAY",
+  "orderType": "MARKET",
+  "quantityType": "DOLLARS",
+  "quantity": 5000,
+  "instruction": "BUY"
+}

@@ -1,4 +1,4 @@
-//  redux/ducksModal.js
+//  redux/reducerModal.js
 
 import uuidv4 from 'uuid/v4'
 import defaultState from '../json/defaultState.json'
