@@ -4,6 +4,12 @@ import './styles.css'
 const HomeContent = function() {
   return (
     <div className="home-content">
+      <h4>ACESTRADER</h4>
+      <p>
+        <i>The AcesTrader program is hobby project by a retired coder, created as an experiment in short term ETF trading assisted by the API interface to TDAmeritrade's online
+        system.</i>
+      </p>
+        <br />
       <h4>TRADE PROSPECTS</h4>
       <p>
         The lists of ETFs used in AcesTrader are obtained from the weekly list of "Buy on the Dip Prospects" and "Sell on the Pop Prospects" published in "The Daily ETF Roundup" by
@@ -37,7 +43,7 @@ const HomeContent = function() {
       <p>
         An alert will be generated when the price chart shows an event such as crossing a trend line, a line of resistance, or support line. These indicator lines are specified by
         the user with parameters in the chart's dashboard. A list of triggered alerts is available in the Alerts page. Each alert includes a link to the associated ETF chart page.
-        The user can go there to inspect the chart and decided on an available dashboard action.
+        The user can navigate there to inspect the chart and decide on an available dashboard action.
       </p>
 
       <h4>TRADER ACTIONS</h4>

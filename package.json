@@ -46,7 +46,6 @@
     "redux-promise-middleware": "^5.0.0",
     "redux-thunk": "^2.2.0",
     "uuid": "^3.1.0",
-    "x-ray": "^2.3.2",
     "xml2js": "0.4.19"
   },
   "scripts": {

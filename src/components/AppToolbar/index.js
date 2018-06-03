@@ -6,13 +6,13 @@ import withSizes from 'react-sizes'
 import Scrollchor from 'react-scrollchor' //scroll to anchor in page
 import NotificationSystem from 'react-notification-system'
 import appScrollbarWidth from '../../lib/appScrollbarWidth'
-import Charts from '../Charts' //replace cash flow with stock prices and trader's control panel
+import Charts from '../Charts' //to hold stock price chart and dashboard control panel
 import './styles.css'
 
 class AppToolbar extends Component {
   constructor(props) {
     super(props)
-    this.chartObject = props.chartObject
+    this.chartListObject = props.chartListObject
     this.scrollbarWidth = 0 //waiting for the width to be determined
     this.handleClick = this.handleClick.bind(this) //children callbacks
   }
@@ -53,10 +53,12 @@ class AppToolbar extends Component {
     // let scrollchorOffset = -94-this.scrollbarWidth-10
     let scrollchorOffset = -108
 
-    // Create an array of keys, one for each chart that is drawn,
-    // to be placed in a toolbar button for the chart picker.
-    let chartkeys = this.chartObject ? Object.keys(this.chartObject) : null
+    // The chartListObject is an array of objects, each one having a symbol property and a dashboard property.
+    // Create an array of key values, one for each chart cell that will be drawn,
+    // to be placed in a button on this toolbar for the chart picker.
 
+    // TODO ***This code needs to be changed to work with the array of objects***
+    let chartkeys = this.chartObject ? Object.keys(this.chartObject) : null
     let menuItems = []
     if (chartkeys) {
       menuItems = chartkeys.map(function(keyvalue, index) {
@@ -76,7 +78,7 @@ class AppToolbar extends Component {
         <div className="scrollmenucontainer">
           <div className="scrollmenu">{menuItems}</div>
         </div>
-        <Charts chartObject={this.chartObject} handleClick={this.handleClick} />
+        <Charts chartListObject={this.chartListObject} handleClick={this.handleClick} />
       </div>
     )
   }

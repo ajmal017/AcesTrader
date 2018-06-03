@@ -28,4 +28,12 @@ class PotentialBuys extends Component {
     return <AppToolbar chartObject={chartObject} />
   }
 }
-export default PotentialBuys
+
+function mapStateToProps(state) {
+  const props = {
+    buys: state.buys
+  }
+  return props
+}
+
+export default connect(mapStateToProps)(PotentialBuys)

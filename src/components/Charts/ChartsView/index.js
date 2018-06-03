@@ -40,7 +40,8 @@ export default class ChartsView extends Component {
       )
     }
 
-    // Create an array of Chartcells, one for each chart & datagrid pair
+    // Create an array of Chartcells, one for each chart & dashboard pair
+    // each Chartcell gets its chart price data from the IEX API and renders the chart.
     const cells = chartkeys.map(function(keyvalue, index) {
       const cell_id = keyvalue.replace(/[\W_]/g, '') // the Chartcell's cell_id value is used by the "Scroll To" method in the Apptoolbar
       return <Chartcell key={index.toString()} cell_id={cell_id} chart_name={keyvalue} data_object={chartcontent} />

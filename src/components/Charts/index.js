@@ -31,8 +31,7 @@ const Charts = (props) => {
 }
 
 Charts.propTypes = {
-  chartObject: PropTypes.object.isRequired,
-  planJson: PropTypes.string,
+  chartListObject: PropTypes.object.isRequired,
 }
 
 export default Charts

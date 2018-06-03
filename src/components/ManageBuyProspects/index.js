@@ -1,25 +1,21 @@
 // ManageBuyProspects/index.js
 
-// compose based on Saveas/index.js
-
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import withSizes from 'react-sizes'
 import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
 import Checkbox from '../Checkbox'
-import { get } from '../../lib/table-scraper'
 import axios from 'axios' //--TESTING--
 import './styles.css'
-// var scraper = require('../../lib/table-scraper')
 
 class ManageBuyProspects extends Component {
   constructor(props) {
     super(props)
-    this.state = { value: 'http://etfdb.com/news/2018/05/21/buy-on-the-dip-prospects-may-21-2018-edition/', errCode: null }
+    this.state = { value: 'UWT, UCO, TNA, FAS, GUSH, ERX, USO, MCHI, XME, XOP, KRE, IJR, FXI, KBE, XLF, DIA, IWM, PDBC, EWJ, XLE, ACWI, EWH, EWQ, VTV, EWY, SCHF, IEFA, VEU, VEA, EFA, EZU, VGK, EWU, HEZU, OIH, TBT ' }
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.windowHeight = null //waiting for render to aet current value
-    this.errorMsg = ''
+    this.textAreaBox = ''
   }
 
   setRenderWindowHeight(windowHeight) {
@@ -43,6 +39,7 @@ class ManageBuyProspects extends Component {
     this.adjustElementHeight(this.windowHeight)
     this.scrollbarWidth = appScrollbarWidth()
     window.scrollTo(0, 0)
+    this.textAreaBox = document.getElementById('syms')
     let textBox = document.getElementById('pname')
     //For the cursor to be moved to the end, the input has to have focus first,
     //then when the value is changed it will goto the end.
@@ -51,11 +48,14 @@ class ManageBuyProspects extends Component {
     textBox.value = ''
     textBox.value = this.state.value
 
+    // this temporary axios code below
+    // is to design and test the chart data processing
+    let IEX_BASE_URL = 'https://api.iextrading.com/1.0/'
     axios
-      // .get('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC')
-      .get('https://iextrading.com/apps/stocks/#/HYD')
+      // .get(IEX_BASE_URL + 'stock/aapl/batch?types=chart&range=1m&last=10')
+      .get(IEX_BASE_URL + 'stock/aapl/batch?types=quote,news,chart&range=1m&last=10')
       .then((response) => {
-        console.log(response.data)
+        this.buildChartData(response) //experimental
       })
       .catch(function(error) {
         if (error.response) {
@@ -75,15 +75,9 @@ class ManageBuyProspects extends Component {
         }
         console.log(error.config)
       })
-    // .catch((error) => {
-    //   console.log('Error fetching and parsing data', error)
-    // })
-
-    // // axios.get(`http://etfdb.com/news/2018/05/21/buy-on-the-dip-prospects-may-21-2018-edition/`).then((res) => {
-    // axios.get(`https://iextrading.com/apps/stocks/#/HYD`).then((res) => {
-    //   const persons = res.data
-    //   console.log(persons)
-    // })
+  }
+  buildChartData(response) {
+    console.log(response.data)
   }
 
   componentDidUpdate() {
@@ -92,6 +86,7 @@ class ManageBuyProspects extends Component {
 
   handleChange(event) {
     this.setState({ value: event.target.value })
+    this.textAreaBox.value = ''
   }
 
   handleClick(flag) {
@@ -105,19 +100,6 @@ class ManageBuyProspects extends Component {
 
   handleSubmitBuys() {
     // let tableData = []
-    const url = this.state.value
-    get(url).then(function(tableData) {
-      debugger
-      /*
-         tableData === 
-          [ 
-            [ 
-              { State: 'Minnesota', 'Capital City': 'Saint Paul', 'Pop.': '3' },
-              { State: 'New York', 'Capital City': 'Albany', 'Pop.': 'Eight Million' } 
-            ] 
-          ]
-      */
-    })
   }
 
   handleAcceptBuys() {}
@@ -133,16 +115,15 @@ class ManageBuyProspects extends Component {
             </div>
             <div className="content-box">
               <p>
-                This form takes the url of a Buy-on-the-Dip page from ETFdb.com.
-                <br />When entered with the Submit button a list of the ETF symbols is presented.
-                <br />These will be added to the list of prospective Buys if you click Accept.
+                This form takes the ETF symbols listed in the Buy-on-the-Dip page from ETFdb.com.
+                <br />Enter the symbols and press the Submit button to verify the entries.
+                <br />The symbols will be added to the Buys prospect list if you click Accept.
               </p>
-              <label htmlFor="pname">Enter Web Page Address:</label>
+              <label htmlFor="pname">Enter the symbols list:</label>
               <input type="text" id="pname" value={this.state.value} onChange={this.handleChange} />
 
-              {/* <p id="textareacaption">The captured symbol names:</p> */}
               <label id="textareacaption" htmlFor="syms">
-                The captured symbol names:
+                Add these symbol names?
               </label>
               <textarea id="syms" readOnly={true} />
               <div className="buttons">
@@ -166,21 +147,6 @@ const mapSizesToProps = ({ height, width }) => ({
   width: width,
 })
 
-function mapStateToProps(state) {
-  const props = {
-    // planName: state.files.planName,
-    // planObject: state.files.planObject,
-    // planMeta: state.files.planObject.forecaster.meta,
-    // plansList: state.common.plansList,
-    // initialized: state.common.initialized,
-    // initializedDate: state.common.initializedDate,
-    // newPlansListDate: state.common.newPlansListDate,
-    // newVersionDate: state.common.newVersionDate,
-    // currentVersion: state.common.currentVersion,
-  }
-  return props
-}
-
 // withSizes is used as a HOC to supply window demensions as a prop item
 // https://www.npmjs.com/package/react-sizes
-export default connect(mapStateToProps)(withSizes(mapSizesToProps)(ManageBuyProspects))
+export default connect()(withSizes(mapSizesToProps)(ManageBuyProspects))
