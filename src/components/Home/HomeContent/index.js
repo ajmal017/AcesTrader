@@ -42,16 +42,16 @@ const HomeContent = function() {
 
       <h4>TRADER ACTIONS</h4>
       <p>
-        The user has available trading options on the dashboard. These include entering an order to establish a position, either long or short depending on the ETF's grouping, or
+        The user has available trading options on the dashboard. These include placing an order to establish a position, either long or short depending on the ETF's grouping, or
         exiting the current position. The user can ignore the alert and adjust the chart indicators to wait for another alert later. The options also include removing the ETF from
-        the prospects list. Note that orders are not entered automatically by the program, they are manually entered at the discretion of the user.
+        the prospects list. Note that orders are not placed automatically by the program, they are manually placed at the discretion of the user.
       </p>
 
-      <h4>ORDER ENTRY</h4>
+      <h4>PLACING ORDERS</h4>
       <p>
-        Orders to enter or exit a position are entered by manual operation from the user. The program tries to make this manual procedure as frictionless as possible. Pressing an
+        Orders to enter or exit a position are placed by manual operation from the user. The program tries to make this manual procedure as frictionless as possible. Pressing an
         order button will present a form prefilled with default order instructions and a submit button. The user can submit as is, or customize before submitting. Regardless of any
-        alert status, users can always enter stop-loss orders and use profit-taking orders.
+        alert status, users can always place stop-loss orders or use profit-taking orders.
       </p>
     </div>
   )
