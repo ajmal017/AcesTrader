@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import BetaNotice from '../BetaNotice'
+import ManageProspects from '../ManageProspects'
 
 class ManageSellProspects extends Component {
   render() {
-    return <BetaNotice pageName={'ManageSellProspects'} />
+    return <ManageProspects tradeSide={'Sells'} />
   }
 }
 
