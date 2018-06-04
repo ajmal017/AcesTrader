@@ -6,8 +6,8 @@ export const islocalStorageWorking = () => {
   let plan = new Array(25000 + 1).join('x') //make a 50kB file. Each JS character is 2 bytes
   try {
     let localStorage = window.localStorage // test if LocalStorage is supported on this device
-    localStorage.setItem('mp-test', plan) // test if saving the test plan does not exceed the storage quota
-    localStorage.removeItem('mp-test') // no errors thrown by above tests so remove test plan
+    localStorage.setItem('xx-test', plan) // test if saving the test plan does not exceed the storage quota
+    localStorage.removeItem('xx-test') // no errors thrown by above tests so remove test plan
     // return false // THIS IS USED HERE TO TEST THE RESPONSE MESSAGE GENERATED
     return true // localStorage working
   } catch (err) {

@@ -35,28 +35,63 @@ const defaultBuys = cloneDeep(defaultState.buys) //in case state is undefined
 export default function buysReducer(state = defaultBuys, action) {
   switch (action.type) {
     case ADD_BUYS: {
-      let newState = cloneDeep(state)
       let newDashboard = Object.assign({}, defaultDashboard, defaultLongEntry)
-      let newBuys = action.buysArray.map((sym) => {
-        //prune newBuys array of dup symbols
-        state.map((obj) => {
-          if (obj.symbol === sym) return null //found dup symbol, don't add another
-        })
-        //unique symbol so add the object
-        return {
-          symbol: sym,
-          dashboard: newDashboard,
+
+      //Merge the prospective object lists in alphabetical order
+      let newState = [] //to be constructed below
+      let newList = action.buysArray
+      let hh = 0
+      let kk = 0
+      let currentListSymbol = null
+      let newListSymbol = null
+      let newListObject = null
+      while (hh < state.length || kk < newList.length) {
+        if (hh < state.length) {
+          currentListSymbol = state[hh].symbol
         }
-      })
-      // concate newBuys onto newState
-      return newState.concat(newBuys)
+        if (kk < newList.length) {
+          newListSymbol = newList[kk]
+          newListObject = {
+            symbol: newListSymbol,
+            dashboard: newDashboard,
+          }
+        }
+        if (currentListSymbol < newListSymbol) {
+          newState.push(state[hh])
+          ++hh
+        }
+        if (currentListSymbol > newListSymbol) {
+          newState.push(newListObject)
+          ++kk
+        }
+        if (currentListSymbol === newListSymbol) {
+          //newState.push(newListObject) //keep the new one
+          newState.push(state[hh]) //keep the current one, skip new one
+          ++hh
+          ++kk
+        }
+      }
+
+      // let newBuys = action.buysArray.map((sym) => {
+      //   //prune newBuys array of dup symbols
+      //   state.map((obj) => {
+      //     if (obj.symbol === sym) return null //found dup symbol, don't add another
+      //   })
+      //   //unique symbol so add the object
+      //   return {
+      //     symbol: sym,
+      //     dashboard: newDashboard,
+      //   }
+      // })
+      // // concate newBuys onto newState
+      // newState = newState.concat(newBuys)
+
+      return newState
     }
+
     case REMOVE_ONE_BUY: {
-      let newState = cloneDeep(defaultBuys)
-      //filter all except the action.symbol one
-      newState = state.filter((obj) => {
-        obj.symbol !== action.symbol
-      })
+      //filter to keep all except the action.symbol one
+      let newState = state.filter((obj) => obj.symbol !== action.symbol)
       return newState
     }
     case REMOVE_ALL_BUYS: {
