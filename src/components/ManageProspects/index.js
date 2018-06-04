@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import withSizes from 'react-sizes'
 import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
 import Checkbox from '../Checkbox'
+import { addBuystoList } from '../../redux/reducerBuys'
+import { addSellstoList } from '../../redux/reducerSells'
 import axios from 'axios' //--TESTING--
 import './styles.css'
 
@@ -120,18 +122,23 @@ class ManageProspects extends Component {
 
   handleAccept() {
     this.newProspects = this.textAreaBox.value.split(' ').sort()
-    this.textAreaBox.value = this.newProspects.join(' ')
+    //this.textAreaBox.value = this.newProspects.join(' ')
+    if (this.tradeSide.toUpperCase() === 'BUYS') {
+      this.props.dispatch(addBuystoList(this.newProspects))
+    } else {
+      this.props.dispatch(addSellstoList(this.newProspects))
+    }
   }
 
   render() {
     this.setRenderWindowHeight(this.props.height)
-    let title = this.tradeSide.toUpperCase() === 'BUYS' ? 'Add Buy Prospects' : 'Add Sell Prospects'
+    let title = this.tradeSide
     return (
       <div id="saveas-host">
         <div id="saveas-container">
           <div id="saveas-layout">
             <div className="title">
-              <span>{title}</span>
+              <span>Add Prospective {title}</span>
             </div>
             <div className="content-box">
               <p>
@@ -140,11 +147,11 @@ class ManageProspects extends Component {
                 <br />Enter the symbols and press the Submit button to verify the entries.
                 <br />The symbols will be added to the {this.tradeSide} prospect list if you click Accept.
               </p>
-              <label htmlFor="pname">Enter the symbols list:</label>
+              <label htmlFor="pname">Enter the list of prospective {title.toLowerCase()}:</label>
               <input type="text" id="pname" value={this.state.value} onChange={this.handleChange} />
 
               <label id="textareacaption" htmlFor="syms">
-                Add these symbol names?
+                Add these prospective {title.toLowerCase()}?
               </label>
               <textarea id="syms" readOnly={true} />
               <div className="buttons">

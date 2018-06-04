@@ -36,8 +36,6 @@ export default function buysReducer(state = defaultBuys, action) {
   switch (action.type) {
     case ADD_BUYS: {
       let newState = cloneDeep(state)
-      // let newDashboard = cloneDeep(defaultDashboard)
-      // let newLongEntry = cloneDeep(defaultLongEntry)
       let newDashboard = Object.assign({}, defaultDashboard, defaultLongEntry)
       let newBuys = action.buysArray.map((sym) => {
         //prune newBuys array of dup symbols
@@ -55,6 +53,7 @@ export default function buysReducer(state = defaultBuys, action) {
     }
     case REMOVE_ONE_BUY: {
       let newState = cloneDeep(defaultBuys)
+      //filter all except the action.symbol one
       newState = state.filter((obj) => {
         obj.symbol !== action.symbol
       })
