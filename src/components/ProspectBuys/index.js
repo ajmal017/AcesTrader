@@ -13,6 +13,9 @@ class PotentialBuys extends Component {
   }
 
   render() {
+    let buysArray = this.props.buys
+    let buttonNames = buysArray.map((obj) => obj.symbol)
+
     // Get an example chart data from a multidata json file for mock display
     let chartObject
     const planNameLowerCase = 'saving then retirement'
@@ -31,7 +34,7 @@ class PotentialBuys extends Component {
 
 function mapStateToProps(state) {
   const props = {
-    buys: state.buys
+    buys: state.buys,
   }
   return props
 }

@@ -1,11 +1,5 @@
 // Root/index.js
 
-// if (process.env.NODE_ENV === 'production') {
-//   module.exports = require('./Root.prod')
-// } else {
-//   module.exports = require('./Root.dev')
-// }
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
@@ -17,6 +11,7 @@ import ProspectSells from '../../components/ProspectSells/'
 import PositionLongs from '../../components/PositionLongs/'
 import PositionShorts from '../../components/PositionShorts/'
 import Trades from '../../components/Trades/'
+import Peek from '../../components/Peek/'
 import ManageBuyProspects from '../../components/ManageBuyProspects/'
 import ManageSellProspects from '../../components/ManageSellProspects/'
 import Home from '../../components/Home/'
@@ -38,6 +33,7 @@ const Root = ({ store }) => (
             <Route exact path="/prospectbuys" component={ProspectBuys} />
             <Route exact path="/prospectsells" component={ProspectSells} />
             <Route exact path="/trades" component={Trades} />
+            <Route exact path="/peek" component={Peek} />
             <Route exact path="/managebuyprospects" component={ManageBuyProspects} />
             <Route exact path="/managesellprospects" component={ManageSellProspects} />
             <Route exact path="/home" component={Home} />

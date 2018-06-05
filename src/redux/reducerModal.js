@@ -2,12 +2,10 @@
 
 import uuidv4 from 'uuid/v4'
 import defaultState from '../json/defaultState.json'
-import { NEW_PLAN_ALL_SLICES } from '../redux'
-import { OPEN_PLAN_ALL_SLICES } from '../redux'
 
-const DELETE_USER_PLAN = 'blueduck.modal.DELETE_USER_PLAN'
-const UNSAVED_CHANGES = 'blueduck.modal.UNSAVED_CHANGES'
-const NOTIFICATION = 'blueduck.modal.NOTIFICATION'
+const DELETE_USER_PLAN = 'DELETE_USER_PLAN'
+const UNSAVED_CHANGES = 'UNSAVED_CHANGES'
+const NOTIFICATION = 'NOTIFICATION'
 
 var cloneDeep = require('lodash.clonedeep')
 
@@ -53,13 +51,6 @@ const defaultModal = cloneDeep(defaultState.modal) //in case state is undefined
 
 export default function modalReducer(state = defaultModal, action) {
   switch (action.type) {
-    case NEW_PLAN_ALL_SLICES: {
-      return state
-    }
-    case OPEN_PLAN_ALL_SLICES: {
-      return state
-    }
-
     // If this modal component receives the same state from mapStateToProps()
     // each time the unsavedChanges() action creator is called, then by default react
     // doesn't re-render the DOM, so the modal is not shown again as desired.
