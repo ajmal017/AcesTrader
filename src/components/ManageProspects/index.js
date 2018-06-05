@@ -19,8 +19,9 @@ class ManageProspects extends Component {
         "'TQQQ','UDOW','UPRO','QLD','SPXL','MCHI','SSO','MTUM','XLK','QQQ','FXI','IWF','XLF','SPYG','DIA','EWJ','EWI','EWS','IVV','VOO','SPY','ACWI','VT','EWH','IEFA','SCHF','VEU','EFA','CWB','EZU','USMV','EFV'",
       // 'UWT, UCO, TNA, FAS, GUSH, ERX, USO, MCHI, XME, XOP, KRE, IJR, FXI, KBE, XLF, DIA, IWM, PDBC, EWJ, XLE, ACWI, EWH, EWQ, VTV, EWY, SCHF, IEFA, VEU, VEA, EFA, EZU, VGK, EWU, HEZU, OIH, TBT ',
     }
+    this.handleClick = props.handleClick
     this.handleChange = this.handleChange.bind(this)
-    this.handleClick = this.handleClick.bind(this)
+    this.handleLocalClick = this.handleLocalClick.bind(this)
     this.windowHeight = null //waiting for render to aet current value
     this.textAreaBox = null
     this.textBox = null
@@ -99,7 +100,7 @@ class ManageProspects extends Component {
     this.textAreaBox.value = ''
   }
 
-  handleClick(flag) {
+  handleLocalClick(flag) {
     if (flag === 'submit') {
       this.handleSubmit()
     }
@@ -126,11 +127,10 @@ class ManageProspects extends Component {
     //this.textAreaBox.value = this.newProspects.join(' ')
     if (this.tradeSide.toUpperCase() === 'BUYS') {
       this.props.dispatch(addBuystoList(this.newProspects))
-      this.props.dispatch(push('/prospectbuys'))
-      // this.props.history.push('/prospectbuys') // load target page
     } else {
       this.props.dispatch(addSellstoList(this.newProspects))
     }
+    this.props.handleClick('push', 'prospectbuys')
   }
 
   render() {
@@ -158,10 +158,10 @@ class ManageProspects extends Component {
               </label>
               <textarea id="syms" readOnly={true} />
               <div className="buttons">
-                <button className="buttonsubmit" onClick={() => this.handleClick('submit')} type="button" aria-label="tes">
+                <button className="buttonsubmit" onClick={() => this.handleLocalClick('submit')} type="button" aria-label="tes">
                   Submit
                 </button>
-                <button className="buttonaccept" onClick={() => this.handleClick('accept')} type="button" aria-label="no">
+                <button className="buttonaccept" onClick={() => this.handleLocalClick('accept')} type="button" aria-label="no">
                   Accept
                 </button>
               </div>

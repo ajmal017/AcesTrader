@@ -23,7 +23,6 @@ import throttle from 'lodash/throttle'
 // else hang with error message shown on the splash screen.
 import canapprun from './lib/canapprun.js'
 import pinverified from './lib/pinverified.js'
-import { startDropboxConnection } from './lib/dropboxconnection'
 
 // The canapprun() tests for CSS Grid Layout feature, as it is required for the app's views.
 // And the screen size is tested, as a minimum size is required for the app's views.
@@ -43,13 +42,6 @@ if (canapprun() && pinverified()) {
   //     "ERROR! Your computer's local storage is disabled or else is full. As a result AcesTrader can not save your work. Please enable local storage or increase your storage space quota or delete some plan files, depending on the situation."
   //   )
   // }
-
-  let response = startDropboxConnection()
-  if (!response) {
-    alert('ERROR! Your Dropbox connection is disabled or else unavailable. As a result AcesTrader can not save your work.')
-    // } else {
-    //   alert('Dropbox connected')
-  }
 
   // Write the app state on every change only once per second
   store.subscribe(
