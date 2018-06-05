@@ -12,6 +12,16 @@ class PotentialBuys extends Component {
     super(props)
   }
 
+  // componentDidMount() {
+  //   // this.props.history.push('/trades') // TESTING--- load test page
+  // }
+
+  // // *** Handle callbacks from child components ***
+  // handleClick(flag) {
+  //   if (flag === 'charts') {
+  //   }
+  // }
+
   render() {
     let buysArray = this.props.buys
     let buttonNames = buysArray.map((obj) => obj.symbol)

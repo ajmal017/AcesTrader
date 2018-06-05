@@ -1,7 +1,6 @@
 // AppToolbar/index.js
 
 import React, { Component } from 'react'
-import Link from 'react-router-hash-link'
 import withSizes from 'react-sizes'
 import Scrollchor from 'react-scrollchor' //scroll to anchor in page
 import NotificationSystem from 'react-notification-system'
@@ -12,7 +11,7 @@ import './styles.css'
 class AppToolbar extends Component {
   constructor(props) {
     super(props)
-    this.chartListObject = props.chartListObject
+    this.chartListObject = props.chartObject
     this.scrollbarWidth = 0 //waiting for the width to be determined
     this.handleClick = this.handleClick.bind(this) //children callbacks
   }
@@ -58,7 +57,7 @@ class AppToolbar extends Component {
     // to be placed in a button on this toolbar for the chart picker.
 
     // TODO ***This code needs to be changed to work with the array of objects***
-    let chartkeys = this.chartObject ? Object.keys(this.chartObject) : null
+    let chartkeys = this.chartListObject ? Object.keys(this.chartListObject) : null
     let menuItems = []
     if (chartkeys) {
       menuItems = chartkeys.map(function(keyvalue, index) {
