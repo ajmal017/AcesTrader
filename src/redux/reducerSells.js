@@ -56,15 +56,17 @@ export default function sellsReducer(state = defaultSells, action) {
             dashboard: newDashboard,
           }
         }
-        if (currentListSymbol < newListSymbol) {
-          newState.push(state[hh])
-          ++hh
-        }
-        if (currentListSymbol > newListSymbol) {
+        if (!currentListSymbol) {
+          //initial condition
           newState.push(newListObject)
           ++kk
-        }
-        if (currentListSymbol === newListSymbol) {
+        } else if (currentListSymbol < newListSymbol) {
+          newState.push(state[hh])
+          ++hh
+        } else if (currentListSymbol > newListSymbol) {
+          newState.push(newListObject)
+          ++kk
+        } else if (currentListSymbol === newListSymbol) {
           //newState.push(newListObject) //keep the new one
           newState.push(state[hh]) //keep the current one, skip new one
           ++hh

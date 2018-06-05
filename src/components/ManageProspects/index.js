@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import withSizes from 'react-sizes'
 import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
 import Checkbox from '../Checkbox'
@@ -125,6 +126,8 @@ class ManageProspects extends Component {
     //this.textAreaBox.value = this.newProspects.join(' ')
     if (this.tradeSide.toUpperCase() === 'BUYS') {
       this.props.dispatch(addBuystoList(this.newProspects))
+      this.props.dispatch(push('/prospectbuys'))
+      // this.props.history.push('/prospectbuys') // load target page
     } else {
       this.props.dispatch(addSellstoList(this.newProspects))
     }
@@ -169,6 +172,13 @@ class ManageProspects extends Component {
     )
   }
 }
+
+// function mapStateToProps(state) {
+//   const props = {
+//     buys: state.buys,
+//   }
+//   return props
+// }
 
 const mapSizesToProps = ({ height, width }) => ({
   height: height,

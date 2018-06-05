@@ -13,7 +13,7 @@ const CLOSE_SHORT_POSITION = 'acestrader.shorts.CLOSE_SHORT_POSITION'
 const defaultShorts = cloneDeep(defaultState.shorts) //in case state is undefined
 const defaultExitShorts = cloneDeep(defaultShortExit) //in case state is undefined
 
-export default function chartsReducer(state = defaultState, action) {
+export default function chartsReducer(state = defaultShorts, action) {
   switch (action.type) {
     case OPEN_SHORT_POSITION: {
       return { ...state, ...action } //add the new position
