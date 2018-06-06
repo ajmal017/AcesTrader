@@ -3,6 +3,7 @@
 import defaultState from '../json/defaultState.json'
 import defaultDashboard from '../json/defaultDashboard.json'
 import defaultShortEntry from '../json/defaultShortEntry.json'
+import reduceProspects from './reduceProspects.js'
 var cloneDeep = require('lodash.clonedeep')
 
 const ADD_SELLS = 'ADD_SELLS'
@@ -36,60 +37,50 @@ export default function sellsReducer(state = defaultSells, action) {
   switch (action.type) {
     case ADD_SELLS: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultShortEntry)
-
-      //Merge the prospective object lists in alphabetical order
-      let newState = [] //to be constructed below
-      let newList = action.sellsArray
-      let hh = 0
-      let kk = 0
-      let currentListSymbol = null
-      let newListSymbol = null
-      let newListObject = null
-      while (hh < state.length || kk < newList.length) {
-        if (hh < state.length) {
-          currentListSymbol = state[hh].symbol
-        }
-        if (kk < newList.length) {
-          newListSymbol = newList[kk]
-          newListObject = {
-            symbol: newListSymbol,
-            dashboard: newDashboard,
-          }
-        }
-        if (!currentListSymbol) {
-          //initial condition
-          newState.push(newListObject)
-          ++kk
-        } else if (currentListSymbol < newListSymbol) {
-          newState.push(state[hh])
-          ++hh
-        } else if (currentListSymbol > newListSymbol) {
-          newState.push(newListObject)
-          ++kk
-        } else if (currentListSymbol === newListSymbol) {
-          //newState.push(newListObject) //keep the new one
-          newState.push(state[hh]) //keep the current one, skip new one
-          ++hh
-          ++kk
-        }
-      }
-
-      //   let newSells = action.sellsArray.map((sym) => {
-      //     //prune newSells array of dup symbols
-      //     state.map((obj) => {
-      //       if (obj.symbol === sym) return null //found dup symbol, don't add another
-      //     })
-      //     //unique symbol so add the object
-      //     return {
-      //       symbol: sym,
-      //       dashboard: newDashboard,
-      //     }
-      //   })
-      //   // concate newSells onto newState
-      //   return newState.concat(newSells)
-
+      let newState = reduceProspects(state, action.sellsArray, newDashboard)
       return newState
     }
+    // let newState = [] // start with empty array to be populated below
+    // let newDashboard = Object.assign({}, defaultDashboard, defaultLongEntry)
+    // let date = new Date()
+    // let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+    // //Merge the prospective object lists in alphabetical order
+    // let newList = action.sellsArray
+    // let hh = 0
+    // let kk = 0
+    // let currentListSymbol = null
+    // let newListSymbol = null
+    // let newListObject = null
+    // while (hh < state.length || kk < newList.length) {
+    //   if (hh < state.length) {
+    //     currentListSymbol = state[hh].symbol
+    //   }
+    //   if (kk < newList.length) {
+    //     newListSymbol = newList[kk]
+    //     newListObject = {
+    //       symbol: newListSymbol,
+    //       dashboard: newDashboard,
+    //     }
+    //   }
+    //   if (!currentListSymbol) {
+    //     //initial condition
+    //     newState.push(newListObject)
+    //     ++kk
+    //   } else if (currentListSymbol < newListSymbol) {
+    //     newState.push(state[hh])
+    //     ++hh
+    //   } else if (currentListSymbol > newListSymbol) {
+    //     newState.push(newListObject)
+    //     ++kk
+    //   } else if (currentListSymbol === newListSymbol) {
+    //     //newState.push(newListObject) //keep the new one
+    //     newState.push(state[hh]) //keep the current one, skip new one
+    //     ++hh
+    //     ++kk
+    //   }
+    // }
+    // return newState
+    // }
 
     case REMOVE_ONE_SELL: {
       let newState = cloneDeep(defaultSells)

@@ -14,7 +14,7 @@ class HeadJumbotron extends Component {
             <h3>
               <img id="duck-home" src={logo} alt="Logo" width="40" />
               <em>
-                <span className="duck-slogan">An ETF Trading Tool</span>
+                <span className="duck-slogan">An End-of-Day Trading Tool</span>
               </em>
             </h3>
           </div>

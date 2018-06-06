@@ -6,13 +6,15 @@ const HomeContent = function() {
     <div className="home-content">
       <h4>ACESTRADER</h4>
       <p>
-        <i>The AcesTrader program is hobby project by a retired coder, created as an experiment in short term ETF trading assisted by the API interface to TDAmeritrade's online
-        system.</i>
+        <i>
+          The AcesTrader program is hobby project by a retired coder, created as an experiment in an easily managed system for end-of-day trading of stocks and ETFs using the API
+          interface of TDAmeritrade's services.
+        </i>
       </p>
-        <br />
+      <br />
       <h4>TRADE PROSPECTS</h4>
       <p>
-        The lists of ETFs used in AcesTrader are obtained from the weekly list of "Buy on the Dip Prospects" and "Sell on the Pop Prospects" published in "The Daily ETF Roundup" by
+        For ETF trading, the lists of ETFs are obtained from the weekly list of "Buy on the Dip Prospects" and "Sell on the Pop Prospects" published in "The Daily ETF Roundup" by
         ETFdb.com.
       </p>
       <h4>Buy on the Dip Prospects</h4>

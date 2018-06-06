@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import withSizes from 'react-sizes'
 import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
 import Checkbox from '../Checkbox'
@@ -145,8 +144,7 @@ class ManageProspects extends Component {
             </div>
             <div className="content-box">
               <p>
-                {/* This form takes the ETF symbols listed in the Buy-on-the-Dip page from ETFdb.com. */}
-                This form takes a list of symbols to be added to the {this.tradeSide} prospect list.
+                This form takes one or more symbols to be added to the {this.tradeSide} prospect list.
                 <br />Enter the symbols and press the Submit button to verify the entries.
                 <br />The symbols will be added to the {this.tradeSide} prospect list if you click Accept.
               </p>
