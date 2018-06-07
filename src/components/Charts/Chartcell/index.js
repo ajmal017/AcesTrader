@@ -38,7 +38,7 @@ class Chartcell extends Component {
             <div id={chartId} className="graph-container">
               <div className="graph-table">
                 <div className="graph-wrapper">
-                  <h3>Mock Chart Component</h3>
+                  <h4>Loading Chart Please Wait...</h4>
                   {/* <ReactChartLine data={graphData} /> */}
                 </div>
               </div>
