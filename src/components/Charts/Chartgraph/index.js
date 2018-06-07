@@ -1,8 +1,4 @@
-// Chartgraph
-// See readme.txt for all reference links.
-
-// Note: Chart data is returned from the RetirementForecaster engine as a JSON object of calculated results.
-// This object is the props data.
+// Chartgraph/index.js
 
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -13,8 +9,9 @@ import './styles.css'
 const Chartgraph = (props) => {
   'use-strict'
   // eslint-disable-next-line
-  const { chart_name, data_object } = props // the calculation result's data
-  let chartId = chart_name.replace(/[\W_]/g, '') + 'chart'
+  const cellObject = props.cellObject
+  const chart_name = cellObject.symbol
+  const chartId = cellObject.symbol.replace(/[\W_]/g, '') + 'chart'
 
   // Pass the props to the data refactor method,
   // returns the data formated for the chart.js line chart.
@@ -33,8 +30,7 @@ const Chartgraph = (props) => {
 }
 
 Chartgraph.propTypes = {
-  chart_name: PropTypes.string.isRequired,
-  data_object: PropTypes.object.isRequired,
+  cellObject: PropTypes.object.isRequired,
 }
 
 export default Chartgraph

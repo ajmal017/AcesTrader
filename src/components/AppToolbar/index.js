@@ -1,6 +1,7 @@
 // AppToolbar/index.js
 
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import withSizes from 'react-sizes'
 import Scrollchor from 'react-scrollchor' //scroll to anchor in page
 import NotificationSystem from 'react-notification-system'
@@ -11,7 +12,8 @@ import './styles.css'
 class AppToolbar extends Component {
   constructor(props) {
     super(props)
-    this.chartListObject = props.chartObject
+    this.chartArray = props.chartArray //can be Buys, Sells, Longs, or Shorts
+    // this.chartListObject = props.chartObject
     this.scrollbarWidth = 0 //waiting for the width to be determined
     this.handleClick = this.handleClick.bind(this) //children callbacks
   }
@@ -52,12 +54,12 @@ class AppToolbar extends Component {
     // let scrollchorOffset = -94-this.scrollbarWidth-10
     let scrollchorOffset = -108
 
-    // The chartListObject is an array of objects, each one having a symbol property and a dashboard property.
+    // The chartArray is an array of objects, each one having a symbol property and a dashboard property.
     // Create an array of key values, one for each chart cell that will be drawn,
-    // to be placed in a button on this toolbar for the chart picker.
+    // to be a label in a button on a scrollable menu for the chart picker.
 
-    // TODO ***This code needs to be changed to work with the array of objects***
-    let chartkeys = this.chartListObject ? Object.keys(this.chartListObject) : null
+    // Create the chart picker buttons for the horizontal scrollable menu
+    let chartkeys = this.chartArray.map((obj) => obj.symbol)
     let menuItems = []
     if (chartkeys) {
       menuItems = chartkeys.map(function(keyvalue, index) {
@@ -77,10 +79,14 @@ class AppToolbar extends Component {
         <div className="scrollmenucontainer">
           <div className="scrollmenu">{menuItems}</div>
         </div>
-        <Charts chartListObject={this.chartListObject} handleClick={this.handleClick} />
+        <Charts chartArray={this.chartArray} handleClick={this.handleClick} />
       </div>
     )
   }
+}
+
+AppToolbar.propTypes = {
+  chartArray: PropTypes.array.isRequired,
 }
 
 const mapSizesToProps = ({ height, width }) => ({

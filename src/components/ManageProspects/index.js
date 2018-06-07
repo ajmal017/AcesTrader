@@ -4,7 +4,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import withSizes from 'react-sizes'
 import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
-import Checkbox from '../Checkbox'
 import { addBuystoList } from '../../redux/reducerBuys'
 import { addSellstoList } from '../../redux/reducerSells'
 import axios from 'axios' //--TESTING--
@@ -109,16 +108,18 @@ class ManageProspects extends Component {
   }
 
   handleSubmit() {
-    let data1 = this.textBox.value
-      .replace(/,/g, ' ')
-      .replace(/\s+/g, ' ')
-      .split(' ') //get the symbols in array
-    let data2 = data1.map((token) => {
-      if (token) {
+    if (this.textBox.value1 !== '') {
+      let data1 = this.textBox.value
+        .replace(/,/g, ' ')
+        .replace(/\s+/g, ' ')
+        .split(' ') //get the symbols in array
+      let data2 = data1.map((token) => {
         return token.replace(/\W*/g, '').toUpperCase()
-      }
-    })
-    this.textAreaBox.value = data2.join(' ')
+      })
+      this.textAreaBox.value = data2.join(' ')
+    } else {
+      // TODO handle button enabled states and label for deleting list
+    }
   }
 
   handleAccept() {
@@ -156,10 +157,10 @@ class ManageProspects extends Component {
               </label>
               <textarea id="syms" readOnly={true} />
               <div className="buttons">
-                <button className="buttonsubmit" onClick={() => this.handleLocalClick('submit')} type="button" aria-label="tes">
+                <button id="buttonsubmit" onClick={() => this.handleLocalClick('submit')} type="button" aria-label="tes">
                   Submit
                 </button>
-                <button className="buttonaccept" onClick={() => this.handleLocalClick('accept')} type="button" aria-label="no">
+                <button id="buttonaccept" onClick={() => this.handleLocalClick('accept')} type="button" aria-label="no">
                   Accept
                 </button>
               </div>

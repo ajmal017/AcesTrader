@@ -2,13 +2,13 @@
 
 export default function(state, newList, newDashboard) {
   // Parameters:
-  // state: The current list of objects, either Buys or Sells
-  // newList: The new list of objects, either Buys or Sells
-  // newDashboard: The configured default object required for the objects
+  // state: The current array of prospect objects, either Buys or Sells
+  // newList: The new list of prospect symbols, either Buys or Sells
+  // newDashboard: The default dashboard object to be included in the prospect objects
   let newState = [] // start with empty array to be populated below
   let date = new Date()
   let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
-  //Merge the prospects object lists in alphabetical order
+  // Merge the prospect objects in alphabetical order in the newState array
   let hh = 0
   let kk = 0
   let currentListSymbol = null
@@ -45,6 +45,6 @@ export default function(state, newList, newDashboard) {
       ++kk
     }
   }
-  console.log(JSON.stringify(newState, null, 2)) // a readable log of the object's json
+  // console.log(JSON.stringify(newState, null, 2)) // a readable log of the object's json
   return newState
 }
