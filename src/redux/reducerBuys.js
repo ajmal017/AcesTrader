@@ -11,9 +11,12 @@ const REMOVE_ONE_BUY = 'REMOVE_ONE_BUY'
 const REMOVE_ALL_BUYS = 'REMOVE_ALL_BUYS'
 
 export const addBuystoList = (buysList) => {
+  let date = new Date()
+  let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
   return {
     type: ADD_BUYS,
     buysArray: buysList,
+    theDate: theDate,
   }
 }
 export const removeBuyFromList = (buyName) => {
@@ -37,7 +40,7 @@ export default function buysReducer(state = defaultBuys, action) {
   switch (action.type) {
     case ADD_BUYS: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultLongEntry)
-      let newState = reduceProspects(state, action.buysArray, newDashboard)
+      let newState = reduceProspects(state, action.buysArray, newDashboard, action.theDate)
       return newState
     }
     // let newState = [] // start with empty array to be populated below

@@ -10,7 +10,7 @@ import ProspectBuys from '../../components/ProspectBuys/'
 import ProspectSells from '../../components/ProspectSells/'
 import PositionLongs from '../../components/PositionLongs/'
 import PositionShorts from '../../components/PositionShorts/'
-import Trades from '../../components/Trades/'
+import ScoreBoard from '../../components/ScoreBoard/'
 import Peek from '../../components/Peek/'
 import ManageBuyProspects from '../../components/ManageBuyProspects/'
 import ManageSellProspects from '../../components/ManageSellProspects/'
@@ -32,7 +32,7 @@ const Root = ({ store }) => (
             <Route exact path="/positionshorts" component={PositionShorts} />
             <Route exact path="/prospectbuys" component={ProspectBuys} />
             <Route exact path="/prospectsells" component={ProspectSells} />
-            <Route exact path="/trades" component={Trades} />
+            <Route exact path="/scoreboard" component={ScoreBoard} />
             <Route exact path="/peek" component={Peek} />
             <Route exact path="/managebuyprospects" component={ManageBuyProspects} />
             <Route exact path="/managesellprospects" component={ManageSellProspects} />

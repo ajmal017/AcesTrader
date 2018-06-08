@@ -69,9 +69,9 @@ select {
   box-sizing: border-box;
 }
 
-#textareacaption {
+/* #textareacaption {
   margin-top: 30px;
-}
+} */
 
 textarea {
   width: 96%;
@@ -85,8 +85,8 @@ textarea {
 .buttons {
   grid-area: buttons;
   background-color: white;
-  padding-left: 30px;
-  padding-top: 30px;
+  padding-left: 0px;
+  padding-top: 10px;
   font-size: 18px;
   /* font-weight: bold; */
 }
@@ -99,6 +99,10 @@ textarea {
   background-color: #e9ecef;
   color: #495057;
   cursor: pointer;
+}
+
+#buttondelete {
+  margin-left: 80px;
 }
 
 .buttons > button:hover {
@@ -116,4 +120,8 @@ textarea {
 .sashowcheckbox {
   display: block;
   padding: 20px 0 0 50px;
+}
+
+.acceptdescription {
+  padding-top: 20px;
 }

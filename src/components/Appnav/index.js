@@ -42,8 +42,8 @@ const Appnav = function() {
               </LinkContainer>
             </NavDropdown>
 
-            <LinkContainer to="/trades">
-              <NavItem eventKey={6}>Trades</NavItem>
+            <LinkContainer to="/scoreboard">
+              <NavItem eventKey={6}>ScoreBoard</NavItem>
             </LinkContainer>
 
             <LinkContainer to="/peek">

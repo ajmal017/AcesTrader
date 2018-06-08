@@ -13,6 +13,7 @@ class ManageProspects extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      isAcceptButtonDisabled: true,
       value:
         "'TQQQ','UDOW','UPRO','QLD','SPXL','MCHI','SSO','MTUM','XLK','QQQ','FXI','IWF','XLF','SPYG','DIA','EWJ','EWI','EWS','IVV','VOO','SPY','ACWI','VT','EWH','IEFA','SCHF','VEU','EFA','CWB','EZU','USMV','EFV'",
       // 'UWT, UCO, TNA, FAS, GUSH, ERX, USO, MCHI, XME, XOP, KRE, IJR, FXI, KBE, XLF, DIA, IWM, PDBC, EWJ, XLE, ACWI, EWH, EWQ, VTV, EWY, SCHF, IEFA, VEU, VEA, EFA, EZU, VGK, EWU, HEZU, OIH, TBT ',
@@ -38,7 +39,8 @@ class ManageProspects extends Component {
       let Host = document.getElementById('saveas-host')
       let Container = document.getElementById('saveas-container')
       let ContainerHeight = windowHeight - magicnumber
-      Host.style.height = ContainerHeight - 60 + 'px' //keeps host height less than container
+      Host.style.height = ContainerHeight - 0 + 'px' //keeps host height less than container
+      // Host.style.height = ContainerHeight - 60 + 'px' //keeps host height less than container
       Container.style.height = ContainerHeight + 'px' // this is the adjustment as user resizes window
     }
   }
@@ -56,37 +58,6 @@ class ManageProspects extends Component {
     this.textBox.focus()
     this.textBox.value = ''
     this.textBox.value = this.state.value
-
-    // this temporary axios code below
-    // is to design and test the chart data processing
-    let IEX_BASE_URL = 'https://api.iextrading.com/1.0/'
-    axios
-      // .get(IEX_BASE_URL + 'stock/aapl/batch?types=chart&range=1m&last=10')
-      .get(IEX_BASE_URL + 'stock/aapl/batch?types=quote,news,chart&range=1m&last=10')
-      .then((response) => {
-        this.buildChartData(response) //experimental
-      })
-      .catch(function(error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data)
-          console.log(error.response.status)
-          console.log(error.response.headers)
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.log(error.request)
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message)
-        }
-        console.log(error.config)
-      })
-  }
-  buildChartData(response) {
-    console.log(response.data)
   }
 
   componentDidUpdate() {
@@ -108,29 +79,93 @@ class ManageProspects extends Component {
   }
 
   handleSubmit() {
-    if (this.textBox.value1 !== '') {
-      let data1 = this.textBox.value
+    if (this.textBox.value !== '') {
+      let cleanedInput = this.textBox.value
         .replace(/,/g, ' ')
         .replace(/\s+/g, ' ')
         .split(' ') //get the symbols in array
-      let data2 = data1.map((token) => {
+      let cleanedTokens = cleanedInput.map((token) => {
         return token.replace(/\W*/g, '').toUpperCase()
       })
-      this.textAreaBox.value = data2.join(' ')
+      let prospectsArray
+      let positionsArray
+      if (this.tradeSide.toUpperCase() === 'BUYS') {
+        prospectsArray = this.props.state.buys
+        positionsArray = this.props.state.longs
+      } else {
+        prospectsArray = this.props.state.sells
+        positionsArray = this.props.state.shorts
+      }
+      let verifiedList = this.verifyList(cleanedTokens.sort(), prospectsArray, positionsArray)
+      if (verifiedList.length > 0) {
+        this.textAreaBox.value = verifiedList.join(' ')
+        this.setState({
+          ...this.state,
+          isAcceptButtonDisabled: false,
+        })
+      } else {
+        this.textAreaBox.value = '**No New Symbols**'
+      }
     } else {
-      // TODO handle button enabled states and label for deleting list
+      this.textBox.value = '**No Data**'
     }
   }
 
   handleAccept() {
-    this.newProspects = this.textAreaBox.value.split(' ').sort()
-    //this.textAreaBox.value = this.newProspects.join(' ')
-    if (this.tradeSide.toUpperCase() === 'BUYS') {
-      this.props.dispatch(addBuystoList(this.newProspects))
+    if (this.textAreaBox.value !== '') {
+      this.newProspects = this.textAreaBox.value.split(' ').sort()
+      //this.textAreaBox.value = this.newProspects.join(' ')
+      if (this.tradeSide.toUpperCase() === 'BUYS') {
+        this.props.dispatch(addBuystoList(this.newProspects))
+        this.props.handleClick('push', 'prospectbuys')
+      } else {
+        this.props.dispatch(addSellstoList(this.newProspects))
+        this.props.handleClick('push', 'prospectsells')
+      }
     } else {
-      this.props.dispatch(addSellstoList(this.newProspects))
+      this.textAreaBox.value = '**No Data**'
     }
-    this.props.handleClick('push', 'prospectbuys')
+  }
+
+  verifyList(inputList, prospectsArray, positionsArray) {
+    let prunedList
+    prunedList = this.pruneList(inputList, prospectsArray)
+    prunedList = this.pruneList(prunedList, positionsArray)
+    return prunedList
+  }
+  pruneList(inputList, stateObjects) {
+    let newList = [] // start with empty array to be populated below
+    let hh = 0
+    let kk = 0
+    let objectSymbol = null
+    let listSymbol = null
+    while (hh < stateObjects.length || kk < inputList.length) {
+      if (hh < stateObjects.length) {
+        objectSymbol = stateObjects[hh].symbol
+      }
+      if (kk < inputList.length) {
+        listSymbol = inputList[kk]
+      }
+      if (!objectSymbol) {
+        //empty array of objects
+        newList.push(listSymbol)
+        ++kk
+      } else if (!listSymbol) {
+        //empty list of new symbols
+        return newList //finished prunning
+      } else if (objectSymbol < listSymbol) {
+        //continue to next object symbol
+        ++hh
+      } else if (objectSymbol > listSymbol) {
+        newList.push(listSymbol) //keep new symbol
+        ++kk
+      } else if (objectSymbol === listSymbol) {
+        // don't keep new symbol
+        ++hh
+        ++kk
+      }
+    }
+    return newList
   }
 
   render() {
@@ -147,21 +182,27 @@ class ManageProspects extends Component {
               <p>
                 This form takes one or more symbols to be added to the {this.tradeSide} prospect list.
                 <br />Enter the symbols and press the Submit button to verify the entries.
-                <br />The symbols will be added to the {this.tradeSide} prospect list if you click Accept.
               </p>
-              <label htmlFor="pname">Enter the list of prospective {title.toLowerCase()}:</label>
+              <label htmlFor="pname">Enter prospective {title.toLowerCase()}:</label>
               <input type="text" id="pname" value={this.state.value} onChange={this.handleChange} />
 
+              <p className="acceptdescription">
+                Symbols already in the {this.tradeSide} list or in Positions are removed from the submitted list.
+                <br />The remaining symbols shown below are added to the {this.tradeSide} list when you click Accept.
+              </p>
               <label id="textareacaption" htmlFor="syms">
                 Add these prospective {title.toLowerCase()}?
               </label>
               <textarea id="syms" readOnly={true} />
               <div className="buttons">
-                <button id="buttonsubmit" onClick={() => this.handleLocalClick('submit')} type="button" aria-label="tes">
+                <button id="buttonsubmit" onClick={() => this.handleLocalClick('submit')} type="button" aria-label="">
                   Submit
                 </button>
-                <button id="buttonaccept" onClick={() => this.handleLocalClick('accept')} type="button" aria-label="no">
+                <button id="buttonaccept" onClick={() => this.handleLocalClick('accept')} type="button" aria-label="" disabled={this.state.isAcceptButtonDisabled}>
                   Accept
+                </button>
+                <button id="buttondelete" onClick={() => this.handleLocalClick('delete')} type="button" aria-label="no">
+                  Delete All
                 </button>
               </div>
             </div>
@@ -172,12 +213,11 @@ class ManageProspects extends Component {
   }
 }
 
-// function mapStateToProps(state) {
-//   const props = {
-//     buys: state.buys,
-//   }
-//   return props
-// }
+const mapStateToProps = (state) => ({
+  state: state,
+  // longs: state.longs,
+  // shorts: state.shorts,
+})
 
 const mapSizesToProps = ({ height, width }) => ({
   height: height,
@@ -186,4 +226,5 @@ const mapSizesToProps = ({ height, width }) => ({
 
 // withSizes is used as a HOC to supply window demensions as a prop item
 // https://www.npmjs.com/package/react-sizes
-export default connect()(withSizes(mapSizesToProps)(ManageProspects))
+export default connect(mapStateToProps)(withSizes(mapSizesToProps)(ManageProspects))
+// export default connect(mapStateToProps)(ManageProspects)

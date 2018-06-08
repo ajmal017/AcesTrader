@@ -13,7 +13,32 @@ class Chartcell extends Component {
   }
 
   componentDidMount() {
-    // Each Chartcell gets its chart price data from the IEX API and creates the chart format data.
+    // // Each Chartcell gets its chart price data from the IEX API and creates the chart display data
+    // let IEX_BASE_URL = 'https://api.iextrading.com/1.0/'
+    // axios
+    //   // .get(IEX_BASE_URL + 'stock/aapl/batch?types=chart&range=1m&last=10')
+    //   .get(IEX_BASE_URL + 'stock/aapl/batch?types=quote,news,chart&range=1m&last=10')
+    //   .then((response) => {
+    //     this.buildChartData(response) //experimental
+    //   })
+    //   .catch(function(error) {
+    //     if (error.response) {
+    //       // The request was made and the server responded with a status code
+    //       // that falls out of the range of 2xx
+    //       console.log(error.response.data)
+    //       console.log(error.response.status)
+    //       console.log(error.response.headers)
+    //     } else if (error.request) {
+    //       // The request was made but no response was received
+    //       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+    //       // http.ClientRequest in node.js
+    //       console.log(error.request)
+    //     } else {
+    //       // Something happened in setting up the request that triggered an Error
+    //       console.log('Error', error.message)
+    //     }
+    //     console.log(error.config)
+    //   })
   }
 
   render() {
