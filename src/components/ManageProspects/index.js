@@ -146,11 +146,11 @@ class ManageProspects extends Component {
       if (kk < inputList.length) {
         listSymbol = inputList[kk]
       }
-      if (!objectSymbol) {
+      if ((hh >= stateObjects.length) {
         //empty array of objects
         newList.push(listSymbol)
         ++kk
-      } else if (!listSymbol) {
+      } else if (kk >= inputList.length) {
         //empty list of new symbols
         return newList //finished prunning
       } else if (objectSymbol < listSymbol) {
