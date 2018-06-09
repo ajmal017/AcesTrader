@@ -3,33 +3,16 @@
 import uuidv4 from 'uuid/v4'
 import defaultState from '../json/defaultState.json'
 
-const DELETE_USER_PLAN = 'DELETE_USER_PLAN'
-const UNSAVED_CHANGES = 'UNSAVED_CHANGES'
+const QUERY_CLEAR_ONE_PROSPECTS_LIST = 'QUERY_CLEAR_ONE_PROSPECTS_LIST'
 const NOTIFICATION = 'NOTIFICATION'
 
 var cloneDeep = require('lodash.clonedeep')
 
-export const deleteUserPlan = (request, targetPlanName, currentPlanName, dirty, handleModalResonse) => {
+export const queryClearProspectsList = (targetListName, handleModalResonse) => {
   return {
-    type: DELETE_USER_PLAN,
+    type: QUERY_CLEAR_ONE_PROSPECTS_LIST,
     payload: {
-      request: request,
-      targetPlanName: targetPlanName,
-      currentPlanName: currentPlanName,
-      dirty: dirty,
-      handleModalResonse: handleModalResonse,
-    },
-  }
-}
-export const unsavedChanges = (request, newPlanName, currentPlanName, planObject, chartObject, handleModalResonse) => {
-  return {
-    type: UNSAVED_CHANGES,
-    payload: {
-      request: request,
-      newPlanName: newPlanName,
-      currentPlanName: currentPlanName,
-      planObject: planObject,
-      chartObject: chartObject,
+      targetListName: targetListName,
       handleModalResonse: handleModalResonse,
     },
   }
@@ -65,15 +48,10 @@ export default function modalReducer(state = defaultModal, action) {
     // Note to self: These changes to the modal state trigger a render at
     // PortalModal via the props created in its mapStateToProps() method.
 
-    case DELETE_USER_PLAN: {
-      const returnState_D = { ...defaultModal, ...action.payload, dialogSelector: 'deleteuserplan', hash: uuidv4() }
+    case QUERY_CLEAR_ONE_PROSPECTS_LIST: {
+      const returnState_D = { ...defaultModal, ...action.payload, dialogSelector: 'clearprospectlist', hash: uuidv4() }
       // debugger
-      return returnState_D //returnState_D const created for developer inspection before returning
-    }
-
-    case UNSAVED_CHANGES: {
-      const returnState_U = { ...defaultModal, ...action.payload, dialogSelector: 'unsavedChanges', hash: uuidv4() }
-      return returnState_U // returnState_U const created for developer inspection before returning
+      return returnState_D //the returnState_D const is created for developer inspection before returning
     }
 
     case NOTIFICATION: {

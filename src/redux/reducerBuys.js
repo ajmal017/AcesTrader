@@ -43,51 +43,6 @@ export default function buysReducer(state = defaultBuys, action) {
       let newState = reduceProspects(state, action.buysArray, newDashboard, action.theDate)
       return newState
     }
-    // let newState = [] // start with empty array to be populated below
-    // let newDashboard = Object.assign({}, defaultDashboard, defaultLongEntry)
-    // let date = new Date()
-    // let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
-    // //Merge the prospective object lists in alphabetical order
-    // let newList = action.buysArray
-    // let hh = 0
-    // let kk = 0
-    // let currentListSymbol = null
-    // let newListSymbol = null
-    // let newListObject = null
-    // while (hh < state.length || kk < newList.length) {
-    //   if (hh < state.length) {
-    //     currentListSymbol = state[hh].symbol
-    //   }
-    //   if (kk < newList.length) {
-    //     newListSymbol = newList[kk]
-    //     newListObject = {
-    //       watched: theDate,
-    //       entered: null,
-    //       exited: null,
-    //       symbol: newListSymbol,
-    //       dashboard: newDashboard,
-    //     }
-    //   }
-    //   if (!currentListSymbol) {
-    //     //initial condition
-    //     newState.push(newListObject)
-    //     ++kk
-    //   } else if (currentListSymbol < newListSymbol) {
-    //     newState.push(state[hh])
-    //     ++hh
-    //   } else if (currentListSymbol > newListSymbol) {
-    //     newState.push(newListObject)
-    //     ++kk
-    //   } else if (currentListSymbol === newListSymbol) {
-    //     //newState.push(newListObject) //keep the new one
-    //     newState.push(state[hh]) //keep the current one, skip new one
-    //     ++hh
-    //     ++kk
-    //   }
-    // }
-    // return newState
-    // }
-
     case REMOVE_ONE_BUY: {
       //filter to keep all except the action.symbol one
       let newState = state.filter((obj) => obj.symbol !== action.symbol)

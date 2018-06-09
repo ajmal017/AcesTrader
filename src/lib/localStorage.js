@@ -28,6 +28,7 @@ export const loadState = () => {
     }
     serializedState = base64.decode(serializedState)
     let objectState = JSON.parse(serializedState)
+    //console.log(JSON.stringify(objectState, null, 2)) // a readable log of the object's json
     return objectState
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {

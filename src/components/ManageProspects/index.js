@@ -4,9 +4,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import withSizes from 'react-sizes'
 import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
-import { addBuystoList } from '../../redux/reducerBuys'
-import { addSellstoList } from '../../redux/reducerSells'
-import axios from 'axios' //--TESTING--
+import { addBuystoList, removeAllBuysFromList } from '../../redux/reducerBuys'
+import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells'
+import { notification, queryClearProspectsList } from '../../redux/ducksModal'
 import './styles.css'
 
 class ManageProspects extends Component {
@@ -76,6 +76,9 @@ class ManageProspects extends Component {
     if (flag === 'accept') {
       this.handleAccept()
     }
+    if (flag === 'delete') {
+      this.handleDelete()
+    }
   }
 
   handleSubmit() {
@@ -134,7 +137,7 @@ class ManageProspects extends Component {
     return prunedList
   }
   pruneList(inputList, stateObjects) {
-    let newList = [] // start with empty array to be populated below
+    let newList = [] // start with empty array to be populated
     let hh = 0
     let kk = 0
     let objectSymbol = null
@@ -211,6 +214,21 @@ class ManageProspects extends Component {
       </div>
     )
   }
+
+  handleDelete() {
+      this.props.dispatch(queryClearProspectsList(this.tradeSide, this.handleClearQueryResonse))
+  }
+  handleClearQueryResonse(response) {
+    let buttonFlag = response.buttonFlag
+    if (buttonFlag === 'yes') {
+      if (this.tradeSide.toUpperCase() === 'BUYS') {
+        this.props.dispatch(removeAllBuysFromList())
+      } else {
+        this.props.dispatch(removeAllSellsFromList())
+      }
+      }
+  }
+  
 }
 
 const mapStateToProps = (state) => ({
