@@ -84,8 +84,12 @@ class ManageProspects extends Component {
     let cleanedInput
     if (this.textBox.value !== '') {
       if (/^\(/.test(this.textBox.value)) {
+        // This a unique case where the ETFdb.com page table is copied and
+        // pasted from their web page, and the text looks like this:
+        // (SHY A)	1-3 Year Treasury Bond Ishares ETF	$83.29	-1.54%
+        // (VCSH A)	Sht-Term Corp Bond Vanguard	$78.19	-2.32%
+        // We extract the symbols with the code in cleanEtfDb()
         cleanedInput = this.cleanEtfDb(this.textBox.value)
-        // debugger
       } else {
         cleanedInput = this.textBox.value
           .replace(/,/g, ' ')
@@ -120,13 +124,16 @@ class ManageProspects extends Component {
   }
 
   cleanEtfDb(value) {
-    // let firstArray = value.split('\r\n')
+    // let firstArray = value.split('\r\n') //this does not work
     let firstArray = value.split('%')
     let secondArray = firstArray.map((token1) => {
       let token2 = token1.replace(/\s*\(/, '')
       let token3 = token2.replace(/\s.*/, '')
       return token3
     })
+    if (secondArray[secondArray.length - 1] === '') {
+      secondArray.pop()
+    } //fix problem with using .split('%')
     return secondArray
   }
 
