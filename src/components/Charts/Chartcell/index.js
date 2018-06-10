@@ -1,8 +1,12 @@
 // Chartcell
-// See readme.txt for all reference links.
+
+// Each Chartcell gets its chart price data from the IEX API and creates the chart display data
+// Data provided for free by IEX. View IEX’s Terms of Use.
+// See: https://iextrading.com/developer/
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 import Chartgraph from '../Chartgraph'
 import Charttabs from '../Charttabs'
 import './styles.css'
@@ -10,35 +14,56 @@ import './styles.css'
 class Chartcell extends Component {
   constructor(props) {
     super(props)
+    this.loadChartData = this.loadChartData.bind(this)
+    this.state = {
+      loadingMsg: 'Loading Chart Please Wait...',
+    }
   }
 
   componentDidMount() {
-    // // Each Chartcell gets its chart price data from the IEX API and creates the chart display data
-    // let IEX_BASE_URL = 'https://api.iextrading.com/1.0/'
-    // axios
-    //   // .get(IEX_BASE_URL + 'stock/aapl/batch?types=chart&range=1m&last=10')
-    //   .get(IEX_BASE_URL + 'stock/aapl/batch?types=quote,news,chart&range=1m&last=10')
-    //   .then((response) => {
-    //     this.buildChartData(response) //experimental
-    //   })
-    //   .catch(function(error) {
-    //     if (error.response) {
-    //       // The request was made and the server responded with a status code
-    //       // that falls out of the range of 2xx
-    //       console.log(error.response.data)
-    //       console.log(error.response.status)
-    //       console.log(error.response.headers)
-    //     } else if (error.request) {
-    //       // The request was made but no response was received
-    //       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-    //       // http.ClientRequest in node.js
-    //       console.log(error.request)
-    //     } else {
-    //       // Something happened in setting up the request that triggered an Error
-    //       console.log('Error', error.message)
-    //     }
-    //     console.log(error.config)
-    //   })
+    this.loadChartData()
+  }
+
+  loadChartData = () => {
+    this.setState({ ...this.state, loadingMsg: 'Loading Chart Please Wait...' })
+    const IEX_BASE = 'https://api.iextrading.com/1.0/'
+    const symbol = this.props.cellObject.symbol
+    const filter = '?filter=close,date,high,label,low,open'
+    axios
+      .get(`${IEX_BASE}stock/${symbol}/chart/1y${filter}`)
+      .then((response) => {
+        this.buildChartData(response)
+      })
+      .catch(function(error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data)
+          console.log(error.response.status)
+          console.log(error.response.headers)
+          console.log(`${IEX_BASE}stock/${symbol}/chart/1y`)
+          // debugger //testing
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request)
+          debugger //testing
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message)
+          debugger //testing
+        }
+        console.log(error.config)
+        debugger //testing
+      })
+  }
+
+  buildChartData(response) {
+    this.setState({
+      ...this.state,
+      loadingMsg: `${this.props.cellObject.symbol} Chart Data Loaded`,
+    })
   }
 
   render() {
@@ -63,7 +88,7 @@ class Chartcell extends Component {
             <div id={chartId} className="graph-container">
               <div className="graph-table">
                 <div className="graph-wrapper">
-                  <h4>Loading Chart Please Wait...</h4>
+                  <h4>{this.state.loadingMsg}</h4>
                   {/* <ReactChartLine data={graphData} /> */}
                 </div>
               </div>

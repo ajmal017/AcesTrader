@@ -6,7 +6,7 @@ import withSizes from 'react-sizes'
 import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
 import { addBuystoList, removeAllBuysFromList } from '../../redux/reducerBuys'
 import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells'
-import { notification, queryClearProspectsList } from '../../redux/reducerModal'
+import { queryClearProspectsList } from '../../redux/reducerModal'
 import './styles.css'
 
 class ManageProspects extends Component {

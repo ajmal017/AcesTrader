@@ -9,9 +9,9 @@ import './styles.css'
 class Peek extends Component {
   constructor(props) {
     super(props)
-    this.containerDiv
-    this.updatedDiv
-    this.portfolioDiv
+    this.containerDiv = null
+    this.updatedDiv = null
+    this.portfolioDiv = null
     this.state = { mounted: false }
   }
 
@@ -42,7 +42,7 @@ class Peek extends Component {
       // { name: 'Autos', symbols: ['F', 'GM', 'FCAU', 'TM', 'HMC', 'TSLA'] },
     ]
     const PORTFOLIOS = DEFAULT_PORTFOLIOS
-    const REFRESH_SECONDS = 10
+    // const REFRESH_SECONDS = 10
     const BATCH_SIZE = 100
     const BASE_URL = 'https://api.iextrading.com/1.0/stock/market/batch'
 
@@ -142,18 +142,18 @@ class Peek extends Component {
             })
           })
       }
-      function portfoliosFromQueryParams() {
-        if (!window.location.search) return
-        let params = new URLSearchParams(window.location.search)
-        let portfolios = []
-        for (let p of params) {
-          portfolios.push({ name: p[0], symbols: p[1].split(',') })
-        }
-        return portfolios
-      }
-      function symbolUrl(symbol) {
-        return `https://iextrading.com/apps/stocks/#/${symbol}`
-      }
+      // function portfoliosFromQueryParams() {
+      //   if (!window.location.search) return
+      //   let params = new URLSearchParams(window.location.search)
+      //   let portfolios = []
+      //   for (let p of params) {
+      //     portfolios.push({ name: p[0], symbols: p[1].split(',') })
+      //   }
+      //   return portfolios
+      // }
+      // function symbolUrl(symbol) {
+      //   return `https://iextrading.com/apps/stocks/#/${symbol}`
+      // }
       function formatQuote(value) {
         let options = {
           minimumFractionDigits: 2,
