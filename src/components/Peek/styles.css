@@ -27,8 +27,9 @@ table {
   font-weight: bold;
 }
 .stock-symbol {
-  width: 12%;
+  width: 10%;
   padding: 2px 4px 2px 0px;
+  font-weight: 600;
 }
 .stock-price,
 .stock-change,
@@ -37,6 +38,7 @@ table {
   width: 22%;
   text-align: right;
   padding: 2px 4px;
+  font-weight: 560;
 }
 @media (max-width: 576px) {
   .pagebody {
@@ -49,20 +51,21 @@ table {
     display: none;
   }
   .stock-symbol {
-    width: 16%;
+    /* width: 16%; */
+    width: 12%;
   }
   .stock-price,
   .stock-change,
   .stock-change-pct {
     width: 28%;
   }
-  td.stock-symbol,
+  /* td.stock-symbol,
   td.stock-price,
   td.stock-change,
   td.stock-change-pct {
     padding-top: 1em;
     padding-bottom: 1em;
-  }
+  } */
 }
 summary:hover {
   cursor: pointer;
