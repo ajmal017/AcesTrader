@@ -17,7 +17,13 @@ class ManageBuyProspects extends Component {
   }
 
   render() {
-    return <ManageProspects tradeSide={'Buys'} handleClick={this.handleClick} />
+    return (
+      <ManageProspects
+        tradeSide={'Buys'}
+        handleClick={this.handleClick}
+        mockSymbols="'TQQQ','UDOW','UPRO','QLD','SPXL','MCHI','SSO','MTUM','XLK','QQQ','FXI','IWF','XLF','SPYG','DIA','EWJ','EWI','EWS','IVV','VOO','SPY','ACWI','VT','EWH','IEFA','SCHF','VEU','EFA','CWB','EZU','USMV','EFV'"
+      />
+    )
   }
 }
 

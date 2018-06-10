@@ -6,7 +6,7 @@ import withSizes from 'react-sizes'
 import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
 import { addBuystoList, removeAllBuysFromList } from '../../redux/reducerBuys'
 import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells'
-import { notification, queryClearProspectsList } from '../../redux/ducksModal'
+import { notification, queryClearProspectsList } from '../../redux/reducerModal'
 import './styles.css'
 
 class ManageProspects extends Component {
@@ -14,13 +14,14 @@ class ManageProspects extends Component {
     super(props)
     this.state = {
       isAcceptButtonDisabled: true,
-      value:
-        "'TQQQ','UDOW','UPRO','QLD','SPXL','MCHI','SSO','MTUM','XLK','QQQ','FXI','IWF','XLF','SPYG','DIA','EWJ','EWI','EWS','IVV','VOO','SPY','ACWI','VT','EWH','IEFA','SCHF','VEU','EFA','CWB','EZU','USMV','EFV'",
+      value: props.mockSymbols,
+      // "'TQQQ','UDOW','UPRO','QLD','SPXL','MCHI','SSO','MTUM','XLK','QQQ','FXI','IWF','XLF','SPYG','DIA','EWJ','EWI','EWS','IVV','VOO','SPY','ACWI','VT','EWH','IEFA','SCHF','VEU','EFA','CWB','EZU','USMV','EFV'",
       // 'UWT, UCO, TNA, FAS, GUSH, ERX, USO, MCHI, XME, XOP, KRE, IJR, FXI, KBE, XLF, DIA, IWM, PDBC, EWJ, XLE, ACWI, EWH, EWQ, VTV, EWY, SCHF, IEFA, VEU, VEA, EFA, EZU, VGK, EWU, HEZU, OIH, TBT ',
     }
     this.handleClick = props.handleClick
     this.handleChange = this.handleChange.bind(this)
     this.handleLocalClick = this.handleLocalClick.bind(this)
+    this.handleClearQueryResonse = this.handleClearQueryResonse.bind(this)
     this.windowHeight = null //waiting for render to aet current value
     this.textAreaBox = null
     this.textBox = null
@@ -82,11 +83,17 @@ class ManageProspects extends Component {
   }
 
   handleSubmit() {
+    let cleanedInput
     if (this.textBox.value !== '') {
-      let cleanedInput = this.textBox.value
-        .replace(/,/g, ' ')
-        .replace(/\s+/g, ' ')
-        .split(' ') //get the symbols in array
+      if (/^\(/.test(this.textBox.value)) {
+        cleanedInput = this.cleanEtfDb(this.textBox.value)
+        // debugger
+      } else {
+        cleanedInput = this.textBox.value
+          .replace(/,/g, ' ')
+          .replace(/\s+/g, ' ')
+          .split(' ') //get the symbols in array
+      }
       let cleanedTokens = cleanedInput.map((token) => {
         return token.replace(/\W*/g, '').toUpperCase()
       })
@@ -112,6 +119,17 @@ class ManageProspects extends Component {
     } else {
       this.textBox.value = '**No Data**'
     }
+  }
+
+  cleanEtfDb(value) {
+    // let firstArray = value.split('\r\n')
+    let firstArray = value.split('%')
+    let secondArray = firstArray.map((token1) => {
+      let token2 = token1.replace(/\s*\(/, '')
+      let token3 = token2.replace(/\s.*/, '')
+      return token3
+    })
+    return secondArray
   }
 
   handleAccept() {
@@ -149,7 +167,7 @@ class ManageProspects extends Component {
       if (kk < inputList.length) {
         listSymbol = inputList[kk]
       }
-      if ((hh >= stateObjects.length) {
+      if (hh >= stateObjects.length) {
         //empty array of objects
         newList.push(listSymbol)
         ++kk
@@ -216,7 +234,7 @@ class ManageProspects extends Component {
   }
 
   handleDelete() {
-      this.props.dispatch(queryClearProspectsList(this.tradeSide, this.handleClearQueryResonse))
+    this.props.dispatch(queryClearProspectsList(this.tradeSide, this.handleClearQueryResonse))
   }
   handleClearQueryResonse(response) {
     let buttonFlag = response.buttonFlag
@@ -226,15 +244,12 @@ class ManageProspects extends Component {
       } else {
         this.props.dispatch(removeAllSellsFromList())
       }
-      }
+    }
   }
-  
 }
 
 const mapStateToProps = (state) => ({
   state: state,
-  // longs: state.longs,
-  // shorts: state.shorts,
 })
 
 const mapSizesToProps = ({ height, width }) => ({

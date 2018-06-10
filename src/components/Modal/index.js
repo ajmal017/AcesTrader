@@ -3,8 +3,7 @@
 // Modal framework from: https://www.nearform.com/blog/exploring-react-portals/
 
 import React, { Component } from 'react'
-import DeleteUserPlanModal from './DeleteUserPlanModal'
-import UnsavedChangesModal from './UnsavedChangesModal'
+import ClearProspecLlistModal from './ClearProspecLlistModal'
 import NotificationModal from './NotificationModal'
 import './styles.css'
 
@@ -13,7 +12,7 @@ class Modal extends Component {
     isDialogOpen: false,
   }
 
-  // flag identifies the button that was clicked
+  // flag identifies the modal button that was clicked to respond
   handleClick = (flag) => {
     this.sendResponse(flag)
   }
@@ -26,7 +25,7 @@ class Modal extends Component {
   // the calling component can determine what to do next depending on the buttonFlag
   sendResponse(flag) {
     this.setState({ isDialogOpen: false })
-    //notifications do not send a response, they just are dismissed with an OK button
+    //notifications do not send a response, they just are dismissed with an OK button click
     if (this.props.dialogSelector.toLowerCase() !== 'notification') {
       let response = { ...this.props, buttonFlag: flag }
       this.props.handleModalResonse(response)
@@ -55,10 +54,8 @@ class Modal extends Component {
 
   modalPage(props) {
     switch (props.dialogSelector.toLowerCase()) {
-      case 'deleteuserplan':
-        return <DeleteUserPlanModal {...props} />
-      case 'unsavedchanges':
-        return <UnsavedChangesModal {...props} />
+      case 'clearprospectlist':
+        return <ClearProspecLlistModal {...props} />
       case 'notification':
         return <NotificationModal {...props} />
       default:
