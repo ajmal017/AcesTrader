@@ -16,8 +16,16 @@ class ManageSellProspects extends Component {
     }
   }
 
+  // Note: For testing and demonstration a list of ETF ssymbols
+  //is passed to ManageProspects to use as default input to the prospects list
   render() {
-    return <ManageProspects tradeSide={'Sells'} handleClick={this.handleClick} mockSymbols="AGG BND DRIP DWT EIDO EMB EMLC EWW FAZ GDX HYG IBB IEF INDA ITB IYR JNK JNUG LQD NUGT PCY PFF PGX SCO SDOW SHY SJNK SLV SVXY TLT TZA UGAZ UNG USLV VCSH VNQ XLP XLRE XLU" />
+    return (
+      <ManageProspects
+        tradeSide={'Sells'}
+        handleClick={this.handleClick}
+        mockSymbols="AGG BND DRIP DWT EIDO EMB EMLC EWW FAZ GDX HYG IBB IEF INDA ITB IYR JNK JNUG LQD NUGT PCY PFF PGX SCO SDOW SHY SJNK SLV SVXY TLT TZA UGAZ UNG USLV VCSH VNQ XLP XLRE XLU"
+      />
+    )
   }
 }
 

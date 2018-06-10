@@ -15,8 +15,6 @@ class ManageProspects extends Component {
     this.state = {
       isAcceptButtonDisabled: true,
       value: props.mockSymbols,
-      // "'TQQQ','UDOW','UPRO','QLD','SPXL','MCHI','SSO','MTUM','XLK','QQQ','FXI','IWF','XLF','SPYG','DIA','EWJ','EWI','EWS','IVV','VOO','SPY','ACWI','VT','EWH','IEFA','SCHF','VEU','EFA','CWB','EZU','USMV','EFV'",
-      // 'UWT, UCO, TNA, FAS, GUSH, ERX, USO, MCHI, XME, XOP, KRE, IJR, FXI, KBE, XLF, DIA, IWM, PDBC, EWJ, XLE, ACWI, EWH, EWQ, VTV, EWY, SCHF, IEFA, VEU, VEA, EFA, EZU, VGK, EWU, HEZU, OIH, TBT ',
     }
     this.handleClick = props.handleClick
     this.handleChange = this.handleChange.bind(this)
@@ -114,7 +112,7 @@ class ManageProspects extends Component {
           isAcceptButtonDisabled: false,
         })
       } else {
-        this.textAreaBox.value = '**No New Symbols**'
+        this.textAreaBox.value = '**No New Symbols, All Are Already Entered**'
       }
     } else {
       this.textBox.value = '**No Data**'
