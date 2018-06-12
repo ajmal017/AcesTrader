@@ -8,12 +8,15 @@ import Appnav from '../../components/Appnav/'
 import Alerts from '../../components/Alerts/'
 import ProspectBuys from '../../components/ProspectBuys/'
 import ProspectSells from '../../components/ProspectSells/'
+import ProspectTrendFollowers from '../../components/ProspectTrendFollowers/'
 import PositionLongs from '../../components/PositionLongs/'
 import PositionShorts from '../../components/PositionShorts/'
+import PositionTrendFollowers from '../../components/PositionTrendFollowers/'
 import ScoreBoard from '../../components/ScoreBoard/'
 import Peek from '../../components/Peek/'
 import ManageBuyProspects from '../../components/ManageBuyProspects/'
 import ManageSellProspects from '../../components/ManageSellProspects/'
+import ManageTrendFollowerProspects from '../../components/ManageTrendFollowerProspects/'
 import Home from '../../components/Home/'
 import Charts from '../../components/Charts/'
 import PortalModal from '../../components/PortalModal/'
@@ -30,12 +33,15 @@ const Root = ({ store }) => (
             <Route exact path="/alerts" component={Alerts} />
             <Route exact path="/positionlongs" component={PositionLongs} />
             <Route exact path="/positionshorts" component={PositionShorts} />
+            <Route exact path="/positiontrendfollowers" component={PositionTrendFollowers} />
             <Route exact path="/prospectbuys" component={ProspectBuys} />
             <Route exact path="/prospectsells" component={ProspectSells} />
+            <Route exact path="/prospecttrendfollowers" component={ProspectTrendFollowers} />
             <Route exact path="/scoreboard" component={ScoreBoard} />
             <Route exact path="/peek" component={Peek} />
             <Route exact path="/managebuyprospects" component={ManageBuyProspects} />
             <Route exact path="/managesellprospects" component={ManageSellProspects} />
+            <Route exact path="/managetrendfollowerprospects" component={ManageTrendFollowerProspects} />
             <Route exact path="/home" component={Home} />
             <Route exact path="/charts" component={Charts} />
           </Switch>

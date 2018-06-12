@@ -18,7 +18,6 @@ class Peek extends Component {
   componentDidMount() {
     this.containerDiv = document.querySelector('.stocks-container')
     this.updatedDiv = document.querySelector('.updated-timestamp')
-    // this.portfolioDiv = document.createElement('div')
     this.setState({ mounted: true })
   }
 
@@ -27,6 +26,7 @@ class Peek extends Component {
     const sellsSymbols = this.props.state.sells.map((obj) => obj.symbol)
     const longsSymbols = this.props.state.longs.map((obj) => obj.symbol)
     const shortsSymbols = this.props.state.shorts.map((obj) => obj.symbol)
+
     const DEFAULT_PORTFOLIOS = [
       { name: 'Buy Prospects', symbols: [...buysSymbols] },
       { name: 'Sell Prospects', symbols: [...sellsSymbols] },
@@ -190,6 +190,8 @@ class Peek extends Component {
 
 const mapStateToProps = (state) => ({
   state: state,
+  // buys: state.buys,
+  // sells: state.sells,
   // longs: state.longs,
   // shorts: state.shorts,
 })
