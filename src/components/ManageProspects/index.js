@@ -124,17 +124,14 @@ class ManageProspects extends Component {
   }
 
   cleanEtfDb(value) {
-    // let firstArray = value.split('\r\n') //this does not work
     let firstArray = value.split('%')
     let secondArray = firstArray.map((token1) => {
       let token2 = token1.replace(/\s*\(/, '')
       let token3 = token2.replace(/\s.*/, '')
       return token3
     })
-    if (secondArray[secondArray.length - 1] === '') {
-      secondArray.pop()
-    } //fix problem with using .split('%')
-    return secondArray
+    let thirdArray = secondArray.filter((item) => item !== '')
+    return thirdArray
   }
 
   handleAccept() {
