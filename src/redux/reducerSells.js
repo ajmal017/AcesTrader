@@ -3,7 +3,7 @@
 import defaultState from '../json/defaultState.json'
 import defaultDashboard from '../json/defaultDashboard.json'
 import defaultShortEntry from '../json/defaultShortEntry.json'
-import reduceProspects from './reduceProspects.js'
+import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
 const ADD_SELLS = 'ADD_SELLS'
@@ -40,7 +40,7 @@ export default function sellsReducer(state = defaultSells, action) {
   switch (action.type) {
     case ADD_SELLS: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultShortEntry)
-      let newState = reduceProspects(state, action.sellsArray, newDashboard, action.theDate)
+      let newState = reduceTargetState(state, action.sellsArray, newDashboard, action.theDate)
       return newState
     }
     case REMOVE_ONE_SELL: {

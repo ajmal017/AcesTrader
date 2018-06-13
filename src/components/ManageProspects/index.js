@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import withSizes from 'react-sizes'
 import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
-import { addBuystoList, removeAllBuysFromList } from '../../redux/reducerBuys'
+import { addBuysToList, removeAllBuysFromList } from '../../redux/reducerBuys'
 import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells'
 import { queryClearProspectsList } from '../../redux/reducerModal'
 import './styles.css'
@@ -139,11 +139,14 @@ class ManageProspects extends Component {
       this.newProspects = this.textAreaBox.value.split(' ').sort()
       //this.textAreaBox.value = this.newProspects.join(' ')
       if (this.tradeSide.toUpperCase() === 'BUYS') {
-        this.props.dispatch(addBuystoList(this.newProspects))
+        this.props.dispatch(addBuysToList(this.newProspects))
         this.props.handleClick('push', 'prospectbuys')
-      } else {
+      } else if (this.tradeSide.toUpperCase() === 'SELLS') {
         this.props.dispatch(addSellstoList(this.newProspects))
         this.props.handleClick('push', 'prospectsells')
+      } else {
+        this.props.dispatch(addSellstoList(this.newProspects))
+        this.props.handleClick('push', 'prospecttrendfollowers')
       }
     } else {
       this.textAreaBox.value = '**No Data**'
@@ -210,8 +213,8 @@ class ManageProspects extends Component {
               <input type="text" id="pname" value={this.state.value} onChange={this.handleChange} />
 
               <p className="acceptdescription">
-                Symbols already in the {this.tradeSide} list or in Positions are removed from the submitted list.
-                <br />The remaining symbols shown below are added to the {this.tradeSide} list when you click Accept.
+                Symbols already in the {this.tradeSide} or Positions lists are removed from the submitted list.
+                <br />The remaining new symbols shown are added to the {this.tradeSide} list when you click Accept.
               </p>
               <label id="textareacaption" htmlFor="syms">
                 Add these prospective {title.toLowerCase()}?
