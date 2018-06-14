@@ -55,6 +55,4 @@ export default function trendbuysReducer(state = defaultTrendBuys, action) {
     default:
       return state
   }
-
-
-
+}

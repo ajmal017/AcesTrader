@@ -3,10 +3,12 @@
 import defaultState from '../json/defaultState.json'
 import defaultDashboard from '../json/defaultDashboard.json'
 import defaultLongExit from '../json/defaultLongExit.json'
+import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
 const ADD_LONG_POSITION = 'ADD_LONG_POSITION'
 const REMOVE_LONG_POSITION = 'REMOVE_LONG_POSITION'
+const REMOVE_ALL_LONGS = 'REMOVE_ALL_LONGS'
 
 export const addLongToList = (theObject) => {
   let date = new Date()

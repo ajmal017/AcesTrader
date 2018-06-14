@@ -3,10 +3,12 @@
 import defaultState from '../json/defaultState.json'
 import defaultDashboard from '../json/defaultDashboard.json'
 import defaultShortExit from '../json/defaultShortExit.json'
+import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
 const ADD_SHORT_POSITION = 'ADD_SHORT_POSITION'
 const REMOVE_SHORT_POSITION = 'REMOVE_SHORT_POSITION'
+const REMOVE_ALL_SHORTS = 'REMOVE_ALL_SHORTS'
 
 export const addShortToList = (theObject) => {
   let date = new Date()

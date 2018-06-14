@@ -5,6 +5,7 @@ var cloneDeep = require('lodash.clonedeep')
 
 const ADD_RESULT = 'ADD_RESUL'
 const REMOVE_RESULT = 'REMOVE_RESULT'
+const REMOVE_ALL_RESULTS = 'REMOVE_ALL_RESULTS'
 
 export const addResultToList = (theObject) => {
   let date = new Date()
@@ -34,10 +35,10 @@ export const removeAllResultsFromList = () => {
 // so we create a corresponding slice of the defaultState as well.
 const defaultResults = cloneDeep(defaultState.results) //in case state is undefined
 
-export default function chartsReducer(state = defaultShorts, action) {
+export default function chartsReducer(state = defaultResults, action) {
   switch (action.type) {
     case ADD_RESULT: {
-      action.theObject.exited = theDate
+      action.theObject.exited = action.theDate
       // action.theObject.exitedPrice = ???
       let newState = state.concat(action.theObject)
       return newState

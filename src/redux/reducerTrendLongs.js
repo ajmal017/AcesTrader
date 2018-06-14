@@ -4,6 +4,7 @@
 import defaultState from '../json/defaultState.json'
 import defaultDashboard from '../json/defaultDashboard.json'
 import defaultTrendExit from '../json/defaultTrendExit.json'
+import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
 const ADD_TREND_LONG_POSITION = 'ADD_TREND_LONG_POSITION'
