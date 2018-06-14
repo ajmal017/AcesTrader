@@ -16,14 +16,15 @@ export const addTrendBuysToList = (trendbuysList) => {
   let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
   return {
     type: ADD_TREND_BUYS,
-    trendbuysArray: trendbuysList,
+    trendbuysList: trendbuysList,
     theDate: theDate,
+    theEvent: 'watched',
   }
 }
-export const removeTrendBuyFromList = (trendbuyName) => {
+export const removeTrendBuyFromList = (symbol) => {
   return {
     type: REMOVE_ONE_TREND_BUY,
-    symbol: trendbuyName,
+    symbol: symbol,
   }
 }
 export const removeAllTrendBuysFromList = () => {
@@ -41,7 +42,7 @@ export default function trendbuysReducer(state = defaultTrendBuys, action) {
   switch (action.type) {
     case ADD_TREND_BUYS: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultTrendEntry)
-      let newState = reduceTargetState(state, action.buysArray, newDashboard, action.theDate)
+      let newState = reduceTargetState(state, action.trendbuysList, newDashboard, action.theDate, action.theEvent)
       return newState
     }
     case REMOVE_ONE_TREND_BUY: {

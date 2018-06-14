@@ -1,12 +1,20 @@
 // ProspectTrendBuys/index.js
 
 import React, { Component } from 'react'
-import BetaNotice from '../BetaNotice'
+import { connect } from 'react-redux'
+import AppToolbar from '../../components/AppToolbar'
 
 class ProspectTrendBuys extends Component {
   render() {
-    return <BetaNotice pageName={'Prospects Trend Buys'} />
+    return <AppToolbar chartArray={this.props.trendbuys} />
   }
 }
 
-export default ProspectTrendBuys
+function mapStateToProps(state) {
+  const props = {
+    trendbuys: state.trendbuys,
+  }
+  return props
+}
+
+export default connect(mapStateToProps)(ProspectTrendBuys)

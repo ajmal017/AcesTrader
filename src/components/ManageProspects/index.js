@@ -6,6 +6,7 @@ import withSizes from 'react-sizes'
 import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
 import { addBuysToList, removeAllBuysFromList } from '../../redux/reducerBuys'
 import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells'
+import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/reducerTrendBuys'
 import { queryClearProspectsList } from '../../redux/reducerModal'
 import './styles.css'
 
@@ -148,8 +149,8 @@ class ManageProspects extends Component {
         this.props.dispatch(addSellstoList(this.newProspects))
         this.props.handleClick('push', 'prospectsells')
       } else {
-        this.props.dispatch(addSellstoList(this.newProspects))
-        this.props.handleClick('push', 'prospecttrendfollowers')
+        this.props.dispatch(addTrendBuysToList(this.newProspects))
+        this.props.handleClick('push', 'prospecttrendbuys')
       }
     } else {
       this.textAreaBox.value = '**No Data**'
@@ -249,8 +250,10 @@ class ManageProspects extends Component {
     if (buttonFlag === 'yes') {
       if (this.tradeSide.toUpperCase() === 'BUYS') {
         this.props.dispatch(removeAllBuysFromList())
-      } else {
+      } else if (this.tradeSide.toUpperCase() === 'SELLS') {
         this.props.dispatch(removeAllSellsFromList())
+      } else {
+        this.props.dispatch(removeAllTrendBuysFromList())
       }
     }
   }

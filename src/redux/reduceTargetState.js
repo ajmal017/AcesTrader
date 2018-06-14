@@ -35,8 +35,8 @@ export default function(state, theInput, newDashboard, theDate, theEvent) {
           // theInputObject.enteredPrice = ???
           break
         default:
+          alert('Error: no theEvent parameter in reduceTargetState.js')
           debugger
-          alert('Program error in reduceTargetState.js')
       }
 
       // theInputSymbol = theInput[kk]
@@ -72,9 +72,6 @@ export default function(state, theInput, newDashboard, theDate, theEvent) {
       ++kk
     } else if (currentListSymbol === theInputSymbol) {
       alert('ERROR in reduceTargetState: Dup symbols found.')
-      // newState.push(state[hh]) //keep the current one, skip new one
-      ++hh
-      ++kk
     }
   }
   //console.log(JSON.stringify(newState, null, 2)) // a readable log of the object's json
