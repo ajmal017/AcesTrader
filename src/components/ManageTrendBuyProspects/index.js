@@ -1,9 +1,9 @@
-// ManageTrendFollowerProspects/index.js
+// ManageTrendBuyProspects/index.js
 
 import React, { Component } from 'react'
 import ManageProspects from '../ManageProspects'
 
-class ManageTrendFollowerProspects extends Component {
+class ManageTrendBuyProspects extends Component {
   constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -19,8 +19,8 @@ class ManageTrendFollowerProspects extends Component {
   // Note: For testing and demonstration a list of ETF ssymbols
   //is passed to ManageProspects to use as default input to the prospects list
   render() {
-    return <ManageProspects tradeSide={'Trend Followers'} handleClick={this.handleClick} mockSymbols="IDV VNQI VEU VWO VTI VEA" />
+    return <ManageProspects tradeSide={'Trend Buys'} handleClick={this.handleClick} mockSymbols="IDV VNQI VEU VWO VTI VEA" />
   }
 }
 
-export default ManageTrendFollowerProspects
+export default ManageTrendBuyProspects

@@ -4,7 +4,7 @@ import BetaNotice from '../BetaNotice'
 
 class PositionLongs extends Component {
   render() {
-    return <BetaNotice pageName={'Longs'} />
+    return <BetaNotice pageName={'Positions Swing Longs'} />
   }
 }
 

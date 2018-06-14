@@ -84,8 +84,8 @@ class ManageProspects extends Component {
     let cleanedInput
     if (this.textBox.value !== '') {
       if (/^\(/.test(this.textBox.value)) {
-        // This a unique case where the ETFdb.com page table is copied and
-        // pasted from their web page, and the text looks like this:
+        // This is the case where an ETFdb table is copied from their
+        // web page and pasted here, and the text can look like this:
         // (SHY A)	1-3 Year Treasury Bond Ishares ETF	$83.29	-1.54%
         // (VCSH A)	Sht-Term Corp Bond Vanguard	$78.19	-2.32%
         // We extract the symbols with the code in cleanEtfDb()
@@ -101,12 +101,15 @@ class ManageProspects extends Component {
       })
       let prospectsArray
       let positionsArray
-      if (this.tradeSide.toUpperCase() === 'BUYS') {
+      if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
         prospectsArray = this.props.state.buys
         positionsArray = this.props.state.longs
-      } else {
+      } else if (this.tradeSide.toUpperCase() === 'SWING SELLS') {
         prospectsArray = this.props.state.sells
         positionsArray = this.props.state.shorts
+      } else {
+        prospectsArray = this.props.state.trendbuys
+        positionsArray = this.props.state.trendlongs
       }
       let verifiedList = this.verifyList(cleanedTokens.sort(), prospectsArray, positionsArray)
       if (verifiedList.length > 0) {

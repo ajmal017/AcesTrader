@@ -22,37 +22,37 @@ const Appnav = function() {
           <Nav>
             <NavDropdown eventKey={5} title="Prospects" id="5-basic-nav-dropdown">
               <LinkContainer to="/prospectbuys">
-                <MenuItem eventKey={5.1}>Trading Buys</MenuItem>
+                <MenuItem eventKey={5.1}>Swing Buys</MenuItem>
               </LinkContainer>
               <LinkContainer to="/prospectsells">
-                <MenuItem eventKey={5.2}>Trading Sells</MenuItem>
+                <MenuItem eventKey={5.2}>Swing Sells</MenuItem>
               </LinkContainer>
-              <LinkContainer to="/prospecttrendfollowers">
-                <MenuItem eventKey={5.2}>Trend Followers</MenuItem>
+              <LinkContainer to="/prospecttrendbuys">
+                <MenuItem eventKey={5.2}>Trend Buys</MenuItem>
               </LinkContainer>
             </NavDropdown>
 
             <NavDropdown eventKey={4} title="Positions" id="5-basic-nav-dropdown">
               <LinkContainer to="/positionlongs">
-                <MenuItem eventKey={4.1}>Trading Longs</MenuItem>
+                <MenuItem eventKey={4.1}>Swing Longs</MenuItem>
               </LinkContainer>
               <LinkContainer to="/positionshorts">
-                <MenuItem eventKey={4.2}>Trading Shorts</MenuItem>
+                <MenuItem eventKey={4.2}>Swing Shorts</MenuItem>
               </LinkContainer>
-              <LinkContainer to="/positiontrendfollowers">
-                <MenuItem eventKey={4.6}>Trend Followers</MenuItem>
+              <LinkContainer to="/positiontrendlongs">
+                <MenuItem eventKey={4.6}>Trend Longs</MenuItem>
               </LinkContainer>
             </NavDropdown>
 
-            <NavDropdown eventKey={6} title="Symbols" id="5-basic-nav-dropdown">
+            <NavDropdown eventKey={6} title="Lists" id="5-basic-nav-dropdown">
               <LinkContainer to="/managebuyprospects">
-                <MenuItem eventKey={6.2}>Trading Buy Prospects</MenuItem>
+                <MenuItem eventKey={6.2}>Swing Buy Prospects</MenuItem>
               </LinkContainer>
               <LinkContainer to="/managesellprospects">
-                <MenuItem eventKey={6.6}>Trading Sell Prospects</MenuItem>
+                <MenuItem eventKey={6.6}>Swing Sell Prospects</MenuItem>
               </LinkContainer>
-              <LinkContainer to="/managetrendfollowerprospects">
-                <MenuItem eventKey={7.3}>Trend Follower Prospects</MenuItem>
+              <LinkContainer to="/managetrendbuyprospects">
+                <MenuItem eventKey={7.3}>Trend Buy Prospects</MenuItem>
               </LinkContainer>
             </NavDropdown>
 
