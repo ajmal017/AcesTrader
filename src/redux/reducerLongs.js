@@ -26,6 +26,11 @@ export const removeLongFromList = (symbol) => {
     symbol: symbol,
   }
 }
+export const removeAllLongsFromList = () => {
+  return {
+    type: REMOVE_ALL_LONGS,
+  }
+}
 
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
@@ -43,6 +48,9 @@ export default function longsReducer(state = defaultLongs, action) {
       //filter to keep all except the action.symbol one
       let newState = state.filter((obj) => obj.symbol !== action.symbol)
       return newState
+    }
+    case REMOVE_ALL_LONGS: {
+      return cloneDeep(defaultLongs)
     }
     default:
       return state
