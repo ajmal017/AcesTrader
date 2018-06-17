@@ -21,7 +21,7 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 24px 200px 300px;
-  grid-gap: 10px;
+  /* grid-gap: 10px; */
   grid-template-areas:
     'celltitle'
     'cellgraph'
@@ -40,7 +40,6 @@
   background: #f9f9f9;
   text-align: center;
   font-weight: bold;
-  padding-top: 6px;
 }
 
 .graph-content {
@@ -80,17 +79,17 @@
 @media only screen and (min-width: 1024px), only screen and (orientation: landscape) {
   .chart-cell {
     display: grid;
-    grid-template-columns: 1fr 1.3fr;
-    grid-template-rows: 24px 260px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 22px 260px;
     grid-template-areas:
       'celltitle celldata'
       'cellgraph celldata';
   }
   .chart-title {
-    height: 24px;
-    padding-top: 12px;
+    height: 22px;
+    /* padding-top: 12px; */
   }
-  .graph-content {
-    padding: 20px 20px 20px 20px;
-  }
+  /* .graph-content { */
+  /* padding: 20px 20px 20px 20px; */
+  /* } */
 }

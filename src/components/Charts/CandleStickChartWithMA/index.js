@@ -136,10 +136,10 @@ class CandleStickChartWithMA extends React.Component {
           <CurrentCoordinate yAccessor={ema20.accessor()} fill={ema20.stroke()} />
           <CurrentCoordinate yAccessor={ema50.accessor()} fill={ema50.stroke()} />
 
-          <OHLCTooltip origin={[-40, 0]} />
+          <OHLCTooltip origin={[-70, 0]} />
           <MovingAverageTooltip
             onClick={(e) => console.log(e)}
-            origin={[-38, 15]}
+            origin={[-68, 15]}
             options={[
               // {
               //   yAccessor: sma20.accessor(),
@@ -163,25 +163,25 @@ class CandleStickChartWithMA extends React.Component {
               //   echo: 'some echo here',
               // },
               {
-                yAccessor: sma200.accessor(),
-                type: 'SMA',
-                stroke: sma200.stroke(),
-                windowSize: sma200.options().windowSize,
-                echo: 'some echo here',
-              },
-              {
                 yAccessor: ema20.accessor(),
                 type: 'EMA',
                 stroke: ema20.stroke(),
                 windowSize: ema20.options().windowSize,
-                echo: 'some echo here',
+                // echo: 'some echo here',
               },
               {
                 yAccessor: ema50.accessor(),
                 type: 'EMA',
                 stroke: ema50.stroke(),
                 windowSize: ema50.options().windowSize,
-                echo: 'some echo here',
+                // echo: 'some echo here',
+              },
+              {
+                yAccessor: sma200.accessor(),
+                type: 'SMA',
+                stroke: sma200.stroke(),
+                windowSize: sma200.options().windowSize,
+                // echo: 'some echo here',
               },
             ]}
           />
@@ -218,7 +218,7 @@ CandleStickChartWithMA.defaultProps = {
   panEvent: false,
   zoomEvent: false,
   clamp: true,
-  height: 400,
+  height: 280,
   symbol: 'AMZN',
 }
 

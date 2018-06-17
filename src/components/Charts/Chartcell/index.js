@@ -103,7 +103,8 @@ class Chartcell extends Component {
             <div id={chartId} className="graph-container">
               <div className="graph-table">
                 <div className="graph-wrapper">
-                  <TypeChooser>{(type) => <CandleStickChartWithMA type={type} data={this.state.data} />}</TypeChooser>{' '}
+                  <CandleStickChartWithMA data={this.state.data} />
+                  {/* <TypeChooser>{(type) => <CandleStickChartWithMA type={type} data={this.state.data} />}</TypeChooser> */}
                 </div>
               </div>
             </div>
