@@ -7,7 +7,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import Chartgraph from '../Chartgraph'
+import { TypeChooser } from 'react-stockcharts/lib/helper'
+import CandleStickChartWithMA from '../CandleStickChartWithMA'
+// import Chartgraph from '../Chartgraph'
 import Charttabs from '../Charttabs'
 import './styles.css'
 
@@ -28,11 +30,17 @@ class Chartcell extends Component {
     this.setState({ ...this.state, loadingMsg: 'Loading Chart Please Wait...' })
     const IEX_BASE = 'https://api.iextrading.com/1.0/'
     const symbol = this.props.cellObject.symbol
-    const filter = '?filter=close,date,high,label,low,open'
+    const filter = '?filter=date,open,high,low,close,volume'
     axios
       .get(`${IEX_BASE}stock/${symbol}/chart/1y${filter}`)
-      .then((response) => {
-        this.buildChartData(response)
+      .then((res) => {
+        let values = res.data
+        let data = values.map((obj) => {
+          let date = obj.date
+          obj.date = new Date(date)
+          return obj
+        })
+        this.setState({ data })
       })
       .catch(function(error) {
         if (error.response) {
@@ -62,7 +70,7 @@ class Chartcell extends Component {
   buildChartData(response) {
     this.setState({
       ...this.state,
-      loadingMsg: `${this.props.cellObject.symbol} Chart Data Loaded`,
+      loadingMsg: null,
     })
   }
 
@@ -78,6 +86,13 @@ class Chartcell extends Component {
 
     // const graphData = ChartLineGraphData(props)
 
+    if (!this.state.data) {
+      return (
+        <div className="chart-cell-wrapper">
+          <h4>{this.state.loadingMsg}</h4>
+        </div>
+      )
+    }
     return (
       <div className="chart-cell-wrapper">
         {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
@@ -88,8 +103,7 @@ class Chartcell extends Component {
             <div id={chartId} className="graph-container">
               <div className="graph-table">
                 <div className="graph-wrapper">
-                  <h4>{this.state.loadingMsg}</h4>
-                  {/* <ReactChartLine data={graphData} /> */}
+                  <TypeChooser>{(type) => <CandleStickChartWithMA type={type} data={this.state.data} />}</TypeChooser>{' '}
                 </div>
               </div>
             </div>
