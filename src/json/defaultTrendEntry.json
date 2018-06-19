@@ -4,5 +4,6 @@
   "orderType": "MARKET",
   "quantityType": "DOLLARS",
   "quantity": 5000,
-  "instruction": "BUY"
+  "instruction": "BUY",
+  "tradeSide": "Trend Buys"
 }

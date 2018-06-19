@@ -7,27 +7,33 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import { TypeChooser } from 'react-stockcharts/lib/helper'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
-// import Chartgraph from '../Chartgraph'
-import Charttabs from '../Charttabs'
+import ChartDashboard from '../ChartDashboard'
+import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
 import './styles.css'
+var cloneDeep = require('lodash.clonedeep')
 
 class Chartcell extends Component {
   constructor(props) {
     super(props)
     this.loadChartData = this.loadChartData.bind(this)
+    this.priceData = []
     this.state = {
-      loadingMsg: 'Loading Chart Please Wait...',
+      loadingMsg: 'Loading Chart  Please Wait...',
     }
   }
 
   componentDidMount() {
-    this.loadChartData()
+    // first try to recover cached data to avoid another http get
+    let data = cloneDeep(getPriceData(this.props.cellObject.symbol))
+    if (data) {
+      this.setState({ data })
+    } else {
+      this.loadChartData()
+    }
   }
 
   loadChartData = () => {
-    this.setState({ ...this.state, loadingMsg: 'Loading Chart Please Wait...' })
     const IEX_BASE = 'https://api.iextrading.com/1.0/'
     const symbol = this.props.cellObject.symbol
     const filter = '?filter=date,open,high,low,close,volume'
@@ -36,10 +42,11 @@ class Chartcell extends Component {
       .then((res) => {
         let values = res.data
         let data = values.map((obj) => {
-          let date = obj.date
+          let date = obj.date + 'T05:00:00.000Z'
           obj.date = new Date(date)
           return obj
         })
+        putPriceData(symbol, data) //cache price data for subsequent mount
         this.setState({ data })
       })
       .catch(function(error) {
@@ -67,22 +74,15 @@ class Chartcell extends Component {
       })
   }
 
-  buildChartData(response) {
-    this.setState({
-      ...this.state,
-      loadingMsg: null,
-    })
-  }
-
   render() {
     const cellObject = this.props.cellObject
     const chart_name = cellObject.symbol
     const cell_id = chart_name.replace(/[\W_]/g, '')
     const chartId = chart_name.replace(/[\W_]/g, '') + 'chart'
 
-    //Local state holds price data (no change until component is mounted again)
-    //Locat state holds indicator values (may change in cellObject with new render)
-    //Local state holds chart layout data (may be created again if indicators change)
+    //Cached storage holds price data (no change until program is restarted)
+    //Cached storage holds indicator values used for signal alerts)
+    //Local state holds duplicate of price data)
 
     // const graphData = ChartLineGraphData(props)
 
@@ -99,19 +99,10 @@ class Chartcell extends Component {
         <div id={cell_id} className="chart-cell">
           <div className="chart-title">{chart_name}</div>
           <div className="graph-content">
-            {/* Block below replaces Chartgraph <Chartgraph cellObject={cellObject} /> */}
-            <div id={chartId} className="graph-container">
-              <div className="graph-table">
-                <div className="graph-wrapper">
-                  <CandleStickChartWithMA data={this.state.data} />
-                  {/* <TypeChooser>{(type) => <CandleStickChartWithMA type={type} data={this.state.data} />}</TypeChooser> */}
-                </div>
-              </div>
-            </div>
+            <CandleStickChartWithMA data={this.state.data} />
           </div>
-          <div className={'tabs-content'}>
-            <h3>Mock dashboard Component</h3>
-            {/* <Charttabs cellObject={cellObject} /> */}
+          <div className="dashboard-content">
+            <ChartDashboard cellObject={cellObject} />
           </div>
         </div>
       </div>

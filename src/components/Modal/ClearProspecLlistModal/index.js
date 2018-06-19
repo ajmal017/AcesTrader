@@ -5,10 +5,15 @@ import React from 'react'
 const ClearProspecLlistModal = function(props) {
   let { targetListName } = props
 
-  if (targetListName.toUpperCase() === 'BUYS') {
-    targetListName = 'Buys'
+  if (targetListName.toUpperCase() === 'SWING BUYS') {
+    targetListName = 'Swing Buys'
+  } else if (targetListName.toUpperCase() === 'SWING SELLS') {
+    targetListName = 'Swing Sells'
+  } else if (targetListName.toUpperCase() === 'TREND BUYS') {
+    targetListName = 'Trend Buys'
   } else {
-    targetListName = 'Sells'
+    alert('ERROR Missing targetListName in ClearProspecLlistModal')
+    // debugger
   }
 
   const dialogHeader = `Confirm Deletion Of The ${targetListName} Prospects`

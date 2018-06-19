@@ -1,10 +1,3 @@
-/*chart-cell height determined by contents: chart-title + graph-wrapper + grid-wrapper*/
-/* Note: the class name "tab-content" is reserved by bootstrap's css */
-
-/* //Note to self: "chart-cell-wrapper" was an attempt to */
-/* //style the charts display for phones like the Nexus6P */
-/* //by removing the "padding: 0 10px 0px 10px;" line */
-/* //but failed to work for me. Too much trouble to spend time on it. */
 .chart-cell-wrapper {
   background-color: #f9f9f9;
   border-radius: 5px;
@@ -13,14 +6,20 @@
   overflow: hidden;
 }
 
+.dashboard-wrapper {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 0 10px 0px 10px;
+  border: 1px solid blue;
+  overflow: hidden;
+}
+
 /*holds the two main items in one column*/
-/* row heights taken from graph-wrapper and {grid-wrapper + 50} */
-/* the extra 50 is for the tabs that stick up above the grid-wrapper} */
 .chart-cell {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 24px 200px 300px;
+  grid-template-rows: 24px 250px 250px;
   /* grid-gap: 10px; */
   grid-template-areas:
     'celltitle'
@@ -47,16 +46,12 @@
   border-radius: 5px;
   width: 100%;
   background: #f9f9f9;
-  /* Note: height is specified in <Chartgraph/>, className "graph-wrapper" */
-  /* which is the controlling parent element of the Chart.js iframe canvas.*/
 }
 
-/* Note: "tab-content" class name is reserved by bootstrap css */
-/* Note: So use the plural "tabs-content" class name instead */
-.tabs-content {
+.dashboard-content {
   grid-area: celldata;
   width: 100%;
-  font-size: 12px;
+  /* font-size: 12px; */
   /* Note: height is specified in <GridContainer/>, className "grid-wrapper" */
   /* which is the controlling child element of the bootstrap Tab component.*/
 }
@@ -74,20 +69,17 @@
 /* Desktop with expanded window wdth, OR */
 /* Device in landscape mode.*/
 /* The OR condition is specified by the comma at end of line. */
-/* row heights taken from graph-wrapper and {grid-wrapper + 50} */
-/* the extra 50 is for the tabs that stick up above the grid-wrapper} */
 @media only screen and (min-width: 1024px), only screen and (orientation: landscape) {
   .chart-cell {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 22px 260px;
+    grid-template-rows: 22px 250px;
     grid-template-areas:
       'celltitle celldata'
       'cellgraph celldata';
   }
   .chart-title {
     height: 22px;
-    /* padding-top: 12px; */
   }
   /* .graph-content { */
   /* padding: 20px 20px 20px 20px; */

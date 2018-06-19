@@ -96,7 +96,7 @@ class CandleStickChartWithMA extends React.Component {
         height={height}
         width={width}
         ratio={ratio}
-        margin={{ left: 70, right: 70, top: 10, bottom: 30 }}
+        margin={{ left: 10, right: 60, top: 10, bottom: 30 }}
         mouseMoveEvent={mouseMoveEvent}
         panEvent={panEvent}
         zoomEvent={zoomEvent}
@@ -136,10 +136,10 @@ class CandleStickChartWithMA extends React.Component {
           <CurrentCoordinate yAccessor={ema20.accessor()} fill={ema20.stroke()} />
           <CurrentCoordinate yAccessor={ema50.accessor()} fill={ema50.stroke()} />
 
-          <OHLCTooltip origin={[-70, 0]} />
+          <OHLCTooltip origin={[-40, 0]} />
           <MovingAverageTooltip
             onClick={(e) => console.log(e)}
-            origin={[-68, 15]}
+            origin={[-6, 15]}
             options={[
               // {
               //   yAccessor: sma20.accessor(),
@@ -218,7 +218,7 @@ CandleStickChartWithMA.defaultProps = {
   panEvent: false,
   zoomEvent: false,
   clamp: true,
-  height: 280,
+  height: 250,
   symbol: 'AMZN',
 }
 

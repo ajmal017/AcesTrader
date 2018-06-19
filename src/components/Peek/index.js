@@ -26,12 +26,16 @@ class Peek extends Component {
     const sellsSymbols = this.props.state.sells.map((obj) => obj.symbol)
     const longsSymbols = this.props.state.longs.map((obj) => obj.symbol)
     const shortsSymbols = this.props.state.shorts.map((obj) => obj.symbol)
+    const trendbuysSymbols = this.props.state.trendbuys.map((obj) => obj.symbol)
+    const trendlongsSymbols = this.props.state.trendlongs.map((obj) => obj.symbol)
 
     const DEFAULT_PORTFOLIOS = [
-      { name: 'Buy Prospects', symbols: [...buysSymbols] },
-      { name: 'Sell Prospects', symbols: [...sellsSymbols] },
-      { name: 'Long Positions', symbols: [...longsSymbols] },
-      { name: 'Short Positions', symbols: [...shortsSymbols] },
+      { name: 'Swing Buy Prospects', symbols: [...buysSymbols] },
+      { name: 'Swing Long Positions', symbols: [...longsSymbols] },
+      { name: 'Swing Sell Prospects', symbols: [...sellsSymbols] },
+      { name: 'Swing Short Positions', symbols: [...shortsSymbols] },
+      { name: 'Trend Buy Prospects', symbols: [...trendbuysSymbols] },
+      { name: 'Trend Long Positions', symbols: [...trendlongsSymbols] },
       // { name: 'Market ETFs', symbols: ['SPY', 'QQQ', 'IWM', 'DIA'] },
       // { name: 'Tech', symbols: ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'FB', 'TWTR', 'NFLX', 'SNAP', 'SPOT', 'DBX', 'BABA', 'INTC', 'AMD', 'NVDA', 'ORCL'] },
       // { name: 'Sector ETFs', symbols: ['XLF', 'XLK', 'XLV', 'XLP', 'XLY', 'XLE', 'XLB', 'XLI', 'XLU', 'XLRE'] },

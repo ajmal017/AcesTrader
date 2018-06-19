@@ -25,7 +25,7 @@ const Appnav = function() {
                 <MenuItem eventKey={5.1}>Swing Buys</MenuItem>
               </LinkContainer>
               <LinkContainer to="/prospectsells">
-                <MenuItem eventKey={5.2}>Swing Sells</MenuItem>
+                <MenuItem eventKey={5.2}>Swing SSales</MenuItem>
               </LinkContainer>
               <LinkContainer to="/prospecttrendbuys">
                 <MenuItem eventKey={5.2}>Trend Buys</MenuItem>
@@ -49,7 +49,7 @@ const Appnav = function() {
                 <MenuItem eventKey={6.2}>Swing Buy Prospects</MenuItem>
               </LinkContainer>
               <LinkContainer to="/managesellprospects">
-                <MenuItem eventKey={6.6}>Swing Sell Prospects</MenuItem>
+                <MenuItem eventKey={6.6}>Swing SSell Prospects</MenuItem>
               </LinkContainer>
               <LinkContainer to="/managetrendbuyprospects">
                 <MenuItem eventKey={7.3}>Trend Buy Prospects</MenuItem>

@@ -108,9 +108,12 @@ class ManageProspects extends Component {
       } else if (this.tradeSide.toUpperCase() === 'SWING SELLS') {
         prospectsArray = this.props.state.sells
         positionsArray = this.props.state.shorts
-      } else {
+      } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
         prospectsArray = this.props.state.trendbuys
         positionsArray = this.props.state.trendlongs
+      } else {
+        alert('ERROR1 Missing tradeSide in ManageProspects')
+        // debugger
       }
       let verifiedList = this.verifyList(cleanedTokens.sort(), prospectsArray, positionsArray)
       if (verifiedList.length > 0) {
@@ -142,15 +145,18 @@ class ManageProspects extends Component {
     if (this.textAreaBox.value !== '') {
       this.newProspects = this.textAreaBox.value.split(' ').sort()
       //this.textAreaBox.value = this.newProspects.join(' ')
-      if (this.tradeSide.toUpperCase() === 'BUYS') {
+      if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
         this.props.dispatch(addBuysToList(this.newProspects))
         this.props.handleClick('push', 'prospectbuys')
-      } else if (this.tradeSide.toUpperCase() === 'SELLS') {
+      } else if (this.tradeSide.toUpperCase() === 'SWING SELLS') {
         this.props.dispatch(addSellstoList(this.newProspects))
         this.props.handleClick('push', 'prospectsells')
-      } else {
+      } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
         this.props.dispatch(addTrendBuysToList(this.newProspects))
         this.props.handleClick('push', 'prospecttrendbuys')
+      } else {
+        alert('ERROR2 Missing tradeSide in ManageProspects')
+        // debugger
       }
     } else {
       this.textAreaBox.value = '**No Data**'
@@ -244,16 +250,21 @@ class ManageProspects extends Component {
 
   handleDelete() {
     this.props.dispatch(queryClearProspectsList(this.tradeSide, this.handleClearQueryResonse))
+    this.textAreaBox.value = ''
   }
+
   handleClearQueryResonse(response) {
     let buttonFlag = response.buttonFlag
     if (buttonFlag === 'yes') {
-      if (this.tradeSide.toUpperCase() === 'BUYS') {
+      if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
         this.props.dispatch(removeAllBuysFromList())
-      } else if (this.tradeSide.toUpperCase() === 'SELLS') {
+      } else if (this.tradeSide.toUpperCase() === 'SWING SELLS') {
         this.props.dispatch(removeAllSellsFromList())
-      } else {
+      } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
         this.props.dispatch(removeAllTrendBuysFromList())
+      } else {
+        alert('ERROR3 Missing tradeSide in ManageProspects')
+        // debugger
       }
     }
   }
