@@ -3,7 +3,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './styles.css'
-var cloneDeep = require('lodash.clonedeep')
 
 class ChartDashboard extends Component {
   constructor(props) {
@@ -11,7 +10,9 @@ class ChartDashboard extends Component {
     this.state = {}
   }
 
-  componentDidMount() {}
+  handleChange(event) {
+    this.setState({ value: event.target.value })
+  }
 
   render() {
     const symbol = this.props.cellObject.symbol
@@ -31,22 +32,22 @@ class ChartDashboard extends Component {
         <div className="dashboard-data">
           <span className="dashboard-header">{instruction} Order</span>
           <form className="swing-buy-form">
-            <label for="session">Session</label>
-            <input type="text" name="session" value={session} />
-            <label for="duration">Duration</label>
-            <input type="text" name="duration" value={duration} />
+            <label htmlFor="session">Session</label>
+            <input type="text" name="session" value={session} onChange={this.handleChange} />
+            <label htmlFor="duration">Duration</label>
+            <input type="text" name="duration" value={duration} onChange={this.handleChange} />
             <br />
-            <label for="quantity">Quantity</label>
-            <input type="text" name="quantity" value={quantity} />
+            <label htmlFor="quantity">Quantity</label>
+            <input type="text" name="quantity" value={quantity} onChange={this.handleChange} />
 
-            <label for="quantityType">QuantityType</label>
-            <input type="text" name="quantityType" value={quantityType} />
+            <label htmlFor="quantityType">QuantityType</label>
+            <input type="text" name="quantityType" value={quantityType} onChange={this.handleChange} />
             <br />
-            <label for="orderType">OrderType</label>
-            <input type="text" name="orderType" value={orderType} />
+            <label htmlFor="orderType">OrderType</label>
+            <input type="text" name="orderType" value={orderType} onChange={this.handleChange} />
 
-            <label for="instruction">Instruction</label>
-            <input type="text" name="instruction" value={instruction} />
+            <label htmlFor="instruction">Instruction</label>
+            <input type="text" name="instruction" value={instruction} onChange={this.handleChange} />
           </form>
           <button className="place-order-button">PLACE ORDER</button>
         </div>

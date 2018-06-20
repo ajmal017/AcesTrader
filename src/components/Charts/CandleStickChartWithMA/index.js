@@ -79,7 +79,6 @@ class CandleStickChartWithMA extends React.Component {
     const { mouseMoveEvent, panEvent, zoomEvent, zoomAnchor } = this.props
     const { clamp } = this.props
     const { height } = this.props
-    const { symbol } = this.props
     const volBarHeight = height / 5
 
     // const calculatedData = tma20(wma20(sma20(ema20(ema50(smaVolume50(initialData))))))
@@ -103,7 +102,7 @@ class CandleStickChartWithMA extends React.Component {
         clamp={clamp}
         zoomAnchor={zoomAnchor}
         type={type}
-        seriesName={symbol}
+        seriesName={'symbol'} //dummy to supress a warning from internal component
         data={data}
         xScale={xScale}
         xAccessor={xAccessor}
@@ -120,17 +119,17 @@ class CandleStickChartWithMA extends React.Component {
           <MouseCoordinateY at="right" orient="right" displayFormat={format('.2f')} />
 
           <CandlestickSeries />
-          {/* <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} />
-          <LineSeries yAccessor={wma20.accessor()} stroke={wma20.stroke()} />
-          <LineSeries yAccessor={tma20.accessor()} stroke={tma20.stroke()} /> */}
+          {/* <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} /> */}
+          {/* <LineSeries yAccessor={wma20.accessor()} stroke={wma20.stroke()} /> */}
+          {/* <LineSeries yAccessor={tma20.accessor()} stroke={tma20.stroke()} /> */}
 
           <LineSeries yAccessor={sma200.accessor()} stroke={sma200.stroke()} />
           <LineSeries yAccessor={ema20.accessor()} stroke={ema20.stroke()} />
           <LineSeries yAccessor={ema50.accessor()} stroke={ema50.stroke()} />
 
-          {/* <CurrentCoordinate yAccessor={sma20.accessor()} fill={sma20.stroke()} />
-          <CurrentCoordinate yAccessor={wma20.accessor()} fill={wma20.stroke()} />
-          <CurrentCoordinate yAccessor={tma20.accessor()} fill={tma20.stroke()} /> */}
+          {/* <CurrentCoordinate yAccessor={sma20.accessor()} fill={sma20.stroke()} /> */}
+          {/* <CurrentCoordinate yAccessor={wma20.accessor()} fill={wma20.stroke()} /> */}
+          {/* <CurrentCoordinate yAccessor={tma20.accessor()} fill={tma20.stroke()} /> */}
 
           <CurrentCoordinate yAccessor={sma200.accessor()} fill={sma200.stroke()} />
           <CurrentCoordinate yAccessor={ema20.accessor()} fill={ema20.stroke()} />
@@ -205,7 +204,6 @@ class CandleStickChartWithMA extends React.Component {
 
 CandleStickChartWithMA.propTypes = {
   data: PropTypes.array.isRequired,
-  symbol: PropTypes.string.isRequired,
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
   ratio: PropTypes.number.isRequired,
@@ -213,8 +211,7 @@ CandleStickChartWithMA.propTypes = {
 }
 
 CandleStickChartWithMA.defaultProps = {
-  // type: 'svg',
-  type: 'canvas + svg',
+  type: 'svg',
   mouseMoveEvent: true,
   panEvent: false,
   zoomEvent: false,
