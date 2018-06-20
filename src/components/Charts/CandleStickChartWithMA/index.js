@@ -136,7 +136,7 @@ class CandleStickChartWithMA extends React.Component {
           <CurrentCoordinate yAccessor={ema20.accessor()} fill={ema20.stroke()} />
           <CurrentCoordinate yAccessor={ema50.accessor()} fill={ema50.stroke()} />
 
-          <OHLCTooltip origin={[-40, 0]} />
+          <OHLCTooltip origin={[-36, 0]} />
           <MovingAverageTooltip
             onClick={(e) => console.log(e)}
             origin={[-6, 15]}
@@ -213,13 +213,13 @@ CandleStickChartWithMA.propTypes = {
 }
 
 CandleStickChartWithMA.defaultProps = {
-  type: 'svg',
+  // type: 'svg',
+  type: 'canvas + svg',
   mouseMoveEvent: true,
   panEvent: false,
   zoomEvent: false,
   clamp: true,
   height: 250,
-  // symbol: 'AMZN',
 }
 
 CandleStickChartWithMA = fitWidth(CandleStickChartWithMA)
