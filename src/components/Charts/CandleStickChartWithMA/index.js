@@ -96,7 +96,7 @@ class CandleStickChartWithMA extends React.Component {
         height={height}
         width={width}
         ratio={ratio}
-        margin={{ left: 10, right: 60, top: 10, bottom: 30 }}
+        margin={{ left: 8, right: 60, top: 10, bottom: 30 }}
         mouseMoveEvent={mouseMoveEvent}
         panEvent={panEvent}
         zoomEvent={zoomEvent}
@@ -190,7 +190,7 @@ class CandleStickChartWithMA extends React.Component {
           <YAxis axisAt="left" orient="left" ticks={3} tickFormat={format('.2s')} />
 
           <MouseCoordinateX at="bottom" orient="bottom" displayFormat={timeFormat('%Y-%m-%d')} />
-          <MouseCoordinateY at="left" orient="left" displayFormat={format('.4s')} />
+          {/* <MouseCoordinateY at="left" orient="left" displayFormat={format('.4s')} /> */}
 
           <BarSeries yAccessor={(d) => d.volume} fill={(d) => (d.close > d.open ? '#6BA583' : 'red')} />
           {/* <AreaSeries yAccessor={smaVolume50.accessor()} stroke={smaVolume50.stroke()} fill={smaVolume50.fill()} /> */}
@@ -219,7 +219,7 @@ CandleStickChartWithMA.defaultProps = {
   zoomEvent: false,
   clamp: true,
   height: 250,
-  symbol: 'AMZN',
+  // symbol: 'AMZN',
 }
 
 CandleStickChartWithMA = fitWidth(CandleStickChartWithMA)

@@ -16,7 +16,6 @@ class ChartDashboard extends Component {
   render() {
     const symbol = this.props.cellObject.symbol
     const tradeside = this.props.cellObject.dashboard.tradeSide
-
     const session = this.props.cellObject.dashboard.session
     const duration = this.props.cellObject.dashboard.duration
     const orderType = this.props.cellObject.dashboard.orderType
@@ -30,8 +29,7 @@ class ChartDashboard extends Component {
           {symbol} - Dashboard For {tradeside}
         </div>
         <div className="dashboard-data">
-          <span className="dashboard-header">Buy Order</span>
-          <button className="place-order-button">PLACE ORDER</button>
+          <span className="dashboard-header">{instruction} Order</span>
           <form className="swing-buy-form">
             <label for="session">Session</label>
             <input type="text" name="session" value={session} />
@@ -50,6 +48,7 @@ class ChartDashboard extends Component {
             <label for="instruction">Instruction</label>
             <input type="text" name="instruction" value={instruction} />
           </form>
+          <button className="place-order-button">PLACE ORDER</button>
         </div>
       </div>
     )

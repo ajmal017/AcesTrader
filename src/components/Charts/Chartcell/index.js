@@ -17,14 +17,14 @@ class Chartcell extends Component {
   constructor(props) {
     super(props)
     this.loadChartData = this.loadChartData.bind(this)
-    this.priceData = []
+    // this.priceData = []
     this.state = {
       loadingMsg: 'Loading Chart  Please Wait...',
     }
   }
 
   componentDidMount() {
-    // first try to recover cached data to avoid another http get
+    // first try to recover cached price data to avoid another http request
     let data = cloneDeep(getPriceData(this.props.cellObject.symbol))
     if (data) {
       this.setState({ data })
@@ -78,13 +78,11 @@ class Chartcell extends Component {
     const cellObject = this.props.cellObject
     const chart_name = cellObject.symbol
     const cell_id = chart_name.replace(/[\W_]/g, '')
-    const chartId = chart_name.replace(/[\W_]/g, '') + 'chart'
+    // const chartId = cell_id + 'chart'
 
     //Cached storage holds price data (no change until program is restarted)
     //Cached storage holds indicator values used for signal alerts)
     //Local state holds duplicate of price data)
-
-    // const graphData = ChartLineGraphData(props)
 
     if (!this.state.data) {
       return (
