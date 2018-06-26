@@ -4,9 +4,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import withSizes from 'react-sizes'
 import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
-import { addBuystoList, removeAllBuysFromList } from '../../redux/reducerBuys'
+import { addBuysToList, removeAllBuysFromList } from '../../redux/reducerBuys'
 import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells'
-import { notification, queryClearProspectsList } from '../../redux/reducerModal'
+import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/reducerTrendBuys'
+import { queryClearProspectsList } from '../../redux/reducerModal'
 import './styles.css'
 
 class ManageProspects extends Component {
@@ -15,8 +16,6 @@ class ManageProspects extends Component {
     this.state = {
       isAcceptButtonDisabled: true,
       value: props.mockSymbols,
-      // "'TQQQ','UDOW','UPRO','QLD','SPXL','MCHI','SSO','MTUM','XLK','QQQ','FXI','IWF','XLF','SPYG','DIA','EWJ','EWI','EWS','IVV','VOO','SPY','ACWI','VT','EWH','IEFA','SCHF','VEU','EFA','CWB','EZU','USMV','EFV'",
-      // 'UWT, UCO, TNA, FAS, GUSH, ERX, USO, MCHI, XME, XOP, KRE, IJR, FXI, KBE, XLF, DIA, IWM, PDBC, EWJ, XLE, ACWI, EWH, EWQ, VTV, EWY, SCHF, IEFA, VEU, VEA, EFA, EZU, VGK, EWU, HEZU, OIH, TBT ',
     }
     this.handleClick = props.handleClick
     this.handleChange = this.handleChange.bind(this)
@@ -86,8 +85,12 @@ class ManageProspects extends Component {
     let cleanedInput
     if (this.textBox.value !== '') {
       if (/^\(/.test(this.textBox.value)) {
+        // This is the case where an ETFdb table is copied from their
+        // web page and pasted here, and the text can look like this:
+        // (SHY A)	1-3 Year Treasury Bond Ishares ETF	$83.29	-1.54%
+        // (VCSH A)	Sht-Term Corp Bond Vanguard	$78.19	-2.32%
+        // We extract the symbols with the code in cleanEtfDb()
         cleanedInput = this.cleanEtfDb(this.textBox.value)
-        // debugger
       } else {
         cleanedInput = this.textBox.value
           .replace(/,/g, ' ')
@@ -99,12 +102,18 @@ class ManageProspects extends Component {
       })
       let prospectsArray
       let positionsArray
-      if (this.tradeSide.toUpperCase() === 'BUYS') {
+      if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
         prospectsArray = this.props.state.buys
         positionsArray = this.props.state.longs
-      } else {
+      } else if (this.tradeSide.toUpperCase() === 'SWING SELLS') {
         prospectsArray = this.props.state.sells
         positionsArray = this.props.state.shorts
+      } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
+        prospectsArray = this.props.state.trendbuys
+        positionsArray = this.props.state.trendlongs
+      } else {
+        alert('ERROR1 Missing tradeSide in ManageProspects')
+        // debugger
       }
       let verifiedList = this.verifyList(cleanedTokens.sort(), prospectsArray, positionsArray)
       if (verifiedList.length > 0) {
@@ -114,7 +123,7 @@ class ManageProspects extends Component {
           isAcceptButtonDisabled: false,
         })
       } else {
-        this.textAreaBox.value = '**No New Symbols**'
+        this.textAreaBox.value = '**No New Symbols, All Are Already Entered**'
       }
     } else {
       this.textBox.value = '**No Data**'
@@ -122,26 +131,32 @@ class ManageProspects extends Component {
   }
 
   cleanEtfDb(value) {
-    // let firstArray = value.split('\r\n')
     let firstArray = value.split('%')
     let secondArray = firstArray.map((token1) => {
       let token2 = token1.replace(/\s*\(/, '')
       let token3 = token2.replace(/\s.*/, '')
       return token3
     })
-    return secondArray
+    let thirdArray = secondArray.filter((item) => item !== '')
+    return thirdArray
   }
 
   handleAccept() {
     if (this.textAreaBox.value !== '') {
       this.newProspects = this.textAreaBox.value.split(' ').sort()
       //this.textAreaBox.value = this.newProspects.join(' ')
-      if (this.tradeSide.toUpperCase() === 'BUYS') {
-        this.props.dispatch(addBuystoList(this.newProspects))
+      if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
+        this.props.dispatch(addBuysToList(this.newProspects))
         this.props.handleClick('push', 'prospectbuys')
-      } else {
+      } else if (this.tradeSide.toUpperCase() === 'SWING SELLS') {
         this.props.dispatch(addSellstoList(this.newProspects))
         this.props.handleClick('push', 'prospectsells')
+      } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
+        this.props.dispatch(addTrendBuysToList(this.newProspects))
+        this.props.handleClick('push', 'prospecttrendbuys')
+      } else {
+        alert('ERROR2 Missing tradeSide in ManageProspects')
+        // debugger
       }
     } else {
       this.textAreaBox.value = '**No Data**'
@@ -208,8 +223,8 @@ class ManageProspects extends Component {
               <input type="text" id="pname" value={this.state.value} onChange={this.handleChange} />
 
               <p className="acceptdescription">
-                Symbols already in the {this.tradeSide} list or in Positions are removed from the submitted list.
-                <br />The remaining symbols shown below are added to the {this.tradeSide} list when you click Accept.
+                Symbols already in the {this.tradeSide} or Positions lists are removed from the submitted list.
+                <br />The remaining new symbols shown are added to the {this.tradeSide} list when you click Accept.
               </p>
               <label id="textareacaption" htmlFor="syms">
                 Add these prospective {title.toLowerCase()}?
@@ -235,14 +250,21 @@ class ManageProspects extends Component {
 
   handleDelete() {
     this.props.dispatch(queryClearProspectsList(this.tradeSide, this.handleClearQueryResonse))
+    this.textAreaBox.value = ''
   }
+
   handleClearQueryResonse(response) {
     let buttonFlag = response.buttonFlag
     if (buttonFlag === 'yes') {
-      if (this.tradeSide.toUpperCase() === 'BUYS') {
+      if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
         this.props.dispatch(removeAllBuysFromList())
-      } else {
+      } else if (this.tradeSide.toUpperCase() === 'SWING SELLS') {
         this.props.dispatch(removeAllSellsFromList())
+      } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
+        this.props.dispatch(removeAllTrendBuysFromList())
+      } else {
+        alert('ERROR3 Missing tradeSide in ManageProspects')
+        // debugger
       }
     }
   }

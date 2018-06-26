@@ -3,7 +3,7 @@
 import defaultState from '../json/defaultState.json'
 import defaultDashboard from '../json/defaultDashboard.json'
 import defaultShortEntry from '../json/defaultShortEntry.json'
-import reduceProspects from './reduceProspects.js'
+import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
 const ADD_SELLS = 'ADD_SELLS'
@@ -17,12 +17,14 @@ export const addSellstoList = (sellsList) => {
     type: ADD_SELLS,
     sellsArray: sellsList,
     theDate: theDate,
+    theEvent: 'watched',
   }
 }
-export const removeSellFromList = (sellName) => {
+// NOTE: This object should be moved to shorts state slice before removing it here
+export const removeSellFromList = (symbol) => {
   return {
     type: REMOVE_ONE_SELL,
-    symbol: sellName,
+    symbol: symbol,
   }
 }
 export const removeAllSellsFromList = () => {
@@ -40,7 +42,7 @@ export default function sellsReducer(state = defaultSells, action) {
   switch (action.type) {
     case ADD_SELLS: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultShortEntry)
-      let newState = reduceProspects(state, action.sellsArray, newDashboard, action.theDate)
+      let newState = reduceTargetState(state, action.sellsArray, newDashboard, action.theDate, action.theEvent)
       return newState
     }
     case REMOVE_ONE_SELL: {

@@ -5,5 +5,5 @@
   "quantityType": "DOLLARS",
   "quantity": 5000,
   "instruction": "BUY",
-  "tradeSide": "Swing Buys"
+  "tradeSide": "Trend Buys"
 }

@@ -1,20 +1,20 @@
-// redux/reducerShorts.js
+// redux/reducerTrendLongs.js
+// Opened long positions of trend follower stocks
 
 import defaultState from '../json/defaultState.json'
 import defaultDashboard from '../json/defaultDashboard.json'
-import defaultShortExit from '../json/defaultShortExit.json'
+import defaultTrendExit from '../json/defaultTrendExit.json'
 import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
-const ADD_SHORT_POSITION = 'ADD_SHORT_POSITION'
-const REMOVE_SHORT_POSITION = 'REMOVE_SHORT_POSITION'
-const REMOVE_ALL_SHORTS = 'REMOVE_ALL_SHORTS'
+const ADD_TREND_LONG_POSITION = 'ADD_TREND_LONG_POSITION'
+const REMOVE_TREND_LONG_POSITION = 'CLOSE_TREND_LONG_POSITION'
 
-export const addShortToList = (theObject) => {
+export const addTrendLongToList = (theObject) => {
   let date = new Date()
   let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
   return {
-    type: ADD_SHORT_POSITION,
+    type: ADD_TREND_LONG_POSITION,
     theObject: theObject,
     theDate: theDate,
     theEvent: 'entered',
@@ -22,36 +22,29 @@ export const addShortToList = (theObject) => {
 }
 
 // NOTE: This object should be moved to results state slice before removing it here
-export const removeShortFromList = (symbol) => {
+export const removeTrendLongFromList = (symbol) => {
   return {
-    type: REMOVE_SHORT_POSITION,
+    type: REMOVE_TREND_LONG_POSITION,
     symbol: symbol,
   }
 }
-export const removeAllShortsFromList = () => {
-  return {
-    type: REMOVE_ALL_SHORTS,
-  }
-}
+
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
 // so we create a corresponding slice of the defaultState as well.
-const defaultShorts = cloneDeep(defaultState.shorts) //in case state is undefined
+const defaultTrendLongs = cloneDeep(defaultState.trendlongs) //in case state is undefined
 
-export default function chartsReducer(state = defaultShorts, action) {
+export default function trendlongsReducer(state = defaultTrendLongs, action) {
   switch (action.type) {
-    case ADD_SHORT_POSITION: {
-      let newDashboard = Object.assign({}, defaultDashboard, defaultShortExit)
+    case ADD_TREND_LONG_POSITION: {
+      let newDashboard = Object.assign({}, defaultDashboard, defaultTrendExit)
       let newState = reduceTargetState(state, action.theObject, newDashboard, action.theDate, action.theEvent)
       return newState
     }
-    case REMOVE_SHORT_POSITION: {
+    case REMOVE_TREND_LONG_POSITION: {
       //filter to keep all except the action.symbol one
       let newState = state.filter((obj) => obj.symbol !== action.symbol)
       return newState
-    }
-    case REMOVE_ALL_SHORTS: {
-      return cloneDeep(defaultShorts)
     }
     default:
       return state

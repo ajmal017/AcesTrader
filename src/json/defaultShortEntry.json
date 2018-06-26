@@ -4,5 +4,6 @@
   "orderType": "MARKET",
   "quantityType": "DOLLARS",
   "quantity": 5000,
-  "instruction": "SELL"
+  "instruction": "SELL SHORT",
+  "tradeSide": "Swing Short Sales"
 }

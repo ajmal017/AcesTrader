@@ -16,6 +16,7 @@ import rootReducer from './redux'
 import ErrorBoundary from './components/ErrorBoundary/'
 import Root from './components/Root'
 import { loadState, saveState } from './lib/localStorage'
+// import { initializeCache } from './lib/chartDataCache'
 import throttle from 'lodash/throttle'
 
 // Import the utility code which tests if the screen size
@@ -35,6 +36,8 @@ import pinverified from './lib/pinverified.js'
 if (canapprun() && pinverified()) {
   const persistedState = loadState() //returns 'undefined' if error or no saved state
   const store = createStore(rootReducer, persistedState) // 'persistedState' overrides the initial state specified by the reducers
+
+  // initializeCache(store.getState()) // fetch all chart price data now for later use
 
   // let response = islocalStorageWorking()
   // if (!response) {

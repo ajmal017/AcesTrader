@@ -3,9 +3,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import AppToolbar from '../../components/AppToolbar'
 
-// // this is to get one chart's data for this mock display
-// import examplechartdata from '../../components/Charts/examplechartdata'
-
 class ProspectBuys extends Component {
   render() {
     // // Get an example chart data from a multidata json file for mock display

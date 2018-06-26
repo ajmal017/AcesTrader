@@ -125,3 +125,10 @@ textarea {
 .acceptdescription {
   padding-top: 20px;
 }
+
+@media (max-width: 576px) {
+  #buttondelete {
+    margin-top: 20px;
+    margin-left: 10px;
+  }
+}

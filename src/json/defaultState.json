@@ -3,5 +3,8 @@
   "sells": [],
   "longs": [],
   "shorts": [],
+  "trendbuys": [],
+  "trendlongs": [],
+  "results": [],
   "modal": null
 }

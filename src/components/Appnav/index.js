@@ -20,48 +20,59 @@ const Appnav = function() {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <LinkContainer to="/alerts">
-              <NavItem eventKey={3}>Alerts</NavItem>
-            </LinkContainer>
-
             <NavDropdown eventKey={5} title="Prospects" id="5-basic-nav-dropdown">
               <LinkContainer to="/prospectbuys">
-                <MenuItem eventKey={5.1}>Buys</MenuItem>
+                <MenuItem eventKey={5.1}>Swing Buys</MenuItem>
               </LinkContainer>
               <LinkContainer to="/prospectsells">
-                <MenuItem eventKey={5.2}>Sells</MenuItem>
+                <MenuItem eventKey={5.2}>Swing SSales</MenuItem>
+              </LinkContainer>
+              <LinkContainer to="/prospecttrendbuys">
+                <MenuItem eventKey={5.2}>Trend Buys</MenuItem>
               </LinkContainer>
             </NavDropdown>
 
             <NavDropdown eventKey={4} title="Positions" id="5-basic-nav-dropdown">
               <LinkContainer to="/positionlongs">
-                <MenuItem eventKey={4.1}>Longs</MenuItem>
+                <MenuItem eventKey={4.1}>Swing Longs</MenuItem>
               </LinkContainer>
               <LinkContainer to="/positionshorts">
-                <MenuItem eventKey={4.2}>Shorts</MenuItem>
+                <MenuItem eventKey={4.2}>Swing Shorts</MenuItem>
+              </LinkContainer>
+              <LinkContainer to="/positiontrendlongs">
+                <MenuItem eventKey={4.6}>Trend Longs</MenuItem>
               </LinkContainer>
             </NavDropdown>
 
-            <LinkContainer to="/scoreboard">
-              <NavItem eventKey={6}>ScoreBoard</NavItem>
-            </LinkContainer>
-
-            <LinkContainer to="/peek">
-              <NavItem eventKey={6}>Peek</NavItem>
-            </LinkContainer>
-
-            <NavDropdown eventKey={7} title="More" id="5-basic-nav-dropdown">
+            <NavDropdown eventKey={6} title="Lists" id="5-basic-nav-dropdown">
               <LinkContainer to="/managebuyprospects">
-                <MenuItem eventKey={7.0}>Manage Buy Prospects</MenuItem>
+                <MenuItem eventKey={6.2}>Swing Buy Prospects</MenuItem>
               </LinkContainer>
               <LinkContainer to="/managesellprospects">
-                <MenuItem eventKey={7.2}>Manage Sell Prospects</MenuItem>
+                <MenuItem eventKey={6.6}>Swing SSell Prospects</MenuItem>
+              </LinkContainer>
+              <LinkContainer to="/managetrendbuyprospects">
+                <MenuItem eventKey={7.3}>Trend Buy Prospects</MenuItem>
+              </LinkContainer>
+            </NavDropdown>
+
+            <NavDropdown eventKey={7} title="More" id="5-basic-nav-dropdown">
+              <LinkContainer to="/scoreboard">
+                <NavItem eventKey={7.1}>ScoreBoard</NavItem>
+              </LinkContainer>
+
+              <LinkContainer to="/peek">
+                <NavItem eventKey={7.2}>Peek</NavItem>
               </LinkContainer>
               <MenuItem divider />
+
               <LinkContainer to="/home">
                 <MenuItem eventKey={7.3}>About AcesTrader</MenuItem>
               </LinkContainer>
             </NavDropdown>
+            <LinkContainer to="/alerts">
+              <NavItem eventKey={9}>Alerts</NavItem>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

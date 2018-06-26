@@ -1,25 +1,58 @@
 //  redux/reducerLongs.js
 
 import defaultState from '../json/defaultState.json'
-// import defaultDashboard from '../json/defaultDashboard.json' //pending use
-// import defaultLongExit from '../json/defaultLongExit.json' //pending use
+import defaultDashboard from '../json/defaultDashboard.json'
+import defaultLongExit from '../json/defaultLongExit.json'
+import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
-const OPEN_LONG_POSITION = 'acestrader.Longs.OPEN_LONG_POSITION'
-const CLOSE_LONG_POSITION = 'acestrader.Longs.CLOSE_LONG_POSITION'
+const ADD_LONG_POSITION = 'ADD_LONG_POSITION'
+const REMOVE_LONG_POSITION = 'REMOVE_LONG_POSITION'
+const REMOVE_ALL_LONGS = 'REMOVE_ALL_LONGS'
+
+export const addLongToList = (theObject) => {
+  let date = new Date()
+  let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+  return {
+    type: ADD_LONG_POSITION,
+    theObject: theObject,
+    theDate: theDate,
+    theEvent: 'entered',
+  }
+}
+
+// NOTE: This object should be moved to results state slice before removing it here
+export const removeLongFromList = (symbol) => {
+  return {
+    type: REMOVE_LONG_POSITION,
+    symbol: symbol,
+  }
+}
+export const removeAllLongsFromList = () => {
+  return {
+    type: REMOVE_ALL_LONGS,
+  }
+}
 
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
 // so we create a corresponding slice of the defaultState as well.
 const defaultLongs = cloneDeep(defaultState.longs) //in case state is undefined
 
-export default function chartsReducer(state = defaultLongs, action) {
+export default function longsReducer(state = defaultLongs, action) {
   switch (action.type) {
-    case OPEN_LONG_POSITION: {
-      return { ...state, ...action } //TODO needs logic
+    case ADD_LONG_POSITION: {
+      let newDashboard = Object.assign({}, defaultDashboard, defaultLongExit)
+      let newState = reduceTargetState(state, action.theObject, newDashboard, action.theDate, action.theEvent)
+      return newState
     }
-    case CLOSE_LONG_POSITION: {
-      return state //TODO needs logic
+    case REMOVE_LONG_POSITION: {
+      //filter to keep all except the action.symbol one
+      let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      return newState
+    }
+    case REMOVE_ALL_LONGS: {
+      return cloneDeep(defaultLongs)
     }
     default:
       return state
