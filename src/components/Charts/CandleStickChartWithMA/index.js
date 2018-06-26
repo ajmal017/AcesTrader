@@ -77,6 +77,7 @@ class CandleStickChartWithMA extends React.Component {
 
     const { type, data: initialData, width, ratio } = this.props
     const { mouseMoveEvent, panEvent, zoomEvent, zoomAnchor } = this.props
+    const { symbol } = this.props
     const { clamp } = this.props
     const { height } = this.props
     const volBarHeight = height / 5
@@ -102,21 +103,17 @@ class CandleStickChartWithMA extends React.Component {
         clamp={clamp}
         zoomAnchor={zoomAnchor}
         type={type}
-        seriesName={'symbol'} //dummy to supress a warning from internal component
+        seriesName={symbol}
         data={data}
         xScale={xScale}
         xAccessor={xAccessor}
         displayXAccessor={displayXAccessor}
         xExtents={xExtents}>
-        <Chart
-          id={1}
-          // yExtents={[(d) => [d.high, d.low], sma20.accessor(), wma20.accessor(), tma20.accessor(), ema20.accessor(), ema50.accessor()]}
-          yExtents={[(d) => [d.high, d.low], sma200.accessor(), ema20.accessor(), ema50.accessor()]}
-          padding={{ top: 10, bottom: 20 }}>
+        <Chart id={1} yExtents={[(d) => [d.high, d.low], sma200.accessor(), ema20.accessor(), ema50.accessor()]} padding={{ top: 10, bottom: 20 }}>
           <XAxis axisAt="bottom" orient="bottom" />
           <YAxis axisAt="right" orient="right" ticks={5} />
 
-          <MouseCoordinateY at="right" orient="right" displayFormat={format('.2f')} />
+          <MouseCoordinateY at="right" orient="right" displayFormat={format('.1f')} />
 
           <CandlestickSeries />
           {/* <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} /> */}
@@ -204,6 +201,7 @@ class CandleStickChartWithMA extends React.Component {
 
 CandleStickChartWithMA.propTypes = {
   data: PropTypes.array.isRequired,
+  symbol: PropTypes.string.isRequired,
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
   ratio: PropTypes.number.isRequired,
@@ -211,7 +209,7 @@ CandleStickChartWithMA.propTypes = {
 }
 
 CandleStickChartWithMA.defaultProps = {
-  type: 'svg',
+  type: 'hybrid',
   mouseMoveEvent: true,
   panEvent: false,
   zoomEvent: false,

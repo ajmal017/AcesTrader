@@ -97,7 +97,7 @@ class Chartcell extends Component {
         <div id={cell_id} className="chart-cell">
           <div className="chart-title">{chart_name}</div>
           <div className="graph-content">
-            <CandleStickChartWithMA data={this.state.data} />
+            <CandleStickChartWithMA data={this.state.data} symbol={chart_name} />
           </div>
           <div className="dashboard-content">
             <ChartDashboard cellObject={cellObject} />
