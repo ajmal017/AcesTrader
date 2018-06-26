@@ -41,3 +41,7 @@ export const getPriceData = (symbol) => {
   let priceData = cloneDeep(dataCache.prices[symbol])
   return priceData
 }
+
+export const resetCache = () => {
+  localStorage.removeItem('dataCache') //clear old cache
+}
