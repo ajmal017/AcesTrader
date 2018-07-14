@@ -75,12 +75,12 @@ class CandleStickChartWithMA extends React.Component {
       .stroke('#4682B4')
       .fill('#4682B4')
 
-    const { type, data: initialData, width, ratio } = this.props
-    const { mouseMoveEvent, panEvent, zoomEvent, zoomAnchor } = this.props
+    const { type, chartId, data: initialData, width, ratio } = this.props
+    const { height } = this.props
     const { symbol } = this.props
     const { clamp } = this.props
-    const { height } = this.props
     const volBarHeight = height / 5
+    const { mouseMoveEvent, panEvent, zoomEvent, zoomAnchor } = this.props
 
     // const calculatedData = tma20(wma20(sma20(ema20(ema50(smaVolume50(initialData))))))
     const calculatedData = sma200(ema20(ema50(smaVolume50(initialData))))
@@ -109,7 +109,7 @@ class CandleStickChartWithMA extends React.Component {
         xAccessor={xAccessor}
         displayXAccessor={displayXAccessor}
         xExtents={xExtents}>
-        <Chart id={1} yExtents={[(d) => [d.high, d.low], sma200.accessor(), ema20.accessor(), ema50.accessor()]} padding={{ top: 10, bottom: 20 }}>
+        <Chart id={chartId + '1'} yExtents={[(d) => [d.high, d.low], sma200.accessor(), ema20.accessor(), ema50.accessor()]} padding={{ top: 10, bottom: 20 }}>
           <XAxis axisAt="bottom" orient="bottom" />
           <YAxis axisAt="right" orient="right" ticks={5} />
 
@@ -182,7 +182,7 @@ class CandleStickChartWithMA extends React.Component {
             ]}
           />
         </Chart>
-        <Chart id={2} yExtents={[(d) => d.volume, smaVolume50.accessor()]} height={volBarHeight} origin={(w, h) => [0, h - volBarHeight]}>
+        <Chart id={chartId + '2'} yExtents={[(d) => d.volume, smaVolume50.accessor()]} height={volBarHeight} origin={(w, h) => [0, h - volBarHeight]}>
           <YAxis axisAt="left" orient="left" ticks={3} tickFormat={format('.2s')} />
 
           <MouseCoordinateX at="bottom" orient="bottom" displayFormat={timeFormat('%Y-%m-%d')} />
@@ -201,6 +201,7 @@ class CandleStickChartWithMA extends React.Component {
 
 CandleStickChartWithMA.propTypes = {
   data: PropTypes.array.isRequired,
+  chartId: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
@@ -211,9 +212,9 @@ CandleStickChartWithMA.propTypes = {
 CandleStickChartWithMA.defaultProps = {
   type: 'hybrid',
   mouseMoveEvent: true,
-  panEvent: false,
-  zoomEvent: false,
-  clamp: true,
+  panEvent: true, //false,,
+  zoomEvent: true, //false,
+  clamp: false, //true
   height: 250,
 }
 
