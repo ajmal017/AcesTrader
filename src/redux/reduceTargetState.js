@@ -25,6 +25,7 @@ export default function(state, theInput, newDashboard, theDate, theEvent) {
           theInputObject.symbol = theInputSymbol
           theInputObject.dashboard = newDashboard //includes the order entry parameters
           theInputObject.watched = theDate
+          theInputObject.hidden = false //flipped by dashboard user to remove from displayed prospects
           break
         case 'entered': //theInput is a list of asset objects going into Positions
           theInputSymbol = theInput[kk].symbol
