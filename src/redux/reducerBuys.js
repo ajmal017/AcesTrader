@@ -21,7 +21,8 @@ export const addBuysToList = (buysList) => {
   }
 }
 
-// NOTE: This object should be moved to longs state slice before removing it here
+// NOTE: If this was bought, then this object should be moved to longs state slice before removing it here
+// If this was deleted by user than this is only action performed.
 export const removeBuyFromList = (buyName) => {
   return {
     type: REMOVE_ONE_BUY,

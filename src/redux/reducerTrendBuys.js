@@ -21,6 +21,9 @@ export const addTrendBuysToList = (trendbuysList) => {
     theEvent: 'watched',
   }
 }
+
+// NOTE: If this was bought, then this object should be moved to trendLongs state slice before removing it here
+// If this was deleted by user than this is only action performed.
 export const removeTrendBuyFromList = (symbol) => {
   return {
     type: REMOVE_ONE_TREND_BUY,

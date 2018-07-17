@@ -7,6 +7,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
+// import CandleStickChart from '../CandleStickChart'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import ChartDashboard from '../ChartDashboard'
 import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
@@ -17,10 +18,7 @@ class Chartcell extends Component {
   constructor(props) {
     super(props)
     this.loadChartData = this.loadChartData.bind(this)
-    // this.priceData = []
-    this.state = {
-      loadingMsg: 'Loading Chart  Please Wait...',
-    }
+    this.state = {}
   }
 
   componentDidMount() {
@@ -78,7 +76,7 @@ class Chartcell extends Component {
     const cellObject = this.props.cellObject
     const chart_name = cellObject.symbol
     const cell_id = chart_name.replace(/[\W_]/g, '')
-    // const chartId = cell_id + 'chart'
+    const chartId = cell_id + 'chart'
 
     //Cached storage holds price data (no change until program is restarted)
     //Cached storage holds indicator values used for signal alerts)
@@ -87,7 +85,7 @@ class Chartcell extends Component {
     if (!this.state.data) {
       return (
         <div className="chart-cell-wrapper">
-          <h4>{this.state.loadingMsg}</h4>
+          <h4>{`Loading Chart ${chart_name}. Please Wait...`}</h4>
         </div>
       )
     }
@@ -96,8 +94,8 @@ class Chartcell extends Component {
         {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
         <div id={cell_id} className="chart-cell">
           <div className="chart-title">{chart_name}</div>
-          <div className="graph-content">
-            <CandleStickChartWithMA data={this.state.data} symbol={chart_name} />
+          <div id={chartId} className="graph-content">
+            <CandleStickChartWithMA chartId={chartId} data={this.state.data} symbol={chart_name} />
           </div>
           <div className="dashboard-content">
             <ChartDashboard cellObject={cellObject} />
