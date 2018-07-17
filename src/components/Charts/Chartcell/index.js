@@ -82,11 +82,6 @@ class Chartcell extends Component {
     //Cached storage holds indicator values used for signal alerts)
     //Local state holds duplicate of price data)
 
-    if (cellObject.hidden) {
-      //user wants this one hidden
-      return null
-    }
-
     if (!this.state.data) {
       return (
         <div className="chart-cell-wrapper">

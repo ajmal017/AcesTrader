@@ -20,7 +20,8 @@ export const addSellstoList = (sellsList) => {
     theEvent: 'watched',
   }
 }
-// NOTE: This object should be moved to shorts state slice before removing it here
+// NOTE: If this was sold short, then this object should be moved to shorts state slice before removing it here
+// If this was deleted by user than this is only action performed.
 export const removeSellFromList = (symbol) => {
   return {
     type: REMOVE_ONE_SELL,
