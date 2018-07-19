@@ -49,7 +49,7 @@ class ChartDashboard extends Component {
             <label htmlFor="instruction">Instruction</label>
             <input type="text" name="instruction" value={instruction} onChange={this.handleChange} />
           </form>
-          <button className="place-order-button">PLACE ORDER</button>
+          <button className="place-order-button">PLACE {instruction} ORDER</button>
         </div>
       </div>
     )
