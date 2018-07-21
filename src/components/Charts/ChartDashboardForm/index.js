@@ -1,10 +1,10 @@
-// ChartDashboard/index.js
+// ChartDashboardForm/index.js
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './styles.css'
 
-class ChartDashboard extends Component {
+class ChartDashboardForm extends Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -15,8 +15,8 @@ class ChartDashboard extends Component {
   }
 
   render() {
-    const symbol = this.props.cellObject.symbol
-    const tradeside = this.props.cellObject.dashboard.tradeSide
+    // const symbol = this.props.cellObject.symbol
+    // const tradeside = this.props.cellObject.dashboard.tradeSide
     const session = this.props.cellObject.dashboard.session
     const duration = this.props.cellObject.dashboard.duration
     const orderType = this.props.cellObject.dashboard.orderType
@@ -26,9 +26,6 @@ class ChartDashboard extends Component {
 
     return (
       <div className="dashboard">
-        <div className="dashboard-title">
-          {symbol} - Dashboard For {tradeside}
-        </div>
         <div className="dashboard-data">
           <span className="dashboard-header">{instruction} Order</span>
           <form className="swing-buy-form">
@@ -55,8 +52,8 @@ class ChartDashboard extends Component {
     )
   }
 }
-ChartDashboard.propTypes = {
+ChartDashboardForm.propTypes = {
   cellObject: PropTypes.object.isRequired,
 }
 
-export default ChartDashboard
+export default ChartDashboardForm

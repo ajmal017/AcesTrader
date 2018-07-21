@@ -1,4 +1,4 @@
-/* ChartDashboard/styles.css */
+/* ChartDashboardForm/styles.css */
 
 /* .dashboard {
   width: 100%;
@@ -6,25 +6,13 @@
   background: burlywood;
 } */
 
-.dashboard-title {
+/* .dashboard-title {
   height: 24px;
   width: 100%;
   text-align: center;
   font-weight: bold;
-}
+} */
 
-.dashboard-header {
-  margin-top: 14px;
-  margin-left: 10px;
-  margin-bottom: 14px;
-  font-size: 20px;
-}
-.place-order-button {
-  margin-top: 10px;
-  margin-left: 100px;
-  margin-bottom: 0px;
-  font-size: 16px;
-}
 .dashboard-data {
   /* background: yellow; */
   margin-top: 0px;
@@ -34,6 +22,13 @@
   height: 206px;
   border-radius: 5px;
   border: blue solid 1px;
+}
+
+.dashboard-header {
+  margin-top: 14px;
+  margin-left: 10px;
+  margin-bottom: 14px;
+  font-size: 20px;
 }
 
 .swing-buy-form {
