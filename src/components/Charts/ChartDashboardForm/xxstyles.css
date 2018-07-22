@@ -1,42 +1,43 @@
 /* ChartDashboardForm/styles.css */
 
-.dashboard {
+/* .dashboard {
   width: 100%;
-  padding: 5px;
-  border-radius: 5px;
-  border: blue solid 1px;
-}
+  height: 236px;
+  background: burlywood;
+} */
 
-.dashboard-data {
-  height: 206px;
-  /* border-radius: 5px;
-  border: blue solid 1px; */
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 22px 1fr 38px;
-  grid-template-areas:
-    'actionalert'
-    'actionparams'
-    'actionbuttons';
-}
+/* .dashboard-title {
+  grid-area: dataheader;
+  height: 24px;
+  background: #f9f9f9;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+} */
+
 .dashboard-header {
-  grid-area: actionalert;
   width: 100%;
   height: 22px;
   background: #f9f9f9;
-  padding: 0 0 0 10px;
-  /* text-align: center; */
-  /* margin-top: 6px; */
+  padding: 0 0 10px 10px;
+  text-align: center;
+  margin-top: 6px;
   margin-right: 10px;
   /* font-weight: bold; */
 }
 
-.swing-buy-form {
-  grid-area: actionparams;
-  /* margin-top: 6px;
+.dashboard-data {
+  /* margin-top: 6px; */
   margin-right: 10px;
   margin-bottom: 10px;
-  margin-left: 10px; */
+  margin-left: 10px;
+  /* height: 190px; */
+  height: 206px;
+  border-radius: 5px;
+  border: blue solid 1px;
+}
+
+.swing-buy-form {
   font-size: 12px;
   padding: 10px;
 }
@@ -59,7 +60,6 @@
 }
 
 .dashboard-buttons {
-  grid-area: actionbuttons;
   width: 100%;
   background: #f9f9f9;
   text-align: center;
@@ -67,12 +67,12 @@
 
 .place-order-button {
   /* font-weight: bold; */
-  /* margin-left: 20px; */
+  margin-top: 20px;
   font-size: 16px;
 }
 .delete-prospect-button {
   /* font-weight: bold; */
-  /* margin-top: 20px; */
+  margin-top: 20px;
   margin-left: 30px;
   font-size: 16px;
 }

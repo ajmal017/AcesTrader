@@ -16,7 +16,7 @@ class ChartDashboardForm extends Component {
 
   render() {
     const symbol = this.props.cellObject.symbol
-    const tradeside = this.props.cellObject.dashboard.tradeSide
+    // const tradeside = this.props.cellObject.dashboard.tradeSide
     const session = this.props.cellObject.dashboard.session
     const duration = this.props.cellObject.dashboard.duration
     const orderType = this.props.cellObject.dashboard.orderType
@@ -26,10 +26,6 @@ class ChartDashboardForm extends Component {
 
     return (
       <div className="dashboard">
-        {/* <div className="dashboard-title">
-          {symbol} - {tradeside}
-        </div> */}
-
         <div className="dashboard-data">
           <span className="dashboard-header">{instruction} Alert: (-none-)</span>
           <form className="swing-buy-form">
