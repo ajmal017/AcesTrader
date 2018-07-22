@@ -21,7 +21,8 @@ export default class ChartsView extends Component {
     })
 
     // Depending in the initial parent each cell can be a
-    // prospect Buy, a prospect Sell, a Long position, or a Short position
+    // prospect Buy, a prospect Sell, a prospect TrendBuy,
+    //a Long position, a Short position, or TrendLong position
     return (
       <div id="charts-host" className="charts-host">
         {cells}

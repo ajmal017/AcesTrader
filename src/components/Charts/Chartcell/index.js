@@ -9,7 +9,9 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 // import CandleStickChart from '../CandleStickChart'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
-import ChartDashboard from '../ChartDashboard'
+// import ChartDashboardHeader from '../ChartDashboardHeader'
+import ChartDashboardForm from '../ChartDashboardForm'
+// import ChartDashboardFooter from '../ChartDashboardFooter'
 import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
 import './styles.css'
 var cloneDeep = require('lodash.clonedeep')
@@ -74,6 +76,8 @@ class Chartcell extends Component {
 
   render() {
     const cellObject = this.props.cellObject
+    const symbol = this.props.cellObject.symbol
+    const tradeside = this.props.cellObject.dashboard.tradeSide
     const chart_name = cellObject.symbol
     const cell_id = chart_name.replace(/[\W_]/g, '')
     const chartId = cell_id + 'chart'
@@ -97,9 +101,19 @@ class Chartcell extends Component {
           <div id={chartId} className="graph-content">
             <CandleStickChartWithMA chartId={chartId} data={this.state.data} symbol={chart_name} />
           </div>
-          <div className="dashboard-content">
-            <ChartDashboard cellObject={cellObject} />
+          <div className="dashboard-title">
+            {symbol} - {tradeside}
           </div>
+
+          {/* <div className="dashboard-header">
+            <ChartDashboardHeader cellObject={cellObject} />
+          </div> */}
+          <div className="dashboard-form">
+            <ChartDashboardForm cellObject={cellObject} />
+          </div>
+          {/* <div className="dashboard-footer">
+            <ChartDashboardFooter cellObject={cellObject} />
+          </div> */}
         </div>
       </div>
     )

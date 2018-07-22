@@ -1,0 +1,13 @@
+/* .dashboard-buttons {
+  grid-area: datafooter;
+  height: 100%;
+  width: 100%;
+  background: #f9f9f9;
+  text-align: center;
+  font-weight: bold;
+} */
+
+.place-order-button {
+  margin-top: 2px;
+  font-size: 16px;
+}
