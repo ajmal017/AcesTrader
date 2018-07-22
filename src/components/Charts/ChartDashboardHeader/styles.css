@@ -1,6 +1,8 @@
 .dashboard-title {
-  height: 24px;
+  grid-area: dataheader;
   width: 100%;
+  height: 22px;
+  background: #f9f9f9;
   text-align: center;
   font-weight: bold;
 }

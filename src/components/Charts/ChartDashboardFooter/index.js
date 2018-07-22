@@ -18,11 +18,12 @@ class ChartDashboardFooter extends Component {
     // const quantity = this.props.cellObject.dashboard.quantity
     const instruction = this.props.cellObject.dashboard.instruction
 
-    return (
-      <div className="dashboard-footer">
-        <button className="place-order-button">PLACE {instruction} ORDER</button>
-      </div>
-    )
+    return null
+    // return (
+    //   <div className="dashboard-buttons">
+    //     <button className="place-order-button">PLACE {instruction} ORDER</button>
+    //   </div>
+    // )
   }
 }
 ChartDashboardFooter.propTypes = {

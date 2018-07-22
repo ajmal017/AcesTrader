@@ -27,8 +27,9 @@ export const loadState = () => {
       return undefined // so that reducers will use default state
     }
     serializedState = base64.decode(serializedState)
+    // let stateSize = serializedState.length //for developer info
     let objectState = JSON.parse(serializedState)
-    //console.log(JSON.stringify(objectState, null, 2)) // a readable log of the object's json
+    // console.log(JSON.stringify(objectState, null, 2)) // a readable log of the object's json
     return objectState
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {

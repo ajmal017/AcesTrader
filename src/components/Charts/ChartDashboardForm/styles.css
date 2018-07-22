@@ -13,22 +13,22 @@
   font-weight: bold;
 } */
 
+.dashboard-header {
+  margin-top: 8px;
+  margin-left: 10px;
+  /* margin-bottom: 14px; */
+  /* font-size: 20px; */
+}
+
 .dashboard-data {
-  /* background: yellow; */
-  margin-top: 0px;
+  margin-top: 6px;
   margin-right: 10px;
   margin-bottom: 10px;
   margin-left: 10px;
+  /* height: 190px; */
   height: 206px;
   border-radius: 5px;
   border: blue solid 1px;
-}
-
-.dashboard-header {
-  margin-top: 14px;
-  margin-left: 10px;
-  margin-bottom: 14px;
-  font-size: 20px;
 }
 
 .swing-buy-form {
@@ -51,4 +51,22 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+.dashboard-buttons {
+  width: 100%;
+  background: #f9f9f9;
+  text-align: center;
+}
+
+.place-order-button {
+  /* font-weight: bold; */
+  margin-top: 20px;
+  font-size: 16px;
+}
+.delete-prospect-button {
+  /* font-weight: bold; */
+  margin-top: 20px;
+  margin-left: 30px;
+  font-size: 16px;
 }
