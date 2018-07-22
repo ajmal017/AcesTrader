@@ -15,7 +15,7 @@ class ChartDashboardHeader extends Component {
 
     return (
       <div className="dashboard-title">
-        {symbol} - Dashboard For {tradeside}
+        {symbol} - {tradeside}
       </div>
     )
   }

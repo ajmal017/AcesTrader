@@ -20,11 +20,12 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 22px 247px 22px 225px 22px;
+  grid-template-rows: 22px 247px 16px 22px 225px 22px;
   /* grid-gap: 10px; */
   grid-template-areas:
     'celltitle'
     'cellgraph'
+    '.'
     'dataheader'
     'dataform'
     'datafooter';
@@ -51,10 +52,15 @@
   background: #f9f9f9;
 }
 
-.dashboard-header {
+.dashboard-title {
   grid-area: dataheader;
+  height: 24px;
+  background: #f9f9f9;
   width: 100%;
+  text-align: center;
+  font-weight: bold;
 }
+
 .dashboard-form {
   grid-area: dataform;
   width: 100%;
