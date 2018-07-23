@@ -17,7 +17,7 @@ export default class ChartsView extends Component {
   render() {
     // Create an array of Chartcells, one for each chart's graph & dashboard
     let cells = this.props.chartArray.map((obj, index) => {
-      return <Chartcell key={index.toString()} cellObject={obj} />
+      return <Chartcell key={index.toString()} handleClick={this.props.handleClick} cellObject={obj} />
     })
 
     // Depending in the initial parent each cell can be a
