@@ -1,4 +1,4 @@
-// Chartcell
+// Chartcell/index.js
 
 // Each Chartcell gets its chart price data from the IEX API and creates the chart display data
 // Data provided for free by IEX. View IEX’s Terms of Use.
@@ -10,7 +10,7 @@ import axios from 'axios'
 // import CandleStickChart from '../CandleStickChart'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 // import ChartDashboardHeader from '../ChartDashboardHeader'
-import ChartDashboardForm from '../ChartDashboardForm'
+import ChartDashboard from '../ChartDashboard'
 // import ChartDashboardFooter from '../ChartDashboardFooter'
 import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
 import './styles.css'
@@ -109,7 +109,7 @@ class Chartcell extends Component {
             <ChartDashboardHeader cellObject={cellObject} />
           </div> */}
           <div className="dashboard-form">
-            <ChartDashboardForm cellObject={cellObject} />
+            <ChartDashboard handleClick={this.props.handleClick} cellObject={cellObject} />
           </div>
           {/* <div className="dashboard-footer">
             <ChartDashboardFooter cellObject={cellObject} />

@@ -1,4 +1,4 @@
-// Charts
+// Charts/index.js
 // This is the container for the nested Charts components
 
 import React from 'react'
@@ -12,22 +12,10 @@ import './styles.css'
 const Charts = (props) => {
   'use-strict'
 
-  // // Get an example chart data from a multidata json file
-  // let chartObject
-  // const planNameLowerCase = 'saving then retirement'
-  // const newLocal = examplechartdata[0]
-  // let newLocalKeys = Object.keys(newLocal) //keys of child objects
-  // newLocalKeys.map((key, index) => {
-  //   if (planNameLowerCase === key) {
-  //     chartObject = newLocal[key].content //use this for mock chart data
-  //   }
-  //   return null
-  // })
-
   if (props.chartArray.length > 0) {
     return (
       <div id={'chartscontianer'}>
-        <ChartsView chartArray={props.chartArray} />
+        <ChartsView handleClick={props.handleClick} chartArray={props.chartArray} />
       </div>
     )
   } else {

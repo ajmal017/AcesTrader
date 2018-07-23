@@ -12,7 +12,7 @@ import './styles.css'
 class AppToolbar extends Component {
   constructor(props) {
     super(props)
-    this.chartArray = props.chartArray //can be Buys, Sells, Longs, or Shorts
+    // this.chartArray = props.chartArray //can be Buys, Sells, Trend Buys, Longs, Shorts, or Trend Longs
     // this.chartListObject = props.chartObject
     this.scrollbarWidth = 0 //waiting for the width to be determined
     this.handleClick = this.handleClick.bind(this) //children callbacks
@@ -40,10 +40,12 @@ class AppToolbar extends Component {
   // ***************************************
   // *** Handle all callbacks from child components ***
   // ***************************************
-  handleClick(evt, flag) {
+  handleClick(flag, target) {
     if (flag === '???') {
       //no flags yet
       console.log('Flag=' + flag)
+      // } else if (flag === 'push') {
+      //   this.props.handleClick(flag, target)
     } else {
       // https://github.com/igorprado/react-notification-system
       this._addNotification('warning', 'Work In Progress', flag + ' is not ready yet.', 'Work In Progress')
@@ -51,6 +53,8 @@ class AppToolbar extends Component {
   }
 
   render() {
+    let chartArray = this.props.chartArray //can be Buys, Sells, Trend Buys, Longs, Shorts, or Trend Longs
+
     // let scrollchorOffset = -94-this.scrollbarWidth-10
     let scrollchorOffset = -108
 
@@ -59,7 +63,7 @@ class AppToolbar extends Component {
     // to be a label in a button on a scrollable menu for the chart picker.
 
     // Create the chart picker buttons for the horizontal scrollable menu
-    let chartkeys = this.chartArray.map((obj) => obj.symbol)
+    let chartkeys = chartArray.map((obj) => obj.symbol)
     let menuItems = []
     if (chartkeys) {
       menuItems = chartkeys.map(function(keyvalue, index) {
@@ -79,7 +83,7 @@ class AppToolbar extends Component {
         <div className="scrollmenucontainer">
           <div className="scrollmenu">{menuItems}</div>
         </div>
-        <Charts chartArray={this.chartArray} handleClick={this.handleClick} />
+        <Charts handleClick={this.handleClick} chartArray={chartArray} />
       </div>
     )
   }
