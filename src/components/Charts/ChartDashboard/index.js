@@ -13,14 +13,6 @@ class ChartDashboard extends Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
-    this.symbol = this.props.cellObject.symbol
-    this.tradeSide = this.props.cellObject.dashboard.tradeSide
-    this.session = this.props.cellObject.dashboard.session
-    this.duration = this.props.cellObject.dashboard.duration
-    this.orderType = this.props.cellObject.dashboard.orderType
-    this.quantityType = this.props.cellObject.dashboard.quantityType
-    this.quantity = this.props.cellObject.dashboard.quantity
-    this.instruction = this.props.cellObject.dashboard.instruction
     this.state = {}
   }
 
@@ -43,7 +35,8 @@ class ChartDashboard extends Component {
   }
 
   render() {
-    //handle new state of cellObjects
+    //handle new props with changed state of cellObjects
+    this.watched = this.props.cellObject.watched
     this.symbol = this.props.cellObject.symbol
     this.tradeSide = this.props.cellObject.dashboard.tradeSide
     this.session = this.props.cellObject.dashboard.session
@@ -57,6 +50,7 @@ class ChartDashboard extends Component {
         <div className="dashboard-data">
           <span className="dashboard-header">{this.instruction} Alert: (-none-)</span>
           <form className="swing-buy-form">
+            <span className="watched">Watched {this.watched}</span>
             <label htmlFor="session">Session</label>
             <input type="text" name="session" value={this.session} onChange={this.handleChange} />
             <label htmlFor="duration">Duration</label>
@@ -64,13 +58,11 @@ class ChartDashboard extends Component {
             <br />
             <label htmlFor="quantity">Quantity</label>
             <input type="text" name="quantity" value={this.quantity} onChange={this.handleChange} />
-
             <label htmlFor="quantityType">QuantityType</label>
             <input type="text" name="quantityType" value={this.quantityType} onChange={this.handleChange} />
             <br />
             <label htmlFor="orderType">OrderType</label>
             <input type="text" name="orderType" value={this.orderType} onChange={this.handleChange} />
-
             <label htmlFor="instruction">Instruction</label>
             <input type="text" name="instruction" value={this.instruction} onChange={this.handleChange} />
           </form>
