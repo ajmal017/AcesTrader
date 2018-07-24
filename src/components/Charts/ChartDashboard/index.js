@@ -53,8 +53,8 @@ class ChartDashboard extends Component {
             <span className="watched">Watched {this.watched}</span>
             <label htmlFor="session">Session</label>
             <input type="text" name="session" value={this.session} onChange={this.handleChange} />
-            <label htmlFor="duration">Duration</label>
-            <input type="text" name="duration" value={this.duration} onChange={this.handleChange} />
+            <label htmlFor="instruction">Instruction</label>
+            <input type="text" name="instruction" value={this.instruction} onChange={this.handleChange} />
             <br />
             <label htmlFor="quantity">Quantity</label>
             <input type="text" name="quantity" value={this.quantity} onChange={this.handleChange} />
@@ -63,8 +63,8 @@ class ChartDashboard extends Component {
             <br />
             <label htmlFor="orderType">OrderType</label>
             <input type="text" name="orderType" value={this.orderType} onChange={this.handleChange} />
-            <label htmlFor="instruction">Instruction</label>
-            <input type="text" name="instruction" value={this.instruction} onChange={this.handleChange} />
+            <label htmlFor="duration">Duration</label>
+            <input type="text" name="duration" value={this.duration} onChange={this.handleChange} />
           </form>
           <div className="dashboard-buttons">
             <button className="place-order-button">
