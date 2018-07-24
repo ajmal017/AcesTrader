@@ -83,13 +83,9 @@ ChartDashboard.propTypes = {
   cellObject: PropTypes.object.isRequired,
 }
 
+//Note: this used only to get access to "this.props.dispatch", not for state access
+//the new "props.cellObject" is created in a parent and passed down
 function mapStateToProps(state) {
-  const props = {
-    buys: state.buys,
-    sells: state.sells,
-    trendbuys: state.trendbuys,
-  }
-  return props
+  return {}
 }
-
 export default connect(mapStateToProps)(ChartDashboard)
