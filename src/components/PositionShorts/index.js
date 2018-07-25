@@ -1,11 +1,20 @@
 // PositionShorts/index.js
 import React, { Component } from 'react'
-import BetaNotice from '../BetaNotice'
+import { connect } from 'react-redux'
+import AppToolbar from '../../components/AppToolbar'
 
 class PositionShorts extends Component {
   render() {
-    return <BetaNotice pageName={'Positions Swing Shorts'} />
+    return <AppToolbar chartArray={this.props.shorts} />
   }
 }
 
-export default PositionShorts
+//Note to self: this triggers a render and passes new props to AppToolbar
+function mapStateToProps(state) {
+  const props = {
+    shorts: state.shorts,
+  }
+  return props
+}
+
+export default connect(mapStateToProps)(PositionShorts)
