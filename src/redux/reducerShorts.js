@@ -6,6 +6,7 @@ import defaultShortExit from '../json/defaultShortExit.json'
 import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
+const RESET_APP_STATE = 'RESET_APP_STATE'
 const ADD_SHORT_POSITION = 'ADD_SHORT_POSITION'
 const REMOVE_SHORT_POSITION = 'REMOVE_SHORT_POSITION'
 const REMOVE_ALL_SHORTS = 'REMOVE_ALL_SHORTS'
@@ -52,6 +53,9 @@ export default function chartsReducer(state = defaultShorts, action) {
       return newState
     }
     case REMOVE_ALL_SHORTS: {
+      return cloneDeep(defaultShorts)
+    }
+    case RESET_APP_STATE: {
       return cloneDeep(defaultShorts)
     }
     default:

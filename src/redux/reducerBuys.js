@@ -6,6 +6,7 @@ import defaultLongEntry from '../json/defaultLongEntry.json'
 import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
+const RESET_APP_STATE = 'RESET_APP_STATE'
 const ADD_BUYS = 'ADD_BUYS'
 const REMOVE_ONE_BUY = 'REMOVE_ONE_BUY'
 const REMOVE_ALL_BUYS = 'REMOVE_ALL_BUYS'
@@ -53,6 +54,9 @@ export default function buysReducer(state = defaultBuys, action) {
       return newState
     }
     case REMOVE_ALL_BUYS: {
+      return cloneDeep(defaultBuys)
+    }
+    case RESET_APP_STATE: {
       return cloneDeep(defaultBuys)
     }
     default:

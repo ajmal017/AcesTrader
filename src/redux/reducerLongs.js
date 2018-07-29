@@ -6,6 +6,7 @@ import defaultLongExit from '../json/defaultLongExit.json'
 import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
+const RESET_APP_STATE = 'RESET_APP_STATE'
 const ADD_LONG_POSITION = 'ADD_LONG_POSITION'
 const REMOVE_LONG_POSITION = 'REMOVE_LONG_POSITION'
 const REMOVE_ALL_LONGS = 'REMOVE_ALL_LONGS'
@@ -53,6 +54,9 @@ export default function longsReducer(state = defaultLongs, action) {
       return newState
     }
     case REMOVE_ALL_LONGS: {
+      return cloneDeep(defaultLongs)
+    }
+    case RESET_APP_STATE: {
       return cloneDeep(defaultLongs)
     }
     default:

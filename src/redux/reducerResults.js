@@ -3,6 +3,7 @@
 import defaultState from '../json/defaultState.json'
 var cloneDeep = require('lodash.clonedeep')
 
+const RESET_APP_STATE = 'RESET_APP_STATE'
 const ADD_RESULT = 'ADD_RESUL'
 const REMOVE_RESULT = 'REMOVE_RESULT'
 const REMOVE_ALL_RESULTS = 'REMOVE_ALL_RESULTS'
@@ -49,6 +50,9 @@ export default function chartsReducer(state = defaultResults, action) {
       return newState
     }
     case REMOVE_ALL_RESULTS: {
+      return cloneDeep(defaultResults)
+    }
+    case RESET_APP_STATE: {
       return cloneDeep(defaultResults)
     }
     default:

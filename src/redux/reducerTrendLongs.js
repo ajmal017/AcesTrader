@@ -7,6 +7,7 @@ import defaultTrendExit from '../json/defaultTrendExit.json'
 import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
+const RESET_APP_STATE = 'RESET_APP_STATE'
 const ADD_TREND_LONG_POSITION = 'ADD_TREND_LONG_POSITION'
 const REMOVE_TREND_LONG_POSITION = 'CLOSE_TREND_LONG_POSITION'
 const REMOVE_ALL_TREND_LONGS = 'REMOVE_ALL_TREND_LONGS'
@@ -54,6 +55,9 @@ export default function trendlongsReducer(state = defaultTrendLongs, action) {
       return newState
     }
     case REMOVE_ALL_TREND_LONGS: {
+      return cloneDeep(defaultTrendLongs)
+    }
+    case RESET_APP_STATE: {
       return cloneDeep(defaultTrendLongs)
     }
     default:

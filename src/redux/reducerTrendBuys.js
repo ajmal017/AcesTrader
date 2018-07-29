@@ -7,6 +7,7 @@ import defaultTrendEntry from '../json/defaultTrendEntry.json'
 import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
+const RESET_APP_STATE = 'RESET_APP_STATE'
 const ADD_TREND_BUYS = 'ADD_TREND_BUYS'
 const REMOVE_ONE_TREND_BUY = 'REMOVE_ONE_TREND_BUY'
 const REMOVE_ALL_TREND_BUYS = 'REMOVE_ALL_TREND_BUYS'
@@ -54,6 +55,9 @@ export default function trendbuysReducer(state = defaultTrendBuys, action) {
       return newState
     }
     case REMOVE_ALL_TREND_BUYS: {
+      return cloneDeep(defaultTrendBuys)
+    }
+    case RESET_APP_STATE: {
       return cloneDeep(defaultTrendBuys)
     }
     default:
