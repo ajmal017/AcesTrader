@@ -65,8 +65,6 @@
   grid-area: dataform;
   width: 100%;
   /* font-size: 12px; */
-  /* Note: height is specified in <GridContainer/>, className "grid-wrapper" */
-  /* which is the controlling child element of the bootstrap Tab component.*/
 }
 .dashboard-footer {
   grid-area: datafooter;
