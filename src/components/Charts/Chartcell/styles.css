@@ -61,7 +61,7 @@
   font-weight: bold;
 }
 
-.dashboard-form {
+.dashboard-center {
   grid-area: dataform;
   width: 100%;
   /* font-size: 12px; */

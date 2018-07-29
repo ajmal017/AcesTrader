@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { removeBuyFromList } from '../../../redux/reducerBuys'
 import { removeSellFromList } from '../../../redux/reducerSells'
 import { removeTrendBuyFromList } from '../../../redux/reducerTrendBuys'
+import { addLongToList } from '../../../redux/reducerLongs'
 import PropTypes from 'prop-types'
 import './styles.css'
 
@@ -13,11 +14,27 @@ class ChartDashboard extends Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
+    this.handleEntry = this.handleEntry.bind(this)
     this.state = {}
   }
 
   handleChange(event) {
     this.setState({ value: event.target.value })
+  }
+
+  handleEntry(event) {
+    event.preventDefault()
+    if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
+      this.props.dispatch(addLongToList(this.props.cellObject))
+      this.props.dispatch(removeBuyFromList(this.symbol))
+    } else if (this.tradeSide.toUpperCase() === 'SWING SHORT SALES') {
+      this.props.dispatch(removeSellFromList(this.symbol))
+    } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
+      this.props.dispatch(removeTrendBuyFromList(this.symbol))
+    } else {
+      alert('ERROR3 Missing tradeSide in ChartDashboard')
+      // debugger
+    }
   }
 
   handleDelete(event) {
@@ -37,6 +54,7 @@ class ChartDashboard extends Component {
   render() {
     //handle new props with changed state of cellObjects
     this.watched = this.props.cellObject.watched
+    this.entered = this.props.cellObject.entered
     this.symbol = this.props.cellObject.symbol
     this.tradeSide = this.props.cellObject.dashboard.tradeSide
     this.session = this.props.cellObject.dashboard.session
@@ -49,8 +67,11 @@ class ChartDashboard extends Component {
       <div className="dashboard">
         <div className="dashboard-data">
           <span className="dashboard-header">{this.instruction} Alert: (-none-)</span>
-          <form className="swing-buy-form">
-            <span className="watched">Watched {this.watched}</span>
+          <form className="dashboard-form">
+            <div className="events-log">
+              <span className="watched">Watched {this.watched}</span>
+              {this.entered !== undefined ? <span className="entered">Entered {this.entered}</span> : null}
+            </div>
             <label htmlFor="session">Session</label>
             <input type="text" name="session" value={this.session} onChange={this.handleChange} />
             <label htmlFor="instruction">Instruction</label>
@@ -67,12 +88,14 @@ class ChartDashboard extends Component {
             <input type="text" name="duration" value={this.duration} onChange={this.handleChange} />
           </form>
           <div className="dashboard-buttons">
-            <button className="place-order-button">
+            <button onClick={this.handleEntry} className="entry-order-button">
               {this.instruction} {this.symbol}
             </button>
-            <button onClick={this.handleDelete} className="delete-prospect-button">
-              DELETE
-            </button>
+            {this.entered === undefined ? (
+              <button onClick={this.handleDelete} className="delete-prospect-button">
+                DELETE
+              </button>
+            ) : null}
           </div>
         </div>
       </div>

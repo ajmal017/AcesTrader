@@ -15,8 +15,8 @@ export const islocalStorageWorking = () => {
   }
 }
 
-export const deletePlan = (planName) => {
-  localStorage.removeItem(planName)
+export const resetState = () => {
+  localStorage.removeItem('at-state') // REMOVE STATE DATA
 }
 
 export const loadState = () => {
@@ -54,6 +54,10 @@ export const saveState = (state) => {
       debugger
     }
   }
+}
+
+export const deletePlan = (planName) => {
+  localStorage.removeItem(planName)
 }
 
 export const savePlan = (planName, planObject) => {

@@ -13,9 +13,10 @@ const REMOVE_ALL_LONGS = 'REMOVE_ALL_LONGS'
 export const addLongToList = (theObject) => {
   let date = new Date()
   let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+  let theObjectArray = [theObject]
   return {
     type: ADD_LONG_POSITION,
-    theObject: theObject,
+    theObject: theObjectArray,
     theDate: theDate,
     theEvent: 'entered',
   }

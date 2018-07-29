@@ -56,7 +56,7 @@ class AppToolbar extends Component {
     let chartArray = this.props.chartArray //can be Buys, Sells, Trend Buys, Longs, Shorts, or Trend Longs
 
     // let scrollchorOffset = -94-this.scrollbarWidth-10
-    let scrollchorOffset = -108
+    let scrollchorOffset = -108 //number derived from trial and error
 
     // The chartArray is an array of objects, each one having a symbol property and a dashboard property.
     // Create an array of key values, one for each chart cell that will be drawn,

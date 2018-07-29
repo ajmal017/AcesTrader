@@ -3,10 +3,20 @@
 import uuidv4 from 'uuid/v4'
 import defaultState from '../json/defaultState.json'
 
+const QUERY_RESET_LOCAL_STORAGE = 'QUERY_RESET_LOCAL_STORAGE'
 const QUERY_CLEAR_ONE_PROSPECTS_LIST = 'QUERY_CLEAR_ONE_PROSPECTS_LIST'
 const NOTIFICATION = 'NOTIFICATION'
 
 var cloneDeep = require('lodash.clonedeep')
+
+export const queryresetlocalstorage = (handleModalResonse) => {
+  return {
+    type: QUERY_RESET_LOCAL_STORAGE,
+    payload: {
+      handleModalResonse: handleModalResonse,
+    },
+  }
+}
 
 export const queryClearProspectsList = (targetListName, handleModalResonse) => {
   return {
@@ -47,6 +57,12 @@ export default function modalReducer(state = defaultModal, action) {
 
     // Note to self: These changes to the modal state trigger a render at
     // PortalModal via the props created in its mapStateToProps() method.
+
+    case QUERY_RESET_LOCAL_STORAGE: {
+      const returnState_S = { ...defaultModal, ...action.payload, dialogSelector: 'resetlocalstorage', hash: uuidv4() }
+      // debugger
+      return returnState_S //the returnState_S const is created for developer inspection before returning
+    }
 
     case QUERY_CLEAR_ONE_PROSPECTS_LIST: {
       const returnState_D = { ...defaultModal, ...action.payload, dialogSelector: 'clearprospectlist', hash: uuidv4() }

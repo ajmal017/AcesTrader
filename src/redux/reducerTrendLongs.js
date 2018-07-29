@@ -9,13 +9,15 @@ var cloneDeep = require('lodash.clonedeep')
 
 const ADD_TREND_LONG_POSITION = 'ADD_TREND_LONG_POSITION'
 const REMOVE_TREND_LONG_POSITION = 'CLOSE_TREND_LONG_POSITION'
+const REMOVE_ALL_TREND_LONGS = 'REMOVE_ALL_TREND_LONGS'
 
 export const addTrendLongToList = (theObject) => {
   let date = new Date()
   let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+  let theObjectArray = [theObject]
   return {
     type: ADD_TREND_LONG_POSITION,
-    theObject: theObject,
+    theObject: theObjectArray,
     theDate: theDate,
     theEvent: 'entered',
   }
@@ -26,6 +28,11 @@ export const removeTrendLongFromList = (symbol) => {
   return {
     type: REMOVE_TREND_LONG_POSITION,
     symbol: symbol,
+  }
+}
+export const removeAllTrendLongsFromList = () => {
+  return {
+    type: REMOVE_ALL_TREND_LONGS,
   }
 }
 
@@ -45,6 +52,9 @@ export default function trendlongsReducer(state = defaultTrendLongs, action) {
       //filter to keep all except the action.symbol one
       let newState = state.filter((obj) => obj.symbol !== action.symbol)
       return newState
+    }
+    case REMOVE_ALL_TREND_LONGS: {
+      return cloneDeep(defaultTrendLongs)
     }
     default:
       return state

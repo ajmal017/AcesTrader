@@ -108,9 +108,11 @@ class Chartcell extends Component {
           {/* <div className="dashboard-header">
             <ChartDashboardHeader cellObject={cellObject} />
           </div> */}
-          <div className="dashboard-form">
+
+          <div className="dashboard-center">
             <ChartDashboard handleClick={this.props.handleClick} cellObject={cellObject} />
           </div>
+
           {/* <div className="dashboard-footer">
             <ChartDashboardFooter cellObject={cellObject} />
           </div> */}

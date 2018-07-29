@@ -25,31 +25,32 @@
   height: 22px;
   background: #f9f9f9;
   padding: 0 0 0 10px;
-  /* text-align: center; */
-  /* margin-top: 6px; */
   margin-right: 10px;
-  /* font-weight: bold; */
 }
 
-.swing-buy-form {
+.dashboard-form {
   grid-area: actionparams;
   font-size: 12px;
   padding: 0 10px 10px 10px;
 }
 
-.watched {
-  display: block;
-  font-size: 14px;
+.events-log {
   margin-bottom: 2px;
 }
 
-/* .swing-buy-form h4 {
-  margin-top: 2px;
+.watched {
+  display: inline-block;
+  font-size: 14px;
   margin-bottom: 2px;
-  margin-left: 10px;
-} */
+}
+.entered {
+  display: inline-block;
+  font-size: 14px;
+  margin-bottom: 2px;
+  margin-left: 8px;
+}
 
-.swing-buy-form input[type='text'] {
+.dashboard-form input[type='text'] {
   width: 22%;
   margin-left: 10px;
   margin-right: 20px;
@@ -67,14 +68,10 @@
   text-align: center;
 }
 
-.place-order-button {
-  /* font-weight: bold; */
-  /* margin-left: 20px; */
+.entry-order-button {
   font-size: 16px;
 }
 .delete-prospect-button {
-  /* font-weight: bold; */
-  /* margin-top: 20px; */
   margin-left: 30px;
   font-size: 16px;
 }

@@ -44,7 +44,7 @@ const Appnav = function() {
               </LinkContainer>
             </NavDropdown>
 
-            <NavDropdown eventKey={6} title="Lists" id="5-basic-nav-dropdown">
+            <NavDropdown eventKey={6} title="Edit Lists" id="5-basic-nav-dropdown">
               <LinkContainer to="/managebuyprospects">
                 <MenuItem eventKey={6.2}>Swing Buy Prospects</MenuItem>
               </LinkContainer>
@@ -58,7 +58,7 @@ const Appnav = function() {
 
             <NavDropdown eventKey={7} title="More" id="5-basic-nav-dropdown">
               <LinkContainer to="/scoreboard">
-                <NavItem eventKey={7.1}>ScoreBoard</NavItem>
+                <NavItem eventKey={7.1}>Results</NavItem>
               </LinkContainer>
 
               <LinkContainer to="/peek">
@@ -68,6 +68,10 @@ const Appnav = function() {
 
               <LinkContainer to="/home">
                 <MenuItem eventKey={7.3}>About AcesTrader</MenuItem>
+              </LinkContainer>
+              <MenuItem divider />
+              <LinkContainer to="/resetstorage">
+                <MenuItem eventKey={7.3}>Reset Local Storage</MenuItem>
               </LinkContainer>
             </NavDropdown>
             <LinkContainer to="/alerts">

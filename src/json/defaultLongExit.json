@@ -3,5 +3,6 @@
   "duration": "DAY",
   "orderType": "MARKET",
   "quantity": "ALL_SHARES",
-  "instruction": "SELL"
+  "instruction": "SELL",
+  "tradeSide": "Swing Longs"
 }

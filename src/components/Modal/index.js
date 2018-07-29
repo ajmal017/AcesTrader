@@ -3,6 +3,7 @@
 // Modal framework from: https://www.nearform.com/blog/exploring-react-portals/
 
 import React, { Component } from 'react'
+import ResetLocalStorageModal from './ResetLocalStorageModal'
 import ClearProspecLlistModal from './ClearProspecLlistModal'
 import NotificationModal from './NotificationModal'
 import './styles.css'
@@ -49,11 +50,14 @@ class Modal extends Component {
       zIndex: 1000,
     }
     let newprops = { ...this.props, handleClick: this.handleClick, handleClose: this.handleClose, backdropStyle: backdropStyle }
+    // return this.modalPage(newprops)
     return this.state.isDialogOpen ? this.modalPage(newprops) : null
   }
 
   modalPage(props) {
     switch (props.dialogSelector.toLowerCase()) {
+      case 'resetlocalstorage':
+        return <ResetLocalStorageModal {...props} />
       case 'clearprospectlist':
         return <ClearProspecLlistModal {...props} />
       case 'notification':
