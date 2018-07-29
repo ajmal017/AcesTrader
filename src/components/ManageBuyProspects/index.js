@@ -25,7 +25,7 @@ class ManageBuyProspects extends Component {
       <ManageProspects
         tradeSide={'Swing Buys'}
         handleClick={this.handleClick}
-        mockSymbols="ACWI DBC DIA EFA ERX EWH EWJ FAS GUSH IEFA IJH KBE KRE MCHI MDY OIH TBT VEA VFH VT VTV XLE XLF XLI XOP XRT"
+        mockSymbols="hyd amzn msft alfa ACWI DBC DIA EFA ERX EWH EWJ FAS GUSH IEFA IJH KBE KRE MCHI MDY OIH TBT VEA VFH VT VTV XLE XLF XLI XOP XRT"
       />
     )
   }

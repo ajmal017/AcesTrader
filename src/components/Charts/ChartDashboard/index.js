@@ -66,7 +66,7 @@ class ChartDashboard extends Component {
     return (
       <div className="dashboard">
         <div className="dashboard-data">
-          <span className="dashboard-header">{this.instruction} Alert: (-none-)</span>
+          <span className="dashboard-header">{this.instruction} Alert: (-not working yet-)</span>
           <form className="dashboard-form">
             <div className="events-log">
               <span className="watched">Watched {this.watched}</span>

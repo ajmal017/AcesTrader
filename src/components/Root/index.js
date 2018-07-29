@@ -12,7 +12,7 @@ import ProspectTrendBuys from '../../components/ProspectTrendBuys/'
 import PositionLongs from '../../components/PositionLongs/'
 import PositionShorts from '../../components/PositionShorts/'
 import PositionTrendLongs from '../../components/PositionTrendLongs/'
-import ScoreBoard from '../../components/ScoreBoard/'
+import Results from '../../components/Results/'
 import Peek from '../../components/Peek/'
 import ManageBuyProspects from '../../components/ManageBuyProspects/'
 import ManageSellProspects from '../../components/ManageSellProspects/'
@@ -38,7 +38,7 @@ const Root = ({ store }) => (
             <Route exact path="/prospectbuys" component={ProspectBuys} />
             <Route exact path="/prospectsells" component={ProspectSells} />
             <Route exact path="/prospecttrendbuys" component={ProspectTrendBuys} />
-            <Route exact path="/scoreboard" component={ScoreBoard} />
+            <Route exact path="/results" component={Results} />
             <Route exact path="/peek" component={Peek} />
             <Route exact path="/managebuyprospects" component={ManageBuyProspects} />
             <Route exact path="/managesellprospects" component={ManageSellProspects} />
