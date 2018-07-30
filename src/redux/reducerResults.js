@@ -4,11 +4,11 @@ import defaultState from '../json/defaultState.json'
 var cloneDeep = require('lodash.clonedeep')
 
 const RESET_APP_STATE = 'RESET_APP_STATE'
-const ADD_RESULT = 'ADD_RESUL'
+const ADD_RESULT = 'ADD_RESULT'
 const REMOVE_RESULT = 'REMOVE_RESULT'
 const REMOVE_ALL_RESULTS = 'REMOVE_ALL_RESULTS'
 
-export const addResultToList = (theObject) => {
+export const addResultToList = (theObject, thePrice = null) => {
   let date = new Date()
   let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
   return {
@@ -16,6 +16,7 @@ export const addResultToList = (theObject) => {
     theObject: theObject,
     theDate: theDate,
     theEvent: 'exited',
+    thePrice: thePrice,
   }
 }
 
@@ -40,7 +41,7 @@ export default function chartsReducer(state = defaultResults, action) {
   switch (action.type) {
     case ADD_RESULT: {
       action.theObject.exited = action.theDate
-      // action.theObject.exitedPrice = ???
+      action.theObject.exitedPrice = action.thePrice | '?'
       let newState = state.concat(action.theObject)
       return newState
     }

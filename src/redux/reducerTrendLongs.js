@@ -12,7 +12,7 @@ const ADD_TREND_LONG_POSITION = 'ADD_TREND_LONG_POSITION'
 const REMOVE_TREND_LONG_POSITION = 'CLOSE_TREND_LONG_POSITION'
 const REMOVE_ALL_TREND_LONGS = 'REMOVE_ALL_TREND_LONGS'
 
-export const addTrendLongToList = (theObject) => {
+export const addTrendLongToList = (theObject, thePrice) => {
   let date = new Date()
   let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
   let theObjectArray = [theObject]
@@ -21,6 +21,7 @@ export const addTrendLongToList = (theObject) => {
     theObject: theObjectArray,
     theDate: theDate,
     theEvent: 'entered',
+    thePrice: thePrice,
   }
 }
 
@@ -46,7 +47,7 @@ export default function trendlongsReducer(state = defaultTrendLongs, action) {
   switch (action.type) {
     case ADD_TREND_LONG_POSITION: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultTrendExit)
-      let newState = reduceTargetState(state, action.theObject, newDashboard, action.theDate, action.theEvent)
+      let newState = reduceTargetState(state, action.theObject, newDashboard, action.theDate, action.theEvent, action.thePrice)
       return newState
     }
     case REMOVE_TREND_LONG_POSITION: {
