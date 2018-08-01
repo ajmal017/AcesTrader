@@ -32,8 +32,8 @@ class ChartDashboard extends Component {
     event.preventDefault()
 
     //******Get the filled price from Ameritrade********
-    const enteredPrice = 100.52
-    const exitedPrice = 220.44
+    const enteredPrice = 'pending' //100.52
+    const exitedPrice = 'pending' //220.44
 
     switch (this.tradeSide.toUpperCase()) {
       case 'SWING BUYS': {
