@@ -6,9 +6,6 @@ import PropTypes from 'prop-types'
 import ChartsView from './ChartsView'
 import './styles.css'
 
-// // this is to get some chart data for this mocked display until we get real data from IEX
-// import examplechartdata from './examplechartdata'
-
 const Charts = (props) => {
   'use-strict'
 

@@ -1,0 +1,39 @@
+#trades-host {
+  position: relative;
+  overflow: auto;
+  width: 100%;
+  background-color: #f5f5f5;
+  margin-top: 60px;
+  /*body's padding-top plus this page margin-top moves content below the fixed navbar and toolbar*/
+}
+
+.trades-host {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* grid-template-rows: 600px;   */
+  grid-auto-flow: row;
+  grid-auto-rows: minmax(300px, auto);
+  grid-gap: 10px;
+  border-bottom: 1px solid #ced4da;
+}
+
+.trades-error-cell {
+  width: 96%;
+  display: grid;
+  grid-template-columns: 1fr 600px 1fr;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid blue;
+  margin: 90px 20px 20px 20px;
+  padding: 0 10px 0px 10px;
+  overflow: hidden;
+  grid-template-areas: 'left center right';
+}
+
+.trades-error-content {
+  grid-area: center;
+  padding: 0 10px 0px 10px;
+  border-radius: 5px;
+  width: 100%;
+  background: #f9f9f9;
+}

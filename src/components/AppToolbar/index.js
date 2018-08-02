@@ -7,13 +7,12 @@ import Scrollchor from 'react-scrollchor' //scroll to anchor in page
 import NotificationSystem from 'react-notification-system'
 import appScrollbarWidth from '../../lib/appScrollbarWidth'
 import Charts from '../Charts' //to hold stock price chart and dashboard control panel
+import Trades from '../Trades' //to hold the results chart and dashboard data display
 import './styles.css'
 
 class AppToolbar extends Component {
   constructor(props) {
     super(props)
-    // this.chartArray = props.chartArray //can be Buys, Sells, Trend Buys, Longs, Shorts, or Trend Longs
-    // this.chartListObject = props.chartObject
     this.scrollbarWidth = 0 //waiting for the width to be determined
     this.handleClick = this.handleClick.bind(this) //children callbacks
   }
@@ -53,7 +52,8 @@ class AppToolbar extends Component {
   }
 
   render() {
-    let chartArray = this.props.chartArray //can be Buys, Sells, Trend Buys, Longs, Shorts, or Trend Longs
+    let resultsCharts = this.props.chartFlag ? true : false
+    let chartArray = this.props.chartArray //can be Results, Buys, Sells, Trend Buys, Longs, Shorts, or Trend Longs
 
     // let scrollchorOffset = -94-this.scrollbarWidth-10
     let scrollchorOffset = -108 //number derived from trial and error
@@ -83,7 +83,9 @@ class AppToolbar extends Component {
         <div className="scrollmenucontainer">
           <div className="scrollmenu">{menuItems}</div>
         </div>
-        <Charts handleClick={this.handleClick} chartArray={chartArray} />
+
+        {/* Render either Results or Charts */}
+        {resultsCharts ? <Trades handleClick={this.handleClick} tradesArray={chartArray} /> : <Charts handleClick={this.handleClick} chartArray={chartArray} />}
       </div>
     )
   }

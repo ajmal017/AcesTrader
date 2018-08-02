@@ -1,6 +1,7 @@
 // Chartcell/index.js
 
-// Each Chartcell gets its chart price data from the IEX API and creates the chart display data
+// Each Chartcell gets its chart price data from the IEX API
+// and creates the chart display data
 // Data provided for free by IEX. View IEX’s Terms of Use.
 // See: https://iextrading.com/developer/
 

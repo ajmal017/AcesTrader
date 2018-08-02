@@ -20,8 +20,9 @@ export default class ChartsView extends Component {
       return <Chartcell key={index.toString()} handleClick={this.props.handleClick} cellObject={obj} />
     })
 
-    // Depending in the initial parent each cell can be a
-    // prospect Buy, a prospect Sell, a prospect TrendBuy,
+    // Depending in the initial parent each cell can be
+    // a Result,
+    // a prospect Buy, a prospect Sell, a prospect TrendBuy,
     //a Long position, a Short position, or TrendLong position
     return (
       <div id="charts-host" className="charts-host">

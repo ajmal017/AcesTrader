@@ -1,0 +1,100 @@
+.trade-cell-wrapper {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 0 10px 0px 10px;
+  border: 1px solid blue;
+  overflow: hidden;
+}
+
+.trade-dashboard-wrapper {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 0 10px 0px 10px;
+  border: 1px solid blue;
+  overflow: hidden;
+}
+
+/* See media query break for wide screen below */
+/*holds the two main items in one column*/
+.trade-cell {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 22px 247px 16px 22px 225px 22px;
+  /* grid-gap: 10px; */
+  grid-template-areas:
+    'celltitle'
+    'cellgraph'
+    '.'
+    'dataheader'
+    'dataform'
+    'datafooter';
+  /* background-color: #f9f9f9;
+    border-radius: 5px;
+    border: 1px solid blue;
+    padding: 0 10px 0px 10px;
+    overflow: hidden; */
+}
+
+.trade-title {
+  grid-area: celltitle;
+  width: 100%;
+  height: 22px;
+  background: #f9f9f9;
+  text-align: center;
+  font-weight: bold;
+}
+
+.trade-content {
+  grid-area: cellgraph;
+  border-radius: 5px;
+  width: 100%;
+  background: #f9f9f9;
+}
+
+.trade-dashboard-title {
+  grid-area: dataheader;
+  height: 24px;
+  background: #f9f9f9;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+
+.trade-dashboard-center {
+  grid-area: dataform;
+  width: 100%;
+  /* font-size: 12px; */
+}
+.trade-dashboard-footer {
+  grid-area: datafooter;
+  width: 100%;
+}
+
+/* Tablet in desktop narrow window */
+/* @media only screen and (max-width: 768px) {
+    .trade-cell-wrapper {
+      background-color: #f9f9f9;
+      border-radius: 5px;
+      border: 1px solid blue;
+      overflow: hidden;
+    }
+  } */
+
+/* Desktop with expanded window wdth, OR */
+/* Device in landscape mode.*/
+/* The OR condition is specified by the comma at end of line. */
+@media only screen and (min-width: 1024px), only screen and (orientation: landscape) {
+  .trade-cell {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 22px 225px 22px;
+    grid-template-areas:
+      'celltitle dataheader'
+      'cellgraph dataform'
+      'cellgraph datafooter';
+  }
+  .trade-title {
+    height: 22px;
+  }
+}
