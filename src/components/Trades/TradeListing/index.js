@@ -9,8 +9,17 @@ class TradeListing extends Component {
   }
   render() {
     const tradeObject = this.props.tradeObject
-    const exitDate = tradeObject.exitDate
-    return <h4>Trade Exit {exitDate}</h4>
+    const symbol = tradeObject.symbol
+    const exitDate = tradeObject.exited
+    const exitPrice = tradeObject.exitedPrice
+
+    return (
+      <div>
+        <h4>Trade Symbol {symbol}</h4>
+        <h4>Trade Exited {exitDate}</h4>
+        <h4>Trade Exit Price {exitPrice}</h4>
+      </div>
+    )
   }
 }
 

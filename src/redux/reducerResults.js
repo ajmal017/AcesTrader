@@ -42,8 +42,9 @@ export default function chartsReducer(state = defaultResults, action) {
     case ADD_RESULT: {
       action.theObject.exited = action.theDate
       action.theObject.exitedPrice = action.thePrice
+      let theObjectArray = [action.theObject]
       // let newState = state.concat(action.theObject) //adds at end
-      let newState = action.theObject.concat(state) //adds at start
+      let newState = theObjectArray.concat(state) //adds at start
       return newState
     }
     case REMOVE_RESULT: {
