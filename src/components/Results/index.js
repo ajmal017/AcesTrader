@@ -5,7 +5,7 @@ import AppToolbar from '../../components/AppToolbar'
 
 class Results extends Component {
   render() {
-    return <AppToolbar chartFlag={true} chartArray={this.props.results} />
+    return <AppToolbar resultsCharts={true} chartArray={this.props.results} />
   }
 }
 

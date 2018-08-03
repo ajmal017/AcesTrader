@@ -42,7 +42,8 @@ table {
 }
 @media (max-width: 576px) {
   .pagebody {
-    padding-left: 10px;
+    padding-right: 30px;
+    padding-left: 16px;
   }
   table {
     margin-bottom: 3em;
@@ -57,7 +58,8 @@ table {
   .stock-price,
   .stock-change,
   .stock-change-pct {
-    width: 28%;
+    /* width: 28%; */
+    width: 20%;
   }
   /* td.stock-symbol,
   td.stock-price,
@@ -67,6 +69,7 @@ table {
     padding-bottom: 1em;
   } */
 }
+
 summary:hover {
   cursor: pointer;
 }

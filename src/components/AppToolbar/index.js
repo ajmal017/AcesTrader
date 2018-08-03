@@ -52,7 +52,7 @@ class AppToolbar extends Component {
   }
 
   render() {
-    let resultsCharts = this.props.chartFlag ? true : false
+    let resultsCharts = this.props.resultsCharts ? true : false
     let chartArray = this.props.chartArray //can be Results, Buys, Sells, Trend Buys, Longs, Shorts, or Trend Longs
 
     // let scrollchorOffset = -94-this.scrollbarWidth-10
