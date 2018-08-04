@@ -11,7 +11,7 @@ const Charts = (props) => {
 
   if (props.chartArray.length > 0) {
     return (
-      <div id={'chartscontianer'}>
+      <div id={'chartscontainer'}>
         <ChartsView handleClick={props.handleClick} chartArray={props.chartArray} />
       </div>
     )

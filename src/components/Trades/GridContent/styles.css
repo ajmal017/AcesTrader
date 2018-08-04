@@ -16,7 +16,7 @@
   background-color: snow;
   background-color: #ced4da; /*gray 4*/
   background-color: #3bc9db; /*cyan 4*/
-  box-sizing:border-box;
+  box-sizing: border-box;
   font-weight: bold;
   align-self: center;
   color: white;
@@ -33,7 +33,6 @@
   /*border-top: 1px solid olivedrab;*/
   border-bottom: 1px solid #ced4da;
   overflow: auto;
-
 }
 
 .grid-row-cell {
@@ -41,16 +40,16 @@
   padding-bottom: 2px;
   padding-left: 10px;
   width: 100%;
-  box-sizing:border-box;
+  box-sizing: border-box;
 }
 
 .grid-row-nostripe {
-    background-color: snow;
+  background-color: snow;
 }
 
 .grid-row-stripe {
-  /*background-color:#f8f9fa; gray 0*/ 
-  background-color:#f1f3f5; /*gray 1*/ 
+  /*background-color:#f8f9fa; gray 0*/
+  background-color: #f1f3f5; /*gray 1*/
   /*background-color:#e9ecef; gray 2*/
   /*background-color:#e3fafc; cyan 0*/
   /*background-color:#c5f6fa; cyan 1*/
@@ -81,8 +80,9 @@
 }
 
 .grid-layout-6cols {
-  /*grid-template-columns: 70px 1fr 1fr 1fr 1fr 1fr;*/
-  grid-template-columns: minmax(44px, 60px) 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 170px 70px 70px 70px 70px 70px;
+  /*grid-template-columns: 170px 1fr 1fr 1fr 1fr 1fr;*/
+  /* grid-template-columns: minmax(44px, 60px) 1fr 1fr 1fr 1fr 1fr; */
 }
 
 .grid-layout-8cols {

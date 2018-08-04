@@ -57,13 +57,8 @@ class GridRows extends Component {
   componentDidMount = () => {
     let scrollbarWidth = appScrollbarWidth()
     let headerWrapper = document.getElementById(this.headerWrapperId)
-    headerWrapper.style.right =
-      scrollbarWidth +
-      'px' /*absolute position the right side away from the scrollbar*/
-    document.body.setAttribute(
-      'style',
-      'padding-left:' + scrollbarWidth * 0.8 + 'px;'
-    ) /*add an equal left padding to the body*/
+    headerWrapper.style.right = scrollbarWidth + 'px' /*absolute position the right side away from the scrollbar*/
+    document.body.setAttribute('style', 'padding-left:' + scrollbarWidth * 0.8 + 'px;') /*add an equal left padding to the body*/
   }
 
   render() {
@@ -76,8 +71,10 @@ class GridRows extends Component {
     var theBaseClassName = 'grid-row-cell' // base class
     var theStripeClassName = '' // initial value
     var theNowClassName = theBaseClassName // initial value
-    var theGridClassName = 'grid-row-layout ' + columnClassNameAddOn
+    var theGridClassName = 'grid-row-layout ' + columnClassNameAddOn //two classe names
 
+    // This creates an array with an item for each cell in the grid
+    // Cells are then filled serially and items wrap into next row
     var merged = [].concat.apply([], theDataArray) //neat code pattern; see comment above
 
     var cells = merged.map((element, index) => {

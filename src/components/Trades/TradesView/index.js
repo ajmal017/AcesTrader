@@ -26,7 +26,7 @@ export default class TradesView extends Component {
     //Create the array of column names
     // let columnDefs = ['Symbol', 'Watched', 'Entered', 'Enter Price', 'Exit Price', 'Quantity', '% Gain', '$ Gain'] // an array of column names
     let columnDefs = ['Symbol', 'Dates', 'Prices', 'Quantity', '% Gain', '$ Gain'] // an array of column names
-    let columnClassNameAddOn = `grid-layout-{columnDefs.length}cols` // class name determining column layout
+    let columnClassNameAddOn = `grid-layout-${columnDefs.length}cols` // class name determining column layout
 
     // Create an array of row data arrays
     let rowDefsArray = this.props.tradesArray.map((tradeObject, index) => {
@@ -44,7 +44,6 @@ export default class TradesView extends Component {
 
       let cell0 = `${symbol}\nA ${tradeSide} Trade`
       let cell1 = `Watch ${watchDate}\n Enter ${enterDate}\n  Exit ${exitDate}`
-      // console.log(cell1)
       let cell2 = `Enter ${enterPrice}\n Exit ${exitPrice}`
       let cell3 = `${tradeQuantity}`
       let cell4 = `${tradePercentGain}`

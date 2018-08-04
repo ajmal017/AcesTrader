@@ -4,14 +4,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import TradesView from './TradesView'
-// import './styles.css'
+import './styles.css'
 
 const Trades = (props) => {
   'use-strict'
 
   if (props.tradesArray.length > 0) {
     return (
-      <div id={'chartscontianer'}>
+      <div id={'tradescontainer'}>
         <TradesView handleClick={props.handleClick} tradesArray={props.tradesArray} />
       </div>
     )
