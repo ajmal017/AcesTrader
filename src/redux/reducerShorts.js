@@ -11,7 +11,7 @@ const ADD_SHORT_POSITION = 'ADD_SHORT_POSITION'
 const REMOVE_SHORT_POSITION = 'REMOVE_SHORT_POSITION'
 const REMOVE_ALL_SHORTS = 'REMOVE_ALL_SHORTS'
 
-export const addShortToList = (theObject, thePrice) => {
+export const addShortToList = (theObject, thePrice, theQuantity) => {
   let date = new Date()
   let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
   let theObjectArray = [theObject]
@@ -21,6 +21,7 @@ export const addShortToList = (theObject, thePrice) => {
     theDate: theDate,
     theEvent: 'entered',
     thePrice: thePrice,
+    theQuantity: theQuantity,
   }
 }
 
@@ -45,7 +46,7 @@ export default function chartsReducer(state = defaultShorts, action) {
   switch (action.type) {
     case ADD_SHORT_POSITION: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultShortExit)
-      let newState = reduceTargetState(state, action.theObject, newDashboard, action.theDate, action.theEvent, action.thePrice)
+      let newState = reduceTargetState(state, action.theObject, newDashboard, action.theDate, action.theEvent, action.thePrice, action.theQuantity)
       return newState
     }
     case REMOVE_SHORT_POSITION: {

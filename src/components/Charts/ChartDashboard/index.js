@@ -31,23 +31,25 @@ class ChartDashboard extends Component {
   handleEntry(event) {
     event.preventDefault()
 
-    //******Get the filled price from Ameritrade********
+    //TO DO
+    //******Get the filled price and quantity from Ameritrade********
     const enteredPrice = 'pending' //100.52
     const exitedPrice = 'pending' //220.44
+    const theQuantity = 'pending' //55
 
     switch (this.tradeSide.toUpperCase()) {
       case 'SWING BUYS': {
-        this.props.dispatch(addLongToList(this.props.cellObject, enteredPrice))
+        this.props.dispatch(addLongToList(this.props.cellObject, enteredPrice, theQuantity))
         this.props.dispatch(removeBuyFromList(this.symbol))
         break
       }
       case 'SWING SHORT SALES': {
-        this.props.dispatch(addShortToList(this.props.cellObject, enteredPrice))
+        this.props.dispatch(addShortToList(this.props.cellObject, enteredPrice, theQuantity))
         this.props.dispatch(removeSellFromList(this.symbol))
         break
       }
       case 'TREND BUYS': {
-        this.props.dispatch(addTrendLongToList(this.props.cellObject, enteredPrice))
+        this.props.dispatch(addTrendLongToList(this.props.cellObject, enteredPrice, theQuantity))
         this.props.dispatch(removeTrendBuyFromList(this.symbol))
         break
       }

@@ -1,6 +1,6 @@
 // reduceTargetState.js
 
-export default function(state, theInput, newDashboard, theDate, theEvent, thePrice = null) {
+export default function(state, theInput, newDashboard, theDate, theEvent, thePrice = null, theQuantity = null) {
   // Parameters:
   // state: The current target array of objects, either Prospects or Positions
   // theInput: A list of prospect symbols or watched objects to merge into this target state slice
@@ -33,6 +33,7 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
           theInputObject.dashboard = newDashboard //includes the order exit parameters
           theInputObject.entered = theDate
           theInputObject.enteredPrice = thePrice
+          theInputObject.quantity = theQuantity
           break
         case 'exited': //theInput is a list of asset objects going into Results
           theInputSymbol = theInput[kk].symbol
