@@ -11,7 +11,7 @@ const ADD_LONG_POSITION = 'ADD_LONG_POSITION'
 const REMOVE_LONG_POSITION = 'REMOVE_LONG_POSITION'
 const REMOVE_ALL_LONGS = 'REMOVE_ALL_LONGS'
 
-export const addLongToList = (theObject, thePrice, theQuantity) => {
+export const addLongToList = (theObject, thePrice, theQuantity, theAccount) => {
   let date = new Date()
   let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
   let theObjectArray = [theObject]
@@ -22,6 +22,7 @@ export const addLongToList = (theObject, thePrice, theQuantity) => {
     theEvent: 'entered',
     thePrice: thePrice,
     theQuantity: theQuantity,
+    theAccount: theAccount,
   }
 }
 
@@ -47,7 +48,7 @@ export default function longsReducer(state = defaultLongs, action) {
   switch (action.type) {
     case ADD_LONG_POSITION: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultLongExit)
-      let newState = reduceTargetState(state, action.theObject, newDashboard, action.theDate, action.theEvent, action.thePrice, action.theQuantity)
+      let newState = reduceTargetState(state, action.theObject, newDashboard, action.theDate, action.theEvent, action.thePrice, action.theQuantity, action.theAccount)
       return newState
     }
     case REMOVE_LONG_POSITION: {

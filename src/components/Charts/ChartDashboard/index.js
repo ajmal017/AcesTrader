@@ -32,24 +32,25 @@ class ChartDashboard extends Component {
     event.preventDefault()
 
     //TO DO
-    //******Get the filled price and quantity from Ameritrade********
+    //******Get the filled price, quantity, and account number from Ameritrade********
     const enteredPrice = 'pending' //100.52
     const exitedPrice = 'pending' //220.44
-    const theQuantity = 'pending' //55
+    const filledQuantity = 'pending' //55
+    const theAccount = 'pending'
 
     switch (this.tradeSide.toUpperCase()) {
       case 'SWING BUYS': {
-        this.props.dispatch(addLongToList(this.props.cellObject, enteredPrice, theQuantity))
+        this.props.dispatch(addLongToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
         this.props.dispatch(removeBuyFromList(this.symbol))
         break
       }
       case 'SWING SHORT SALES': {
-        this.props.dispatch(addShortToList(this.props.cellObject, enteredPrice, theQuantity))
+        this.props.dispatch(addShortToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
         this.props.dispatch(removeSellFromList(this.symbol))
         break
       }
       case 'TREND BUYS': {
-        this.props.dispatch(addTrendLongToList(this.props.cellObject, enteredPrice, theQuantity))
+        this.props.dispatch(addTrendLongToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
         this.props.dispatch(removeTrendBuyFromList(this.symbol))
         break
       }
@@ -90,10 +91,12 @@ class ChartDashboard extends Component {
 
   render() {
     //handle new props with changed state of cellObjects
+    this.symbol = this.props.cellObject.symbol
     this.watched = this.props.cellObject.watched
     this.entered = this.props.cellObject.entered
     this.enteredPrice = this.props.cellObject.enteredPrice
-    this.symbol = this.props.cellObject.symbol
+    this.filledquantity = this.props.cellObject.filledquantity
+    this.account = this.props.cellObject.account
     this.tradeSide = this.props.cellObject.dashboard.tradeSide
     this.session = this.props.cellObject.dashboard.session
     this.duration = this.props.cellObject.dashboard.duration
@@ -107,12 +110,21 @@ class ChartDashboard extends Component {
           <span className="dashboard-header">{this.instruction} Alert: (-not working yet-)</span>
           <form className="dashboard-form">
             <div className="events-log">
-              <span className="watched">Watched {this.watched}</span>
-              {this.entered !== undefined ? (
-                <span className="entered">
-                  Entered {this.entered}&nbsp;&nbsp; Price {this.enteredPrice}
-                </span>
-              ) : null}
+              <div>
+                <span className="watched">Watched {this.watched}</span>
+                {this.entered !== undefined ? (
+                  <span className="entered">
+                    Entered {this.entered}&nbsp;&nbsp; Price {this.enteredPrice}
+                  </span>
+                ) : null}
+              </div>
+              <div>
+                {this.filledquantity !== undefined ? (
+                  <span className="filledquantity">
+                    Quantity {this.filledquantity}&nbsp;&nbsp; Account {this.account}
+                  </span>
+                ) : null}
+              </div>
             </div>
             <label htmlFor="session">Session</label>
             <input type="text" name="session" value={this.session} onChange={this.handleChange} />
