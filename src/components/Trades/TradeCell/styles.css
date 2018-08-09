@@ -1,0 +1,59 @@
+/* TradeCell/styles.css */
+
+.trade-cell-wrapper {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 0 10px 10px 40px;
+  border: 1px solid blue;
+  overflow: hidden;
+}
+
+.trades-container {
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.trade-cell {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  /* background-color: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid blue;
+  padding: 0 10px 0px 10px;
+  overflow: hidden; */
+}
+
+.trade-header {
+  display: inline-flex;
+}
+
+.trade-title {
+  padding: 12px 0 6px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.trade-button {
+  font-size: 18px;
+  font-weight: 700;
+  background: #f9f9f9;
+  /* margin-top: 4px; */
+  margin-right: 4px;
+  margin-left: auto;
+  /* height: 30px; */
+  width: '2.5rem';
+  height: '2.5rem';
+  padding: 0;
+  border: 0;
+  cursor: 'pointer';
+  outline: 0;
+}
+
+@media only screen and (max-width: 576px) {
+  .trade-cell-wrapper {
+    /* padding-right: 30px; */
+    padding-left: 10px;
+  }
+}
