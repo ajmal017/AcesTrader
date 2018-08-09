@@ -66,6 +66,9 @@ class AppToolbar extends Component {
     let chartkeys = chartArray.map((obj) => obj.symbol)
     let menuItems = []
     if (chartkeys) {
+      if (resultsCharts) {
+        chartkeys = chartkeys.sort()
+      }
       menuItems = chartkeys.map(function(keyvalue, index) {
         return (
           <button key={index.toString()}>

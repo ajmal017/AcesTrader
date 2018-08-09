@@ -32,7 +32,7 @@ class ChartDashboard extends Component {
     event.preventDefault()
 
     //TO DO
-    //******Get the filled price, quantity, and account number from Ameritrade********
+    //******Get the 2 filled prices, quantity, and account number from Ameritrade********
     const enteredPrice = 'pending' //100.52
     const exitedPrice = 'pending' //220.44
     const filledQuantity = 'pending' //55
@@ -114,14 +114,16 @@ class ChartDashboard extends Component {
                 <span className="watched">Watched {this.watched}</span>
                 {this.entered !== undefined ? (
                   <span className="entered">
-                    Entered {this.entered}&nbsp;&nbsp; Price {this.enteredPrice}
+                    Entered {this.entered}
+                    &nbsp;&nbsp; Price {this.enteredPrice}
                   </span>
                 ) : null}
               </div>
               <div>
                 {this.filledquantity !== undefined ? (
                   <span className="filledquantity">
-                    Quantity {this.filledquantity}&nbsp;&nbsp; Account {this.account}
+                    Quantity {this.filledquantity}
+                    &nbsp;&nbsp; Account {this.account}
                   </span>
                 ) : null}
               </div>

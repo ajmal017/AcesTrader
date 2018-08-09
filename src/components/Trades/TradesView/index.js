@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import TradeListing from '../TradeListing'
+import TradeCell from '../TradeCell'
 import './styles.css'
 
 export default class TradesView extends Component {
@@ -18,9 +18,9 @@ export default class TradesView extends Component {
     //Create the data for a bar chart to be shown along with the list of trades
     //let resultsDataBarChart = {} //TO DO
 
-    // Create an array of TradeCells, one for each trade's graph & dashboard
+    // Create an array of TradeCells, one for each trade's dashboard
     let cells = this.props.tradesArray.map((obj, index) => {
-      return <TradeListing key={index.toString()} handleClick={this.props.handleClick} tradeObject={obj} />
+      return <TradeCell key={index.toString()} handleClick={this.props.handleClick} tradeObject={obj} />
     })
 
     // Each cell is a TradeList component with one trade object to render

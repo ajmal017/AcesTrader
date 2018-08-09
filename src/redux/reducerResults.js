@@ -21,10 +21,11 @@ export const addResultToList = (theObject, thePrice) => {
 }
 
 // NOTE: This object is lost from state after removing it here
-export const removeResultFromList = (symbol) => {
+export const removeResultFromList = (symbol, exited) => {
   return {
     type: REMOVE_RESULT,
     symbol: symbol,
+    exited: exited,
   }
 }
 export const removeAllResultsFromList = () => {
@@ -43,13 +44,18 @@ export default function chartsReducer(state = defaultResults, action) {
       action.theObject.exited = action.theDate
       action.theObject.exitedPrice = action.thePrice
       let theObjectArray = [action.theObject]
-      // let newState = state.concat(action.theObject) //adds at end
       let newState = theObjectArray.concat(state) //adds at start
       return newState
     }
     case REMOVE_RESULT: {
-      //filter to keep all except the action.symbol one
-      let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      // filter to keep all except the one with the same
+      // action.symbol and a matching exited date
+      let newState = state.filter((obj) => {
+        if (obj.symbol === action.symbol && obj.exited === action.exited) {
+          return false
+        }
+        return true
+      })
       return newState
     }
     case REMOVE_ALL_RESULTS: {
