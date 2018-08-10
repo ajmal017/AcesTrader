@@ -6,7 +6,11 @@
 // See: https://iextrading.com/developer/
 
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { removeBuyFromList } from '../../../redux/reducerBuys'
+import { removeSellFromList } from '../../../redux/reducerSells'
+import { removeTrendBuyFromList } from '../../../redux/reducerTrendBuys'
 import axios from 'axios'
 // import CandleStickChart from '../CandleStickChart'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
@@ -20,6 +24,7 @@ var cloneDeep = require('lodash.clonedeep')
 class Chartcell extends Component {
   constructor(props) {
     super(props)
+    this.handleDelete = this.handleDelete.bind(this)
     this.loadChartData = this.loadChartData.bind(this)
     this.state = {}
   }
@@ -75,10 +80,25 @@ class Chartcell extends Component {
       })
   }
 
+  handleDelete(event) {
+    event.preventDefault()
+    if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
+      this.props.dispatch(removeBuyFromList(this.symbol))
+    } else if (this.tradeSide.toUpperCase() === 'SWING SHORT SALES') {
+      this.props.dispatch(removeSellFromList(this.symbol))
+    } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
+      this.props.dispatch(removeTrendBuyFromList(this.symbol))
+    } else {
+      alert('ERROR3 Missing tradeSide in Chartcell')
+      // debugger
+    }
+  }
+
   render() {
+    this.tradeSide = this.props.cellObject.dashboard.tradeSide
+    this.symbol = this.props.cellObject.symbol
+    this.entered = this.props.cellObject.entered
     const cellObject = this.props.cellObject
-    const symbol = this.props.cellObject.symbol
-    const tradeside = this.props.cellObject.dashboard.tradeSide
     const chart_name = cellObject.symbol
     const cell_id = chart_name.replace(/[\W_]/g, '')
     const chartId = cell_id + 'chart'
@@ -98,25 +118,21 @@ class Chartcell extends Component {
       <div className="chart-cell-wrapper">
         {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
         <div id={cell_id} className="chart-cell">
-          <div className="chart-title">{chart_name}</div>
+          <div className="cell-header">
+            <span className="cell-title">{chart_name}</span>
+            {this.entered === undefined ? (
+              <button onClick={this.handleDelete} className="cell-button" type="button" aria-label="delete">
+                &times;
+              </button>
+            ) : null}
+          </div>
           <div id={chartId} className="graph-content">
             <CandleStickChartWithMA chartId={chartId} data={this.state.data} symbol={chart_name} />
           </div>
-          <div className="dashboard-title">
-            {symbol} - {tradeside}
-          </div>
-
-          {/* <div className="dashboard-header">
-            <ChartDashboardHeader cellObject={cellObject} />
-          </div> */}
 
           <div className="dashboard-center">
             <ChartDashboard handleClick={this.props.handleClick} cellObject={cellObject} />
           </div>
-
-          {/* <div className="dashboard-footer">
-            <ChartDashboardFooter cellObject={cellObject} />
-          </div> */}
         </div>
       </div>
     )
@@ -127,4 +143,8 @@ Chartcell.propTypes = {
   cellObject: PropTypes.object.isRequired,
 }
 
-export default Chartcell
+//Note: this used only to get access to "this.props.dispatch", not for state access
+const mapStateToProps = (state) => ({
+  state: state,
+})
+export default connect(mapStateToProps)(Chartcell)

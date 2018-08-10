@@ -17,6 +17,7 @@
     "axios": "^0.18.0",
     "base-64": "^0.1.0",
     "bootstrap": "^3.3.7",
+    "chain-function": "^1.0.1",
     "chart.js": "^2.4.0",
     "cheerio": "0.19.x",
     "history": "4.7.2",
@@ -36,6 +37,7 @@
     "react-scrollchor": "5.0.2",
     "react-sizes": "1.0.0",
     "react-stockcharts": "^0.7.6",
+    "react-transition-group-v2": "^2.4.0",
     "redux": "^3.7.2",
     "uuid": "^3.1.0"
   },

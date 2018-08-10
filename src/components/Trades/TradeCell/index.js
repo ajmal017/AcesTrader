@@ -38,12 +38,12 @@ class TradeCell extends Component {
 
     return (
       <div className="trade-cell-wrapper">
-        {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
+        {/* the TradCell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
         <div id={cell_id} className="trade-cell">
           <div className="trade-header">
             <span className="trade-title">{tradeTitle}</span>
-            <button onClick={this.handleDelete} className="trade-button" type="button" aria-label="close">
-              X
+            <button onClick={this.handleDelete} className="trade-button" type="button" aria-label="delete">
+              &times;
             </button>
           </div>
           <p>
