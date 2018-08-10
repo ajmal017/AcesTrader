@@ -42,8 +42,8 @@ class TradeCell extends Component {
         <div id={cell_id} className="trade-cell">
           <div className="trade-header">
             <span className="trade-title">{tradeTitle}</span>
-            <button onClick={this.handleDelete} className="trade-button" type="button" aria-label="close">
-              X
+            <button onClick={this.handleDelete} className="trade-button" type="button" aria-label="delete">
+              &times;
             </button>
           </div>
           <p>

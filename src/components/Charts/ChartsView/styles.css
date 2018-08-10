@@ -34,24 +34,3 @@
   opacity: 0.01;
   transition: opacity 300ms ease-in;
 }
-
-/* .error-cell {
-  width: 96%;
-  display: grid;
-  grid-template-columns: 1fr 600px 1fr;
-  background-color: #f9f9f9;
-  border-radius: 5px;
-  border: 1px solid blue;
-  margin: 90px 20px 20px 20px;
-  padding: 0 10px 0px 10px;
-  overflow: hidden;
-  grid-template-areas: 'left center right';
-} */
-
-/* .error-content {
-  grid-area: center;
-  padding: 0 10px 0px 10px;
-  border-radius: 5px;
-  width: 100%;
-  background: #f9f9f9;
-} */

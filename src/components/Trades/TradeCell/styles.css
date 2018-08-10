@@ -3,7 +3,7 @@
 .trade-cell-wrapper {
   background-color: #f9f9f9;
   border-radius: 5px;
-  padding: 0 10px 10px 40px;
+  padding: 0 8px 10px 40px;
   border: 1px solid blue;
   overflow: hidden;
 }
@@ -21,7 +21,7 @@
   /* background-color: #f9f9f9;
   border-radius: 5px;
   border: 1px solid blue;
-  padding: 0 10px 0px 10px;
+  padding: 0 0 0 10px;
   overflow: hidden; */
 }
 
@@ -32,23 +32,25 @@
 .trade-title {
   padding: 12px 0 6px 0;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .trade-button {
-  font-size: 18px;
-  font-weight: 700;
+  align-self: flex-start;
+  font-size: 32px;
+  font-weight: 600;
   background: #f9f9f9;
-  /* margin-top: 4px; */
-  margin-right: 4px;
   margin-left: auto;
-  /* height: 30px; */
-  width: '2.5rem';
-  height: '2.5rem';
+  margin-top: -6px;
   padding: 0;
+  width: 40px;
   border: 0;
-  cursor: 'pointer';
   outline: 0;
+  cursor: 'pointer';
+}
+
+.trade-button:hover {
+  background: #f09a9a;
 }
 
 @media only screen and (max-width: 576px) {
