@@ -4,6 +4,7 @@
   background-color: #f9f9f9;
   border-radius: 5px;
   padding: 0 8px 10px 40px;
+  margin-left: 10px;
   border: 1px solid blue;
   overflow: hidden;
 }
@@ -32,14 +33,13 @@
 .trade-title {
   padding: 12px 0 6px 0;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .trade-button {
   align-self: flex-start;
   font-size: 32px;
   font-weight: 600;
-  background: #f9f9f9;
   margin-left: auto;
   margin-top: -6px;
   padding: 0;
@@ -50,12 +50,13 @@
 }
 
 .trade-button:hover {
-  background: #f09a9a;
+  background: #eb8b8b;
 }
 
 @media only screen and (max-width: 576px) {
   .trade-cell-wrapper {
     /* padding-right: 30px; */
     padding-left: 10px;
+    margin-left: 0;
   }
 }
