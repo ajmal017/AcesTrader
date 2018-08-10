@@ -38,7 +38,7 @@ class TradeCell extends Component {
 
     return (
       <div className="trade-cell-wrapper">
-        {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
+        {/* the TradCell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
         <div id={cell_id} className="trade-cell">
           <div className="trade-header">
             <span className="trade-title">{tradeTitle}</span>
