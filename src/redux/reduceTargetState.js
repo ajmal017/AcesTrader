@@ -1,5 +1,7 @@
 // reduceTargetState.js
 
+import uuidv4 from 'uuid/v4'
+
 export default function(state, theInput, newDashboard, theDate, theEvent, thePrice = null, theQuantity = null, theAccount = null) {
   // Parameters:
   // state: The current target array of objects, either Prospects or Positions
@@ -22,6 +24,7 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
           theInputSymbol = theInput[kk]
           //create the watched asset object
           theInputObject = {}
+          theInputObject.hash = uuidv4() // use for unique object ID, instead of symbol (which may be repeated in Results)
           theInputObject.symbol = theInputSymbol
           theInputObject.dashboard = newDashboard //includes the order entry parameters
           theInputObject.watched = theDate

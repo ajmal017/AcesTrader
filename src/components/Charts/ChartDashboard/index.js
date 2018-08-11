@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+// import uuidv4 from 'uuid/v4'
 import { removeBuyFromList } from '../../../redux/reducerBuys'
 import { removeSellFromList } from '../../../redux/reducerSells'
 import { removeTrendBuyFromList } from '../../../redux/reducerTrendBuys'
@@ -29,7 +30,10 @@ class ChartDashboard extends Component {
   }
 
   handleEntry(event) {
+    // This is a newly entered position for this symbol
     event.preventDefault()
+
+    // const hash = uuidv4() // use for unique object ID, instead of symbol (which may be repeated in Results)
 
     //TO DO
     //******Get the 2 filled prices, quantity, and account number from Ameritrade********

@@ -14,7 +14,8 @@ class TradeCell extends Component {
 
   handleDelete(event) {
     event.preventDefault()
-    this.props.dispatch(removeResultFromList(this.props.tradeObject.symbol, this.props.tradeObject.exited))
+    this.props.dispatch(removeResultFromList(this.props.tradeObject.hash))
+    // this.props.dispatch(removeResultFromList(this.props.tradeObject.symbol, this.props.tradeObject.exited, this.props.tradeObject.hash))
   }
 
   render() {
@@ -26,15 +27,13 @@ class TradeCell extends Component {
     const tradeSide = tradeObject.dashboard.tradeSide
     const enterPrice = tradeObject.enteredPrice
     const exitPrice = tradeObject.exitedPrice
-    const tradeQuantity = tradeObject.quantity
+    const tradeQuantity = tradeObject.filledquantity
     const tradePercentGain = exitPrice !== 'pending' ? (100 * (exitPrice - enterPrice)) / enterPrice + '%' : 'pending'
     // const tradeDollarGain = exitPrice !== 'pending' ? tradeQuantity * (exitPrice - enterPrice) : 'pending'
     // const tradeGain = exitPrice !== 'pending' ? (100 * (exitPrice - enterPrice)) / enterPrice + '%' : 'pending'
     const account = tradeObject.account
-    // const tradeTitle = `${symbol} - ${tradeSide}`
     const tradeTitle = `${symbol}`
-
-    const cell_id = symbol.replace(/[\W_]/g, '')
+    const cell_id = tradeObject.hash
 
     return (
       <div className="trade-cell-wrapper">

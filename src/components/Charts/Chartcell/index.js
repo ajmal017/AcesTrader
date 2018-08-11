@@ -12,11 +12,8 @@ import { removeBuyFromList } from '../../../redux/reducerBuys'
 import { removeSellFromList } from '../../../redux/reducerSells'
 import { removeTrendBuyFromList } from '../../../redux/reducerTrendBuys'
 import axios from 'axios'
-// import CandleStickChart from '../CandleStickChart'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
-// import ChartDashboardHeader from '../ChartDashboardHeader'
 import ChartDashboard from '../ChartDashboard'
-// import ChartDashboardFooter from '../ChartDashboardFooter'
 import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
 import './styles.css'
 var cloneDeep = require('lodash.clonedeep')
@@ -95,12 +92,12 @@ class Chartcell extends Component {
   }
 
   render() {
-    this.tradeSide = this.props.cellObject.dashboard.tradeSide
-    this.symbol = this.props.cellObject.symbol
-    this.entered = this.props.cellObject.entered
     const cellObject = this.props.cellObject
+    this.tradeSide = cellObject.dashboard.tradeSide
+    this.symbol = cellObject.symbol
+    this.entered = cellObject.entered
     const chart_name = cellObject.symbol
-    const cell_id = chart_name.replace(/[\W_]/g, '')
+    const cell_id = cellObject.hash
     const chartId = cell_id + 'chart'
 
     //Cached storage holds price data (no change until program is restarted)

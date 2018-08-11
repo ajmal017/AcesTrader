@@ -9,6 +9,7 @@ import appScrollbarWidth from '../../lib/appScrollbarWidth'
 import Charts from '../Charts' //to hold stock price chart and dashboard control panel
 import Trades from '../Trades' //to hold the results chart and dashboard data display
 import './styles.css'
+var cloneDeep = require('lodash.clonedeep')
 
 class AppToolbar extends Component {
   constructor(props) {
@@ -58,27 +59,43 @@ class AppToolbar extends Component {
     // let scrollchorOffset = -94-this.scrollbarWidth-10
     let scrollchorOffset = -108 //number derived from trial and error
 
-    // The chartArray is an array of objects, each one having a symbol property and a dashboard property.
-    // Create an array of key values, one for each chart cell that will be drawn,
-    // to be a label in a button on a scrollable menu for the chart picker.
+    // The chartArray is an array of objects, each one having a hash property, a symbol property and a dashboard property.
 
     // Create the chart picker buttons for the horizontal scrollable menu
-    let chartkeys = chartArray.map((obj) => obj.symbol)
-    let menuItems = []
-    if (chartkeys) {
-      if (resultsCharts) {
-        chartkeys = chartkeys.sort()
-      }
-      menuItems = chartkeys.map(function(keyvalue, index) {
-        return (
-          <button key={index.toString()}>
-            <Scrollchor to={keyvalue.replace(/[\W_]/g, '')} disableHistory={true} animate={{ offset: scrollchorOffset, duration: 500 }} className="nav-link">
-              {keyvalue}
-            </Scrollchor>
-          </button>
-        )
+    let workArray = chartArray
+    if (resultsCharts) {
+      // this is chronologically listed, must change to alphabetically listed
+      workArray = cloneDeep(chartArray) // prepare for mutation by sort
+      workArray.sort(function(a, b) {
+        return a.symbol > b.symbol
       })
     }
+    let menuItems = workArray.map(function(obj, index) {
+      return (
+        <button key={index.toString()}>
+          <Scrollchor to={obj.hash} disableHistory={true} animate={{ offset: scrollchorOffset, duration: 500 }} className="nav-link">
+            {obj.symbol}
+          </Scrollchor>
+        </button>
+      )
+    })
+
+    // let chartkeys = chartArray.map((obj) => obj.symbol)
+    // let menuItems = []
+    // if (chartkeys) {
+    //   if (resultsCharts) {
+    //     chartkeys = chartkeys.sort()
+    //   }
+    //   menuItems = chartkeys.map(function(keyvalue, index) {
+    //     return (
+    //       <button key={index.toString()}>
+    //         <Scrollchor to={keyvalue.replace(/[\W_]/g, '')} disableHistory={true} animate={{ offset: scrollchorOffset, duration: 500 }} className="nav-link">
+    //           {keyvalue}
+    //         </Scrollchor>
+    //       </button>
+    //     )
+    //   })
+    // }
 
     return (
       <div>
