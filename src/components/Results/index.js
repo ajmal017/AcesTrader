@@ -4,6 +4,13 @@ import { connect } from 'react-redux'
 import AppToolbar from '../../components/AppToolbar'
 
 class Results extends Component {
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.results !== prevProps.results) {
+      // start the fade-out, fade-in transition now before the browser updates the screen
+    }
+  }
+
   render() {
     return <AppToolbar resultsCharts={true} chartArray={this.props.results} />
   }

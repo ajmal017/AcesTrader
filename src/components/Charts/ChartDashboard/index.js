@@ -79,20 +79,6 @@ class ChartDashboard extends Component {
     }
   }
 
-  // handleDelete(event) {
-  //   event.preventDefault()
-  //   if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
-  //     this.props.dispatch(removeBuyFromList(this.symbol))
-  //   } else if (this.tradeSide.toUpperCase() === 'SWING SHORT SALES') {
-  //     this.props.dispatch(removeSellFromList(this.symbol))
-  //   } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
-  //     this.props.dispatch(removeTrendBuyFromList(this.symbol))
-  //   } else {
-  //     alert('ERROR3 Missing tradeSide in ChartDashboard')
-  //     // debugger
-  //   }
-  // }
-
   render() {
     //handle new props with changed state of cellObjects
     this.symbol = this.props.cellObject.symbol

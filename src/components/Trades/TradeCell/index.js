@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { querydeleteTradeObject } from '../../../redux/reducerModal'
 import { removeResultFromList } from '../../../redux/reducerResults'
 import './styles.css'
 
@@ -10,12 +11,20 @@ class TradeCell extends Component {
   constructor(props) {
     super(props)
     this.handleDelete = this.handleDelete.bind(this)
+    this.handleDeleteQueryResonse = this.handleDeleteQueryResonse.bind(this)
   }
 
   handleDelete(event) {
     event.preventDefault()
-    this.props.dispatch(removeResultFromList(this.props.tradeObject.hash))
-    // this.props.dispatch(removeResultFromList(this.props.tradeObject.symbol, this.props.tradeObject.exited, this.props.tradeObject.hash))
+    this.props.dispatch(querydeleteTradeObject(this.handleDeleteQueryResonse))
+  }
+
+  handleDeleteQueryResonse(response) {
+    let buttonFlag = response.buttonFlag
+    if (buttonFlag === 'yes') {
+      // fade-out this object before dispatching redux action, which will snap in revised display
+      this.props.dispatch(removeResultFromList(this.props.tradeObject.hash))
+    }
   }
 
   render() {
@@ -32,21 +41,22 @@ class TradeCell extends Component {
     // const tradeDollarGain = exitPrice !== 'pending' ? tradeQuantity * (exitPrice - enterPrice) : 'pending'
     // const tradeGain = exitPrice !== 'pending' ? (100 * (exitPrice - enterPrice)) / enterPrice + '%' : 'pending'
     const account = tradeObject.account
-    const tradeTitle = `${symbol}`
     const cell_id = tradeObject.hash
+    const wrapperId = 'wrapper-' + cell_id
 
     return (
-      <div className="trade-cell-wrapper">
+      <div id={wrapperId} className="trade-cell-wrapper">
         {/* the TradCell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
         <div id={cell_id} className="trade-cell">
           <div className="trade-header">
-            <span className="trade-title">{tradeTitle}</span>
+            <span className="trade-title-formatting">{symbol}</span>
+            <span className="tradeside-formatting">Trade: {tradeSide}</span>
             <button onClick={this.handleDelete} className="trade-button" type="button" aria-label="delete">
               &times;
             </button>
           </div>
           <p>
-            Account: {account}, Quantity: {tradeQuantity}, Trade: {tradeSide}
+            Account: {account}, Quantity: {tradeQuantity}
           </p>
           <p>
             Watched: {watchDate}, Entered: {enterDate}, Exited: {exitDate}

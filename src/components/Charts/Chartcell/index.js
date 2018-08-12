@@ -22,7 +22,12 @@ class Chartcell extends Component {
   constructor(props) {
     super(props)
     this.handleDelete = this.handleDelete.bind(this)
+    this.handleDispatch = this.handleDispatch.bind(this)
     this.loadChartData = this.loadChartData.bind(this)
+    this.componentClasses = ['chart-cell-wrapper']
+    //className={componentClasses.join(' ')}
+    //className="chart-cell-wrapper"
+
     this.state = {}
   }
 
@@ -30,7 +35,7 @@ class Chartcell extends Component {
     // first try to recover cached price data to avoid another http request
     let data = cloneDeep(getPriceData(this.props.cellObject.symbol))
     if (data) {
-      this.setState({ data })
+      this.setState({ data, hide: '' })
     } else {
       this.loadChartData()
     }
@@ -50,7 +55,7 @@ class Chartcell extends Component {
           return obj
         })
         putPriceData(symbol, data) //cache price data for subsequent mount
-        this.setState({ data })
+        this.setState({ data, hide: '' })
       })
       .catch(function(error) {
         if (error.response) {
@@ -79,6 +84,14 @@ class Chartcell extends Component {
 
   handleDelete(event) {
     event.preventDefault()
+    // fade-out this object before dispatching redux action, which will snap in revised display
+    // this.setState({ hide: true })
+    // this.componentClasses.push('hidden')
+    // setTimeout(this.handleDispatch, 1000)
+    this.handleDispatch()
+  }
+
+  handleDispatch() {
     if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
       this.props.dispatch(removeBuyFromList(this.symbol))
     } else if (this.tradeSide.toUpperCase() === 'SWING SHORT SALES') {
@@ -98,7 +111,8 @@ class Chartcell extends Component {
     this.entered = cellObject.entered
     const chart_name = cellObject.symbol
     const cell_id = cellObject.hash
-    const chartId = cell_id + 'chart'
+    const wrapperId = 'wrapper-' + cell_id
+    const chartId = 'chart-' + cell_id
 
     //Cached storage holds price data (no change until program is restarted)
     //Cached storage holds indicator values used for signal alerts)
@@ -112,7 +126,7 @@ class Chartcell extends Component {
       )
     }
     return (
-      <div className="chart-cell-wrapper">
+      <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'hidden' : ''}`}>
         {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
         <div id={cell_id} className="chart-cell">
           <div className="cell-header">

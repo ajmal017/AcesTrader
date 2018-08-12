@@ -24,10 +24,10 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
           theInputSymbol = theInput[kk]
           //create the watched asset object
           theInputObject = {}
-          theInputObject.hash = uuidv4() // use for unique object ID, instead of symbol (which may be repeated in Results)
           theInputObject.symbol = theInputSymbol
           theInputObject.dashboard = newDashboard //includes the order entry parameters
           theInputObject.watched = theDate
+          theInputObject.hash = uuidv4() // use for unique object ID, instead of symbol (which may be repeated in Results)
           break
         case 'entered': //theInput is a list of asset objects going into Positions
           theInputSymbol = theInput[kk].symbol

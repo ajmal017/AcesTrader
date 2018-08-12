@@ -7,6 +7,14 @@
   margin: 0 0 10px 0;
   border: 1px solid blue;
   overflow: hidden;
+  visibility: visible;
+  opacity: 1;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
 }
 
 .dashboard-wrapper {

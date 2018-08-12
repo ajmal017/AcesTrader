@@ -30,7 +30,14 @@
   display: inline-flex;
 }
 
-.trade-title {
+.trade-title-formatting {
+  padding: 12px 0 6px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+.tradeside-formatting {
+  margin-left: 20px;
+  margin-right: 4px;
   padding: 12px 0 6px 0;
   font-size: 16px;
   font-weight: 600;

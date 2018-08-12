@@ -17,14 +17,14 @@
   border-bottom: 1px solid #ced4da;
 }
 
-.example-enter {
+/* .example-enter {
   opacity: 0.01;
-}
+} */
 
-.example-enter.example-enter-active {
+/* .example-enter.example-enter-active {
   opacity: 1;
   transition: opacity 500ms ease-in;
-}
+} */
 
 .example-exit {
   opacity: 1;

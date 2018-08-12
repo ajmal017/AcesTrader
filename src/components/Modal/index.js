@@ -3,6 +3,7 @@
 // Modal framework from: https://www.nearform.com/blog/exploring-react-portals/
 
 import React, { Component } from 'react'
+import DeleteTradeObjectModal from './DeleteTradeObjectModal'
 import ResetLocalStorageModal from './ResetLocalStorageModal'
 import ClearProspecLlistModal from './ClearProspecLlistModal'
 import NotificationModal from './NotificationModal'
@@ -56,6 +57,8 @@ class Modal extends Component {
 
   modalPage(props) {
     switch (props.dialogSelector.toLowerCase()) {
+      case 'deletetradeobject':
+        return <DeleteTradeObjectModal {...props} />
       case 'resetlocalstorage':
         return <ResetLocalStorageModal {...props} />
       case 'clearprospectlist':
