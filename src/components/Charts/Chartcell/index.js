@@ -11,6 +11,13 @@ import PropTypes from 'prop-types'
 import { removeBuyFromList } from '../../../redux/reducerBuys'
 import { removeSellFromList } from '../../../redux/reducerSells'
 import { removeTrendBuyFromList } from '../../../redux/reducerTrendBuys'
+import { addLongToList } from '../../../redux/reducerLongs'
+import { addShortToList } from '../../../redux/reducerShorts'
+import { addTrendLongToList } from '../../../redux/reducerTrendLongs'
+import { removeLongFromList } from '../../../redux/reducerLongs'
+import { removeShortFromList } from '../../../redux/reducerShorts'
+import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
+import { addResultToList } from '../../../redux/reducerResults'
 import axios from 'axios'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import ChartDashboard from '../ChartDashboard'
@@ -21,8 +28,10 @@ var cloneDeep = require('lodash.clonedeep')
 class Chartcell extends Component {
   constructor(props) {
     super(props)
+    this.handleEntry = this.handleEntry.bind(this)
+    this.handleEntryDispatch = this.handleEntryDispatch.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
-    this.handleDispatch = this.handleDispatch.bind(this)
+    this.handleDeleteDispatch = this.handleDeleteDispatch.bind(this)
     this.loadChartData = this.loadChartData.bind(this)
     this.state = {}
   }
@@ -78,14 +87,68 @@ class Chartcell extends Component {
       })
   }
 
+  handleEntry(event) {
+    event.preventDefault()
+    // fade-out this object before dispatching redux action, which will snap in revised display
+    this.setState({ hide: true })
+    setTimeout(this.handleEntryDispatch, 500)
+  }
+
+  handleEntryDispatch() {
+    // This is a newly entered position for this symbol
+    this.setState({ hide: false })
+    //TO DO
+    //******Get the 2 filled prices, quantity, and account number from Ameritrade********
+    const enteredPrice = 'pending' //100.52
+    const exitedPrice = 'pending' //220.44
+    const filledQuantity = 'pending' //55
+    const theAccount = 'pending'
+
+    switch (this.tradeSide.toUpperCase()) {
+      case 'SWING BUYS': {
+        this.props.dispatch(addLongToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
+        this.props.dispatch(removeBuyFromList(this.symbol))
+        break
+      }
+      case 'SWING SHORT SALES': {
+        this.props.dispatch(addShortToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
+        this.props.dispatch(removeSellFromList(this.symbol))
+        break
+      }
+      case 'TREND BUYS': {
+        this.props.dispatch(addTrendLongToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
+        this.props.dispatch(removeTrendBuyFromList(this.symbol))
+        break
+      }
+      case 'SWING LONGS': {
+        this.props.dispatch(addResultToList(this.props.cellObject, exitedPrice))
+        this.props.dispatch(removeLongFromList(this.symbol))
+        break
+      }
+      case 'SWING SHORTS': {
+        this.props.dispatch(addResultToList(this.props.cellObject, exitedPrice))
+        this.props.dispatch(removeShortFromList(this.symbol))
+        break
+      }
+      case 'TREND LONGS': {
+        this.props.dispatch(addResultToList(this.props.cellObject, exitedPrice))
+        this.props.dispatch(removeTrendLongFromList(this.symbol))
+        break
+      }
+      default:
+        alert('ERROR2 Missing tradeSide in Chartcell')
+      // debugger
+    }
+  }
+
   handleDelete(event) {
     event.preventDefault()
     // fade-out this object before dispatching redux action, which will snap in revised display
     this.setState({ hide: true })
-    setTimeout(this.handleDispatch, 500)
+    setTimeout(this.handleDeleteDispatch, 500)
   }
 
-  handleDispatch() {
+  handleDeleteDispatch() {
     this.setState({ hide: false })
     if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
       this.props.dispatch(removeBuyFromList(this.symbol))
@@ -103,6 +166,7 @@ class Chartcell extends Component {
     const cellObject = this.props.cellObject
     this.tradeSide = cellObject.dashboard.tradeSide
     this.symbol = cellObject.symbol
+    this.instruction = cellObject.dashboard.instruction
     this.entered = cellObject.entered
     const chart_name = cellObject.symbol
     const cell_id = cellObject.hash
@@ -135,9 +199,16 @@ class Chartcell extends Component {
           <div id={chartId} className="graph-content">
             <CandleStickChartWithMA chartId={chartId} data={this.state.data} symbol={chart_name} />
           </div>
-
           <div className="dashboard-center">
             <ChartDashboard handleClick={this.props.handleClick} cellObject={cellObject} />
+          </div>
+
+          <div className="dashboard-footer">
+            <div className="order-entry-button">
+              <button onClick={this.handleEntry} className="entry-order-button">
+                {this.instruction} {this.symbol}
+              </button>
+            </div>
           </div>
         </div>
       </div>
