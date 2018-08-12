@@ -91,7 +91,7 @@ class Chartcell extends Component {
     event.preventDefault()
     // fade-out this object before dispatching redux action, which will snap in revised display
     this.setState({ hide: true })
-    setTimeout(this.handleEntryDispatch, 500)
+    setTimeout(this.handleEntryDispatch, 200)
   }
 
   handleEntryDispatch() {
@@ -145,7 +145,7 @@ class Chartcell extends Component {
     event.preventDefault()
     // fade-out this object before dispatching redux action, which will snap in revised display
     this.setState({ hide: true })
-    setTimeout(this.handleDeleteDispatch, 500)
+    setTimeout(this.handleDeleteDispatch, 200)
   }
 
   handleDeleteDispatch() {

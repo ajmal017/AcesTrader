@@ -2,17 +2,6 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import uuidv4 from 'uuid/v4'
-// import { removeBuyFromList } from '../../../redux/reducerBuys'
-// import { removeSellFromList } from '../../../redux/reducerSells'
-// import { removeTrendBuyFromList } from '../../../redux/reducerTrendBuys'
-// import { addLongToList } from '../../../redux/reducerLongs'
-// import { addShortToList } from '../../../redux/reducerShorts'
-// import { addTrendLongToList } from '../../../redux/reducerTrendLongs'
-// import { removeLongFromList } from '../../../redux/reducerLongs'
-// import { removeShortFromList } from '../../../redux/reducerShorts'
-// import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
-// import { addResultToList } from '../../../redux/reducerResults'
 import PropTypes from 'prop-types'
 import './styles.css'
 
@@ -20,62 +9,12 @@ class ChartDashboard extends Component {
   constructor(props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
-    // this.handleDelete = this.handleDelete.bind(this)
-    // this.handleEntry = this.handleEntry.bind(this)
     this.state = {}
   }
 
   handleChange(event) {
     this.setState({ value: event.target.value })
   }
-
-  // handleEntry(event) {
-  //   // This is a new enter or exit instruction for this symbol
-  //   event.preventDefault()
-
-  //   //TO DO
-  //   //******Get the 2 filled prices, quantity, and account number from Ameritrade********
-  //   const enteredPrice = 'pending' //100.52
-  //   const exitedPrice = 'pending' //220.44
-  //   const filledQuantity = 'pending' //55
-  //   const theAccount = 'pending'
-
-  //   switch (this.tradeSide.toUpperCase()) {
-  //     case 'SWING BUYS': {
-  //       this.props.dispatch(addLongToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
-  //       this.props.dispatch(removeBuyFromList(this.symbol))
-  //       break
-  //     }
-  //     case 'SWING SHORT SALES': {
-  //       this.props.dispatch(addShortToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
-  //       this.props.dispatch(removeSellFromList(this.symbol))
-  //       break
-  //     }
-  //     case 'TREND BUYS': {
-  //       this.props.dispatch(addTrendLongToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
-  //       this.props.dispatch(removeTrendBuyFromList(this.symbol))
-  //       break
-  //     }
-  //     case 'SWING LONGS': {
-  //       this.props.dispatch(addResultToList(this.props.cellObject, exitedPrice))
-  //       this.props.dispatch(removeLongFromList(this.symbol))
-  //       break
-  //     }
-  //     case 'SWING SHORTS': {
-  //       this.props.dispatch(addResultToList(this.props.cellObject, exitedPrice))
-  //       this.props.dispatch(removeShortFromList(this.symbol))
-  //       break
-  //     }
-  //     case 'TREND LONGS': {
-  //       this.props.dispatch(addResultToList(this.props.cellObject, exitedPrice))
-  //       this.props.dispatch(removeTrendLongFromList(this.symbol))
-  //       break
-  //     }
-  //     default:
-  //       alert('ERROR3 Missing tradeSide in ChartDashboard')
-  //     // debugger
-  //   }
-  // }
 
   render() {
     //handle new props with changed state of cellObjects
@@ -131,11 +70,6 @@ class ChartDashboard extends Component {
             <label htmlFor="duration">Duration</label>
             <input type="text" name="duration" value={this.duration} onChange={this.handleChange} />
           </form>
-          {/* <div className="dashboard-buttons">
-            <button onClick={this.handleEntry} className="entry-order-button">
-              {this.instruction} {this.symbol}
-            </button>
-          </div> */}
         </div>
       </div>
     )
