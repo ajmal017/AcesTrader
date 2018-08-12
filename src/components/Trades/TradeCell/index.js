@@ -12,6 +12,8 @@ class TradeCell extends Component {
     super(props)
     this.handleDelete = this.handleDelete.bind(this)
     this.handleDeleteQueryResonse = this.handleDeleteQueryResonse.bind(this)
+    this.handleDispatch = this.handleDispatch.bind(this)
+    this.state = {}
   }
 
   handleDelete(event) {
@@ -23,8 +25,14 @@ class TradeCell extends Component {
     let buttonFlag = response.buttonFlag
     if (buttonFlag === 'yes') {
       // fade-out this object before dispatching redux action, which will snap in revised display
-      this.props.dispatch(removeResultFromList(this.props.tradeObject.hash))
+      this.setState({ hide: true })
+      setTimeout(this.handleDispatch, 500)
     }
+  }
+
+  handleDispatch() {
+    this.setState({ hide: false })
+    this.props.dispatch(removeResultFromList(this.props.tradeObject.hash))
   }
 
   render() {
@@ -45,7 +53,7 @@ class TradeCell extends Component {
     const wrapperId = 'wrapper-' + cell_id
 
     return (
-      <div id={wrapperId} className="trade-cell-wrapper">
+      <div id={wrapperId} className={`trade-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
         {/* the TradCell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
         <div id={cell_id} className="trade-cell">
           <div className="trade-header">

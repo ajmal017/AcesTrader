@@ -37,7 +37,6 @@
     "react-scrollchor": "5.0.2",
     "react-sizes": "1.0.0",
     "react-stockcharts": "^0.7.6",
-    "react-transition-group-v2": "^2.4.0",
     "redux": "^3.7.2",
     "uuid": "^3.1.0"
   },

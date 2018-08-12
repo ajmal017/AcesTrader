@@ -11,10 +11,10 @@
   opacity: 1;
 }
 
-.hidden {
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s 2s, opacity 2s linear;
+.chart-cell-wrapper.fadeout {
+  visibility: visible;
+  opacity: 0.1;
+  transition: opacity 0.4s linear;
 }
 
 .dashboard-wrapper {
@@ -32,28 +32,19 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 40px 247px 16px 225px 22px;
-  /* grid-gap: 10px; */
   grid-template-areas:
     'cellheader'
     'cellgraph'
     '.'
     'dataform'
     'datafooter';
-  /* background-color: #f9f9f9;
-  border-radius: 5px;
-  border: 1px solid blue;
-  padding: 0 10px 0px 10px;
-  overflow: hidden; */
 }
 
 .cell-header {
   grid-area: cellheader;
   display: inline-flex;
   width: 100%;
-  /* height: 22px; */
   background: #f9f9f9;
-  /* text-align: center; */
-  /* font-weight: bold; */
 }
 
 .cell-title {

@@ -24,10 +24,6 @@ class Chartcell extends Component {
     this.handleDelete = this.handleDelete.bind(this)
     this.handleDispatch = this.handleDispatch.bind(this)
     this.loadChartData = this.loadChartData.bind(this)
-    this.componentClasses = ['chart-cell-wrapper']
-    //className={componentClasses.join(' ')}
-    //className="chart-cell-wrapper"
-
     this.state = {}
   }
 
@@ -85,13 +81,12 @@ class Chartcell extends Component {
   handleDelete(event) {
     event.preventDefault()
     // fade-out this object before dispatching redux action, which will snap in revised display
-    // this.setState({ hide: true })
-    // this.componentClasses.push('hidden')
-    // setTimeout(this.handleDispatch, 1000)
-    this.handleDispatch()
+    this.setState({ hide: true })
+    setTimeout(this.handleDispatch, 500)
   }
 
   handleDispatch() {
+    this.setState({ hide: false })
     if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
       this.props.dispatch(removeBuyFromList(this.symbol))
     } else if (this.tradeSide.toUpperCase() === 'SWING SHORT SALES') {
@@ -126,7 +121,7 @@ class Chartcell extends Component {
       )
     }
     return (
-      <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'hidden' : ''}`}>
+      <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
         {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
         <div id={cell_id} className="chart-cell">
           <div className="cell-header">
