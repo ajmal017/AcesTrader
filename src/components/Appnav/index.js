@@ -44,6 +44,10 @@ const Appnav = function() {
               </LinkContainer>
             </NavDropdown>
 
+            <LinkContainer to="/results">
+              <NavItem eventKey={9}>Trades</NavItem>
+            </LinkContainer>
+
             <NavDropdown eventKey={6} title="Edit Lists" id="5-basic-nav-dropdown">
               <LinkContainer to="/managebuyprospects">
                 <MenuItem eventKey={6.2}>Swing Buy Prospects</MenuItem>
@@ -57,10 +61,6 @@ const Appnav = function() {
             </NavDropdown>
 
             <NavDropdown eventKey={7} title="More" id="5-basic-nav-dropdown">
-              <LinkContainer to="/results">
-                <NavItem eventKey={7.1}>Trades</NavItem>
-              </LinkContainer>
-
               <LinkContainer to="/peek">
                 <NavItem eventKey={7.2}>Peek</NavItem>
               </LinkContainer>
