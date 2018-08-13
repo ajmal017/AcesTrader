@@ -184,6 +184,7 @@ class Chartcell extends Component {
         </div>
       )
     }
+
     return (
       <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
         {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
