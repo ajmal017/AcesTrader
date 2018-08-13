@@ -191,6 +191,7 @@ class Chartcell extends Component {
         <div id={cell_id} className="chart-cell">
           <div className="cell-header">
             <span className="cell-title">{chart_name}</span>
+            {/* if entered is undefined, this is a Prospects list, so the X delete button is added */}
             {this.entered === undefined ? (
               <button onClick={this.handleDelete} className="cell-button" type="button" aria-label="delete">
                 &times;
