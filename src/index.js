@@ -16,6 +16,7 @@ import rootReducer from './redux'
 import ErrorBoundary from './components/ErrorBoundary/'
 import Root from './components/Root'
 import { loadLocalState, saveLocalState } from './lib/localStorage'
+import { loadFirebaseState, saveFirebaseState } from './lib/firebaseStorage'
 import { resetCache } from './lib/chartDataCache'
 import {} from './lib/chartDataCache'
 import throttle from 'lodash/throttle'
@@ -35,24 +36,38 @@ import pinverified from './lib/pinverified.js'
 // This can be bypassed in the pinverfied code.
 
 if (canapprun() && pinverified()) {
-  const persistedState = loadLocalState() //returns 'undefined' if error or no saved state
-  const store = createStore(rootReducer, persistedState) // 'persistedState' overrides the initial state specified by the reducers
+  // **SignIn the user**
 
-  resetCache() // clear all previously cached chart price data for fresh start
+  // *******TODO SIGNIN********
+  const demoMode = true // value returned from the ***SignIn***
+  // const demoMode = false // value returned from the ***SignIn***
 
-  // let response = islocalStorageWorking()
-  // if (!response) {
-  //   alert(
-  //     "ERROR! Your computer's local storage is disabled or else is full. As a result AcesTrader can not save your work. Please enable local storage or increase your storage space quota or delete some plan files, depending on the situation."
-  //   )
-  // }
-
+  let persistedState
+  let store
+  if (demoMode) {
+    // let response = islocalStorageWorking()
+    // if (!response) {
+    //   alert(
+    //     "ERROR! Your computer's local storage is disabled or else is full. As a result AcesTrader can not save your data. Please enable local storage or increase your storage space quota or delete some plan files, depending on the situation."
+    //   )
+    // }
+    persistedState = loadLocalState() //returns 'undefined' if error or no saved state
+    store = createStore(rootReducer, persistedState) // 'persistedState' overrides the initial state specified by the reducers
+  } else {
+    // run with Firebase database store
+    persistedState = undefined //no saved state until the Firebase database's read Promise is satisfied
+    store = createStore(rootReducer, persistedState) // 'persistedState' overrides the initial state specified by the reducers
+  }
   // Write the app state on every change only once per second
   store.subscribe(
     throttle(() => {
-      saveLocalState(store.getState())
+      demoMode ? saveLocalState(store.getState()) : saveFirebaseState(store.getState())
     }, 1000)
   )
+  if (!demoMode) {
+    loadFirebaseState(store) // start the async i/o to update store after store.subscribe is active
+  }
+  resetCache() // clear all previously cached chart price data for fresh start
 
   render(
     <ErrorBoundary>
