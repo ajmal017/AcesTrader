@@ -15,7 +15,7 @@ import { createStore } from 'redux'
 import rootReducer from './redux'
 import ErrorBoundary from './components/ErrorBoundary/'
 import Root from './components/Root'
-import { loadState, saveState } from './lib/localStorage'
+import { loadLocalState, saveLocalState } from './lib/localStorage'
 import { resetCache } from './lib/chartDataCache'
 import {} from './lib/chartDataCache'
 import throttle from 'lodash/throttle'
@@ -35,7 +35,7 @@ import pinverified from './lib/pinverified.js'
 // This can be bypassed in the pinverfied code.
 
 if (canapprun() && pinverified()) {
-  const persistedState = loadState() //returns 'undefined' if error or no saved state
+  const persistedState = loadLocalState() //returns 'undefined' if error or no saved state
   const store = createStore(rootReducer, persistedState) // 'persistedState' overrides the initial state specified by the reducers
 
   resetCache() // clear all previously cached chart price data for fresh start
@@ -50,7 +50,7 @@ if (canapprun() && pinverified()) {
   // Write the app state on every change only once per second
   store.subscribe(
     throttle(() => {
-      saveState(store.getState())
+      saveLocalState(store.getState())
     }, 1000)
   )
 
