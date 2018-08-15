@@ -15,11 +15,12 @@ import { createStore } from 'redux'
 import rootReducer from './redux'
 import ErrorBoundary from './components/ErrorBoundary/'
 import Root from './components/Root'
-import { loadLocalState, saveLocalState } from './lib/localStorage'
+import { loadLocalState, saveLocalState, islocalStorageWorking } from './lib/localStorage'
 import { loadFirebaseState, saveFirebaseState } from './lib/firebaseStorage'
 import { resetCache } from './lib/chartDataCache'
 import {} from './lib/chartDataCache'
 import throttle from 'lodash/throttle'
+import fire from './fire'
 
 // Import the utility code which tests if the screen size
 // and grid support are both OK to run the app,
@@ -39,40 +40,88 @@ if (canapprun() && pinverified()) {
   // **SignIn the user**
 
   // *******TODO SIGNIN********
-  const demoMode = true // value returned from the ***SignIn***
-  // const demoMode = false // value returned from the ***SignIn***
+  // const demoMode = true // value returned from the ***SignIn***
+  const demoMode = false // value returned from the ***SignIn***
 
-  let persistedState
-  let store
+  resetCache() // clear all previously cached chart price data for fresh start
+  const reference = 'acestrader'
+  let stateRetrieved = 'pending' // switch to control the render
+  let persistedState // receives the saved state from storage
+  let store // receives the created store
   if (demoMode) {
-    // let response = islocalStorageWorking()
-    // if (!response) {
-    //   alert(
-    //     "ERROR! Your computer's local storage is disabled or else is full. As a result AcesTrader can not save your data. Please enable local storage or increase your storage space quota or delete some plan files, depending on the situation."
-    //   )
-    // }
+    // TestlocalStorage() // test if disabled or full, needs to be enabled in /lib/localStorage
+    stateRetrieved = 'ready' // allow app to render
     persistedState = loadLocalState() //returns (undefined) if error or no saved state
     store = createStore(rootReducer, persistedState) // 'persistedState' overrides the initial state specified by the reducers
   } else {
-    // run with Firebase database store
+    // running with Firebase database storage
     persistedState = undefined //no saved state until the Firebase database's read Promise is satisfied
-    store = createStore(rootReducer, persistedState) // 'persistedState' overrides the initial state specified by the reducers
-  }
-  // Write the app state on every change only once per second
-  store.subscribe(
-    throttle(() => {
-      demoMode ? saveLocalState(store.getState()) : saveFirebaseState(store.getState())
-    }, 1000)
-  )
-  if (!demoMode) {
-    loadFirebaseState(store) // start the async i/o to update store after store.subscribe is active
-  }
-  resetCache() // clear all previously cached chart price data for fresh start
+    store = createStore(rootReducer, persistedState) // 'persistedState=undefined' creates default state
 
-  render(
-    <ErrorBoundary>
-      <Root store={store} />
-    </ErrorBoundary>,
-    document.getElementById('root')
-  )
+    fire
+      .database()
+      .ref(reference)
+      .once('value')
+      .then(function(snapshot) {
+        if (snapshot) {
+          stateRetrieved = 'ready' // allow app to render if i/o successful
+          persistedState = snapshot.val()
+          store = createStore(rootReducer, persistedState) // 'persistedState=snapshot.val' creates store with current state by overriding the initial state specified by the reducers
+        } else {
+          stateRetrieved = 'error' //  i/o unsuccessful
+        }
+        render(<DataStatus stateRetrieved={stateRetrieved} />, document.getElementById('root'))
+      })
+  }
+
+  function TestlocalStorage(props) {
+    let response = islocalStorageWorking()
+    if (!response) {
+      alert(
+        "ERROR! Your computer's local storage is disabled or else is full. As a result AcesTrader can not save your data. Please enable local storage or increase your storage space quota or delete some plan files, depending on the situation."
+      )
+    }
+  }
+
+  function DataReady(props) {
+    store.subscribe(
+      throttle(() => {
+        let test = store.getState()
+        demoMode ? saveLocalState(store.getState()) : saveFirebaseState(store.getState())
+      }, 1000)
+    )
+    return (
+      <ErrorBoundary>
+        <Root store={store} />{' '}
+      </ErrorBoundary>
+    )
+  }
+  function DataPending(props) {
+    const divStyle = { marginTop: 80, marginLeft: 50 }
+    return (
+      <div style={divStyle}>
+        <h4>{`Retrieving Your Data. Please Wait...`}</h4>
+      </div>
+    )
+  }
+  function DataError(props) {
+    const divStyle = { marginTop: 80, marginLeft: 20 }
+    return (
+      <div style={divStyle}>
+        <h4>{`Error While Retrieving Your Data. Please Restart to Try Again...`}</h4>
+      </div>
+    )
+  }
+  function DataStatus(props) {
+    if (props.stateRetrieved === 'ready') {
+      return <DataReady />
+    } else if (props.stateRetrieved === 'pending') {
+      return <DataPending />
+    } else if (props.stateRetrieved === 'error') {
+      return <DataError />
+    } else {
+      alert('Error in props.stateRetrieved = ' + props.stateRetrieved)
+    }
+  }
+  render(<DataStatus stateRetrieved={stateRetrieved} />, document.getElementById('root'))
 }

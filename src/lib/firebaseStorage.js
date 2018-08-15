@@ -11,16 +11,14 @@ const reference = 'acestrader'
 // This functionality is handled by the reducers
 // export const resetFirebaseState = () => {}
 
-export const loadFirebaseState = (store) => {
-  return fire
+export const loadFirebaseState = () => {
+  fire
     .database()
     .ref(reference)
     .once('value')
     .then(function(snapshot) {
-      // return snapshot ? snapshot.val() : 'undefined'
-      if (snapshot) {
-        store = cloneDeep(snapshot.val())
-      }
+      let result = snapshot ? snapshot.val() : undefined
+      return result
     })
 }
 
