@@ -20,6 +20,7 @@
     "chain-function": "^1.0.1",
     "chart.js": "^2.4.0",
     "cheerio": "0.19.x",
+    "firebase": "^5.3.1",
     "history": "4.7.2",
     "lodash": "^4.17.4",
     "lodash.clonedeep": "^4.5.0",
@@ -43,6 +44,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "firebase deploy",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

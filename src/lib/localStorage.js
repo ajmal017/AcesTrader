@@ -15,11 +15,12 @@ export const islocalStorageWorking = () => {
   }
 }
 
-export const resetState = () => {
-  localStorage.removeItem('at-state') // REMOVE STATE DATA
-}
+// This functionality is handled by the reducers
+// export const resetLocalState = () => {
+//   localStorage.removeItem('at-state') // REMOVE STATE DATA
+// }
 
-export const loadState = () => {
+export const loadLocalState = () => {
   // localStorage.removeItem('at-state') //TEMP to reset state
   try {
     let serializedState = localStorage.getItem('at-state')
@@ -39,7 +40,7 @@ export const loadState = () => {
   }
 }
 
-export const saveState = (state) => {
+export const saveLocalState = (state) => {
   try {
     let serializedState = JSON.stringify(state)
     serializedState = base64.encode(serializedState)
@@ -56,59 +57,59 @@ export const saveState = (state) => {
   }
 }
 
-export const deletePlan = (planName) => {
-  localStorage.removeItem(planName)
-}
+// export const deletePlan = (planName) => {
+//   localStorage.removeItem(planName)
+// }
 
-export const savePlan = (planName, planObject) => {
-  try {
-    let serializedPlan = JSON.stringify(planObject)
-    serializedPlan = base64.encode(serializedPlan)
-    localStorage.setItem(planName, serializedPlan)
-    return true
-  } catch (err) {
-    if (isQuotaExceeded(err)) {
-      // Storage full, maybe notify user or do some clean-up
-      return false
-    }
-    if (process.env.NODE_ENV !== 'production') {
-      debugger
-    }
-  }
-}
+// export const savePlan = (planName, planObject) => {
+//   try {
+//     let serializedPlan = JSON.stringify(planObject)
+//     serializedPlan = base64.encode(serializedPlan)
+//     localStorage.setItem(planName, serializedPlan)
+//     return true
+//   } catch (err) {
+//     if (isQuotaExceeded(err)) {
+//       // Storage full, maybe notify user or do some clean-up
+//       return false
+//     }
+//     if (process.env.NODE_ENV !== 'production') {
+//       debugger
+//     }
+//   }
+// }
 
-export const loadPlan = (planName) => {
-  try {
-    let serializedPlan = localStorage.getItem(planName)
-    if (serializedPlan === null) {
-      return undefined // so that reducers will use default state
-    }
-    if (/^eyJm/.test(serializedPlan)) {
-      //this is base64 encoded json characters
-      serializedPlan = base64.decode(serializedPlan)
-    }
-    let objectPlan = JSON.parse(serializedPlan)
-    return objectPlan
-  } catch (err) {
-    if (process.env.NODE_ENV !== 'production') {
-      debugger
-    }
-    return undefined // so that reducers will use default state
-  }
-}
+// export const loadPlan = (planName) => {
+//   try {
+//     let serializedPlan = localStorage.getItem(planName)
+//     if (serializedPlan === null) {
+//       return undefined // so that reducers will use default state
+//     }
+//     if (/^eyJm/.test(serializedPlan)) {
+//       //this is base64 encoded json characters
+//       serializedPlan = base64.decode(serializedPlan)
+//     }
+//     let objectPlan = JSON.parse(serializedPlan)
+//     return objectPlan
+//   } catch (err) {
+//     if (process.env.NODE_ENV !== 'production') {
+//       debugger
+//     }
+//     return undefined // so that reducers will use default state
+//   }
+// }
 
-export const loadBase64Plan = (planName) => {
-  // this gets a plan file for exporting to the device file system
-  try {
-    let serializedPlan = localStorage.getItem(planName)
-    return serializedPlan //might be null
-  } catch (err) {
-    if (process.env.NODE_ENV === 'development') {
-      debugger
-    }
-    return null
-  }
-}
+// export const loadBase64Plan = (planName) => {
+//   // this gets a plan file for exporting to the device file system
+//   try {
+//     let serializedPlan = localStorage.getItem(planName)
+//     return serializedPlan //might be null
+//   } catch (err) {
+//     if (process.env.NODE_ENV === 'development') {
+//       debugger
+//     }
+//     return null
+//   }
+// }
 
 function isQuotaExceeded(err) {
   var quotaExceeded = false
