@@ -26,7 +26,7 @@ class TradeCell extends Component {
     if (buttonFlag === 'yes') {
       // fade-out this object before dispatching redux action, which will snap in revised display
       this.setState({ hide: true })
-      setTimeout(this.handleDispatch, 500)
+      setTimeout(this.handleDispatch, 400)
     }
   }
 

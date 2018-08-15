@@ -51,7 +51,7 @@ if (canapprun() && pinverified()) {
     //     "ERROR! Your computer's local storage is disabled or else is full. As a result AcesTrader can not save your data. Please enable local storage or increase your storage space quota or delete some plan files, depending on the situation."
     //   )
     // }
-    persistedState = loadLocalState() //returns 'undefined' if error or no saved state
+    persistedState = loadLocalState() //returns (undefined) if error or no saved state
     store = createStore(rootReducer, persistedState) // 'persistedState' overrides the initial state specified by the reducers
   } else {
     // run with Firebase database store

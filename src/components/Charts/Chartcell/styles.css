@@ -14,7 +14,7 @@
 .chart-cell-wrapper.fadeout {
   visibility: visible;
   opacity: 0.1;
-  transition: opacity 0.2s linear;
+  transition: opacity 0.3s linear;
 }
 
 /* See media query break for wide screen below */
