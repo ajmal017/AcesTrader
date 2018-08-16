@@ -28,10 +28,11 @@ export const addTrendLongToList = (theObject, thePrice, theQuantity, theAccount)
 }
 
 // NOTE: This object should be moved to results state slice before removing it here
-export const removeTrendLongFromList = (symbol) => {
+export const removeTrendLongFromList = (symbol, hash) => {
   return {
     type: REMOVE_TREND_LONG_POSITION,
     symbol: symbol,
+    hash: hash,
   }
 }
 export const removeAllTrendLongsFromList = () => {
@@ -54,7 +55,8 @@ export default function trendlongsReducer(state = defaultTrendLongs, action) {
     }
     case REMOVE_TREND_LONG_POSITION: {
       //filter to keep all except the action.symbol one
-      let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      // let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      let newState = state.filter((obj) => obj.hash !== action.hash)
       return newState
     }
     case REMOVE_ALL_TREND_LONGS: {

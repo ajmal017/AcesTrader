@@ -24,10 +24,11 @@ export const addBuysToList = (buysList) => {
 
 // NOTE: If this was bought, then this object should be moved to longs state slice before removing it here
 // If this was deleted by user than this is only action performed.
-export const removeBuyFromList = (buyName) => {
+export const removeBuyFromList = (buyName, hash) => {
   return {
     type: REMOVE_ONE_BUY,
     symbol: buyName,
+    hash: hash,
   }
 }
 export const removeAllBuysFromList = () => {
@@ -50,7 +51,8 @@ export default function buysReducer(state = defaultBuys, action) {
     }
     case REMOVE_ONE_BUY: {
       //filter to keep all except the action.symbol one
-      let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      // let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      let newState = state.filter((obj) => obj.hash !== action.hash)
       return newState
     }
     case REMOVE_ALL_BUYS: {

@@ -27,10 +27,11 @@ export const addShortToList = (theObject, thePrice, theQuantity, theAccount) => 
 }
 
 // NOTE: This object should be moved to results state slice before removing it here
-export const removeShortFromList = (symbol) => {
+export const removeShortFromList = (symbol, hash) => {
   return {
     type: REMOVE_SHORT_POSITION,
     symbol: symbol,
+    hash: hash,
   }
 }
 export const removeAllShortsFromList = () => {
@@ -52,7 +53,8 @@ export default function chartsReducer(state = defaultShorts, action) {
     }
     case REMOVE_SHORT_POSITION: {
       //filter to keep all except the action.symbol one
-      let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      // let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      let newState = state.filter((obj) => obj.hash !== action.hash)
       return newState
     }
     case REMOVE_ALL_SHORTS: {

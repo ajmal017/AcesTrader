@@ -7,7 +7,7 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
   // state: The current target array of objects, either Prospects or Positions
   // theInput: A list of prospect symbols or watched objects to merge into this target state slice
   // newDashboard: The default dashboard object to be included in the each merged object
-  let newState = [] // start with empty array to be populated below
+  let newState = [] // start with empty array to be populated below with objects
   // Merge the input objects in alphabetical symbol order in the newState array
   let hh = 0
   let kk = 0
@@ -22,8 +22,8 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
       switch (theEvent) {
         case 'watched': //theInput is a list of symbols going into Prospects
           theInputSymbol = theInput[kk]
-          //create the watched asset object
-          theInputObject = {}
+          //create the watched asset object from just the input symbol
+          theInputObject = {} // the new object
           theInputObject.symbol = theInputSymbol
           theInputObject.dashboard = newDashboard //includes the order entry parameters
           theInputObject.watched = theDate
@@ -46,26 +46,9 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
           theInputObject.exitedPrice = thePrice
           break
         default:
-          alert('Error: no theEvent parameter in reduceTargetState.js')
+          alert('Error: no "theEvent" parameter in reduceTargetState.js')
           debugger
       }
-
-      // theInputSymbol = theInput[kk]
-      // theInputObject = {}
-      // if (theEvent === 'watched') {
-      //   //create the watched asset object
-      //   theInputObject.symbol = theInputSymbol
-      //   theInputObject.dashboard = newDashboard //includes the order entry parameters
-      //   theInputObject.watched = theDate
-      // } else if (theEvent === 'entered') {
-      //   theInputObject.dashboard = newDashboard //includes the order exit parameters
-      //   theInputObject.entered = theDate
-      //   // theInputObject.enteredPrice = ???
-      // } else if (theEvent === 'exited') {
-      //   theInputObject.dashboard = null
-      //   theInputObject.exited = theDate
-      //   // theInputObject.exitedPrice = ???
-      // }
     }
     if (hh >= state.length) {
       //empty array of objects, no more currentListSymbols
@@ -82,7 +65,9 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
       newState.push(theInputObject)
       ++kk
     } else if (currentListSymbol === theInputSymbol) {
-      alert('ERROR in reduceTargetState: Dup symbols found.')
+      newState.push(theInputObject) // put newest ahead of older object
+      ++kk
+      // alert('ERROR in reduceTargetState: Dup symbols found.')
     }
   }
   //console.log(JSON.stringify(newState, null, 2)) // a readable log of the object's json

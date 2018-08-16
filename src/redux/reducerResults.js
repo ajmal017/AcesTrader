@@ -49,12 +49,7 @@ export default function chartsReducer(state = defaultResults, action) {
     case REMOVE_RESULT: {
       // filter to keep all except the one with the same
       // action.symbol and a matching exited date
-      let newState = state.filter((obj) => {
-        if (obj.hash === action.hash) {
-          return false
-        }
-        return true
-      })
+      let newState = state.filter((obj) => obj.hash !== action.hash)
       return newState
     }
     case REMOVE_ALL_RESULTS: {
