@@ -83,27 +83,30 @@ if (canapprun() && pinverified()) {
   }
 
   function saveFirebaseState(state) {
+    setTimeout(callFirebase(state), 3000)
+  }
+  function callFirebase(state) {
     fire
       .database()
       .ref(reference)
       .set(state)
   }
 
-  // let subscribed = false
-  // function subscribe() {
-  //   if (!subscribed) {
-  //     store.subscribe(
-  //       throttle(() => {
-  //         let test = store.getState()
-  //         demoMode ? saveLocalState(store.getState()) : saveFirebaseState(store.getState())
-  //       }, 1000)
-  //     )
-  //   }
-  //   subscribed = true
-  // }
+  let subscribed = false
+  function subscribe() {
+    if (!subscribed) {
+      store.subscribe(
+        throttle(() => {
+          saveLocalState(store.getState())
+          // demoMode ? saveLocalState(store.getState()) : saveFirebaseState(store.getState())
+        }, 1000)
+      )
+    }
+    subscribed = true
+  }
 
   function DataReady(props) {
-    // subscribe() //store.subscribe once
+    subscribe() //store.subscribe once
     return (
       <ErrorBoundary>
         <Root store={store} />{' '}
