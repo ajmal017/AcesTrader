@@ -16,7 +16,7 @@ import rootReducer from './redux'
 import ErrorBoundary from './components/ErrorBoundary/'
 import Root from './components/Root'
 import { loadLocalState, saveLocalState, islocalStorageWorking } from './lib/localStorage'
-import { loadFirebaseState, saveFirebaseState } from './lib/firebaseStorage'
+// import { loadFirebaseState, saveFirebaseState } from './lib/firebaseStorage'
 import { resetCache } from './lib/chartDataCache'
 import {} from './lib/chartDataCache'
 import throttle from 'lodash/throttle'
@@ -57,7 +57,6 @@ if (canapprun() && pinverified()) {
     // running with Firebase database storage
     persistedState = undefined //no saved state until the Firebase database's read Promise is satisfied
     store = createStore(rootReducer, persistedState) // 'persistedState=undefined' creates default state
-
     fire
       .database()
       .ref(reference)
@@ -83,13 +82,28 @@ if (canapprun() && pinverified()) {
     }
   }
 
+  function saveFirebaseState(state) {
+    fire
+      .database()
+      .ref(reference)
+      .set(state)
+  }
+
+  // let subscribed = false
+  // function subscribe() {
+  //   if (!subscribed) {
+  //     store.subscribe(
+  //       throttle(() => {
+  //         let test = store.getState()
+  //         demoMode ? saveLocalState(store.getState()) : saveFirebaseState(store.getState())
+  //       }, 1000)
+  //     )
+  //   }
+  //   subscribed = true
+  // }
+
   function DataReady(props) {
-    store.subscribe(
-      throttle(() => {
-        let test = store.getState()
-        demoMode ? saveLocalState(store.getState()) : saveFirebaseState(store.getState())
-      }, 1000)
-    )
+    // subscribe() //store.subscribe once
     return (
       <ErrorBoundary>
         <Root store={store} />{' '}

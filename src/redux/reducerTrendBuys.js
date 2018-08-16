@@ -25,10 +25,11 @@ export const addTrendBuysToList = (trendbuysList) => {
 
 // NOTE: If this was bought, then this object should be moved to trendLongs state slice before removing it here
 // If this was deleted by user than this is only action performed.
-export const removeTrendBuyFromList = (symbol) => {
+export const removeTrendBuyFromList = (symbol, hash) => {
   return {
     type: REMOVE_ONE_TREND_BUY,
     symbol: symbol,
+    hash: hash,
   }
 }
 export const removeAllTrendBuysFromList = () => {
@@ -51,7 +52,8 @@ export default function trendbuysReducer(state = defaultTrendBuys, action) {
     }
     case REMOVE_ONE_TREND_BUY: {
       //filter to keep all except the action.symbol one
-      let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      // let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      let newState = state.filter((obj) => obj.hash !== action.hash)
       return newState
     }
     case REMOVE_ALL_TREND_BUYS: {

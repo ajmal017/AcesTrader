@@ -26,12 +26,12 @@ class Modal extends Component {
   // this response includes all the data sent with the action dispatch, plus the flag
   // the calling component can determine what to do next depending on the buttonFlag
   sendResponse(flag) {
-    this.setState({ isDialogOpen: false })
     //notifications do not send a response, they just are dismissed with an OK button click
     if (this.props.dialogSelector.toLowerCase() !== 'notification') {
       let response = { ...this.props, buttonFlag: flag }
       this.props.handleModalResonse(response)
     }
+    this.setState({ isDialogOpen: false })
   }
 
   // these props come from mapStateToProps in the parent component

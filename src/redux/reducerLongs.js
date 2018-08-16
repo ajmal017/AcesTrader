@@ -14,7 +14,7 @@ const REMOVE_ALL_LONGS = 'REMOVE_ALL_LONGS'
 export const addLongToList = (theObject, thePrice, theQuantity, theAccount) => {
   let date = new Date()
   let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
-  let theObjectArray = [theObject]
+  let theObjectArray = [cloneDeep(theObject)]
   return {
     type: ADD_LONG_POSITION,
     theObject: theObjectArray,
@@ -27,10 +27,11 @@ export const addLongToList = (theObject, thePrice, theQuantity, theAccount) => {
 }
 
 // NOTE: This object should be moved to results state slice before removing it here
-export const removeLongFromList = (symbol) => {
+export const removeLongFromList = (symbol, hash) => {
   return {
     type: REMOVE_LONG_POSITION,
     symbol: symbol,
+    hash: hash,
   }
 }
 export const removeAllLongsFromList = () => {
@@ -53,7 +54,8 @@ export default function longsReducer(state = defaultLongs, action) {
     }
     case REMOVE_LONG_POSITION: {
       //filter to keep all except the action.symbol one
-      let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      // let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      let newState = state.filter((obj) => obj.hash !== action.hash)
       return newState
     }
     case REMOVE_ALL_LONGS: {

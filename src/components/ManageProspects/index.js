@@ -115,6 +115,7 @@ class ManageProspects extends Component {
         alert('ERROR1 Missing tradeSide in ManageProspects')
         // debugger
       }
+      // Note: positionsArray not longer scanned for dups, as they are allowed with hash tags for ID instead of symbol
       let verifiedList = this.verifyList(cleanedTokens.sort(), prospectsArray, positionsArray)
       if (verifiedList.length > 0) {
         this.textAreaBox.value = verifiedList.join(' ')
@@ -166,7 +167,7 @@ class ManageProspects extends Component {
   verifyList(inputList, prospectsArray, positionsArray) {
     let prunedList
     prunedList = this.pruneList(inputList, prospectsArray)
-    prunedList = this.pruneList(prunedList, positionsArray)
+    // prunedList = this.pruneList(prunedList, positionsArray)
     return prunedList
   }
   pruneList(inputList, stateObjects) {
@@ -217,14 +218,16 @@ class ManageProspects extends Component {
             <div className="content-box">
               <p>
                 This form takes one or more symbols to be added to the {this.tradeSide} prospect list.
-                <br />Enter the symbols and press the Submit button to verify the entries.
+                <br />
+                Enter the symbols and press the Submit button to verify the entries.
               </p>
               <label htmlFor="pname">Enter prospective {title.toLowerCase()}:</label>
               <input type="text" id="pname" value={this.state.value} onChange={this.handleChange} />
 
               <p className="acceptdescription">
                 Symbols already in the {this.tradeSide} or Positions lists are removed from the submitted list.
-                <br />The remaining new symbols shown are added to the {this.tradeSide} list when you click Accept.
+                <br />
+                The remaining new symbols shown are added to the {this.tradeSide} list when you click Accept.
               </p>
               <label id="textareacaption" htmlFor="syms">
                 Add these prospective {title.toLowerCase()}?

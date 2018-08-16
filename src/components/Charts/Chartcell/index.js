@@ -29,7 +29,7 @@ class Chartcell extends Component {
   constructor(props) {
     super(props)
     this.handleEntry = this.handleEntry.bind(this)
-    this.handleEntryDispatch = this.handleEntryDispatch.bind(this)
+    this.handleOrderDispatch = this.handleOrderDispatch.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
     this.handleDeleteDispatch = this.handleDeleteDispatch.bind(this)
     this.loadChartData = this.loadChartData.bind(this)
@@ -91,15 +91,15 @@ class Chartcell extends Component {
     event.preventDefault()
     // fade-out this object before dispatching redux action, which will snap in revised display
     this.setState({ hide: true })
-    setTimeout(this.handleEntryDispatch, 200)
+    setTimeout(this.handleOrderDispatch, 200)
   }
 
-  handleEntryDispatch() {
-    // This is a newly entered position for this symbol
+  handleOrderDispatch() {
+    // This is a newly established position or a newly closed position for this symbol
     this.setState({ hide: false })
     //TO DO
     //******Get the 2 filled prices, quantity, and account number from Ameritrade********
-    const enteredPrice = 'pending' //100.52
+    const enteredPrice = 'pending111' //100.52
     const exitedPrice = 'pending' //220.44
     const filledQuantity = 'pending' //55
     const theAccount = 'pending'
@@ -107,32 +107,32 @@ class Chartcell extends Component {
     switch (this.tradeSide.toUpperCase()) {
       case 'SWING BUYS': {
         this.props.dispatch(addLongToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
-        this.props.dispatch(removeBuyFromList(this.symbol))
+        this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
         break
       }
       case 'SWING SHORT SALES': {
         this.props.dispatch(addShortToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
-        this.props.dispatch(removeSellFromList(this.symbol))
+        this.props.dispatch(removeSellFromList(this.symbol, this.hash))
         break
       }
       case 'TREND BUYS': {
         this.props.dispatch(addTrendLongToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
-        this.props.dispatch(removeTrendBuyFromList(this.symbol))
+        this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
         break
       }
       case 'SWING LONGS': {
         this.props.dispatch(addResultToList(this.props.cellObject, exitedPrice))
-        this.props.dispatch(removeLongFromList(this.symbol))
+        this.props.dispatch(removeLongFromList(this.symbol, this.hash))
         break
       }
       case 'SWING SHORTS': {
         this.props.dispatch(addResultToList(this.props.cellObject, exitedPrice))
-        this.props.dispatch(removeShortFromList(this.symbol))
+        this.props.dispatch(removeShortFromList(this.symbol, this.hash))
         break
       }
       case 'TREND LONGS': {
         this.props.dispatch(addResultToList(this.props.cellObject, exitedPrice))
-        this.props.dispatch(removeTrendLongFromList(this.symbol))
+        this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
         break
       }
       default:
@@ -151,11 +151,11 @@ class Chartcell extends Component {
   handleDeleteDispatch() {
     this.setState({ hide: false })
     if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
-      this.props.dispatch(removeBuyFromList(this.symbol))
+      this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
     } else if (this.tradeSide.toUpperCase() === 'SWING SHORT SALES') {
-      this.props.dispatch(removeSellFromList(this.symbol))
+      this.props.dispatch(removeSellFromList(this.symbol, this.hash))
     } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
-      this.props.dispatch(removeTrendBuyFromList(this.symbol))
+      this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
     } else {
       alert('ERROR3 Missing tradeSide in Chartcell')
       // debugger
@@ -166,6 +166,7 @@ class Chartcell extends Component {
     const cellObject = this.props.cellObject
     this.tradeSide = cellObject.dashboard.tradeSide
     this.symbol = cellObject.symbol
+    this.hash = cellObject.hash
     this.instruction = cellObject.dashboard.instruction
     this.entered = cellObject.entered
     const chart_name = cellObject.symbol

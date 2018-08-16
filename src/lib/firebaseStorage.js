@@ -3,7 +3,6 @@
 // Understand Auth and Rules: firebase.google.com/docs/database/security/
 
 import fire from '../fire'
-var cloneDeep = require('lodash.clonedeep')
 
 // Get the JSON reference
 const reference = 'acestrader'

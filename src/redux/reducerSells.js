@@ -23,10 +23,11 @@ export const addSellstoList = (sellsList) => {
 }
 // NOTE: If this was sold short, then this object should be moved to shorts state slice before removing it here
 // If this was deleted by user than this is only action performed.
-export const removeSellFromList = (symbol) => {
+export const removeSellFromList = (symbol, hash) => {
   return {
     type: REMOVE_ONE_SELL,
     symbol: symbol,
+    hash: hash,
   }
 }
 export const removeAllSellsFromList = () => {
@@ -48,9 +49,9 @@ export default function sellsReducer(state = defaultSells, action) {
       return newState
     }
     case REMOVE_ONE_SELL: {
-      let newState = cloneDeep(defaultSells)
       //filter all except the action.symbol one
-      newState = state.filter((obj) => obj.symbol !== action.symbol)
+      // newState = state.filter((obj) => obj.symbol !== action.symbol)
+      let newState = state.filter((obj) => obj.hash !== action.hash)
       return newState
     }
     case REMOVE_ALL_SELLS: {
