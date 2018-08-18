@@ -1,3 +1,5 @@
+// @ts-nocheck
+// prevent false error flag on ".value" on this.textBox.value
 // ManageProspects/index.js
 
 import React, { Component } from 'react'

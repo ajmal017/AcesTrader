@@ -5,15 +5,13 @@
 import fire from '../fire'
 
 // Get the JSON reference
-const reference = 'acestrader'
-
-// This functionality is handled by the reducers
-// export const resetFirebaseState = () => {}
+export const referenceAcestrader = 'acestrader'
+export const referencePapertrader = 'papertrader'
 
 export const loadFirebaseState = () => {
   fire
     .database()
-    .ref(reference)
+    .ref(referenceAcestrader)
     .once('value')
     .then(function(snapshot) {
       let result = snapshot ? snapshot.val() : undefined
@@ -21,7 +19,7 @@ export const loadFirebaseState = () => {
     })
 }
 
-export const saveFirebaseState = (state) => {
+export const saveFirebaseState = (state, reference) => {
   fire
     .database()
     .ref(reference)
