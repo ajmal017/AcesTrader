@@ -8,6 +8,7 @@ import NotificationSystem from 'react-notification-system'
 import appScrollbarWidth from '../../lib/appScrollbarWidth'
 import Charts from '../Charts' //to hold stock price chart and dashboard control panel
 import Trades from '../Trades' //to hold the results chart and dashboard data display
+import { getReference } from '../../lib/dbReference'
 import './styles.css'
 var cloneDeep = require('lodash.clonedeep')
 
@@ -16,6 +17,7 @@ class AppToolbar extends Component {
     super(props)
     this.scrollbarWidth = 0 //waiting for the width to be determined
     this.handleClick = this.handleClick.bind(this) //children callbacks
+    this.state = { dbReference: getReference() }
   }
 
   componentDidMount() {
@@ -101,7 +103,7 @@ class AppToolbar extends Component {
       <div>
         <NotificationSystem ref="notificationSystem" />
         <div className="scrollmenucontainer">
-          <div className="scrollmenu">{menuItems}</div>
+          <div className={'scrollmenu ' + this.state.dbReference}>{menuItems}</div>
         </div>
 
         {/* Render either Results or Charts */}

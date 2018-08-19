@@ -15,7 +15,7 @@ export function firebaseSaveState(reference) {
     if (/^QUERY_/.test(action.type) || /^NOTIFICATION/.test(action.type)) {
       return next(action)
     }
-    next(action) // run the reducer to change the state
+    next(action) // run the reducers now to do any state changes
     fire
       .database()
       .ref(reference)

@@ -4,10 +4,6 @@
 
 import fire from '../fire'
 
-// Get the JSON reference
-export const referenceAcestrader = 'acestrader'
-export const referencePapertrader = 'papertrader'
-
 export const loadFirebaseState = () => {
   fire
     .database()
