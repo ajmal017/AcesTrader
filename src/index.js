@@ -68,11 +68,12 @@ if (canapprun() && pinverified()) {
       .once('value')
       .then(function(snapshot) {
         if (snapshot) {
-          stateRetrieved = 'ready' // allow app to render if i/o successful
+          stateRetrieved = 'ready' // allow app to render since api call successful
+          //snapshot.val returns null if no saved state exists, using undefined creates default state for start up
           persistedState = snapshot.val() === null ? undefined : snapshot.val()
           store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(reference), logger)) // 'persistedState=snapshot.val' creates store with current state by overriding the initial state specified by the reducers
         } else {
-          stateRetrieved = 'error' //  i/o api call unsuccessful
+          stateRetrieved = 'error' //  the api call was unsuccessful
         }
         render(<DataStatus stateRetrieved={stateRetrieved} />, document.getElementById('root'))
       })
