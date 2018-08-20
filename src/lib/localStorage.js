@@ -31,6 +31,7 @@ export const loadLocalState = () => {
     // let stateSize = serializedState.length //for developer info
     let objectState = JSON.parse(serializedState)
     // console.log(JSON.stringify(objectState, null, 2)) // a readable log of the object's json
+    // Right click > Copy All in the Console panel to copy to clipboard
     return objectState
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
