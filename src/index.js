@@ -19,7 +19,6 @@ import ErrorBoundary from './components/ErrorBoundary/'
 import Root from './components/Root'
 import { loadLocalState, saveLocalState } from './lib/localStorage'
 // import { islocalStorageWorking } from './lib/localStorage'
-// import { loadFirebaseState, saveFirebaseState } from './lib/firebaseStorage'
 import { getReference, localtrader } from './lib/dbReference'
 import { firebaseSaveState } from './lib/firebaseSaveState'
 import { resetCache } from './lib/chartDataCache'
@@ -46,22 +45,9 @@ if (canapprun() && pinverified()) {
 
   // *******TODO SIGNIN********
   let reference = getReference() //indicates which storage to use for app state
-
-  // const demoMode = true // value returned from the ***SignIn***
-  // // const demoMode = false // value returned from the ***SignIn***
-  // // const paperTrades = true // value returned from the ***SignIn***
-  // const paperTrades = false // value returned from the ***SignIn***
-
-  // reference = paperTrades ? referencePapertrader : referenceAcestrader //primary setting
-  // reference = demoMode ? local : reference //override for demo
-
-  // const reference = referenceAcestrader
-  // const reference = referencePapertrader
-  // const reference = referenceLocaltrader
-
-  // const paperTrades = true
-  // const paperTrades = false
-  // const reference = paperTrades ? referencePapertrader : referenceAcestrader
+  // reference = referenceAcestrader   //override for testing
+  // reference = referencePapertrader  //override for testing
+  // reference = localtrader             //override for testing
 
   resetCache() // clear all previously cached chart price data for fresh start
   let stateRetrieved = 'pending' // switch to control the render
@@ -110,7 +96,9 @@ if (canapprun() && pinverified()) {
   }
 
   function DataReady(props) {
-    reference === localtrader ? subscribe() : null
+    if (reference === localtrader) {
+      subscribe()
+    }
     return (
       <ErrorBoundary>
         <Root store={store} />{' '}

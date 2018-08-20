@@ -12,11 +12,14 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
   let hh = 0
   let kk = 0
   let currentListSymbol = null
+  let currentListHash = null
   let theInputSymbol = null
+  let theInputHash = null
   let theInputObject = null
   while (hh < state.length || kk < theInput.length) {
     if (hh < state.length) {
       currentListSymbol = state[hh].symbol
+      currentListHash = state[hh].hash
     }
     if (kk < theInput.length) {
       switch (theEvent) {
@@ -28,6 +31,7 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
           theInputObject.dashboard = newDashboard //includes the order entry parameters
           theInputObject.watched = theDate
           theInputObject.hash = uuidv4() // use for unique object ID, instead of symbol (which may be repeated in Results)
+          theInputHash = theInputObject.hash
           break
         case 'entered': //theInput is a list of asset objects going into Positions
           theInputSymbol = theInput[kk].symbol
@@ -65,9 +69,12 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
       newState.push(theInputObject)
       ++kk
     } else if (currentListSymbol === theInputSymbol) {
-      newState.push(theInputObject) // put newest ahead of older object
-      ++kk
-      // alert('ERROR in reduceTargetState: Dup symbols found.')
+      if (currentListHash === theInputHash) {
+        alert('ERROR in reduceTargetState: Dup hash found for ' + theInputSymbol + ', object not added to list')
+      } else {
+        newState.push(theInputObject) // put newest ahead of older object
+        ++kk
+      }
     }
   }
   //console.log(JSON.stringify(newState, null, 2)) // a readable log of the object's json

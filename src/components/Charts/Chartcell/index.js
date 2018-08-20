@@ -99,7 +99,7 @@ class Chartcell extends Component {
     this.setState({ hide: false })
     //TO DO
     //******Get the 2 filled prices, quantity, and account number from Ameritrade********
-    const enteredPrice = 'pending111' //100.52
+    const enteredPrice = 'pending' //100.52
     const exitedPrice = 'pending' //220.44
     const filledQuantity = 'pending' //55
     const theAccount = 'pending'
