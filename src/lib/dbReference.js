@@ -1,6 +1,6 @@
 // dbReference.js
 
-export const referenceAcestrader = 'acestrader' //1st cloud database
+export const referenceRealtrader = 'realtrader' //1st cloud database
 export const referencePapertrader = 'papertrader' //2nd cloud database
 export const localtrader = 'localtrader' //using local storage
 

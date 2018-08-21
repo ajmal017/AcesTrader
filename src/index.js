@@ -45,7 +45,7 @@ if (canapprun() && pinverified()) {
 
   // *******TODO SIGNIN********
   let reference = getReference() //indicates which storage to use for app state
-  // reference = referenceAcestrader   //override for testing
+  // reference = referenceRealtrader   //override for testing
   // reference = referencePapertrader  //override for testing
   // reference = localtrader             //override for testing
 

@@ -7,7 +7,7 @@ import fire from '../fire'
 export const loadFirebaseState = () => {
   fire
     .database()
-    .ref(referenceAcestrader)
+    .ref(referenceRealtrader)
     .once('value')
     .then(function(snapshot) {
       let result = snapshot ? snapshot.val() : undefined
