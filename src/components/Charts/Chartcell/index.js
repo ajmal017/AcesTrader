@@ -50,12 +50,24 @@ class Chartcell extends Component {
     const IEX_BASE = 'https://api.iextrading.com/1.0/'
     const symbol = this.props.cellObject.symbol
     const filter = '?filter=date,open,high,low,close,volume'
+    const range = '1y'
+    // const range = '1d'
     axios
-      .get(`${IEX_BASE}stock/${symbol}/chart/1y${filter}`)
+      // .get(`${IEX_BASE}stock/${symbol}/chart/${range}`)
+      .get(`${IEX_BASE}stock/${symbol}/chart/${range}${filter}`)
       .then((res) => {
         let values = res.data
-        let data = values.map((obj) => {
-          let date = obj.date + 'T05:00:00.000Z'
+        let newValues = values.filter((obj) => {
+          return obj.high > 0 //special clean up for 1day range prices
+        })
+        let data = newValues.map((obj) => {
+          let date = obj.date
+          if (!/-/.test(date)) {
+            //special format change for 1day range chart
+            let result = /(\d\d\d\d)(\d\d)(\d\d)/.exec(date)
+            date = result[1] + '-' + result[2] + '-' + result[3]
+          }
+          date = date + 'T05:00:00.000Z'
           obj.date = new Date(date)
           return obj
         })

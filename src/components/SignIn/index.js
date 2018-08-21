@@ -1,7 +1,7 @@
 // SignIn/index.js
 
 import React, { Component } from 'react'
-import { putReference, getReference, referenceRealtrader, referencePapertrader, localtrader } from './lib/dbReference'
+import { putReference, getReference, referenceRealtrader, referencePapertrader, referenceLocaltrader } from './lib/dbReference'
 
 class SignIn extends Component {
   constructor(props) {

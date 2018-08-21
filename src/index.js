@@ -19,7 +19,7 @@ import ErrorBoundary from './components/ErrorBoundary/'
 import Root from './components/Root'
 import { loadLocalState, saveLocalState } from './lib/localStorage'
 // import { islocalStorageWorking } from './lib/localStorage'
-import { getReference, localtrader } from './lib/dbReference'
+import { getReference, referenceLocaltrader } from './lib/dbReference'
 import { firebaseSaveState } from './lib/firebaseSaveState'
 import { resetCache } from './lib/chartDataCache'
 import throttle from 'lodash/throttle'
@@ -45,15 +45,12 @@ if (canapprun() && pinverified()) {
 
   // *******TODO SIGNIN********
   let reference = getReference() //indicates which storage to use for app state
-  // reference = referenceRealtrader   //override for testing
-  // reference = referencePapertrader  //override for testing
-  // reference = localtrader             //override for testing
 
   resetCache() // clear all previously cached chart price data for fresh start
   let stateRetrieved = 'pending' // switch to control the render
   let persistedState // receives the saved state from storage
   let store // receives the created store
-  if (reference === localtrader) {
+  if (reference === referenceLocaltrader) {
     // TestlocalStorage() // test if disabled or full, needs to be enabled in /lib/localStorage
     stateRetrieved = 'ready' // allow app to render
     persistedState = loadLocalState() //returns (undefined) if error or no saved state
@@ -96,7 +93,7 @@ if (canapprun() && pinverified()) {
   }
 
   function DataReady(props) {
-    if (reference === localtrader) {
+    if (reference === referenceLocaltrader) {
       subscribe()
     }
     return (
