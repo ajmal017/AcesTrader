@@ -33,6 +33,8 @@ class Chartcell extends Component {
     this.handleDelete = this.handleDelete.bind(this)
     this.handleDeleteDispatch = this.handleDeleteDispatch.bind(this)
     this.loadChartData = this.loadChartData.bind(this)
+    this.values = null //array of price values from API call
+    this.filteredValues = null //array of price values remaining after filter
     this.state = {}
   }
 
@@ -47,20 +49,23 @@ class Chartcell extends Component {
   }
 
   loadChartData = () => {
+    const self = this
     const IEX_BASE = 'https://api.iextrading.com/1.0/'
     const symbol = this.props.cellObject.symbol
+    // if (symbol === 'AMZN') {
+    //   debugger
+    // }
     const filter = '?filter=date,open,high,low,close,volume'
     const range = '1y'
     // const range = '1d'
     axios
-      // .get(`${IEX_BASE}stock/${symbol}/chart/${range}`)
       .get(`${IEX_BASE}stock/${symbol}/chart/${range}${filter}`)
       .then((res) => {
-        let values = res.data
-        let newValues = values.filter((obj) => {
+        self.values = res.data
+        self.filteredValues = self.values.filter((obj) => {
           return obj.high > 0 //special clean up for 1day range prices
         })
-        let data = newValues.map((obj) => {
+        let data = self.filteredValues.map((obj) => {
           let date = obj.date
           if (!/-/.test(date)) {
             //special format change for 1day range chart
@@ -71,8 +76,14 @@ class Chartcell extends Component {
           obj.date = new Date(date)
           return obj
         })
-        putPriceData(symbol, data) //cache price data for subsequent mount
-        this.setState({ data, hide: '' })
+        if (data.length === 0 || self.filteredValues.length < self.values.length) {
+          self.setState({ noprices: true })
+        } else {
+          putPriceData(symbol, data) //cache price data for subsequent mount
+          self.setState({ data, hide: '' })
+        }
+        // putPriceData(symbol, data) //cache price data for subsequent mount
+        // this.setState({ data, hide: '' })
       })
       .catch(function(error) {
         if (error.response) {
@@ -189,6 +200,14 @@ class Chartcell extends Component {
     //Cached storage holds price data (no change until program is restarted)
     //Cached storage holds indicator values used for signal alerts)
     //Local state holds duplicate of price data)
+
+    if (this.state.noprices) {
+      return (
+        <div id={cell_id}  className="chart-cell-wrapper">
+          <h4>{`No 1-day Prices Available For ${chart_name}.`}</h4>
+        </div>
+      )
+    }
 
     if (!this.state.data) {
       return (

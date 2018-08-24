@@ -82,23 +82,6 @@ class AppToolbar extends Component {
       )
     })
 
-    // let chartkeys = chartArray.map((obj) => obj.symbol)
-    // let menuItems = []
-    // if (chartkeys) {
-    //   if (resultsCharts) {
-    //     chartkeys = chartkeys.sort()
-    //   }
-    //   menuItems = chartkeys.map(function(keyvalue, index) {
-    //     return (
-    //       <button key={index.toString()}>
-    //         <Scrollchor to={keyvalue.replace(/[\W_]/g, '')} disableHistory={true} animate={{ offset: scrollchorOffset, duration: 500 }} className="nav-link">
-    //           {keyvalue}
-    //         </Scrollchor>
-    //       </button>
-    //     )
-    //   })
-    // }
-
     return (
       <div>
         <NotificationSystem ref="notificationSystem" />
