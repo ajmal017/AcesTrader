@@ -37,8 +37,7 @@
 }
 
 .navbar-nav li.loader {
-  /* margin: 12px 6px 0 6px; */
-  margin: 12px 0px 0 0px;
+  margin: 12px 6px 0 6px;
   visibility: hidden;
 }
 
@@ -54,11 +53,4 @@
   padding-left: 20px;
   padding-right: 20px;
   color: #f8f9fa;
-}
-
-/*overrides bootstrap*/
-/* padding: 10px 15px; */
-.nav > li > a {
-  padding: 16px 10px 4px 10px;
-  font-size: 16px;
 }
