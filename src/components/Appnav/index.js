@@ -71,7 +71,7 @@ const Appnav = function() {
               </LinkContainer>
               <MenuItem divider />
               <LinkContainer to="/resetstorage">
-                <MenuItem eventKey={7.3}>Reset Local Storage</MenuItem>
+                <MenuItem eventKey={7.3}>Load Default Store</MenuItem>
               </LinkContainer>
             </NavDropdown>
             <LinkContainer to="/alerts">

@@ -17,7 +17,7 @@ class ManageProspects extends Component {
     super(props)
     this.state = {
       isAcceptButtonDisabled: true,
-      value: props.mockSymbols,
+      value: process.env.NODE_ENV === 'development' ? props.mockSymbols : '',
     }
     this.handleClick = props.handleClick
     this.handleChange = this.handleChange.bind(this)
