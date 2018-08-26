@@ -4,5 +4,6 @@
   "orderType": "MARKET",
   "quantity": "ALL_SHARES",
   "instruction": "SELL",
-  "tradeSide": "Trend Longs"
+  "tradeSide": "Trend Longs",
+  "buttonLabel": "EXIT TREND"
 }

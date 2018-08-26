@@ -5,6 +5,14 @@ import './styles.css'
 
 // class Appnav extends Component {
 const Appnav = function() {
+  // let getResetStateMenu = function() {
+  //   return process.env.NODE_ENV === 'development'
+  //     ? `<MenuItem divider />
+  //   <LinkContainer to="/resetstorage">
+  //   <MenuItem eventKey={6.8}>** Erase All Lists **</MenuItem>
+  //   </LinkContainer>`
+  //     : null
+  // }
   return (
     <div>
       <Navbar className="navbar-fixed" inverse collapseOnSelect>
@@ -53,10 +61,14 @@ const Appnav = function() {
                 <MenuItem eventKey={6.2}>Swing Buy Prospects</MenuItem>
               </LinkContainer>
               <LinkContainer to="/managesellprospects">
-                <MenuItem eventKey={6.6}>Swing Short Sale Prospects</MenuItem>
+                <MenuItem eventKey={6.4}>Swing Short Sale Prospects</MenuItem>
               </LinkContainer>
               <LinkContainer to="/managetrendbuyprospects">
-                <MenuItem eventKey={7.3}>Trend Buy Prospects</MenuItem>
+                <MenuItem eventKey={6.7}>Trend Buy Prospects</MenuItem>
+              </LinkContainer>
+              <MenuItem divider />
+              <LinkContainer to="/resetstorage">
+                <MenuItem eventKey={6.8}>** Erase All Lists **</MenuItem>
               </LinkContainer>
             </NavDropdown>
 
@@ -65,14 +77,10 @@ const Appnav = function() {
                 <NavItem eventKey={7.2}>Peek</NavItem>
               </LinkContainer>
               <MenuItem divider />
-
               <LinkContainer to="/home">
                 <MenuItem eventKey={7.3}>About AcesTrader</MenuItem>
               </LinkContainer>
-              <MenuItem divider />
-              <LinkContainer to="/resetstorage">
-                <MenuItem eventKey={7.3}>Load Default Store</MenuItem>
-              </LinkContainer>
+              {/* {getResetStateMenu()} */}
             </NavDropdown>
             <LinkContainer to="/alerts">
               <NavItem eventKey={9}>Alerts</NavItem>

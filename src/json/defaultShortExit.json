@@ -4,5 +4,6 @@
   "orderType": "MARKET",
   "quantity": "ALL_SHARES",
   "instruction": "BUY",
-  "tradeSide": "Swing Shorts"
+  "tradeSide": "Swing Shorts",
+  "buttonLabel": "EXIT SHORT"
 }

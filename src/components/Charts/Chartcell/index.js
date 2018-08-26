@@ -41,14 +41,6 @@ class Chartcell extends Component {
 
   componentDidMount() {
     // first try to recover cached price data to avoid another http request
-
-    // if (this.props.cellObject.symbol === 'DBC') {
-    //   debugger
-    // }
-    // if (this.props.cellObject.symbol === 'DBO') {
-    //   debugger
-    // }
-
     this.data = cloneDeep(getPriceData(this.props.cellObject.symbol))
     if (this.data) {
       this.setState({ data: true, hide: false }) //data is available in cache
@@ -71,12 +63,6 @@ class Chartcell extends Component {
         self.filteredValues = self.values.filter((obj) => {
           return obj.high > -1 //special clean up for 1day range prices
         })
-        // if (self.symbol === 'DBC') {
-        //   debugger
-        // }
-        // if (self.symbol === 'DBO') {
-        //   debugger
-        // }
         let data = self.filteredValues.map((obj) => {
           let date = obj.date
           if (range === '1d' && !/-/.test(date)) {
@@ -94,8 +80,6 @@ class Chartcell extends Component {
           putPriceData(symbol, data) //cache price data for subsequent rendering
           self.setState({ data: true, hide: false }) //triggers render using cached data
         }
-        // putPriceData(symbol, data) //cache price data for subsequent mount
-        // this.setState({ data: true, hide: false })
       })
       .catch(function(error) {
         if (error.response) {
@@ -202,19 +186,13 @@ class Chartcell extends Component {
     this.tradeSide = cellObject.dashboard.tradeSide
     this.symbol = cellObject.symbol
     this.hash = cellObject.hash
-    this.instruction = cellObject.dashboard.instruction
+    this.buttonLabel = cellObject.dashboard.buttonLabel
+    // this.instruction = cellObject.dashboard.instruction
     this.entered = cellObject.entered
     const chart_name = cellObject.symbol
     const cell_id = cellObject.hash
     const wrapperId = 'wrapper-' + cell_id
     const chartId = 'chart-' + cell_id
-
-    // if (this.props.cellObject.symbol === 'DBC') {
-    //   debugger
-    // }
-    // if (this.props.cellObject.symbol === 'DBO') {
-    //   debugger
-    // }
 
     //Cached storage holds price data (no change until program is restarted)
     //Cached storage holds indicator values used for signal alerts)
@@ -236,8 +214,8 @@ class Chartcell extends Component {
       )
     }
 
-    // render can happen without triggering componentDidMount() when a list item is deleted
-    // so we make sure we have the corrent data for the current symbol
+    // A re-render can happen without life cycle calls when a list item is deleted,
+    // so we make sure we have the corrent data for the new current symbol
     this.data = cloneDeep(getPriceData(this.props.cellObject.symbol))
 
     return (
@@ -263,7 +241,7 @@ class Chartcell extends Component {
           <div className="dashboard-footer">
             <div className="order-entry-button">
               <button onClick={this.handleEntry} className="entry-order-button">
-                {this.instruction} {this.symbol}
+                {this.buttonLabel} {this.symbol}
               </button>
             </div>
           </div>

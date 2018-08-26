@@ -36,7 +36,7 @@ class Peek extends Component {
       { name: 'Swing Short Positions', symbols: [...shortsSymbols] },
       { name: 'Trend Buy Prospects', symbols: [...trendbuysSymbols] },
       { name: 'Trend Long Positions', symbols: [...trendlongsSymbols] },
-      // { name: 'Market ETFs', symbols: ['SPY', 'QQQ', 'IWM', 'DIA'] },
+      { name: 'Market ETFs', symbols: ['SPY', 'QQQ', 'IWM', 'DIA'] },
       // { name: 'Tech', symbols: ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'FB', 'TWTR', 'NFLX', 'SNAP', 'SPOT', 'DBX', 'BABA', 'INTC', 'AMD', 'NVDA', 'ORCL'] },
       // { name: 'Sector ETFs', symbols: ['XLF', 'XLK', 'XLV', 'XLP', 'XLY', 'XLE', 'XLB', 'XLI', 'XLU', 'XLRE'] },
       // { name: 'Banks', symbols: ['GS', 'MS', 'JPM', 'WFC', 'C', 'BAC', 'BCS', 'DB', 'CS', 'RBS'] },
