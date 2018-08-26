@@ -35,14 +35,23 @@ class Chartcell extends Component {
     this.loadChartData = this.loadChartData.bind(this)
     this.values = null //array of price values from API call
     this.filteredValues = null //array of price values remaining after filter
+    this.data = null
     this.state = {}
   }
 
   componentDidMount() {
     // first try to recover cached price data to avoid another http request
-    let data = cloneDeep(getPriceData(this.props.cellObject.symbol))
-    if (data) {
-      this.setState({ data, hide: '' })
+
+    // if (this.props.cellObject.symbol === 'DBC') {
+    //   debugger
+    // }
+    // if (this.props.cellObject.symbol === 'DBO') {
+    //   debugger
+    // }
+
+    this.data = cloneDeep(getPriceData(this.props.cellObject.symbol))
+    if (this.data) {
+      this.setState({ data: true, hide: false }) //data is available in cache
     } else {
       this.loadChartData()
     }
@@ -52,9 +61,6 @@ class Chartcell extends Component {
     const self = this
     const IEX_BASE = 'https://api.iextrading.com/1.0/'
     const symbol = this.props.cellObject.symbol
-    // if (symbol === 'AMZN') {
-    //   debugger
-    // }
     const filter = '?filter=date,open,high,low,close,volume'
     const range = '1y'
     // const range = '1d'
@@ -63,11 +69,17 @@ class Chartcell extends Component {
       .then((res) => {
         self.values = res.data
         self.filteredValues = self.values.filter((obj) => {
-          return obj.high > 0 //special clean up for 1day range prices
+          return obj.high > -1 //special clean up for 1day range prices
         })
+        // if (self.symbol === 'DBC') {
+        //   debugger
+        // }
+        // if (self.symbol === 'DBO') {
+        //   debugger
+        // }
         let data = self.filteredValues.map((obj) => {
           let date = obj.date
-          if (!/-/.test(date)) {
+          if (range === '1d' && !/-/.test(date)) {
             //special format change for 1day range chart
             let result = /(\d\d\d\d)(\d\d)(\d\d)/.exec(date)
             date = result[1] + '-' + result[2] + '-' + result[3]
@@ -76,14 +88,14 @@ class Chartcell extends Component {
           obj.date = new Date(date)
           return obj
         })
-        if (data.length === 0 || self.filteredValues.length < self.values.length) {
+        if (range === '1d' && (data.length === 0 || self.filteredValues.length < self.values.length)) {
           self.setState({ noprices: true })
         } else {
-          putPriceData(symbol, data) //cache price data for subsequent mount
-          self.setState({ data, hide: '' })
+          putPriceData(symbol, data) //cache price data for subsequent rendering
+          self.setState({ data: true, hide: false }) //triggers render using cached data
         }
         // putPriceData(symbol, data) //cache price data for subsequent mount
-        // this.setState({ data, hide: '' })
+        // this.setState({ data: true, hide: false })
       })
       .catch(function(error) {
         if (error.response) {
@@ -197,13 +209,20 @@ class Chartcell extends Component {
     const wrapperId = 'wrapper-' + cell_id
     const chartId = 'chart-' + cell_id
 
+    // if (this.props.cellObject.symbol === 'DBC') {
+    //   debugger
+    // }
+    // if (this.props.cellObject.symbol === 'DBO') {
+    //   debugger
+    // }
+
     //Cached storage holds price data (no change until program is restarted)
     //Cached storage holds indicator values used for signal alerts)
     //Local state holds duplicate of price data)
 
     if (this.state.noprices) {
       return (
-        <div id={cell_id}  className="chart-cell-wrapper">
+        <div id={cell_id} className="chart-cell-wrapper">
           <h4>{`No 1-day Prices Available For ${chart_name}.`}</h4>
         </div>
       )
@@ -216,6 +235,10 @@ class Chartcell extends Component {
         </div>
       )
     }
+
+    // render can happen without triggering componentDidMount() when a list item is deleted
+    // so we make sure we have the corrent data for the current symbol
+    this.data = cloneDeep(getPriceData(this.props.cellObject.symbol))
 
     return (
       <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
@@ -231,7 +254,7 @@ class Chartcell extends Component {
             ) : null}
           </div>
           <div id={chartId} className="graph-content">
-            <CandleStickChartWithMA chartId={chartId} data={this.state.data} symbol={chart_name} />
+            <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} />
           </div>
           <div className="dashboard-center">
             <ChartDashboard handleClick={this.props.handleClick} cellObject={cellObject} />
