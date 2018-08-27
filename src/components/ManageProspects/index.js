@@ -117,14 +117,20 @@ class ManageProspects extends Component {
         alert('ERROR1 Missing tradeSide in ManageProspects')
         // debugger
       }
+
       // Note: positionsArray not longer scanned for dups, as they are allowed with hash tags for ID instead of symbol
       let verifiedList = this.verifyList(cleanedTokens.sort(), prospectsArray, positionsArray)
       if (verifiedList.length > 0) {
-        this.textAreaBox.value = verifiedList.join(' ')
-        this.setState({
-          ...this.state,
-          isAcceptButtonDisabled: false,
-        })
+        let badSymbol = false //**TODO**PROMISE** testList(verifiedList) //check online for symbol
+        if (!badSymbol) {
+          this.textAreaBox.value = verifiedList.join(' ')
+          this.setState({
+            ...this.state,
+            isAcceptButtonDisabled: false,
+          })
+        } else {
+          this.textAreaBox.value = `**The Symbol ${badSymbol} Is Not Valid**`
+        }
       } else {
         this.textAreaBox.value = '**No New Symbols, All Are Already Entered**'
       }
@@ -227,7 +233,7 @@ class ManageProspects extends Component {
               <input type="text" id="pname" value={this.state.value} onChange={this.handleChange} />
 
               <p className="acceptdescription">
-                Symbols already in the {this.tradeSide} or Positions lists are removed from the submitted list.
+                Symbols already in the {this.tradeSide} list are removed from the submitted list.
                 <br />
                 The remaining new symbols shown are added to the {this.tradeSide} list when you click Accept.
               </p>
