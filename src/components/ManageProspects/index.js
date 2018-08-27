@@ -10,7 +10,10 @@ import { addBuysToList, removeAllBuysFromList } from '../../redux/reducerBuys'
 import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells'
 import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/reducerTrendBuys'
 import { queryClearProspectsList } from '../../redux/reducerModal'
+import { getGithubInfo } from '../../lib/axiosHelpers.js'
 import './styles.css'
+import { fromPrefixLen } from 'ip'
+var axiosHelpers = require('../../lib/axiosHelpers.js')
 
 class ManageProspects extends Component {
   constructor(props) {
@@ -85,7 +88,10 @@ class ManageProspects extends Component {
 
   handleSubmit() {
     let cleanedInput
-    if (this.textBox.value !== '') {
+    let verifiedList
+    if (this.textBox.value === '') {
+      this.textBox.value = '**No Data**'
+    } else {
       if (/^\(/.test(this.textBox.value)) {
         // This is the case where an ETFdb table is copied from their
         // web page and pasted here, and the text can look like this:
@@ -117,26 +123,49 @@ class ManageProspects extends Component {
         alert('ERROR1 Missing tradeSide in ManageProspects')
         // debugger
       }
-
       // Note: positionsArray not longer scanned for dups, as they are allowed with hash tags for ID instead of symbol
-      let verifiedList = this.verifyList(cleanedTokens.sort(), prospectsArray, positionsArray)
-      if (verifiedList.length > 0) {
-        let badSymbol = false //**TODO**PROMISE** testList(verifiedList) //check online for symbol
-        if (!badSymbol) {
-          this.textAreaBox.value = verifiedList.join(' ')
-          this.setState({
-            ...this.state,
-            isAcceptButtonDisabled: false,
-          })
-        } else {
-          this.textAreaBox.value = `**The Symbol ${badSymbol} Is Not Valid**`
-        }
+      verifiedList = this.verifyList(cleanedTokens.sort(), prospectsArray, positionsArray)
+      if (verifiedList.length === 0) {
+        this.textAreaBox.value = '**No New Symbols In The List, All These Are Already Entered**'
       } else {
-        this.textAreaBox.value = '**No New Symbols, All Are Already Entered**'
+        this.textAreaBox.value = 'Verifying Symbols, Please Wait...'
+        axiosHelpers.verifySymbolLookups(verifiedList).then(
+          function(data) {
+            if (data.error) {
+              // GET .../stock/symbol/company
+              let result = /.*\/stock\/(\w+).*/.exec(data.error.request.responseURL)
+              let symbol = result[1]
+              this.textAreaBox.value = `Symbol ${symbol} Is Unknown, Correct Name And Submit Again.`
+            } else {
+              this.textAreaBox.value = verifiedList.join(' ')
+              this.setState({
+                ...this.state,
+                isAcceptButtonDisabled: false,
+              })
+              return
+            }
+          }.bind(this)
+        )
       }
-    } else {
-      this.textBox.value = '**No Data**'
     }
+
+    // .catch(
+    //   function(error) {
+    //     this.textAreaBox.value = 'Symbol Is Unknown, Correct Name And Submit Again.'
+    //     return
+    //   }.bind(this)
+    // )
+    // testList(verifiedList) {
+    //   return false
+    // //============================================
+    // getGithubInfo('martinduo')
+    // .then(function(data){
+    //   this.setState({
+    //     bio: data.bio,
+    //     repos: data.repos
+    //   })
+    // },
+    // //============================================
   }
 
   cleanEtfDb(value) {
