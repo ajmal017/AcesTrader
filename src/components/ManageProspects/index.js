@@ -136,6 +136,7 @@ class ManageProspects extends Component {
               let result = /.*\/stock\/(\w+).*/.exec(data.error.request.responseURL)
               let symbol = result[1]
               this.textAreaBox.value = `Symbol ${symbol} Is Unknown, Correct Name And Submit Again.`
+              isAcceptButtonDisabled: true
             } else {
               this.textAreaBox.value = verifiedList.join(' ')
               this.setState({
