@@ -10,9 +10,7 @@ import { addBuysToList, removeAllBuysFromList } from '../../redux/reducerBuys'
 import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells'
 import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/reducerTrendBuys'
 import { queryClearProspectsList } from '../../redux/reducerModal'
-import { getGithubInfo } from '../../lib/axiosHelpers.js'
 import './styles.css'
-import { fromPrefixLen } from 'ip'
 var axiosHelpers = require('../../lib/axiosHelpers.js')
 
 class ManageProspects extends Component {
@@ -136,7 +134,10 @@ class ManageProspects extends Component {
               let result = /.*\/stock\/(\w+).*/.exec(data.error.request.responseURL)
               let symbol = result[1]
               this.textAreaBox.value = `Symbol ${symbol} Is Unknown, Correct Name And Submit Again.`
-              isAcceptButtonDisabled: true
+              this.setState({
+                ...this.state,
+                isAcceptButtonDisabled: true,
+              })
             } else {
               this.textAreaBox.value = verifiedList.join(' ')
               this.setState({
