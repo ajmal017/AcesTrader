@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react'
 import DeleteTradeObjectModal from './DeleteTradeObjectModal'
-import ResetLocalStorageModal from './ResetLocalStorageModal'
+import EraseListsModal from './EraseListsModal'
 import ClearProspecLlistModal from './ClearProspecLlistModal'
 import NotificationModal from './NotificationModal'
 import './styles.css'
@@ -60,7 +60,7 @@ class Modal extends Component {
       case 'deletetradeobject':
         return <DeleteTradeObjectModal {...props} />
       case 'resetlocalstorage':
-        return <ResetLocalStorageModal {...props} />
+        return <EraseListsModal {...props} />
       case 'clearprospectlist':
         return <ClearProspecLlistModal {...props} />
       case 'notification':

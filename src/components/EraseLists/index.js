@@ -1,18 +1,18 @@
-//ResetStorage/index.js
+//EraseLists/index.js
 
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import { resetAppState } from '../../redux/index.js'
-import { queryresetlocalstorage } from '../../redux/reducerModal'
+import { queryeraselists } from '../../redux/reducerModal'
 
-class ResetStorage extends Component {
+class EraseLists extends Component {
   constructor(props) {
     super(props)
     this.handleResetQueryResonse = this.handleResetQueryResonse.bind(this)
   }
 
   componentDidMount() {
-    this.props.dispatch(queryresetlocalstorage(this.handleResetQueryResonse))
+    this.props.dispatch(queryeraselists(this.handleResetQueryResonse))
   }
 
   handleResetQueryResonse(response) {
@@ -35,5 +35,5 @@ const mapStateToProps = (state) => ({
   state: state,
 })
 
-// export default ResetStorage
-export default connect(mapStateToProps)(ResetStorage)
+// export default EraseLists
+export default connect(mapStateToProps)(EraseLists)

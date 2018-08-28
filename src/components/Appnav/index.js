@@ -8,7 +8,7 @@ const Appnav = function() {
   // let getResetStateMenu = function() {
   //   return process.env.NODE_ENV === 'development'
   //     ? `<MenuItem divider />
-  //   <LinkContainer to="/resetstorage">
+  //   <LinkContainer to="/EraseLists">
   //   <MenuItem eventKey={6.8}>** Erase All Lists **</MenuItem>
   //   </LinkContainer>`
   //     : null
@@ -67,7 +67,7 @@ const Appnav = function() {
                 <MenuItem eventKey={6.7}>Trend Buy Prospects</MenuItem>
               </LinkContainer>
               <MenuItem divider />
-              <LinkContainer to="/resetstorage">
+              <LinkContainer to="/EraseLists">
                 <MenuItem eventKey={6.8}>** Erase All Lists **</MenuItem>
               </LinkContainer>
             </NavDropdown>

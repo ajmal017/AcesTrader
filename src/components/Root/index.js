@@ -18,7 +18,7 @@ import ManageBuyProspects from '../../components/ManageBuyProspects/'
 import ManageSellProspects from '../../components/ManageSellProspects/'
 import ManageTrendBuyProspects from '../../components/ManageTrendBuyProspects/'
 import Home from '../../components/Home/'
-import ResetStorage from '../../components/ResetStorage/'
+import EraseLists from '../../components/EraseLists/'
 import Charts from '../../components/Charts/'
 import PortalModal from '../../components/PortalModal/'
 
@@ -44,7 +44,7 @@ const Root = ({ store }) => (
             <Route exact path="/managesellprospects" component={ManageSellProspects} />
             <Route exact path="/managetrendbuyprospects" component={ManageTrendBuyProspects} />
             <Route exact path="/home" component={Home} />
-            <Route exact path="/resetstorage" component={ResetStorage} />
+            <Route exact path="/EraseLists" component={EraseLists} />
             <Route exact path="/charts" component={Charts} />
           </Switch>
         </div>

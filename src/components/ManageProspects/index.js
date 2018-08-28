@@ -281,7 +281,7 @@ class ManageProspects extends Component {
                   Accept
                 </button>
                 <button id="buttondelete" onClick={() => this.handleLocalClick('delete')} type="button" aria-label="no">
-                  Delete All
+                  Delete All List Symbols
                 </button>
               </div>
             </div>

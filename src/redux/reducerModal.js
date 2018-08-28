@@ -4,7 +4,7 @@ import uuidv4 from 'uuid/v4'
 import defaultState from '../json/defaultState.json'
 
 const QUERY_DELETE_TRADE_OBJECT = 'QUERY_DELETE_TRADE_OBJECT'
-const QUERY_RESET_LOCAL_STORAGE = 'QUERY_RESET_LOCAL_STORAGE'
+const QUERY_ERASE_LISTS = 'QUERY_ERASE_LISTS'
 const QUERY_CLEAR_ONE_PROSPECTS_LIST = 'QUERY_CLEAR_ONE_PROSPECTS_LIST'
 const NOTIFICATION = 'NOTIFICATION'
 
@@ -18,9 +18,9 @@ export const querydeleteTradeObject = (handleModalResonse) => {
     },
   }
 }
-export const queryresetlocalstorage = (handleModalResonse) => {
+export const queryeraselists = (handleModalResonse) => {
   return {
-    type: QUERY_RESET_LOCAL_STORAGE,
+    type: QUERY_ERASE_LISTS,
     payload: {
       handleModalResonse: handleModalResonse,
     },
@@ -73,7 +73,7 @@ export default function modalReducer(state = defaultModal, action) {
       return returnState_TO //the returnState_S const is created for developer inspection before returning
     }
 
-    case QUERY_RESET_LOCAL_STORAGE: {
+    case QUERY_ERASE_LISTS: {
       const returnState_S = { ...defaultModal, ...action.payload, dialogSelector: 'resetlocalstorage', hash: uuidv4() }
       // debugger
       return returnState_S //the returnState_S const is created for developer inspection before returning

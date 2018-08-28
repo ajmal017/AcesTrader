@@ -1,17 +1,15 @@
-// ResetLocalStorageModal/index.js
+// EraseListsModal/index.js
 
 import React from 'react'
 
-const ResetLocalStorageModal = function(props) {
-  const dialogHeader = 'Reset Your Local Storage?'
+const EraseListsModal = function(props) {
+  const dialogHeader = 'Erase All Lists?'
   const dialogContent = (
     <span>
-      <p>
-        Your application's state in local storage will be reset.<br />
-        Your Prospects, Positions, and Results lists will be initialized. You will create them again.
-      </p>
-      <p>This is done to allow the lists to be created again with the latest format changes.</p>
-      <p>Are you sure you want to continue with this reset?</p>
+      <p>All your application's lists will be erased.</p>
+      <p>Your Prospects, Positions, and Results lists will be cleared. You can create them again.</p>
+      <p>This can be done to allow the lists to be created again with the latest format changes.</p>
+      <p>Are you sure you want to continue with this erase action?</p>
     </span>
   )
   return (
@@ -40,4 +38,4 @@ const ResetLocalStorageModal = function(props) {
     </div>
   )
 }
-export default ResetLocalStorageModal
+export default EraseListsModal
