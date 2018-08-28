@@ -87,6 +87,7 @@ class ManageProspects extends Component {
   handleSubmit() {
     let cleanedInput
     let verifiedList
+    this.textBox.value = this.textBox.value.trim()
     if (this.textBox.value === '') {
       this.textBox.value = '**No Data**'
     } else {
