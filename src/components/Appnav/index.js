@@ -2,6 +2,7 @@ import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import './styles.css'
+import SignIn from '../SignIn/index'
 
 // class Appnav extends Component {
 const Appnav = function() {
@@ -82,8 +83,13 @@ const Appnav = function() {
               </LinkContainer>
               {/* {getResetStateMenu()} */}
             </NavDropdown>
-            <LinkContainer to="/alerts">
-              <NavItem eventKey={9}>Alerts</NavItem>
+
+            {/* <LinkContainer to="/signout">
+              <NavItem eventKey={9}>SignOut</NavItem>
+            </LinkContainer> */}
+
+            <LinkContainer to="/signin">
+              <NavItem eventKey={9}>SignIn</NavItem>
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>

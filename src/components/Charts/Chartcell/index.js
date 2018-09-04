@@ -186,7 +186,7 @@ class Chartcell extends Component {
     this.tradeSide = cellObject.dashboard.tradeSide
     this.symbol = cellObject.symbol
     this.hash = cellObject.hash
-    this.buttonLabel = cellObject.dashboard.buttonLabel
+    // this.buttonLabel = cellObject.dashboard.buttonLabel
     // this.instruction = cellObject.dashboard.instruction
     this.entered = cellObject.entered
     const chart_name = cellObject.symbol
@@ -235,16 +235,16 @@ class Chartcell extends Component {
             <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} />
           </div>
           <div className="dashboard-center">
-            <ChartDashboard handleClick={this.props.handleClick} cellObject={cellObject} />
+            <ChartDashboard handleEntry={this.handleEntry} cellObject={cellObject} />
           </div>
 
-          <div className="dashboard-footer">
+          {/* <div className="dashboard-footer">
             <div className="order-entry-button">
               <button onClick={this.handleEntry} className="entry-order-button">
                 {this.buttonLabel} {this.symbol}
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     )

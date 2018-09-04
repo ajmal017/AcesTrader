@@ -6,6 +6,8 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Appnav from '../../components/Appnav/'
 import Alerts from '../../components/Alerts/'
+import SignIn from '../../components/SignIn/'
+import SignOut from '../../components/SignOut/'
 import ProspectBuys from '../../components/ProspectBuys/'
 import ProspectSells from '../../components/ProspectSells/'
 import ProspectTrendBuys from '../../components/ProspectTrendBuys/'
@@ -44,8 +46,10 @@ const Root = ({ store }) => (
             <Route exact path="/managesellprospects" component={ManageSellProspects} />
             <Route exact path="/managetrendbuyprospects" component={ManageTrendBuyProspects} />
             <Route exact path="/home" component={Home} />
-            <Route exact path="/EraseLists" component={EraseLists} />
+            <Route exact path="/eraseLists" component={EraseLists} />
             <Route exact path="/charts" component={Charts} />
+            <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/signout" component={SignOut} />
           </Switch>
         </div>
       </Router>

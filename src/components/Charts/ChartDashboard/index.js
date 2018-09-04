@@ -31,6 +31,7 @@ class ChartDashboard extends Component {
     this.quantityType = this.props.cellObject.dashboard.quantityType
     this.quantity = this.props.cellObject.dashboard.quantity
     this.instruction = this.props.cellObject.dashboard.instruction
+    this.buttonLabel = this.props.cellObject.dashboard.buttonLabel
     return (
       <div className="dashboard">
         <div className="dashboard-data">
@@ -70,12 +71,21 @@ class ChartDashboard extends Component {
             <label htmlFor="duration">Duration</label>
             <input type="text" name="duration" value={this.duration} onChange={this.handleChange} />
           </form>
+
+          <div className="dashboard-footer">
+            <div className="order-entry-button">
+              <button onClick={this.props.handleEntry} className="entry-order-button">
+                {this.buttonLabel} {this.symbol}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     )
   }
 }
 ChartDashboard.propTypes = {
+  handleEntry: PropTypes.object.isRequired,
   cellObject: PropTypes.object.isRequired,
 }
 
