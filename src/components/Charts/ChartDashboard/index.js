@@ -85,7 +85,7 @@ class ChartDashboard extends Component {
   }
 }
 ChartDashboard.propTypes = {
-  handleEntry: PropTypes.function.isRequired,
+  handleEntry: PropTypes.func.isRequired,
   cellObject: PropTypes.object.isRequired,
 }
 
