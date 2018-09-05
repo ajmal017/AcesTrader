@@ -2,7 +2,6 @@ import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import './styles.css'
-import SignIn from '../SignIn/index'
 
 // class Appnav extends Component {
 const Appnav = function() {

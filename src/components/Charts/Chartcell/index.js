@@ -186,8 +186,8 @@ class Chartcell extends Component {
     this.tradeSide = cellObject.dashboard.tradeSide
     this.symbol = cellObject.symbol
     this.hash = cellObject.hash
+    this.instruction = cellObject.dashboard.instruction
     // this.buttonLabel = cellObject.dashboard.buttonLabel
-    // this.instruction = cellObject.dashboard.instruction
     this.entered = cellObject.entered
     const chart_name = cellObject.symbol
     const cell_id = cellObject.hash

@@ -31,7 +31,7 @@ class ChartDashboard extends Component {
     this.quantityType = this.props.cellObject.dashboard.quantityType
     this.quantity = this.props.cellObject.dashboard.quantity
     this.instruction = this.props.cellObject.dashboard.instruction
-    this.buttonLabel = this.props.cellObject.dashboard.buttonLabel
+    this.buttonLabel = this.instruction // this.props.cellObject.dashboard.buttonLabel
     return (
       <div className="dashboard">
         <div className="dashboard-data">
