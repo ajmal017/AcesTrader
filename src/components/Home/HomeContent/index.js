@@ -79,7 +79,7 @@ const HomeContent = function() {
       <p>
         The user has available trading options on the dashboard. These include placing an order to establish a position, either long or short depending on the ETF's grouping, or
         exiting the current position. The options also include removing the ETF from the prospects list. Note that orders are not placed automatically by the program, they are
-        manually placed byf the user.
+        manually placed by the user.
       </p>
 
       <h4>PLACING ORDERS</h4>
@@ -93,7 +93,8 @@ const HomeContent = function() {
       <p>
         The program as designed can only be used for trading by one person, using the assigned TDAmeritrade logon user name and password. However a Demo mode is provided as a guest
         SignIn option. This mode has no interaction with TDAmeritrade. Price data for charts is obtained from the IEX stock exchange. Trades are simulated using the IEX price data
-        for execution prices. These prices are obtained at the time of the order, and they are from 15-minute delayed quotes.
+        for execution prices. These prices are obtained at the time of the order, and they are from a 15-minute delayed ticker feed. But good enough for the demo's simulated swing
+        trading.
       </p>
       <p>
         There's another limitation to the Demo mode. There is no access to the cloud storage. The data for your lists are saved in the local storage of your browser. If you create
