@@ -93,12 +93,13 @@ const HomeContent = function() {
       <p>
         The program as designed can only be used for trading by one person, using the assigned TDAmeritrade logon user name and password. However a Demo mode is provided as a guest
         SignIn option. This mode has no interaction with TDAmeritrade. Price data for charts is obtained from the IEX stock exchange. Trades are simulated using the IEX price data
-        for execution prices. These prices are obtained at the time of the order, and they are from a 15-minute delayed ticker feed. But good enough for the demo's simulated swing
-        trading.
+        for execution prices. These prices are obtained at the time of the order, and they are the last price from the ticker feed. So after trading hours they are stale, but still
+        good enough for the demo's simulated swing trading.
       </p>
       <p>
         There's another limitation to the Demo mode. There is no access to the cloud storage. The data for your lists are saved in the local storage of your browser. If you create
-        your lists on your desktop computer, you won't be able to see the same data using the program on your iPad. Make your lists there to use your iPad for the demo.
+        your lists on your desktop computer, you won't be able to see the same data using the program on your iPad. Make your lists in your browser on the device you will use for
+        the demo.
       </p>
     </div>
   )

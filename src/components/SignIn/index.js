@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 // import { putReference, getReference, referenceRealtrader, referencePapertrader, referenceLocaltrader } from '../../lib/dbReference'
 import BetaNotice from '../BetaNotice'
+import getFillPrice from '../../lib/apiGetFillPrice' //TEMPORARY SCRATCH WORK 
 
 class SignIn extends Component {
   constructor(props) {
@@ -10,8 +11,23 @@ class SignIn extends Component {
     this.state = { signedin: false }
   }
 
+  //TEMPORARY SCRATCH WORK AREA TO TEST CALL TO AXIOS
+  // getTheFillPrice = () => {
+  // }
+  //TEMPORARY SCRATCH WORK AREA TO TEST CALL TO AXIOS
+
   render() {
-    return <BetaNotice pageName={'SignIn'} />
+    const symbol = 'amzn'
+    const hash = '1234'
+    getFillPrice(symbol, hash)
+      .then(function(data) {
+        return data
+      })
+      .catch(function(error) {
+        console.log('getFillPrice axios error:', error.message)
+        alert('getFillPrice axios error: ' + error.message) //rude interruption to user
+      })
+ return <BetaNotice pageName={'SignIn'} />
   }
 
   // render() {
