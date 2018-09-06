@@ -26,14 +26,14 @@ var axiosHelpers = {
   },
 }
 
+// Below is the original code from the example of promise.all,
+// left here for reference
 // function getRepos(username) {
 //   return axios.get('https://api.github.com/users/' + username + '/repos')
 // }
-
 // function getUserInfo(username) {
 //   return axios.get('https://api.github.com/users/' + username)
 // }
-
 // var helpers = {
 //   getGithubInfo: function(username) {
 //     return axios

@@ -19,6 +19,7 @@ import { removeShortFromList } from '../../../redux/reducerShorts'
 import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
 import axios from 'axios'
+import getChartData from '../../../lib/apiGetChartData'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import ChartDashboard from '../ChartDashboard'
 import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
@@ -50,59 +51,17 @@ class Chartcell extends Component {
   }
 
   loadChartData = () => {
-    const self = this
-    const IEX_BASE = 'https://api.iextrading.com/1.0/'
     const symbol = this.props.cellObject.symbol
-    const filter = '?filter=date,open,high,low,close,volume'
     const range = '1y'
-    // const range = '1d'
-    axios
-      .get(`${IEX_BASE}stock/${symbol}/chart/${range}${filter}`)
-      .then((res) => {
-        self.values = res.data
-        self.filteredValues = self.values.filter((obj) => {
-          return obj.high > -1 //special clean up for 1day range prices
-        })
-        let data = self.filteredValues.map((obj) => {
-          let date = obj.date
-          if (range === '1d' && !/-/.test(date)) {
-            //special format change for 1day range chart
-            let result = /(\d\d\d\d)(\d\d)(\d\d)/.exec(date)
-            date = result[1] + '-' + result[2] + '-' + result[3]
-          }
-          date = date + 'T05:00:00.000Z'
-          obj.date = new Date(date)
-          return obj
-        })
-        if (range === '1d' && (data.length === 0 || self.filteredValues.length < self.values.length)) {
-          self.setState({ noprices: true })
-        } else {
-          putPriceData(symbol, data) //cache price data for subsequent rendering
-          self.setState({ data: true, hide: false }) //triggers render using cached data
-        }
+    const self = this
+    getChartData(symbol, range)
+      .then(function(data) {
+        putPriceData(symbol, data) //cache the price data for subsequent rendering
+        self.setState({ data: true, hide: false }) //triggers render using the cached data
       })
       .catch(function(error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data)
-          console.log(error.response.status)
-          console.log(error.response.headers)
-          console.log(`${IEX_BASE}stock/${symbol}/chart/1y`)
-          // debugger //testing
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.log(error.request)
-          debugger //testing
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message)
-          debugger //testing
-        }
-        console.log(error.config)
-        debugger //testing
+        console.log('getChartData axios error:', error.message)
+        alert('getChartData axios error: ' + error.message) //rude interruption to user
       })
   }
 
@@ -114,9 +73,9 @@ class Chartcell extends Component {
   }
 
   handleOrderDispatch() {
-    // This is a newly established position or a newly closed position for this symbol
+    // This is a newly opened position or a newly closed position for this symbol
     this.setState({ hide: false })
-    //TO DO
+    //TO DO Use - THUNK to fetch price for specified SYM and specified hash id.
     //******Get the 2 filled prices, quantity, and account number from Ameritrade********
     const enteredPrice = 'pending' //100.52
     const exitedPrice = 'pending' //220.44
