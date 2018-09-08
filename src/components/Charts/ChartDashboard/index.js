@@ -22,7 +22,7 @@ class ChartDashboard extends Component {
     this.watched = this.props.cellObject.watched
     this.entered = this.props.cellObject.entered
     this.enteredPrice = this.props.cellObject.enteredPrice
-    this.filledquantity = this.props.cellObject.filledquantity
+    this.filledQuantity = this.props.cellObject.filledQuantity
     this.account = this.props.cellObject.account
     this.tradeSide = this.props.cellObject.dashboard.tradeSide
     this.session = this.props.cellObject.dashboard.session
@@ -46,12 +46,12 @@ class ChartDashboard extends Component {
                     &nbsp;&nbsp; Price {this.enteredPrice}
                   </span>
                 ) : null}
-              </div>
-              <div>
-                {this.filledquantity !== undefined ? (
+                {/* </div>
+              <div> */}
+                {this.filledQuantity !== undefined ? (
                   <span className="filledquantity">
-                    Quantity {this.filledquantity}
-                    &nbsp;&nbsp; Account {this.account}
+                    Quantity {this.filledQuantity}
+                    {/* &nbsp;&nbsp; Account {this.account} */}
                   </span>
                 ) : null}
               </div>

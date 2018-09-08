@@ -1,6 +1,8 @@
 // redux/reducerResults.js
 
 import defaultState from '../json/defaultState.json'
+import reduceInsertedObject from './reduceInsertedObject.js'
+import { REPLACE_RESULTS_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
 const RESET_APP_STATE = 'RESET_APP_STATE'
@@ -50,6 +52,17 @@ export default function chartsReducer(state = defaultResults, action) {
       // filter to keep all except the one with the same
       // action.symbol and a matching exited date
       let newState = state.filter((obj) => obj.hash !== action.hash)
+      return newState
+    }
+    case REPLACE_RESULTS_OBJECT: {
+      let hash = action.theObject.hash
+      let foundObject = state.find((obj) => obj.hash === hash)
+      if (!foundObject) {
+        return state //target object is not in this list
+      }
+      let prunedState = state.filter((obj) => obj.hash !== hash) //remove the old object versiom
+      let newState = cloneDeep(prunedState)
+      newState.unshift(action.theObject) //add the new trade to front of the list
       return newState
     }
     case REMOVE_ALL_RESULTS: {

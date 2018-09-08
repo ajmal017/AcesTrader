@@ -5,7 +5,7 @@ import defaultDashboard from '../json/defaultDashboard.json'
 import defaultLongExit from '../json/defaultLongExit.json'
 import reduceTargetState from './reduceTargetState.js'
 import reduceInsertedObject from './reduceInsertedObject.js'
-import { REPLACE_LIST_OBJECT } from './thunkEditListObjects.js'
+import { REPLACE_POSITION_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
 const RESET_APP_STATE = 'RESET_APP_STATE'
@@ -60,9 +60,9 @@ export default function longsReducer(state = defaultLongs, action) {
       let newState = state.filter((obj) => obj.hash !== action.hash)
       return newState
     }
-    case REPLACE_LIST_OBJECT: {
+    case REPLACE_POSITION_OBJECT: {
       let hash = action.theObject.hash
-      let foundObject = state.find((obj) =>  obj.hash === hash)
+      let foundObject = state.find((obj) => obj.hash === hash)
       if (!foundObject) {
         return state //target object is not in this list
       }

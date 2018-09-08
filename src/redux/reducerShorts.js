@@ -4,6 +4,8 @@ import defaultState from '../json/defaultState.json'
 import defaultDashboard from '../json/defaultDashboard.json'
 import defaultShortExit from '../json/defaultShortExit.json'
 import reduceTargetState from './reduceTargetState.js'
+import reduceInsertedObject from './reduceInsertedObject.js'
+import { REPLACE_POSITION_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
 const RESET_APP_STATE = 'RESET_APP_STATE'
@@ -55,6 +57,16 @@ export default function chartsReducer(state = defaultShorts, action) {
       //filter to keep all except the action.symbol one
       // let newState = state.filter((obj) => obj.symbol !== action.symbol)
       let newState = state.filter((obj) => obj.hash !== action.hash)
+      return newState
+    }
+    case REPLACE_POSITION_OBJECT: {
+      let hash = action.theObject.hash
+      let foundObject = state.find((obj) => obj.hash === hash)
+      if (!foundObject) {
+        return state //target object is not in this list
+      }
+      let prunedState = state.filter((obj) => obj.hash !== hash) //remove the old object versiom
+      let newState = reduceInsertedObject(prunedState, action.theObject) //replace with new version
       return newState
     }
     case REMOVE_ALL_SHORTS: {

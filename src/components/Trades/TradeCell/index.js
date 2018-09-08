@@ -35,6 +35,15 @@ class TradeCell extends Component {
     this.props.dispatch(removeResultFromList(this.props.tradeObject.hash))
   }
 
+  componentDidMount() {
+    let rgbColor = this.tradePercentGain > 0 ? '0,255,0' : '255,0,0'
+    let rgbOpacity = Math.min(Math.abs(this.tradePercentGain / 100) * 6, 0.6)
+    let el = document.getElementById('gaininfo')
+    el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
+  }
+
+  // let formattedChangePercent = (data.quote.changePercent * 100).toFixed(1) + '%'
+
   render() {
     const tradeObject = this.props.tradeObject
     const symbol = tradeObject.symbol
@@ -42,13 +51,13 @@ class TradeCell extends Component {
     const enterDate = tradeObject.entered
     const exitDate = tradeObject.exited
     const tradeSide = tradeObject.dashboard.tradeSide
-    const enterPrice = tradeObject.enteredPrice
-    const exitPrice = tradeObject.exitedPrice
-    const tradeQuantity = tradeObject.filledquantity
-    const tradePercentGain = exitPrice !== 'pending' ? (100 * (exitPrice - enterPrice)) / enterPrice + '%' : 'pending'
-    // const tradeDollarGain = exitPrice !== 'pending' ? tradeQuantity * (exitPrice - enterPrice) : 'pending'
+    const enterPrice = tradeObject.enteredPrice //TODO Remove fake price
+    const exitPrice = tradeObject.exitedPrice //TODO Remove fake price
+    const filledQuantity = tradeObject.filledQuantity
+    this.tradePercentGain = exitPrice !== 'pending' ? ((100 * (exitPrice - enterPrice)) / enterPrice).toFixed(1) : 'pending'
+    const tradeDollarGain = exitPrice !== 'pending' ? (filledQuantity * (exitPrice - enterPrice)).toFixed(0) : 'pending'
     // const tradeGain = exitPrice !== 'pending' ? (100 * (exitPrice - enterPrice)) / enterPrice + '%' : 'pending'
-    const account = tradeObject.account
+    // const account = tradeObject.account
     const cell_id = tradeObject.hash
     const wrapperId = 'wrapper-' + cell_id
 
@@ -63,15 +72,23 @@ class TradeCell extends Component {
               &times;
             </button>
           </div>
-          <p>
-            Account: {account}, Quantity: {tradeQuantity}
-          </p>
-          <p>
-            Watched: {watchDate}, Entered: {enterDate}, Exited: {exitDate}
-          </p>
-          <p>
-            Entered Price: {enterPrice}, Exit Price: {exitPrice}, Gain %: {tradePercentGain}
-          </p>
+          <span id={'gaininfo'}>
+            Gain: &nbsp;&nbsp;&nbsp; ${tradeDollarGain}
+            &nbsp;&nbsp;&nbsp;&nbsp; {this.tradePercentGain}%
+          </span>
+          <span>
+            Enter Price: {enterPrice}
+            &nbsp;&nbsp;&nbsp; Exit Price: {exitPrice}
+          </span>
+          <span>
+            {/* Account: {account}  */}
+            Quantity: {filledQuantity}
+          </span>
+          <span>
+            Watched: {watchDate}
+            &nbsp;&nbsp;&nbsp; Entered: {enterDate}
+            &nbsp;&nbsp;&nbsp; Exited: {exitDate}
+          </span>
         </div>
       </div>
     )

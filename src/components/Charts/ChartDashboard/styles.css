@@ -76,6 +76,12 @@
   margin-bottom: 2px;
   margin-left: 8px;
 }
+.filledquantity {
+  /* display: inline-block; */
+  font-size: 14px;
+  margin-bottom: 2px;
+  margin-left: 8px;
+}
 
 .dashboard-form input[type='text'] {
   width: 22%;

@@ -73,6 +73,8 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
     } else if (currentListSymbol === theInputSymbol) {
       if (currentListHash === theInputHash) {
         alert('ERROR in reduceTargetState: Dup hash found for ' + theInputSymbol + ', object not added to list')
+        debugger // stop for developer
+        ++kk //skip this input object without adding again
       } else {
         newState.push(theInputObject) // put newest ahead of older object
         ++kk

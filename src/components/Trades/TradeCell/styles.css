@@ -5,6 +5,7 @@
   border-radius: 5px;
   padding: 0 8px 10px 40px;
   margin-left: 10px;
+  margin-right: 10px;
   border: 1px solid blue;
   overflow: hidden;
   visibility: visible;
@@ -75,5 +76,6 @@
     /* padding-right: 30px; */
     padding-left: 10px;
     margin-left: 0;
+    margin-right: 0;
   }
 }

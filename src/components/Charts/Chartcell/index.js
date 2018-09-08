@@ -18,7 +18,7 @@ import { removeLongFromList } from '../../../redux/reducerLongs'
 import { removeShortFromList } from '../../../redux/reducerShorts'
 import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
-import { addFilledPriceAsync } from '../../../redux/thunkEditListObjects'
+import { addEnterPriceAsync, addExitPriceAsync } from '../../../redux/thunkEditListObjects'
 import getChartData from '../../../lib/apiGetChartData'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import ChartDashboard from '../ChartDashboard'
@@ -67,7 +67,9 @@ class Chartcell extends Component {
 
   handleEntry(event) {
     event.preventDefault()
-    // fade-out this object before dispatching redux action, which will snap in revised display
+    // fade-out this object before dispatching redux action,
+    // which will remove this object and then
+    // will snap in new object and reset all props.
     this.setState({ hide: true })
     setTimeout(this.handleOrderDispatch, 200)
   }
@@ -75,50 +77,51 @@ class Chartcell extends Component {
   handleOrderDispatch() {
     // This is a newly opened position or a newly closed position for this symbol
     this.setState({ hide: false })
-    //TO DO Use - THUNK to fetch price for specified SYM and specified hash id.
-    //******Get the 2 filled prices, quantity, and account number from Ameritrade********
-    const enteredPrice = 'pending' //100.52
-    const exitedPrice = 'pending' //220.44
-    const filledQuantity = 'pending' //55
+    // Use thunk to async fetch price (when available) for the specified hash id object.
+    // Get the 2 filled prices, quantity, and account number from Ameritrade********
+    const enteredPrice = 'pending'
+    const exitedPrice = 'pending'
+    const filledQuantity = 'pending'
     const theAccount = 'pending'
-    const theCellObject = this.props.cellObject
-    const theHash = this.props.cellObject.hash //from original object before dispatched removal below
+    const theCellObject = this.props.cellObject //the target object originating the dispatch action
+    theCellObject.enterQuantity = this.props.cellObject.dashboard.quantity //from target object before its removal by dispatch below
+    const theHash = this.props.cellObject.hash //from target object before its removal by dispatch below
 
     switch (this.tradeSide.toUpperCase()) {
       case 'SWING BUYS': {
         this.props.dispatch(addLongToList(theCellObject, enteredPrice, filledQuantity, theAccount))
         this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
-        this.props.dispatch(addFilledPriceAsync(theHash))
+        this.props.dispatch(addEnterPriceAsync(theHash))
         break
       }
       case 'SWING SHORT SALES': {
         this.props.dispatch(addShortToList(theCellObject, enteredPrice, filledQuantity, theAccount))
         this.props.dispatch(removeSellFromList(this.symbol, this.hash))
-        this.props.dispatch(addFilledPriceAsync(theHash))
+        this.props.dispatch(addEnterPriceAsync(theHash))
         break
       }
       case 'TREND BUYS': {
         this.props.dispatch(addTrendLongToList(theCellObject, enteredPrice, filledQuantity, theAccount))
         this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
-        this.props.dispatch(addFilledPriceAsync(theHash))
+        this.props.dispatch(addEnterPriceAsync(theHash))
         break
       }
       case 'SWING LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeLongFromList(this.symbol, this.hash))
-        this.props.dispatch(addFilledPriceAsync(theHash))
+        this.props.dispatch(addExitPriceAsync(theHash))
         break
       }
       case 'SWING SHORTS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeShortFromList(this.symbol, this.hash))
-        this.props.dispatch(addFilledPriceAsync(theHash))
+        this.props.dispatch(addExitPriceAsync(theHash))
         break
       }
       case 'TREND LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
-        this.props.dispatch(addFilledPriceAsync(theHash))
+        this.props.dispatch(addExitPriceAsync(theHash))
         break
       }
       default:
@@ -181,7 +184,7 @@ class Chartcell extends Component {
       )
     }
 
-    // A re-render can happen without life cycle calls when a list item is deleted,
+    // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the corrent data for the new current symbol
     this.data = cloneDeep(getPriceData(this.props.cellObject.symbol))
 
@@ -191,7 +194,7 @@ class Chartcell extends Component {
         <div id={cell_id} className="chart-cell">
           <div className="cell-header">
             <span className="cell-title">{chart_name}</span>
-            {/* if entered is undefined, this is a Prospects list, so the X delete button is added */}
+            {/* if entered is undefined, this is still in a Prospects list, so the X delete button is added */}
             {this.entered === undefined ? (
               <button onClick={this.handleDelete} className="cell-button" type="button" aria-label="delete">
                 &times;
