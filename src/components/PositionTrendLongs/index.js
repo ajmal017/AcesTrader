@@ -6,7 +6,7 @@ import AppToolbar from '../../components/AppToolbar'
 
 class PositionTrendLongs extends Component {
   render() {
-    return <AppToolbar chartArray={this.props.trendlongs} />
+    return <AppToolbar chartArray={this.props.trendlongs} originList={'Trend Longs'} />
   }
 }
 

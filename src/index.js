@@ -14,6 +14,7 @@ import './styles/styles-global.css'
 import React from 'react'
 import { render } from 'react-dom'
 import { applyMiddleware, createStore } from 'redux'
+import thunk from 'redux-thunk'
 import rootReducer from './redux'
 import ErrorBoundary from './components/ErrorBoundary/'
 import Root from './components/Root'
@@ -54,7 +55,7 @@ if (canapprun() && pinverified()) {
     // TestlocalStorage() // test if disabled or full, needs to be enabled in /lib/localStorage
     stateRetrieved = 'ready' // allow app to render
     persistedState = loadLocalState() //returns (undefined) if error or no saved state
-    store = createStore(rootReducer, persistedState) // 'persistedState' overrides the initial state specified by the reducers
+    store = createStore(rootReducer, persistedState, applyMiddleware(thunk)) // 'persistedState' overrides the initial state specified by the reducers
   } else {
     // running with Firebase database storage
     fire
@@ -66,8 +67,7 @@ if (canapprun() && pinverified()) {
           stateRetrieved = 'ready' // allow app to render since api call completed
           // the snapshot.val is null if no saved state exists, using undefined creates default state in the store
           persistedState = snapshot.val() === null ? undefined : snapshot.val()
-          // store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(reference), logger)) // 'persistedState=snapshot.val' creates store with current state by overriding the initial state specified by the reducers
-          store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(reference))) // 'persistedState=snapshot.val' creates store with current state by overriding the initial state specified by the reducers
+          store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(reference), thunk)) // 'persistedState=snapshot.val' creates store with current state by overriding the initial state specified by the reducers
         } else {
           stateRetrieved = 'error' //  the api call was unsuccessful
         }

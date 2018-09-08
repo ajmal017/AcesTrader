@@ -5,7 +5,7 @@ import AppToolbar from '../../components/AppToolbar'
 
 class PositionShorts extends Component {
   render() {
-    return <AppToolbar chartArray={this.props.shorts} />
+    return <AppToolbar chartArray={this.props.shorts} originList={'Swing Shorts'} />
   }
 }
 

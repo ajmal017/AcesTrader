@@ -6,7 +6,7 @@ import { getReference, referenceLocaltrader } from './dbReference'
 
 let reference = getReference() //indicates which storage to use for app state
 
-const getFillPrice = (symbol, hash) => {
+const getFillPrice = (symbol) => {
   if (reference === referenceLocaltrader) {
     // Call into the free IEX api
     const self = this

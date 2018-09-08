@@ -18,6 +18,7 @@ import { removeLongFromList } from '../../../redux/reducerLongs'
 import { removeShortFromList } from '../../../redux/reducerShorts'
 import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
+import { addFilledPriceAsync } from '../../../redux/thunkEditListObjects'
 import getChartData from '../../../lib/apiGetChartData'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import ChartDashboard from '../ChartDashboard'
@@ -80,36 +81,44 @@ class Chartcell extends Component {
     const exitedPrice = 'pending' //220.44
     const filledQuantity = 'pending' //55
     const theAccount = 'pending'
+    const theCellObject = this.props.cellObject
+    const theHash = this.props.cellObject.hash //from original object before dispatched removal below
 
     switch (this.tradeSide.toUpperCase()) {
       case 'SWING BUYS': {
-        this.props.dispatch(addLongToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
+        this.props.dispatch(addLongToList(theCellObject, enteredPrice, filledQuantity, theAccount))
         this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
+        this.props.dispatch(addFilledPriceAsync(theHash))
         break
       }
       case 'SWING SHORT SALES': {
-        this.props.dispatch(addShortToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
+        this.props.dispatch(addShortToList(theCellObject, enteredPrice, filledQuantity, theAccount))
         this.props.dispatch(removeSellFromList(this.symbol, this.hash))
+        this.props.dispatch(addFilledPriceAsync(theHash))
         break
       }
       case 'TREND BUYS': {
-        this.props.dispatch(addTrendLongToList(this.props.cellObject, enteredPrice, filledQuantity, theAccount))
+        this.props.dispatch(addTrendLongToList(theCellObject, enteredPrice, filledQuantity, theAccount))
         this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
+        this.props.dispatch(addFilledPriceAsync(theHash))
         break
       }
       case 'SWING LONGS': {
-        this.props.dispatch(addResultToList(this.props.cellObject, exitedPrice))
+        this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeLongFromList(this.symbol, this.hash))
+        this.props.dispatch(addFilledPriceAsync(theHash))
         break
       }
       case 'SWING SHORTS': {
-        this.props.dispatch(addResultToList(this.props.cellObject, exitedPrice))
+        this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeShortFromList(this.symbol, this.hash))
+        this.props.dispatch(addFilledPriceAsync(theHash))
         break
       }
       case 'TREND LONGS': {
-        this.props.dispatch(addResultToList(this.props.cellObject, exitedPrice))
+        this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
+        this.props.dispatch(addFilledPriceAsync(theHash))
         break
       }
       default:

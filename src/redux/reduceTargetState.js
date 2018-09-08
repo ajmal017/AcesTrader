@@ -30,11 +30,12 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
           theInputObject.symbol = theInputSymbol
           theInputObject.dashboard = newDashboard //includes the order entry parameters
           theInputObject.watched = theDate
-          theInputObject.hash = uuidv4() // use for unique object ID, instead of symbol (which may be repeated in Results)
+          theInputObject.hash = uuidv4() // make for unique object ID, instead of symbol (which may be repeated in Positions & Results)
           theInputHash = theInputObject.hash
           break
         case 'entered': //theInput is a list of asset objects going into Positions
           theInputSymbol = theInput[kk].symbol
+          theInputHash = theInput[kk].hash
           theInputObject = theInput[kk]
           //update the entered asset object
           theInputObject.dashboard = newDashboard //includes the order exit parameters
@@ -45,6 +46,7 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
           break
         case 'exited': //theInput is a list of asset objects going into Results
           theInputSymbol = theInput[kk].symbol
+          theInputHash = theInput[kk].hash
           theInputObject = theInput[kk]
           theInputObject.exited = theDate
           theInputObject.exitedPrice = thePrice

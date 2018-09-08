@@ -4,6 +4,7 @@ import defaultState from '../json/defaultState.json'
 import defaultDashboard from '../json/defaultDashboard.json'
 import defaultLongEntry from '../json/defaultLongEntry.json'
 import reduceTargetState from './reduceTargetState.js'
+
 var cloneDeep = require('lodash.clonedeep')
 
 const RESET_APP_STATE = 'RESET_APP_STATE'

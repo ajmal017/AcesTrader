@@ -24,9 +24,30 @@ export function firebaseSaveState(reference) {
     // Because state can contain properties with value=func(), the above hack removes them.
     // For example after a modal dialog sequence, because of the callback provided we have:
     // property 'papertrader.modal.handleModalResonse' with contents = function ()
-    fire
-      .database()
-      .ref(reference)
-      .set(cleanState)
+
+    // fire
+    //   .database()
+    //   .ref(reference)
+    //   .set(cleanState)
+
+    let completed = false
+    let retries = 0
+    do {
+      fire
+        .database()
+        .ref(reference)
+        /* eslint no-loop-func: 0 */
+        .set(cleanState, function(error) {
+          if (error) {
+            if (retries > 3) {
+              alert("The database write failed while saving the changed list's state.") //rude interruption to user
+            } else {
+              retries++
+            }
+          } else {
+            completed = true
+          }
+        })
+    } while (!completed)
   }
 }

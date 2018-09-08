@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 // import { putReference, getReference, referenceRealtrader, referencePapertrader, referenceLocaltrader } from '../../lib/dbReference'
 import BetaNotice from '../BetaNotice'
-import getFillPrice from '../../lib/apiGetFillPrice' //TEMPORARY SCRATCH WORK 
+import getFillPrice from '../../lib/apiGetFillPrice' //TEMPORARY SCRATCH WORK
 
 class SignIn extends Component {
   constructor(props) {
@@ -18,8 +18,7 @@ class SignIn extends Component {
 
   render() {
     const symbol = 'amzn'
-    const hash = '1234'
-    getFillPrice(symbol, hash)
+    getFillPrice(symbol)
       .then(function(data) {
         return data
       })
@@ -27,7 +26,7 @@ class SignIn extends Component {
         console.log('getFillPrice axios error:', error.message)
         alert('getFillPrice axios error: ' + error.message) //rude interruption to user
       })
- return <BetaNotice pageName={'SignIn'} />
+    return <BetaNotice pageName={'SignIn'} />
   }
 
   // render() {

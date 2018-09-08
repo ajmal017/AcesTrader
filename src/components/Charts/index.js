@@ -16,11 +16,12 @@ const Charts = (props) => {
       </div>
     )
   } else {
-    return <h3 className="error"> There are no symbols in this list</h3>
+    return <h3 className="error"> There are no symbols in the {props.originList} list</h3>
   }
 }
 
 Charts.propTypes = {
+  originList: PropTypes.string.isRequired,
   chartArray: PropTypes.array.isRequired,
 }
 
