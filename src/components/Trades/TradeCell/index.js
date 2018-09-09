@@ -42,7 +42,8 @@ class TradeCell extends Component {
     el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
   }
 
-  // let formattedChangePercent = (data.quote.changePercent * 100).toFixed(1) + '%'
+  // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+  numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
   render() {
     const tradeObject = this.props.tradeObject
@@ -73,7 +74,7 @@ class TradeCell extends Component {
             </button>
           </div>
           <span id={'gaininfo'}>
-            Gain: &nbsp;&nbsp;&nbsp; ${tradeDollarGain}
+            {tradeDollarGain < 0 ? 'Loss' : 'Gain'} &nbsp;&nbsp;&nbsp; ${this.numberWithCommas(tradeDollarGain)}
             &nbsp;&nbsp;&nbsp;&nbsp; {this.tradePercentGain}%
           </span>
           <span>
