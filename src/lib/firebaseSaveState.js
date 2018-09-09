@@ -17,9 +17,11 @@ export function firebaseSaveState(reference) {
       return next(action)
     }
     next(action) // run the reducers now to do any state changes
+
     let newState = getState()
     // console.log(JSON.stringify(newState, null, 2)) // a readable log of the state's json
     // Right click > Copy All in the Console panel to copy to clipboard
+
     let cleanState = JSON.parse(JSON.stringify(newState))
     // Because state can contain properties with value=func(), the above hack removes them.
     // For example after a modal dialog sequence, because of the callback provided we have:
@@ -30,24 +32,13 @@ export function firebaseSaveState(reference) {
     //   .ref(reference)
     //   .set(cleanState)
 
-    let completed = false
-    let retries = 0
-    do {
-      fire
-        .database()
-        .ref(reference)
-        /* eslint no-loop-func: 0 */
-        .set(cleanState, function(error) {
-          if (error) {
-            if (retries > 3) {
-              alert("The database write failed while saving the changed list's state.") //rude interruption to user
-            } else {
-              retries++
-            }
-          } else {
-            completed = true
-          }
-        })
-    } while (!completed)
+    fire
+      .database()
+      .ref(reference)
+      .set(cleanState, function(error) {
+        if (error) {
+          alert("Firebase: The database write failed while saving the changed list's state. Error: " + error) //rude interruption to user
+        }
+      })
   }
 }

@@ -29,7 +29,27 @@ const getChartData = (symbol, range) => {
       })
     return request //let caller handle the promise's .then/.catch completion
   } else {
-    // Call into the Ameritrade api
+    // Call into the Ameritrade api as soon as is ready,
+    // but for now call into the free IEX api
+    const self = this
+    const IEX_BASE = 'https://api.iextrading.com/1.0/'
+    const filter = '?filter=date,open,high,low,close,volume'
+    const request = axios
+      .get(`${IEX_BASE}stock/${symbol}/chart/${range}${filter}`)
+      .then((res) => {
+        self.values = res.data
+        let data = self.values.map((obj) => {
+          let date = obj.date
+          date = date + 'T05:00:00.000Z'
+          obj.date = new Date(date)
+          return obj
+        })
+        return data
+      })
+      .catch((error) => {
+        return error
+      })
+    return request //let caller handle the promise's .then/.catch completion
   }
 }
 export default getChartData
