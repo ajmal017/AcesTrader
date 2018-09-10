@@ -19,7 +19,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = { stateRetrieved: 'pending', loading: true, authenticated: false, user: null }
-    this.store // receives the created store
+    this.store = null // receives the created store
     this.reference = null // identifies the DB source for app's store
   }
 

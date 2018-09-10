@@ -1,7 +1,6 @@
 // redux/reducerResults.js
 
 import defaultState from '../json/defaultState.json'
-import reduceInsertedObject from './reduceInsertedObject.js'
 import { REPLACE_RESULTS_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
