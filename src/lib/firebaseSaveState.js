@@ -10,7 +10,7 @@ export const saveState = () => {
 }
 
 // note: reference can be "realtrader", "papertrader", "debugtrader", "localtrader", or "tempignore"
-// these are three separate stores in the clould  and one store in localstorage, plus a temporary ignore switch.
+// these are three separate stores in the clould and one store in localstorage, plus a temporary ignore switch.
 export function firebaseSaveState() {
   return ({ getState }) => (next) => (action) => {
     let reference = getReference() //indicates which storage to use for app state
@@ -24,17 +24,12 @@ export function firebaseSaveState() {
 
     let newState = getState()
     // console.log(JSON.stringify(newState, null, 2)) // a readable log of the state's json
-    // Right click > Copy All in the Console panel to copy to clipboard
+    // note: you can Right click > Copy All in the Console panel to copy to clipboard
 
     let cleanState = JSON.parse(JSON.stringify(newState))
     // Because state can contain properties with value=func(), the above hack removes them.
     // For example after a modal dialog sequence, because of the callback provided we have:
     // property 'papertrader.modal.handleModalResonse' with contents = function ()
-
-    // fire
-    //   .database()
-    //   .ref(reference)
-    //   .set(cleanState)
 
     fire
       .database()

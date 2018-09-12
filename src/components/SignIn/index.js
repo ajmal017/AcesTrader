@@ -1,7 +1,7 @@
 // SignIn/index.js
 
 import React, { Component } from 'react'
-// import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import SignInView from './SignInView'
 import fire from '../../fire'
 import { putReference, referenceRealtrader, referencePapertrader, referenceDebugtrader, referenceLocaltrader } from '../../lib/dbReference'
@@ -9,27 +9,23 @@ import { putReference, referenceRealtrader, referencePapertrader, referenceDebug
 class SignInContainer extends Component {
   handleSignIn = async (event) => {
     event.preventDefault()
-    const { email, password } = event.target.elements
-    try {
-      const user = await fire.auth().signInWithEmailAndPassword(email.value, password.value)
-      // this.props.callback({ demoMode: false })
-    } catch (error) {
-      alert(error)
-    }
+    // const { email, password } = event.target.elements
+    // try {
+    //   const user = await fire.auth().signInWithEmailAndPassword(email.value, password.value)
+    // this.props.history.push('/welcome')
+    // } catch (error) {
+    //   alert(error)
+    // }
   }
   handleSignUp = (event) => {
     event.preventDefault()
+
+    this.props.history.push('/signup')
   }
   handleDemoMode = (event) => {
     event.preventDefault()
     putReference(referenceLocaltrader)
-
-    this.props.history.push('/welcome') // reload current page
   }
-
-  // this.props.callback({ demoMode: true })
-  // // <Route path="/home" render={() => <div>Home</div>}/>
-  // <Route render={() => <App/>}
 
   handleRealTrader = (event) => {
     putReference(referenceRealtrader)
@@ -69,5 +65,4 @@ class SignInContainer extends Component {
 // return props
 // }
 
-export default SignInContainer
-// export default connect(mapStateToProps)(SignInContainer)
+export default withRouter(SignInContainer)

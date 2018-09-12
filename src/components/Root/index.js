@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Appnav from '../../components/Appnav/'
-import Alerts from '../../components/Alerts/'
+// import Alerts from '../../components/Alerts/'
 import SignIn from '../../components/SignIn/'
 import SignUp from '../../components/SignUp/'
 import SignOut from '../../components/SignOut/'
@@ -44,7 +44,7 @@ const Root = ({ store, authenticated }) => (
             <PrivateRoute exact path="/prospectbuys" component={ProspectBuys} authenticated={authenticated} />
             <PrivateRoute exact path="/prospectsells" component={ProspectSells} authenticated={authenticated} />
             <PrivateRoute exact path="/prospecttrendbuys" component={ProspectTrendBuys} authenticated={authenticated} />
-            <PrivateRoute exact path="/results" component={Results} authenticated={authenticated} authenticated={authenticated} />
+            <PrivateRoute exact path="/results" component={Results} authenticated={authenticated} />
             <PrivateRoute exact path="/peek" component={Peek} authenticated={authenticated} />
             <PrivateRoute exact path="/managebuyprospects" component={ManageBuyProspects} authenticated={authenticated} />
             <PrivateRoute exact path="/managesellprospects" component={ManageSellProspects} authenticated={authenticated} />

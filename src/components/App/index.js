@@ -1,7 +1,9 @@
 // app/index.js
 
 import React, { Component } from 'react'
-import { createStore } from 'redux'
+import { applyMiddleware, createStore } from 'redux'
+import thunk from 'redux-thunk'
+import { firebaseSaveState } from '../../lib/firebaseSaveState'
 import rootReducer from '../../redux'
 import ErrorBoundary from '../ErrorBoundary/'
 import Root from '../Root'
@@ -15,9 +17,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    let persistedState = undefined // persistedStat=undefined creates the initial state as specified by the reducers defaults
+    let persistedState = undefined // persistedStat=undefined creates the default initial state as specified by the reducers defaults
     // we create the store with all the available middlewares; they are activated dynamically depending on the trader's role
-    this.store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(self.reference), thunk))
+    this.store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(), thunk))
 
     fire.auth().onAuthStateChanged((user) => {
       if (user) {

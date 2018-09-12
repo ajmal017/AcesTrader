@@ -35,7 +35,7 @@ class Home extends Component {
       //Continue with authenticated user running with Ameritrade api and Firebase api,
       //or with the unauthenticated user running with IEX api and local storage api.
       if (this.reference === referenceLocaltrader) {
-        /* unauthenticated user */
+        /* unauthenticated user, or demo mode user */
         persistedState = loadLocalState() //returns (undefined) if error or no saved state
         // TODO get store from contex -> this.store = createStore(rootReducer, persistedState, applyMiddleware(thunk)) // 'persistedState' overrides the initial state specified by the reducers
         this.setState({ stateRetrieved: 'ready' }) // causes app to render
