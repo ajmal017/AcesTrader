@@ -1,18 +1,22 @@
 // firebaseSaveState.js
 
 import fire from '../fire'
+import { getReference, referenceLocaltrader, referenceTempIgnore } from './dbReference'
 
-export const saveState = (reference) => {
+export const saveState = () => {
   return {
     type: 'SAVE_STATE',
-    reference: reference,
   }
 }
 
-// note: reference can be "realtrader" or "papertrader";
-// these are two separate stores.
-export function firebaseSaveState(reference) {
+// note: reference can be "realtrader", "papertrader", "debugtrader", "localtrader", or "tempignore"
+// these are three separate stores in the clould  and one store in localstorage, plus a temporary ignore switch.
+export function firebaseSaveState() {
   return ({ getState }) => (next) => (action) => {
+    let reference = getReference() //indicates which storage to use for app state
+    if (reference === referenceLocaltrader || reference === referenceTempIgnore) {
+      return next(action) // cloud storage is not used for this user role
+    }
     if (/^QUERY_/.test(action.type) || /^NOTIFICATION/.test(action.type)) {
       return next(action)
     }

@@ -2,9 +2,8 @@
 
 import axios from 'axios'
 import { getReference, referenceLocaltrader } from './dbReference'
-// import { getReference, referenceLocaltrader, referenceRealtrader, referencePapertrader,referenceDebugtrader } from './dbReference'
 
-let reference = getReference() //indicates which storage to use for app state
+let reference = getReference() //indicates which source to use for app's chart data
 
 const getChartData = (symbol, range) => {
   if (reference === referenceLocaltrader) {

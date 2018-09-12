@@ -1,38 +1,73 @@
 // SignIn/index.js
 
 import React, { Component } from 'react'
-// import { putReference, getReference, referenceRealtrader, referencePapertrader,referenceDebugtrader, referenceLocaltrader } from '../../lib/dbReference'
-import BetaNotice from '../BetaNotice'
-import getFillPrice from '../../lib/apiGetFillPrice' //TEMPORARY SCRATCH WORK
+// import { connect } from 'react-redux'
+import SignInView from './SignInView'
+import fire from '../../fire'
+import { putReference, referenceRealtrader, referencePapertrader, referenceDebugtrader, referenceLocaltrader } from '../../lib/dbReference'
 
-class SignIn extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { signedin: false }
+class SignInContainer extends Component {
+  handleSignIn = async (event) => {
+    event.preventDefault()
+    const { email, password } = event.target.elements
+    try {
+      const user = await fire.auth().signInWithEmailAndPassword(email.value, password.value)
+      // this.props.callback({ demoMode: false })
+    } catch (error) {
+      alert(error)
+    }
+  }
+  handleSignUp = (event) => {
+    event.preventDefault()
+  }
+  handleDemoMode = (event) => {
+    event.preventDefault()
+    putReference(referenceLocaltrader)
+
+    this.props.history.push('/welcome') // reload current page
   }
 
-  //TEMPORARY SCRATCH WORK AREA TO TEST CALL TO AXIOS
-  // getTheFillPrice = () => {
-  // }
-  //TEMPORARY SCRATCH WORK AREA TO TEST CALL TO AXIOS
+  // this.props.callback({ demoMode: true })
+  // // <Route path="/home" render={() => <div>Home</div>}/>
+  // <Route render={() => <App/>}
+
+  handleRealTrader = (event) => {
+    putReference(referenceRealtrader)
+  }
+  handlePaperTrader = (event) => {
+    putReference(referencePapertrader)
+  }
+  handleDebugTrader = (event) => {
+    putReference(referenceDebugtrader)
+  }
 
   render() {
-    const symbol = 'amzn'
-    getFillPrice(symbol)
-      .then(function(data) {
-        return data
-      })
-      .catch(function(error) {
-        console.log('getFillPrice axios error:', error.message)
-        alert('getFillPrice axios error: ' + error.message) //rude interruption to user
-      })
-    return <BetaNotice pageName={'SignIn'} />
+    return (
+      <SignInView
+        onSubmit={this.handleSignIn}
+        onSignUp={this.handleSignUp}
+        onDemoMode={this.handleDemoMode}
+        onRealTrader={this.handleRealTrader}
+        onPaperTrader={this.handlePaperTrader}
+        onDebugTrader={this.handleDebugTrader}
+      />
+    )
   }
-
-  // render() {
-  //   putReference() //pass user selected trading mode: paper or real
-  //   return <h3>Sign In</h3>
-  // }
 }
+// function mapStateToProps(state) {
+// const props = {
+//   exampleChartObject: state.files.exampleChartObject,
+//   planName: state.files.planName,
+//   planObject: state.files.planObject,
+//   plansList: state.common.plansList,
+//   dirty: state.files.dirty,
+//   chartObject: state.charts.chartObject,
+//   montecarloAllowed: state.charts.montecarloAllowed,
+//   selectedTreeNode: state.plan.selectedTreeNode,
+//   showCharts: state.plan.showCharts,
+// }
+// return props
+// }
 
-export default SignIn
+export default SignInContainer
+// export default connect(mapStateToProps)(SignInContainer)

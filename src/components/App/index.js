@@ -1,153 +1,78 @@
 // app/index.js
 
 import React, { Component } from 'react'
-import { applyMiddleware, createStore } from 'redux'
-import thunk from 'redux-thunk'
+import { createStore } from 'redux'
 import rootReducer from '../../redux'
 import ErrorBoundary from '../ErrorBoundary/'
 import Root from '../Root'
-import { loadLocalState, saveLocalState } from '../../lib/localStorage'
-// import { islocalStorageWorking } from '../../lib/localStorage'
-import { getReference, referenceLocaltrader } from '../../lib/dbReference'
-import { firebaseSaveState } from '../../lib/firebaseSaveState'
-import { resetCache } from '../../lib/chartDataCache'
-import throttle from 'lodash/throttle'
 import fire from '../../fire'
-// import logger from 'redux-logger'
 
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = { stateRetrieved: 'pending', loading: true, authenticated: false, user: null }
     this.store = null // receives the created store
-    this.reference = null // identifies the DB source for app's store
+    this.state = { loading: true, authenticated: false, user: null }
   }
 
-  // *******TODO SIGNIN********
-  // *******TODO SIGNIN********
-
   componentDidMount() {
-    // TestlocalStorage() // test if disabled or full, needs to be enabled in /lib/localStorage
-    resetCache() // clear all previously cached chart price data for fresh start
-    let persistedState // receives the saved state from storage
-    this.reference = getReference() //indicates which storage to use for app's state
-    if (this.reference === referenceLocaltrader) {
-      persistedState = loadLocalState() //returns (undefined) if error or no saved state
-      this.store = createStore(rootReducer, persistedState, applyMiddleware(thunk)) // 'persistedState' overrides the initial state specified by the reducers
-      this.setState({ stateRetrieved: 'ready' }) // allow app to render
-    } else {
-      // running with Firebase database storage
-      let self = this
+    let persistedState = undefined // persistedStat=undefined creates the initial state as specified by the reducers defaults
+    // we create the store with all the available middlewares; they are activated dynamically depending on the trader's role
+    this.store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(self.reference), thunk))
+
+    fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({
+          authenticated: true,
+          currentUser: user,
+          loading: false,
+        })
+      } else {
+        this.setState({
+          authenticated: false,
+          currentUser: null,
+          loading: false,
+        })
+      }
+    })
+
+    const { authenticated } = this.state
+    if (authenticated) {
       fire
-        .database()
-        .ref(this.reference) // see lib/dbReference.js for possible values
-        .once('value')
-        .then(function(snapshot) {
-          if (snapshot) {
-            // the snapshot.val is null if no saved state exists, using undefined creates default state in the store
-            persistedState = snapshot.val() === null ? undefined : snapshot.val()
-            self.store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(self.reference), thunk)) // 'persistedState=snapshot.val' creates store with current state by overriding the initial state specified by the reducers
-            self.setState({ stateRetrieved: 'ready' }) // allow app to render
-          } else {
-            self.setState({ stateRetrieved: 'error' }) // the api call was unsuccessful
-          }
+        .auth()
+        .setPersistence(fire.auth.Auth.Persistence.SESSION)
+        .then(function() {
+          // Existing and future Auth states are now persisted in the current
+          // session only. Closing the window would clear any existing state even
+          // if a user forgets to sign out.
+          // ...
+          // New sign-in will be persisted with session persistence.
+          // return fire.auth().signInWithEmailAndPassword(email, password)
+        })
+        .catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code
+          var errorMessage = error.message
+          alert(errorCode, errorMessage)
         })
     }
   }
 
   render() {
-    const { stateRetrieved, authenticated, loading } = this.state
+    const { loading, authenticated } = this.state
 
-    // if (loading) {
-    //   return <p>Loading..</p>
-    // }
-
-    // resetCache() // clear all previously cached chart price data for fresh start
-    // let stateRetrieved = 'pending' // switch to control the render
-    // let persistedState // receives the saved state from storage
-    // let store // receives the created store
-
-    // let reference = getReference() //indicates which storage to use for app's state
-    // if (reference === referenceLocaltrader) {
-    //   // TestlocalStorage() // test if disabled or full, needs to be enabled in /lib/localStorage
-    //   //   stateRetrieved = 'ready' // allow app to render
-    //   this.setState({
-    //     stateRetrieved: 'ready',
-    //   })
-    //   persistedState = loadLocalState() //returns (undefined) if error or no saved state
-    //   store = createStore(rootReducer, persistedState, applyMiddleware(thunk)) // 'persistedState' overrides the initial state specified by the reducers
-    // } else {
-    //   // running with Firebase database storage
-    //   fire
-    //     .database()
-    //     .ref(reference) // see lib/dbReference.js for possible values
-    //     .once('value')
-    //     .then(function(snapshot) {
-    //       if (snapshot) {
-    //         stateRetrieved = 'ready' // allow app to render since api call completed
-    //         // the snapshot.val is null if no saved state exists, using undefined creates default state in the store
-    //         persistedState = snapshot.val() === null ? undefined : snapshot.val()
-    //         store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(reference), thunk)) // 'persistedState=snapshot.val' creates store with current state by overriding the initial state specified by the reducers
-    //       } else {
-    //         stateRetrieved = 'error' //  the api call was unsuccessful
-    //       }
-    //       return DataStatus(stateRetrieved)
-    //       //   return <DataStatus stateRetrieved={stateRetrieved} />
-    //     })
-    // }
-
-    // function TestlocalStorage(props) {
-    //   let response = islocalStorageWorking()
-    //   if (!response) {
-    //     alert(
-    //       "ERROR! Your computer's local storage is disabled or else is full. As a result AcesTrader can not save your data. Please enable local storage or increase your storage space quota or delete some plan files, depending on the situation."
-    //     )
-    //   }
-    // }
-
-    const subscribe = () => {
-      this.store.subscribe(
-        throttle(() => {
-          saveLocalState(this.store.getState())
-        }, 1000)
-      )
-    }
-
-    const DataReady = () => {
-      if (this.reference === referenceLocaltrader) {
-        subscribe()
-      }
-      return (
-        <ErrorBoundary>
-          <Root store={this.store} />{' '}
-        </ErrorBoundary>
-      )
-    }
-    const DataPending = () => {
+    if (loading) {
       const divStyle = { marginTop: 80, marginLeft: 50 }
       return (
         <div style={divStyle}>
-          <h4>{`Retrieving Your Data. Please Wait...`}</h4>
+          <h4>{`Loading The App. Please Wait...`}</h4>
         </div>
       )
-    }
-    const DataError = () => {
-      const divStyle = { marginTop: 80, marginLeft: 20 }
-      return (
-        <div style={divStyle}>
-          <h4>{`Error While Retrieving Your Data. Please Restart to Try Again...`}</h4>
-        </div>
-      )
-    }
-
-    if (this.state.stateRetrieved === 'ready') {
-      return <DataReady />
-    } else if (this.state.stateRetrieved === 'pending') {
-      return <DataPending />
-    } else if (this.state.stateRetrieved === 'error') {
-      return <DataError />
     } else {
-      alert('Error in this.state.stateRetrieved = ' + this.state.stateRetrieved)
+      return (
+        <ErrorBoundary>
+          <Root store={this.store} authenticated={authenticated} />{' '}
+        </ErrorBoundary>
+      )
     }
   }
 }
