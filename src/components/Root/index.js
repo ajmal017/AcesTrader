@@ -36,7 +36,6 @@ const Root = ({ store, authenticated }) => (
           <Route component={Appnav} />
           <Switch>
             <PrivateRoute exact path="/" component={Welcome} authenticated={authenticated} />
-            <PrivateRoute exact path="/welcome" component={Welcome} authenticated={authenticated} />
             <PrivateRoute exact path="/home" component={Home} authenticated={authenticated} />
             <PrivateRoute exact path="/positionlongs" component={PositionLongs} authenticated={authenticated} />
             <PrivateRoute exact path="/positionshorts" component={PositionShorts} authenticated={authenticated} />
@@ -54,6 +53,7 @@ const Root = ({ store, authenticated }) => (
             <PrivateRoute exact path="/signout" component={SignOut} authenticated={authenticated} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/welcome" component={Welcome} authenticated={authenticated} />
           </Switch>
         </div>
       </Router>

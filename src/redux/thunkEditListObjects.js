@@ -17,7 +17,11 @@ export const addExitPriceAsync = (hash) => {
     let newObject = cloneDeep(foundObject)
     getFillPrice(newObject.symbol)
       .then(function(data) {
-        newObject['exitedPrice'] = data //the filled price for this order
+        if (TypeError) {
+          newObject['exitedPrice'] = 'Not Available'
+        } else {
+          newObject['exitedPrice'] = data //the filled price for this order
+        }
         dispatch(replaceTradeObject(newObject))
       })
       .catch(function(error) {
@@ -47,7 +51,11 @@ export const addEnterPriceAsync = (hash) => {
     let newObject = cloneDeep(foundObject)
     getFillPrice(newObject.symbol)
       .then(function(data) {
-        newObject['enteredPrice'] = data //the filled price for this order
+        if (TypeError) {
+          newObject['enteredPrice'] = 'Not Available'
+        } else {
+          newObject['enteredPrice'] = data //the filled price for this order
+        }
         newObject['filledquantity'] = null //removes wrongly labeled property
         newObject['filledQuantity'] = newObject['enterQuantity'] //assumption - can be changed by later query to Ameritrade
         dispatch(replaceListObject(newObject))

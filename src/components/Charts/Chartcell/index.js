@@ -54,10 +54,17 @@ class Chartcell extends Component {
     const symbol = this.props.cellObject.symbol
     const range = '1y'
     const self = this
+    console.log('loadChartData ' + symbol)
     getChartData(symbol, range)
       .then(function(data) {
-        putPriceData(symbol, data) //cache the price data for subsequent rendering
-        self.setState({ data: true, hide: false }) //triggers render using the cached data
+        if (data.length < 2) {
+          //CandleStickChartWithMA bug seen with new issue "TRTY" when only 0 or 1 day's data available
+          //Memory leak reported by VSCode, seems to cause many weird code mistakes when running
+          self.setState({ data: true, noprices: true, hide: false })
+        } else {
+          putPriceData(symbol, data) //cache the price data for subsequent rendering
+          self.setState({ data: true, hide: false }) //triggers render using the cached data
+        }
       })
       .catch(function(error) {
         console.log('getChartData axios error:', error.message)
@@ -168,13 +175,13 @@ class Chartcell extends Component {
     //Cached storage holds indicator values used for signal alerts)
     //Local state holds duplicate of price data)
 
-    if (this.state.noprices) {
-      return (
-        <div id={cell_id} className="chart-cell-wrapper">
-          <h4>{`No 1-day Prices Available For ${chart_name}.`}</h4>
-        </div>
-      )
-    }
+    // if (this.state.noprices) {
+    //   return (
+    //     <div id={cell_id} className="chart-cell-wrapper">
+    //       <h4>{`No Prices Available For ${chart_name}.`}</h4>
+    //     </div>
+    //   )
+    // }
 
     if (!this.state.data) {
       return (
@@ -202,7 +209,14 @@ class Chartcell extends Component {
             ) : null}
           </div>
           <div id={chartId} className="graph-content">
-            <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} />
+            {this.state.noprices ? (
+              <div id={cell_id} className="chart-cell-wrapper">
+                {' '}
+                <h4>{`No Prices Available For ${chart_name}.`}</h4>
+              </div>
+            ) : (
+              <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} />
+            )}
           </div>
           <div className="dashboard-center">
             <ChartDashboard handleEntry={this.handleEntry} cellObject={cellObject} />

@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { applyMiddleware, createStore } from 'redux'
 import thunk from 'redux-thunk'
+import logger from 'redux-logger'
 import { firebaseSaveState } from '../../lib/firebaseSaveState'
 import rootReducer from '../../redux'
 import ErrorBoundary from '../ErrorBoundary/'
@@ -18,8 +19,8 @@ class App extends Component {
 
   componentDidMount() {
     let persistedState = undefined // persistedStat=undefined creates the default initial state as specified by the reducers defaults
-    // we create the store with all the available middlewares; they are activated dynamically depending on the trader's role
-    this.store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(), thunk))
+    // we create the store with all the available middlewares; they are controlled dynamically depending on the user's role
+    this.store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(), thunk, logger))
 
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -37,26 +38,26 @@ class App extends Component {
       }
     })
 
-    const { authenticated } = this.state
-    if (authenticated) {
-      fire
-        .auth()
-        .setPersistence(fire.auth.Auth.Persistence.SESSION)
-        .then(function() {
-          // Existing and future Auth states are now persisted in the current
-          // session only. Closing the window would clear any existing state even
-          // if a user forgets to sign out.
-          // ...
-          // New sign-in will be persisted with session persistence.
-          // return fire.auth().signInWithEmailAndPassword(email, password)
-        })
-        .catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code
-          var errorMessage = error.message
-          alert(errorCode, errorMessage)
-        })
-    }
+    // const { authenticated } = this.state
+    // if (authenticated) {
+    //   fire
+    //     .auth()
+    //     .setPersistence(fire.auth.Auth.Persistence.SESSION)
+    //     .then(function() {
+    //       // Existing and future Auth states are now persisted in the current
+    //       // session only. Closing the window would clear any existing state even
+    //       // if a user forgets to sign out.
+    //       // ...
+    //       // New sign-in will be persisted with session persistence.
+    //       // return fire.auth().signInWithEmailAndPassword(email, password)
+    //     })
+    //     .catch(function(error) {
+    //       // Handle Errors here.
+    //       var errorCode = error.code
+    //       var errorMessage = error.message
+    //       alert(errorCode, errorMessage)
+    //     })
+    // }
   }
 
   render() {

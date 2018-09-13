@@ -9,27 +9,38 @@ import { putReference, referenceRealtrader, referencePapertrader, referenceDebug
 class SignInContainer extends Component {
   handleSignIn = async (event) => {
     event.preventDefault()
-    // const { email, password } = event.target.elements
-    // try {
-    //   const user = await fire.auth().signInWithEmailAndPassword(email.value, password.value)
-    // this.props.history.push('/welcome')
-    // } catch (error) {
-    //   alert(error)
-    // }
+    putReference(referenceDebugtrader) //TODO Temp until this form is finished
+    const { email, password } = event.target.elements
+    try {
+      const user = await fire.auth().signInWithEmailAndPassword(email.value, password.value)
+      this.props.history.push('/welcome')
+    } catch (error) {
+      alert(error)
+    }
   }
-  handleSignUp = (event) => {
-    event.preventDefault()
 
-    this.props.history.push('/signup')
-  }
-  handleDemoMode = (event) => {
+  // signin the Demo user so that authenticated=true is set allowing access to all nav links
+  // the Reference=referenceLocaltrader constrains this user to IEX api and local storage
+  handleDemoMode = async (event) => {
     event.preventDefault()
     putReference(referenceLocaltrader)
+    try {
+      const user = await fire.auth().signInWithEmailAndPassword('demouser@xmail.com', 'rfynmw#23&sxlz')
+      this.props.history.push('/welcome')
+    } catch (error) {
+      alert(error)
+    }
+  }
+
+  handleSignUp = (event) => {
+    event.preventDefault()
+    this.props.history.push('/signup')
   }
 
   handleRealTrader = (event) => {
     putReference(referenceRealtrader)
   }
+
   handlePaperTrader = (event) => {
     putReference(referencePapertrader)
   }
@@ -50,19 +61,5 @@ class SignInContainer extends Component {
     )
   }
 }
-// function mapStateToProps(state) {
-// const props = {
-//   exampleChartObject: state.files.exampleChartObject,
-//   planName: state.files.planName,
-//   planObject: state.files.planObject,
-//   plansList: state.common.plansList,
-//   dirty: state.files.dirty,
-//   chartObject: state.charts.chartObject,
-//   montecarloAllowed: state.charts.montecarloAllowed,
-//   selectedTreeNode: state.plan.selectedTreeNode,
-//   showCharts: state.plan.showCharts,
-// }
-// return props
-// }
 
 export default withRouter(SignInContainer)
