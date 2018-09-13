@@ -38,27 +38,7 @@ class App extends Component {
       }
     })
 
-    // const { authenticated } = this.state
-    // if (authenticated) {
-    //   fire
-    //     .auth()
-    //     .setPersistence(fire.auth.Auth.Persistence.SESSION)
-    //     .then(function() {
-    //       // Existing and future Auth states are now persisted in the current
-    //       // session only. Closing the window would clear any existing state even
-    //       // if a user forgets to sign out.
-    //       // ...
-    //       // New sign-in will be persisted with session persistence.
-    //       // return fire.auth().signInWithEmailAndPassword(email, password)
-    //     })
-    //     .catch(function(error) {
-    //       // Handle Errors here.
-    //       var errorCode = error.code
-    //       var errorMessage = error.message
-    //       alert(errorCode, errorMessage)
-    //     })
-    // }
-  }
+ 
 
   render() {
     const { loading, authenticated } = this.state

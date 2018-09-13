@@ -13,7 +13,7 @@ import welcomeDemoTrader from './welcomeDemoTrader'
 import welcomeTrader from './welcomeTrader'
 import HomeFootnote from '../../components/Home/HomeFootnote'
 import './styles.css'
-import copyBuysState from '../../redux/reducerBuys'
+import moveBuysToState from '../../redux/reducerBuys'
 import removeAllBuysFromList from '../../redux/reducerBuys'
 
 class Welcome extends Component {
@@ -51,11 +51,8 @@ class Welcome extends Component {
       // if (persistedState !== undefined) {
       //   let savedReference = getReference()
       //   putReference(referenceTempIgnore) // tell middleware to not update the storage for these state changes
-      //   let buysState = persistedState.buys
-      //   // let t222 = removeAllBuysFromList()
-      //   // let copyBuysStateAction = copyBuysState(buysState)
-      //   // this.props.dispatch(copyBuysStateAction)
-      //   this.props.dispatch(copyBuysState(buysState))
+      //   // let buysFromStorage = persistedState.buys
+      //   this.props.dispatch(moveBuysToState(persistedState.buys))
       //   putReference(savedReference) // tell middleware it's ok to update the storage for state changes
       // }
 
@@ -143,4 +140,4 @@ class Welcome extends Component {
 const mapStateToProps = (state) => ({
   state: state,
 })
-export default connect()(Welcome)
+export default connect(mapStateToProps)(Welcome)

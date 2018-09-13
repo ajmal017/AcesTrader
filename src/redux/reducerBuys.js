@@ -7,16 +7,23 @@ import reduceTargetState from './reduceTargetState.js'
 
 var cloneDeep = require('lodash.clonedeep')
 
-const COPY_BUYS_STATE = 'COPY_BUYS_STATE'
+const COPY_BUYS_TO_STATE = 'COPY_BUYS_TO_STATE'
 const RESET_APP_STATE = 'RESET_APP_STATE'
 const ADD_BUYS = 'ADD_BUYS'
 const REMOVE_ONE_BUY = 'REMOVE_ONE_BUY'
 const REMOVE_ALL_BUYS = 'REMOVE_ALL_BUYS'
 
-export const copyBuysState = (buysState) => {
+export const copyBuysToState = (buysState) => {
   return {
-    type: COPY_BUYS_STATE,
+    type: COPY_BUYS_TO_STATE,
     buysState: buysState,
+  }
+}
+
+export const moveBuysToState = (buysFromStorage) => {
+  return {
+    type: COPY_BUYS_TO_STATE,
+    buysFromStorage: buysFromStorage,
   }
 }
 
@@ -70,8 +77,8 @@ export default function buysReducer(state = defaultBuys, action) {
     case RESET_APP_STATE: {
       return cloneDeep(defaultBuys)
     }
-    case COPY_BUYS_STATE: {
-      return cloneDeep(action.buysState)
+    case COPY_BUYS_TO_STATE: {
+      return cloneDeep(action.buysFromStorage)
     }
     default:
       return state
