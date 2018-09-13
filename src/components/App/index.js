@@ -1,14 +1,12 @@
 // app/index.js
 
 import React, { Component } from 'react'
-import { applyMiddleware, createStore } from 'redux'
-import thunk from 'redux-thunk'
-import logger from 'redux-logger'
-import { firebaseSaveState } from '../../lib/firebaseSaveState'
-import rootReducer from '../../redux'
-import ErrorBoundary from '../ErrorBoundary/'
-import Root from '../Root'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import PrivateRoute from '../../PrivateRoute'
 import fire from '../../fire'
+import StartUp from '../StartUp'
+import SignIn from '../SignIn'
+import SignUp from '../SignUp'
 
 class App extends Component {
   constructor(props) {
@@ -18,9 +16,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    let persistedState = undefined // persistedStat=undefined creates the default initial state as specified by the reducers defaults
-    // we create the store with all the available middlewares; they are controlled dynamically depending on the user's role
-    this.store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(), thunk, logger))
+    // let persistedState = undefined // persistedStat=undefined creates the default initial state as specified by the reducers defaults
+    // // we create the store with all the available middlewares; they are controlled dynamically depending on the user's role
+    // this.store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(), thunk, logger))
 
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -37,8 +35,7 @@ class App extends Component {
         })
       }
     })
-
- 
+  }
 
   render() {
     const { loading, authenticated } = this.state
@@ -52,11 +49,16 @@ class App extends Component {
       )
     } else {
       return (
-        <ErrorBoundary>
-          <Root store={this.store} authenticated={authenticated} />{' '}
-        </ErrorBoundary>
+        <Router>
+          <div>
+            <PrivateRoute exact path="/" component={StartUp} authenticated={this.state.authenticated} />
+            <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/signup" component={SignUp} />
+          </div>
+        </Router>
       )
     }
   }
 }
+
 export default App
