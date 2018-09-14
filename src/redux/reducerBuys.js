@@ -7,25 +7,10 @@ import reduceTargetState from './reduceTargetState.js'
 
 var cloneDeep = require('lodash.clonedeep')
 
-const COPY_BUYS_TO_STATE = 'COPY_BUYS_TO_STATE'
 const RESET_APP_STATE = 'RESET_APP_STATE'
 const ADD_BUYS = 'ADD_BUYS'
 const REMOVE_ONE_BUY = 'REMOVE_ONE_BUY'
 const REMOVE_ALL_BUYS = 'REMOVE_ALL_BUYS'
-
-export const copyBuysToState = (buysState) => {
-  return {
-    type: COPY_BUYS_TO_STATE,
-    buysState: buysState,
-  }
-}
-
-export const moveBuysToState = (buysFromStorage) => {
-  return {
-    type: COPY_BUYS_TO_STATE,
-    buysFromStorage: buysFromStorage,
-  }
-}
 
 export const addBuysToList = (buysList) => {
   let date = new Date()
@@ -53,6 +38,8 @@ export const removeAllBuysFromList = () => {
   }
 }
 
+const MAKE_NEW_STATE_COPY = 'MAKE_NEW_STATE_COPY'
+
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
 // so we create a corresponding slice of the defaultState as well.
@@ -60,6 +47,9 @@ const defaultBuys = cloneDeep(defaultState.buys) //in case state is undefined
 
 export default function buysReducer(state = defaultBuys, action) {
   switch (action.type) {
+    case MAKE_NEW_STATE_COPY: {
+      return cloneDeep(state) // trigger the Redux connects to render in all components
+    }
     case ADD_BUYS: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultLongEntry)
       let newState = reduceTargetState(state, action.buysArray, newDashboard, action.theDate, action.theEvent)
@@ -76,9 +66,6 @@ export default function buysReducer(state = defaultBuys, action) {
     }
     case RESET_APP_STATE: {
       return cloneDeep(defaultBuys)
-    }
-    case COPY_BUYS_TO_STATE: {
-      return cloneDeep(action.buysFromStorage)
     }
     default:
       return state

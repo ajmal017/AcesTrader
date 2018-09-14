@@ -26,16 +26,17 @@ import EraseLists from '../../components/EraseLists/'
 import Charts from '../../components/Charts/'
 import PortalModal from '../../components/PortalModal/'
 import PrivateRoute from '../../PrivateRoute'
+import defaultState from '../../json/defaultState.json'
 
 const Root = ({ store, authenticated }) => (
-  <Provider store={store}>
+  <Provider store={store ? store : { getState: () => defaultState, subscribe: () => {} }}>
     <div>
       <PortalModal />
       <Router>
         <div>
           <Route component={Appnav} />
           <Switch>
-            <PrivateRoute exact path="/" component={Welcome} authenticated={authenticated} />
+            <PrivateRoute exact path="/" component={Home} authenticated={authenticated} />
             <PrivateRoute exact path="/home" component={Home} authenticated={authenticated} />
             <PrivateRoute exact path="/positionlongs" component={PositionLongs} authenticated={authenticated} />
             <PrivateRoute exact path="/positionshorts" component={PositionShorts} authenticated={authenticated} />
@@ -53,7 +54,7 @@ const Root = ({ store, authenticated }) => (
             <PrivateRoute exact path="/signout" component={SignOut} authenticated={authenticated} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/welcome" component={Welcome} authenticated={authenticated} />
+            <Route exact path="/welcome" component={Welcome} />
           </Switch>
         </div>
       </Router>
@@ -68,7 +69,8 @@ Root.propTypes = {
 
 export default Root
 
-// <Route exact path="/" component={Home} />
+// {/* <Route exact path="/" component={Home} /> */}
+
 // <Route exact path="/home" component={Home} />
 // <Route exact path="/positionlongs" component={PositionLongs} />
 // <Route exact path="/positionshorts" component={PositionShorts} />
@@ -85,5 +87,6 @@ export default Root
 // <Route exact path="/charts" component={Charts} />
 // <Route exact path="/signout" component={SignOut} />
 // <Route exact path="/welcome" component={Welcome} />
-// <Route exact path="/signup" component={SignUp} />
-// <Route exact path="/signin" component={SignIn} />
+
+// {/* <Route exact path="/signup" component={SignUp} /> */}
+// {/* <Route exact path="/signin" component={SignIn} /> */}
