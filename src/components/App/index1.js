@@ -41,22 +41,10 @@ class App extends Component {
         })
       }
     })
-
-    fire
-      .auth()
-      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-      .then(function() {
-        // Existing and future Auth states are now persisted in the current session only.
-      })
-      .catch(function(error) {
-        var errorCode = error.code
-        var errorMessage = error.message
-        alert(errorCode, errorMessage)
-      })
   }
 
   render() {
-    const { loading, authenticated } = this.state
+    const { loading, authenticated, stateRetrieved } = this.state
     const divStyle = { marginTop: 80, marginLeft: 50 }
 
     if (loading) {
@@ -68,7 +56,7 @@ class App extends Component {
       )
     }
 
-    if (authenticated && this.state.stateRetrieved === 'retrieving') {
+    if (authenticated && stateRetrieved === 'retrieving') {
       return (
         <div style={divStyle}>
           <h4>{`Retrieving Your List Data. Please Wait...`}</h4>
@@ -76,7 +64,7 @@ class App extends Component {
       )
     }
 
-    if (authenticated && this.state.stateRetrieved === 'error') {
+    if (authenticated && stateRetrieved === 'error') {
       return (
         <div style={divStyle}>
           <h4>{`Error While Retrieving Your Lists Data. Please Restart to Try Again...`}</h4>
@@ -84,8 +72,21 @@ class App extends Component {
       )
     }
 
-    if (authenticated && this.state.stateRetrieved === 'pending') {
-      // == START THE APP NOW ===
+    if (authenticated && stateRetrieved === 'pending') {
+      // == START UP THE APP NOW ===
+
+      //   .setPersistence(fire.auth.Auth.Persistence.SESSION)
+      fire
+        .auth()
+        .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(function() {
+          // Existing and future Auth states are now persisted in the current session only.
+        })
+        .catch(function(error) {
+          var errorCode = error.code
+          var errorMessage = error.message
+          alert(errorCode, errorMessage)
+        })
 
       // testlocalStorage() // test if disabled or full, needs to be enabled in /lib/localStorage
       resetCache() // clear all previously cached chart price data for fresh start
@@ -135,18 +136,16 @@ class App extends Component {
       // }
     }
 
-    if (!authenticated) {
-      return <RootNoProvider authenticated={authenticated} /> // shows LogIn page
+    // if (!authenticated) {
+    //   return <RootNoProvider authenticated={authenticated} />
+    // }
+    if (authenticated && stateRetrieved === 'ready') {
+      return (
+        <ErrorBoundary>
+          <Root store={this.store} authenticated={authenticated} />
+        </ErrorBoundary>
+      )
     }
-
-    if (authenticated && this.state.stateRetrieved) {
-    } // no op to see their value
-
-    return (
-      <ErrorBoundary>
-        <Root store={this.store} authenticated={authenticated} /> {/* shows Navbar */}
-      </ErrorBoundary>
-    )
   }
 }
 
