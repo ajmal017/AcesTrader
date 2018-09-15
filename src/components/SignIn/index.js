@@ -10,10 +10,10 @@ class SignInContainer extends Component {
   handleSignIn = async (event) => {
     event.preventDefault()
     putReference(referenceDebugtrader) //TODO Temp until this form is finished
+    this.props.history.push('/welcome')
     const { email, password } = event.target.elements
     try {
       const user = await fire.auth().signInWithEmailAndPassword(email.value, password.value)
-      this.props.history.push('/welcome')
     } catch (error) {
       alert(error)
     }
@@ -24,9 +24,9 @@ class SignInContainer extends Component {
   handleDemoMode = async (event) => {
     event.preventDefault()
     putReference(referenceLocaltrader)
+    this.props.history.push('/welcome')
     try {
       const user = await fire.auth().signInWithEmailAndPassword('demouser@xmail.com', 'rfynmw#23&sxlz')
-      this.props.history.push('/welcome')
     } catch (error) {
       alert(error)
     }

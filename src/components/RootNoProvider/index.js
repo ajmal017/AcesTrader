@@ -33,25 +33,28 @@ import defaultState from '../../json/defaultState.json'
 const RootNoProvider = ({ authenticated }) => (
   <Router>
     <div>
-      <PrivateRoute exact path="/" component={Welcome} authenticated={authenticated} />
-      <PrivateRoute exact path="/home" component={Home} authenticated={authenticated} />
-      <PrivateRoute exact path="/positionlongs" component={PositionLongs} authenticated={authenticated} />
-      <PrivateRoute exact path="/positionshorts" component={PositionShorts} authenticated={authenticated} />
-      <PrivateRoute exact path="/positiontrendlongs" component={PositionTrendLongs} authenticated={authenticated} />
-      <PrivateRoute exact path="/prospectbuys" component={ProspectBuys} authenticated={authenticated} />
-      <PrivateRoute exact path="/prospectsells" component={ProspectSells} authenticated={authenticated} />
-      <PrivateRoute exact path="/prospecttrendbuys" component={ProspectTrendBuys} authenticated={authenticated} />
-      <PrivateRoute exact path="/results" component={Results} authenticated={authenticated} />
-      <PrivateRoute exact path="/peek" component={Peek} authenticated={authenticated} />
-      <PrivateRoute exact path="/managebuyprospects" component={ManageBuyProspects} authenticated={authenticated} />
-      <PrivateRoute exact path="/managesellprospects" component={ManageSellProspects} authenticated={authenticated} />
-      <PrivateRoute exact path="/managetrendbuyprospects" component={ManageTrendBuyProspects} authenticated={authenticated} />
-      <PrivateRoute exact path="/eraseLists" component={EraseLists} authenticated={authenticated} />
-      <PrivateRoute exact path="/charts" component={Charts} authenticated={authenticated} />
-      <PrivateRoute exact path="/signout" component={SignOut} authenticated={authenticated} />
-      <Route exact path="/signup" component={SignUp} />
-      <Route exact path="/signin" component={SignIn} />
-      <Route exact path="/welcome" component={Welcome} />
+      <Route component={Appnav} />
+      <Switch>
+        <PrivateRoute exact path="/" component={Home} authenticated={authenticated} />
+        <PrivateRoute exact path="/home" component={Home} authenticated={authenticated} />
+        <PrivateRoute exact path="/positionlongs" component={PositionLongs} authenticated={authenticated} />
+        <PrivateRoute exact path="/positionshorts" component={PositionShorts} authenticated={authenticated} />
+        <PrivateRoute exact path="/positiontrendlongs" component={PositionTrendLongs} authenticated={authenticated} />
+        <PrivateRoute exact path="/prospectbuys" component={ProspectBuys} authenticated={authenticated} />
+        <PrivateRoute exact path="/prospectsells" component={ProspectSells} authenticated={authenticated} />
+        <PrivateRoute exact path="/prospecttrendbuys" component={ProspectTrendBuys} authenticated={authenticated} />
+        <PrivateRoute exact path="/results" component={Results} authenticated={authenticated} />
+        <PrivateRoute exact path="/peek" component={Peek} authenticated={authenticated} />
+        <PrivateRoute exact path="/managebuyprospects" component={ManageBuyProspects} authenticated={authenticated} />
+        <PrivateRoute exact path="/managesellprospects" component={ManageSellProspects} authenticated={authenticated} />
+        <PrivateRoute exact path="/managetrendbuyprospects" component={ManageTrendBuyProspects} authenticated={authenticated} />
+        <PrivateRoute exact path="/eraseLists" component={EraseLists} authenticated={authenticated} />
+        <PrivateRoute exact path="/charts" component={Charts} authenticated={authenticated} />
+        <PrivateRoute exact path="/signout" component={SignOut} authenticated={authenticated} />
+        <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/signin" component={SignIn} />
+        <Route exact path="/welcome" component={Welcome} />
+      </Switch>
     </div>
   </Router>
 )

@@ -51,7 +51,8 @@ export const addEnterPriceAsync = (hash) => {
     let newObject = cloneDeep(foundObject)
     getFillPrice(newObject.symbol)
       .then(function(data) {
-        if (TypeError) {
+        var data = +data // cast to a number to test validity:
+        if (isNaN(data)) {
           newObject['enteredPrice'] = 'Not Available'
         } else {
           newObject['enteredPrice'] = data //the filled price for this order

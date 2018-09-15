@@ -28,15 +28,18 @@ import PortalModal from '../../components/PortalModal/'
 import PrivateRoute from '../../PrivateRoute'
 import defaultState from '../../json/defaultState.json'
 
+{
+  /* <Provider store={store ? store : { getState: () => defaultState, subscribe: () => {} }}> */
+}
 const Root = ({ store, authenticated }) => (
-  <Provider store={store ? store : { getState: () => defaultState, subscribe: () => {} }}>
+  <Provider store={store}>
     <div>
       <PortalModal />
       <Router>
         <div>
           <Route component={Appnav} />
           <Switch>
-            <PrivateRoute exact path="/" component={Welcome} authenticated={authenticated} />
+            <PrivateRoute exact path="/" component={Home} authenticated={authenticated} />
             <PrivateRoute exact path="/home" component={Home} authenticated={authenticated} />
             <PrivateRoute exact path="/positionlongs" component={PositionLongs} authenticated={authenticated} />
             <PrivateRoute exact path="/positionshorts" component={PositionShorts} authenticated={authenticated} />
@@ -54,7 +57,7 @@ const Root = ({ store, authenticated }) => (
             <PrivateRoute exact path="/signout" component={SignOut} authenticated={authenticated} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/" component={Welcome} />
+            <Route exact path="/welcome" component={Welcome} />
           </Switch>
         </div>
       </Router>
