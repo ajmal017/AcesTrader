@@ -52,8 +52,8 @@ class TradeCell extends Component {
     const enterDate = tradeObject.entered
     const exitDate = tradeObject.exited
     const tradeSide = tradeObject.dashboard.tradeSide
-    const enterPrice = tradeObject.enteredPrice //TODO Remove fake price
-    const exitPrice = tradeObject.exitedPrice //TODO Remove fake price
+    const enterPrice = tradeObject.enteredPrice
+    const exitPrice = tradeObject.exitedPrice
     const filledQuantity = tradeObject.filledQuantity
     this.tradePercentGain = exitPrice !== 'pending' ? ((100 * (exitPrice - enterPrice)) / enterPrice).toFixed(1) : 'pending'
     const tradeDollarGain = exitPrice !== 'pending' ? (filledQuantity * (exitPrice - enterPrice)).toFixed(0) : 'pending'
@@ -75,15 +75,14 @@ class TradeCell extends Component {
           </div>
           <span id={'gaininfo'}>
             {tradeDollarGain < 0 ? 'Loss' : 'Gain'} &nbsp;&nbsp;&nbsp; ${this.numberWithCommas(tradeDollarGain)}
-            &nbsp;&nbsp;&nbsp;&nbsp; {this.tradePercentGain}%
+            &nbsp;&nbsp;&nbsp;&nbsp; {this.tradePercentGain}%{/*&nbsp;&nbsp;&nbsp;&nbsp;  Account: {account}  */}
           </span>
           <span>
             Enter Price: {enterPrice}
             &nbsp;&nbsp;&nbsp; Exit Price: {exitPrice}
-          </span>
-          <span>
-            {/* Account: {account}  */}
-            Quantity: {filledQuantity}
+            {/* </span>
+          <span> */}
+            &nbsp;&nbsp;&nbsp; Quantity: {filledQuantity}
           </span>
           <span>
             Watched: {watchDate}

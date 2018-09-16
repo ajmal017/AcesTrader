@@ -38,6 +38,8 @@ export const removeAllBuysFromList = () => {
   }
 }
 
+const MAKE_NEW_STATE_COPY = 'MAKE_NEW_STATE_COPY'
+
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
 // so we create a corresponding slice of the defaultState as well.
@@ -45,6 +47,9 @@ const defaultBuys = cloneDeep(defaultState.buys) //in case state is undefined
 
 export default function buysReducer(state = defaultBuys, action) {
   switch (action.type) {
+    case MAKE_NEW_STATE_COPY: {
+      return cloneDeep(state) // trigger the Redux connects to render in all components
+    }
     case ADD_BUYS: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultLongEntry)
       let newState = reduceTargetState(state, action.buysArray, newDashboard, action.theDate, action.theEvent)

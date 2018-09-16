@@ -1,38 +1,65 @@
 // SignIn/index.js
 
 import React, { Component } from 'react'
-// import { putReference, getReference, referenceRealtrader, referencePapertrader,referenceDebugtrader, referenceLocaltrader } from '../../lib/dbReference'
-import BetaNotice from '../BetaNotice'
-import getFillPrice from '../../lib/apiGetFillPrice' //TEMPORARY SCRATCH WORK
+import { withRouter } from 'react-router'
+import SignInView from './SignInView'
+import fire from '../../fire'
+import { putReference, referenceRealtrader, referencePapertrader, referenceDebugtrader, referenceLocaltrader } from '../../lib/dbReference'
 
-class SignIn extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { signedin: false }
+class SignInContainer extends Component {
+  handleSignIn = async (event) => {
+    event.preventDefault()
+    putReference(referenceDebugtrader) //TODO Temp until this form is finished
+    this.props.history.push('/welcome')
+    const { email, password } = event.target.elements
+    try {
+      const user = await fire.auth().signInWithEmailAndPassword(email.value, password.value)
+    } catch (error) {
+      alert(error)
+    }
   }
 
-  //TEMPORARY SCRATCH WORK AREA TO TEST CALL TO AXIOS
-  // getTheFillPrice = () => {
-  // }
-  //TEMPORARY SCRATCH WORK AREA TO TEST CALL TO AXIOS
+  // signin the Demo user so that authenticated=true is set allowing access to all nav links
+  // the Reference=referenceLocaltrader constrains the Demo user to IEX api and local storage
+  handleDemoMode = async (event) => {
+    event.preventDefault()
+    putReference(referenceLocaltrader)
+    this.props.history.push('/welcome')
+    try {
+      const user = await fire.auth().signInWithEmailAndPassword('demouser@xmail.com', 'rfynmw#23&sxlz')
+    } catch (error) {
+      alert(error)
+    }
+  }
+
+  handleSignUp = (event) => {
+    event.preventDefault()
+    this.props.history.push('/signup')
+  }
+
+  handleLiveTrader = (event) => {
+    putReference(referenceRealtrader)
+  }
+
+  handlePaperTrader = (event) => {
+    putReference(referencePapertrader)
+  }
+  handleDebugTrader = (event) => {
+    putReference(referenceDebugtrader)
+  }
 
   render() {
-    const symbol = 'amzn'
-    getFillPrice(symbol)
-      .then(function(data) {
-        return data
-      })
-      .catch(function(error) {
-        console.log('getFillPrice axios error:', error.message)
-        alert('getFillPrice axios error: ' + error.message) //rude interruption to user
-      })
-    return <BetaNotice pageName={'SignIn'} />
+    return (
+      <SignInView
+        onSubmit={this.handleSignIn}
+        onSignUp={this.handleSignUp}
+        onDemoMode={this.handleDemoMode}
+        onLiveTrader={this.handleLiveTrader}
+        onPaperTrader={this.handlePaperTrader}
+        onDebugTrader={this.handleDebugTrader}
+      />
+    )
   }
-
-  // render() {
-  //   putReference() //pass user selected trading mode: paper or real
-  //   return <h3>Sign In</h3>
-  // }
 }
 
-export default SignIn
+export default withRouter(SignInContainer)

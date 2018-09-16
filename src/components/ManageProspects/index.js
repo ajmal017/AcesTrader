@@ -185,7 +185,6 @@ class ManageProspects extends Component {
   handleAccept() {
     if (this.textAreaBox.value !== '') {
       this.newProspects = this.textAreaBox.value.split(' ').sort()
-      //this.textAreaBox.value = this.newProspects.join(' ')
       if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
         this.props.dispatch(addBuysToList(this.newProspects))
         this.props.handleClick('push', 'prospectbuys')

@@ -1,53 +1,48 @@
 // firebaseSaveState.js
 
 import fire from '../fire'
+import { getReference, referenceLocaltrader, referenceTempIgnore } from './dbReference'
+import { saveLocalState } from './localStorage'
 
-export const saveState = (reference) => {
+export const saveState = () => {
   return {
     type: 'SAVE_STATE',
-    reference: reference,
   }
 }
 
-// note: reference can be "realtrader" or "papertrader";
-// these are two separate stores.
-export function firebaseSaveState(reference) {
+// note: reference can be "realtrader", "papertrader", "debugtrader", "localtrader", or "tempignore"
+// these are three separate stores in the clould and one store in localstorage, plus a temporary ignore switch.
+export function firebaseSaveState() {
   return ({ getState }) => (next) => (action) => {
     if (/^QUERY_/.test(action.type) || /^NOTIFICATION/.test(action.type)) {
       return next(action)
     }
+    let reference = getReference() //indicates which storage to use for app state
+    if (reference === referenceTempIgnore) {
+      return next(action) // writing to storage is not allowed during this temporary user role
+    }
+
     next(action) // run the reducers now to do any state changes
+
     let newState = getState()
     // console.log(JSON.stringify(newState, null, 2)) // a readable log of the state's json
-    // Right click > Copy All in the Console panel to copy to clipboard
+    // note: you can Right click > Copy All in the Console panel to copy to clipboard
     let cleanState = JSON.parse(JSON.stringify(newState))
     // Because state can contain properties with value=func(), the above hack removes them.
     // For example after a modal dialog sequence, because of the callback provided we have:
     // property 'papertrader.modal.handleModalResonse' with contents = function ()
 
-    // fire
-    //   .database()
-    //   .ref(reference)
-    //   .set(cleanState)
-
-    let completed = false
-    let retries = 0
-    do {
+    if (reference === referenceLocaltrader) {
+      saveLocalState(cleanState)
+    } else {
       fire
         .database()
         .ref(reference)
-        /* eslint no-loop-func: 0 */
         .set(cleanState, function(error) {
           if (error) {
-            if (retries > 3) {
-              alert("The database write failed while saving the changed list's state.") //rude interruption to user
-            } else {
-              retries++
-            }
-          } else {
-            completed = true
+            alert("Firebase: The database write failed while saving the changed list's state. Error: " + error) //rude interruption to user
           }
         })
-    } while (!completed)
+    }
   }
 }
