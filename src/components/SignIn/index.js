@@ -20,7 +20,7 @@ class SignInContainer extends Component {
   }
 
   // signin the Demo user so that authenticated=true is set allowing access to all nav links
-  // the Reference=referenceLocaltrader constrains this user to IEX api and local storage
+  // the Reference=referenceLocaltrader constrains the Demo user to IEX api and local storage
   handleDemoMode = async (event) => {
     event.preventDefault()
     putReference(referenceLocaltrader)
@@ -37,7 +37,7 @@ class SignInContainer extends Component {
     this.props.history.push('/signup')
   }
 
-  handleRealTrader = (event) => {
+  handleLiveTrader = (event) => {
     putReference(referenceRealtrader)
   }
 
@@ -54,7 +54,7 @@ class SignInContainer extends Component {
         onSubmit={this.handleSignIn}
         onSignUp={this.handleSignUp}
         onDemoMode={this.handleDemoMode}
-        onRealTrader={this.handleRealTrader}
+        onLiveTrader={this.handleLiveTrader}
         onPaperTrader={this.handlePaperTrader}
         onDebugTrader={this.handleDebugTrader}
       />

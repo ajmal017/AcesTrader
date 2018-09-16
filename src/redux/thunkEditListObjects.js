@@ -17,11 +17,17 @@ export const addExitPriceAsync = (hash) => {
     let newObject = cloneDeep(foundObject)
     getFillPrice(newObject.symbol)
       .then(function(data) {
-        if (TypeError) {
+        var data = +data // cast to a number to test validity:
+        if (isNaN(data)) {
           newObject['exitedPrice'] = 'Not Available'
         } else {
           newObject['exitedPrice'] = data //the filled price for this order
         }
+        // if (TypeError) {
+        //   newObject['exitedPrice'] = 'Not Available'
+        // } else {
+        //   newObject['exitedPrice'] = data //the filled price for this order
+        // }
         dispatch(replaceTradeObject(newObject))
       })
       .catch(function(error) {
@@ -37,7 +43,7 @@ function replaceTradeObject(theObject) {
     theObject: theObject,
   }
 }
-
+//AndQuantity
 export const addEnterPriceAsync = (hash) => {
   return (dispatch, getState) => {
     let ourState = getState() //to  search the 3 positions lists
@@ -56,9 +62,15 @@ export const addEnterPriceAsync = (hash) => {
           newObject['enteredPrice'] = 'Not Available'
         } else {
           newObject['enteredPrice'] = data //the filled price for this order
+          if (foundObject.quantityType === 'DOLLARS') {
+            //calc the filled quantity
+            var quantity = newObject['filledQuantity'] / data
+            newObject['filledQuantity'] = isNaN(quantity) ? 'Not Known' : Math.floor(quantity)
+          } else {
+            newObject['filledQuantity'] = newObject['filledQuantity'] //as ordered
+          }
         }
-        newObject['filledquantity'] = null //removes wrongly labeled property
-        newObject['filledQuantity'] = newObject['enterQuantity'] //assumption - can be changed by later query to Ameritrade
+        newObject['filledquantity'] = null //removes wrongly labeled property if it still exists
         dispatch(replaceListObject(newObject))
       })
       .catch(function(error) {

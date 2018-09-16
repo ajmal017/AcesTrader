@@ -52,8 +52,8 @@ class TradeCell extends Component {
     const enterDate = tradeObject.entered
     const exitDate = tradeObject.exited
     const tradeSide = tradeObject.dashboard.tradeSide
-    const enterPrice = tradeObject.enteredPrice //TODO Remove fake price
-    const exitPrice = tradeObject.exitedPrice //TODO Remove fake price
+    const enterPrice = tradeObject.enteredPrice
+    const exitPrice = tradeObject.exitedPrice
     const filledQuantity = tradeObject.filledQuantity
     this.tradePercentGain = exitPrice !== 'pending' ? ((100 * (exitPrice - enterPrice)) / enterPrice).toFixed(1) : 'pending'
     const tradeDollarGain = exitPrice !== 'pending' ? (filledQuantity * (exitPrice - enterPrice)).toFixed(0) : 'pending'
