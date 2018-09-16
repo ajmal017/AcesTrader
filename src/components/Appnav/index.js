@@ -82,13 +82,8 @@ const Appnav = function() {
               </LinkContainer>
               {/* {getResetStateMenu()} */}
             </NavDropdown>
-
-            {/* <LinkContainer to="/signout">
+            <LinkContainer to="/signout">
               <NavItem eventKey={9}>SignOut</NavItem>
-            </LinkContainer> */}
-
-            <LinkContainer to="/signin">
-              <NavItem eventKey={9}>SignIn</NavItem>
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>

@@ -22,7 +22,20 @@ const getFillPrice = (symbol) => {
       })
     return request //let caller handle the promise's .then/.catch completion
   } else {
-    // call Ameritrade
+    // Call into the Ameritrade api as soon as is ready,
+    // but for now call into the free IEX api
+    const self = this
+    const IEX_BASE = 'https://api.iextrading.com/1.0/'
+    const request = axios
+      .get(`${IEX_BASE}tops/last?symbols=${symbol}`)
+      .then((res) => {
+        self.value = res.data[0].price
+        return self.value
+      })
+      .catch((error) => {
+        return error
+      })
+    return request //let caller handle the promise's .then/.catch completion
   }
 }
 
