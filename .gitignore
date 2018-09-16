@@ -24,7 +24,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # secrets
-/src/fire.js
+.env
 
 # other
 .vs
