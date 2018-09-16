@@ -88,27 +88,28 @@ class Chartcell extends Component {
     // Get the 2 filled prices, quantity, and account number from Ameritrade********
     const enteredPrice = 'pending'
     const exitedPrice = 'pending'
-    const filledQuantity = 'pending'
     const theAccount = 'pending'
     const theCellObject = this.props.cellObject //the target object originating the dispatch action
-    theCellObject.enterQuantity = this.props.cellObject.dashboard.quantity //from target object before its removal by dispatch below
+    const filledQuantity = this.props.cellObject.dashboard.quantity //will be revised if quantityType==='DOLLARS'
+    const enteredQuantityType = this.props.cellObject.dashboard.quantityType
+    // theCellObject.enterQuantity = this.props.cellObject.dashboard.quantity //from target object before its removal by dispatch below
     const theHash = this.props.cellObject.hash //from target object before its removal by dispatch below
 
     switch (this.tradeSide.toUpperCase()) {
       case 'SWING BUYS': {
-        this.props.dispatch(addLongToList(theCellObject, enteredPrice, filledQuantity, theAccount))
+        this.props.dispatch(addLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
         this.props.dispatch(addEnterPriceAsync(theHash))
         break
       }
       case 'SWING SHORT SALES': {
-        this.props.dispatch(addShortToList(theCellObject, enteredPrice, filledQuantity, theAccount))
+        this.props.dispatch(addShortToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeSellFromList(this.symbol, this.hash))
         this.props.dispatch(addEnterPriceAsync(theHash))
         break
       }
       case 'TREND BUYS': {
-        this.props.dispatch(addTrendLongToList(theCellObject, enteredPrice, filledQuantity, theAccount))
+        this.props.dispatch(addTrendLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
         this.props.dispatch(addEnterPriceAsync(theHash))
         break

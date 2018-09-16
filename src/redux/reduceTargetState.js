@@ -2,7 +2,7 @@
 
 import uuidv4 from 'uuid/v4'
 
-export default function(state, theInput, newDashboard, theDate, theEvent, thePrice = null, theQuantity = null, theAccount = null) {
+export default function(state, theInput, newDashboard, theDate, theEvent, thePrice = null, theQuantity = null, theQuantityType = null, theAccount = null) {
   // Parameters:
   // state: The current target array of objects, either Prospects or Positions
   // theInput: A list of prospect symbols or watched objects to merge into this target state slice
@@ -41,7 +41,8 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
           theInputObject.dashboard = newDashboard //includes the order exit parameters
           theInputObject.entered = theDate
           theInputObject.enteredPrice = thePrice
-          theInputObject.filledquantity = theQuantity
+          theInputObject.filledQuantity = theQuantity
+          theInputObject.quantityType = theQuantityType //for use in thunkEditListObjects
           theInputObject.account = theAccount
           break
         case 'exited': //theInput is a list of asset objects going into Results
