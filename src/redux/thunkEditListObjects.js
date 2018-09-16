@@ -23,11 +23,6 @@ export const addExitPriceAsync = (hash) => {
         } else {
           newObject['exitedPrice'] = data //the filled price for this order
         }
-        // if (TypeError) {
-        //   newObject['exitedPrice'] = 'Not Available'
-        // } else {
-        //   newObject['exitedPrice'] = data //the filled price for this order
-        // }
         dispatch(replaceTradeObject(newObject))
       })
       .catch(function(error) {
