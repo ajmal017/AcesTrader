@@ -75,15 +75,14 @@ class TradeCell extends Component {
           </div>
           <span id={'gaininfo'}>
             {tradeDollarGain < 0 ? 'Loss' : 'Gain'} &nbsp;&nbsp;&nbsp; ${this.numberWithCommas(tradeDollarGain)}
-            &nbsp;&nbsp;&nbsp;&nbsp; {this.tradePercentGain}%
+            &nbsp;&nbsp;&nbsp;&nbsp; {this.tradePercentGain}%{/*&nbsp;&nbsp;&nbsp;&nbsp;  Account: {account}  */}
           </span>
           <span>
             Enter Price: {enterPrice}
             &nbsp;&nbsp;&nbsp; Exit Price: {exitPrice}
-          </span>
-          <span>
-            {/* Account: {account}  */}
-            Quantity: {filledQuantity}
+            {/* </span>
+          <span> */}
+            &nbsp;&nbsp;&nbsp; Quantity: {filledQuantity}
           </span>
           <span>
             Watched: {watchDate}
