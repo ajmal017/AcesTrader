@@ -16,12 +16,12 @@ export const addExitPriceAsync = (hash) => {
     }
     let newObject = cloneDeep(foundObject)
     getFillPrice(newObject.symbol)
-      .then(function(data) {
-        var data = +data // cast to a number to test validity:
-        if (isNaN(data)) {
+      .then(function(data11) {
+        let data1 = +data11 // cast to a number to test validity:
+        if (isNaN(data1)) {
           newObject['exitedPrice'] = 'Not Available'
         } else {
-          newObject['exitedPrice'] = data //the filled price for this order
+          newObject['exitedPrice'] = data1 //the filled price for this order
         }
         dispatch(replaceTradeObject(newObject))
       })
@@ -51,15 +51,15 @@ export const addEnterPriceAsync = (hash) => {
     }
     let newObject = cloneDeep(foundObject)
     getFillPrice(newObject.symbol)
-      .then(function(data) {
-        var data = +data // cast to a number to test validity:
-        if (isNaN(data)) {
+      .then(function(data22) {
+        let data2 = +data22 // cast to a number to test validity:
+        if (isNaN(data2)) {
           newObject['enteredPrice'] = 'Not Available'
         } else {
-          newObject['enteredPrice'] = data //the filled price for this order
+          newObject['enteredPrice'] = data2 //the filled price for this order
           if (foundObject.quantityType === 'DOLLARS') {
             //calc the filled quantity
-            var quantity = newObject['filledQuantity'] / data
+            var quantity = newObject['filledQuantity'] / data2
             newObject['filledQuantity'] = isNaN(quantity) ? 'Not Known' : Math.floor(quantity)
           } else {
             newObject['filledQuantity'] = newObject['filledQuantity'] //as ordered

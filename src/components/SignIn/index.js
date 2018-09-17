@@ -13,7 +13,7 @@ class SignInContainer extends Component {
     this.props.history.push('/welcome')
     const { email, password } = event.target.elements
     try {
-      const user = await fire.auth().signInWithEmailAndPassword(email.value, password.value)
+      await fire.auth().signInWithEmailAndPassword(email.value, password.value)
     } catch (error) {
       alert(error)
     }
@@ -26,7 +26,7 @@ class SignInContainer extends Component {
     putReference(referenceLocaltrader)
     this.props.history.push('/welcome')
     try {
-      const user = await fire.auth().signInWithEmailAndPassword('demouser@xmail.com', 'rfynmw#23&sxlz')
+      await fire.auth().signInWithEmailAndPassword('demouser@xmail.com', 'rfynmw#23&sxlz')
     } catch (error) {
       alert(error)
     }

@@ -90,11 +90,7 @@ class AppToolbar extends Component {
         </div>
 
         {/* Render either Results or Charts */}
-        {resultsCharts ? (
-          <Trades handleClick={this.handleClick} tradesArray={chartArray} />
-        ) : (
-          <Charts handleClick={this.handleClick} chartArray={chartArray} originList={this.props.originList} />
-        )}
+        {resultsCharts ? <Trades handleClick={this.handleClick} tradesArray={chartArray} /> : <Charts handleClick={this.handleClick} chartArray={chartArray} />}
       </div>
     )
   }
@@ -102,7 +98,6 @@ class AppToolbar extends Component {
 
 AppToolbar.propTypes = {
   chartArray: PropTypes.array.isRequired,
-  originList: PropTypes.string.isRequired,
 }
 
 const mapSizesToProps = ({ height, width }) => ({
