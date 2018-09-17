@@ -26,11 +26,10 @@ import EraseLists from '../../components/EraseLists/'
 import Charts from '../../components/Charts/'
 import PortalModal from '../../components/PortalModal/'
 import PrivateRoute from '../../PrivateRoute'
-import defaultState from '../../json/defaultState.json'
 
-{
-  /* <Provider store={store ? store : { getState: () => defaultState, subscribe: () => {} }}> */
-}
+// import defaultState from '../../json/defaultState.json'
+// <Provider store={store ? store : { getState: () => defaultState, subscribe: () => {} }}>
+
 const Root = ({ store, authenticated }) => (
   <Provider store={store}>
     <div>

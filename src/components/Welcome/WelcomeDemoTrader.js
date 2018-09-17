@@ -5,9 +5,8 @@ import React from 'react'
 const welcomeDemoTrader = () => {
   return (
     <div>
-      <h2>WELCOME TO THE DEMO MODE </h2>
+      <h2>DEMO - PAPER MONEY TRADING</h2>
       <br />
-      <h4>Use The Demo Mode For Paper Money Trading</h4>
       <p>
         You have full access to the program's functions. Please understand the program is still in a Beta test state. Some features are not fully programmed yet. For instance, you
         do not have the ability to change the parameters of your orders. All entries are submitted as market day orders for a quantity costing $5,000. All exit orders are for all

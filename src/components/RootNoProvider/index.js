@@ -2,7 +2,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Provider } from 'react-redux'
+// import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Appnav from '../../components/Appnav/'
 // import Alerts from '../../components/Alerts/'
@@ -24,11 +24,8 @@ import Home from '../../components/Home/'
 import Welcome from '../../components/Welcome/'
 import EraseLists from '../../components/EraseLists/'
 import Charts from '../../components/Charts/'
-import PortalModal from '../../components/PortalModal/'
+// import PortalModal from '../../components/PortalModal/'
 import PrivateRoute from '../../PrivateRoute'
-import defaultState from '../../json/defaultState.json'
-{
-}
 
 const RootNoProvider = ({ authenticated }) => (
   <Router>

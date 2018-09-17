@@ -1,7 +1,7 @@
 // WelcomeTrader.js
 
 import React from 'react'
-import HomeContent from '../../components/Home/HomeContent'
+import HomeContent from '../Home/HomeContent'
 
 const WelcomeTrader = (reference) => {
   return (
