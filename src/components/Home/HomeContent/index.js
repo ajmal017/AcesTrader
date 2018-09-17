@@ -29,7 +29,8 @@ const HomeContent = function() {
           Faber-Tactical-Asset-Allocation.
         </a>{' '}
         An example list of ETFs tracking diversified asset classes is this: <br />
-        IDV VNQI VEU VWO VTI VEA VIG VCSH VB DES VSS VGSH TIP DBC GLD
+        SPY IWM EFA EEM VNQ TLT DBC GLD
+        {/* IDV VNQI VEU VWO VTI VEA VIG VCSH VB DES VSS VGSH TIP DBC GLD */}
       </p>
 
       {/* <h5>Buy on the Dip Prospects</h5>
@@ -91,15 +92,25 @@ const HomeContent = function() {
 
       <h4>USING THE PROGRAM</h4>
       <p>
-        The program as designed can only be used for trading by one person, using the assigned TDAmeritrade logon user name and password. However a Demo mode is provided as a guest
-        SignIn option. This mode has no interaction with TDAmeritrade. Price data for charts is obtained from the IEX stock exchange. Trades are simulated using the IEX price data
-        for execution prices. These prices are obtained at the time of the order, and they are the last price from the ticker feed. So after trading hours they are stale, but still
-        good enough for the demo's simulated swing trading.
+        Establish a watch list of potential trade securities in the three groups and check them periodically for signals according to your trading scheme. Be aware that the daily
+        charts will not show the correct end-of-day price until after midnight, due to the after-market trading that occurs. You can click the More/Peek menu to see a color coded
+        list showing a snapshot of the day's price activity during market hours for all your securities.
+      </p>
+      <p>
+        After you have established positions, check these charts to determine when to close a position following your trading approach. Completed trades are listed chronologically
+        in the Trades menu.
+      </p>
+      <p>
+        The program as designed can only be used for live trading by one person, using the assigned TDAmeritrade logon user name and password. However a Demo mode is provided as a
+        guest SignIn option for paper trading. This mode has no interaction with TDAmeritrade. Price data for charts is obtained from the IEX stock exchange. Trades are simulated
+        using the IEX price data for execution prices. These prices are obtained at the time of the order, and they are the last price from the ticker feed. So after trading hours
+        they are stale, but still good enough for the demo's simulated swing trading.
       </p>
       <p>
         There's another limitation to the Demo mode. There is no access to the cloud storage. The data for your lists are saved in the local storage of your browser. If you create
         your lists on your desktop computer, you won't be able to see the same data using the program on your iPad. Make your lists in your browser on the device you will use for
-        the demo.
+        the demo. On the other hand, this can be used to create different trading portfolios by using a different browser/device combination for each one. Each will have a separate
+        database in a separate local storage.
       </p>
     </div>
   )
