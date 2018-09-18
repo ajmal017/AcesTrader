@@ -11,31 +11,33 @@ const NotFound = () => {
       <br />
       <br />
       <center>
-        <table cellpadding="5" cellspacing="0" border="0" width="300">
-          <tr>
-            <td>&nbsp;</td>
-            <td class="text" align="center">
-              <div class="sectionhead">Sorry - The Page You Want Was Not Found</div>
-              <br />
-              &nbsp;
-              <br />
-              <b>
-                <p>
-                  <i>You step in the stream, </i>
-                  <br />
-                  <i>but the water has moved on.</i>
-                  <br />
-                  <i>This page is not here. </i>
-                  <br />
-                </p>
-              </b>
-              <br />
-              &nbsp;
-              <br />
-              <p>Please use another link.</p>
-            </td>
-            <td>&nbsp;</td>
-          </tr>
+        <table cellPadding="5" cellSpacing="0" border="0" width="300">
+          <tbody>
+            <tr>
+              <td>&nbsp;</td>
+              <td className="text" align="center">
+                <div className="sectionhead">Sorry - The Page You Want Was Not Found</div>
+                <br />
+                &nbsp;
+                <br />
+                <b>
+                  <p>
+                    <i>You step in the stream, </i>
+                    <br />
+                    <i>but the water has moved on.</i>
+                    <br />
+                    <i>This page is not here. </i>
+                    <br />
+                  </p>
+                </b>
+                <br />
+                &nbsp;
+                <br />
+                <p>Please use another link.</p>
+              </td>
+              <td>&nbsp;</td>
+            </tr>
+          </tbody>
         </table>
       </center>
     </div>
