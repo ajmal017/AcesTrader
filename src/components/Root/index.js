@@ -26,6 +26,7 @@ import EraseLists from '../../components/EraseLists/'
 import Charts from '../../components/Charts/'
 import PortalModal from '../../components/PortalModal/'
 import PrivateRoute from '../../PrivateRoute'
+import NotFound from '../../components/NotFound'
 
 // import defaultState from '../../json/defaultState.json'
 // <Provider store={store ? store : { getState: () => defaultState, subscribe: () => {} }}>
@@ -57,6 +58,7 @@ const Root = ({ store, authenticated }) => (
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/welcome" component={Welcome} />
+            <Route component={NotFound} />{' '}
           </Switch>
         </div>
       </Router>
