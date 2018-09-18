@@ -5,7 +5,7 @@ import React from 'react'
 const welcomeDemoTrader = () => {
   return (
     <div>
-      <h2>A DEMO WITH PAPER MONEY TRADING</h2>
+      <h2>A DEMO FOR PAPER MONEY TRADING</h2>
       <br />
       <p>
         You have full access to the program's functions. Please understand the program is still in a Beta test state. Some features are not fully programmed yet. For instance, you
@@ -14,7 +14,7 @@ const welcomeDemoTrader = () => {
       </p>
       <p>
         You can create lists of prospective buys and short sells to watch. You can do simulated executions of order instructions to open and close trades. Your trading results are
-        kept in a list of trades. These lists are kept in a database and are available to you over subsequent logins. So you can paper trade here over days to test your trading
+        kept in a list of trades. These lists are kept in a database and are available to you over subsequent logins. So you can paper trade here over time to test your trading
         ideas.
       </p>
       <p>
@@ -27,7 +27,7 @@ const welcomeDemoTrader = () => {
         lists on your desktop computer, you won't be able to see the same data using the program on your iPad or iPhone. So make your lists in the browser and device you will use
         for your paper money trading sessions. You can of course, use another browser and device to persue a second trading strategy, without affecting the other.
       </p>
-      <p>See the About AcesTrader under the More menu for more information. Or click the AcesTrader logo.</p>
+      <p>Click the AcesTrader menu title for more information.</p>
     </div>
   )
 }

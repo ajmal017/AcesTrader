@@ -108,11 +108,7 @@ class App extends Component {
 
     if (loading) {
       const divStyle = { marginTop: 80, marginLeft: 50 }
-      return (
-        <div style={divStyle}>
-          <h4>{`Starting The App. Please Wait...`}</h4>
-        </div>
-      )
+      return <div style={divStyle}>{/* <h4>{`Starting The App. Please Wait...`}</h4> */}</div>
     }
 
     if (authenticated && this.state.stateRetrieved === 'retrieving') {
