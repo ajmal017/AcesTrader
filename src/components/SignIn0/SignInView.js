@@ -1,12 +1,13 @@
 // SignInView.js
 import React from 'react'
 
-const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode }) => {
+const SignInView = ({ onSubmit, onSignUp, onDemoMode, onRealTrader, onPaperTrader, onDebugTrader }) => {
   return (
     <div>
       <h1>Log in</h1>
       <form onSubmit={onSubmit}>
-        {/* <span onClick={onRealTrader}>Real Trader </span> <span onClick={onPaperTrader}> Paper Trader </span> <span onClick={onDebugTrader}> Debug Trader</span>  <br /> */}
+        <span onClick={onRealTrader}>Real Trader </span> <span onClick={onPaperTrader}> Paper Trader </span> <span onClick={onDebugTrader}> Debug Trader</span>
+        <br />
         <br />
         <label>
           Email
@@ -25,7 +26,7 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode }) => {
         <br />
         <br />
         <br />
-        <button onClick={handleDemoMode}>Demo Mode</button>
+        <button onClick={onDemoMode}>Demo Mode</button>
       </form>
     </div>
   )

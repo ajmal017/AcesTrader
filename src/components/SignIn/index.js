@@ -7,11 +7,35 @@ import fire from '../../fire'
 import { putReference, referenceRealtrader, referencePapertrader, referenceDebugtrader, referenceLocaltrader } from '../../lib/dbReference'
 
 class SignInContainer extends Component {
-  handleSignIn = async (event) => {
+  //
+  // constructor(props) {
+  //   super(props)
+  //   // this.updateState = this.updateState.bind(this)
+  //   // this.state = {
+  //   //   email: '',
+  //   //   password: '',
+  //   //   userrole: '',
+  //   // }
+  // }
+
+  // updateState(key, value) {
+  //   this.setState({ [key]: value })
+  // }
+
+  handleSubmit = async (event) => {
     event.preventDefault()
-    putReference(referenceDebugtrader) //TODO Temp until this form is finished
-    this.props.history.push('/welcome')
     const { email, password } = event.target.elements
+    // let emailValue, passwordValue
+    // const { email, password, userrole } = this.state
+    // if (userrole === referenceLocaltrader) {
+    //   emailValue = 'demouser@xmail.com'
+    //   passwordValue = 'rfynmw#23&sxlz'
+    // } else {
+    //   emailValue = email
+    //   passwordValue = password
+    // }
+    putReference(referenceDebugtrader) //(userrole when form is done)
+    this.props.history.push('/welcome')
     try {
       await fire.auth().signInWithEmailAndPassword(email.value, password.value)
     } catch (error) {
@@ -37,28 +61,24 @@ class SignInContainer extends Component {
     this.props.history.push('/signup')
   }
 
-  handleLiveTrader = (event) => {
-    putReference(referenceRealtrader)
+  handleChange = (event) => {
+    this.setState({ value: event.target.value })
+    debugger
   }
 
-  handlePaperTrader = (event) => {
-    putReference(referencePapertrader)
-  }
-  handleDebugTrader = (event) => {
-    putReference(referenceDebugtrader)
-  }
+  // handleLiveTrader = (event) => {
+  //   putReference(referenceRealtrader)
+  // }
+
+  // handlePaperTrader = (event) => {
+  //   putReference(referencePapertrader)
+  // }
+  // handleDebugTrader = (event) => {
+  //   putReference(referenceDebugtrader)
+  // }
 
   render() {
-    return (
-      <SignInView
-        onSubmit={this.handleSignIn}
-        onSignUp={this.handleSignUp}
-        onDemoMode={this.handleDemoMode}
-        onLiveTrader={this.handleLiveTrader}
-        onPaperTrader={this.handlePaperTrader}
-        onDebugTrader={this.handleDebugTrader}
-      />
-    )
+    return <SignInView onSubmit={this.handleSubmit} onSignUp={this.handleSignUp} handleChange={this.handleChange} handleDemoMode={this.handleDemoMode} />
   }
 }
 
