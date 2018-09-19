@@ -17,9 +17,8 @@ export function firebaseSaveState() {
     if (/^QUERY_/.test(action.type) || /^NOTIFICATION/.test(action.type)) {
       return next(action)
     }
-    let reference = getReference() //indicates which storage to use for app state
-    if (reference === referenceTempIgnore) {
-      return next(action) // writing to storage is not allowed during this temporary user role
+    if (action.type === 'RESET_STATE_FROM_STORAGE') {
+      return next(action) // stop here, do not write state back to storage during this operation
     }
 
     next(action) // run the reducers now to do any state changes
@@ -32,6 +31,7 @@ export function firebaseSaveState() {
     // For example after a modal dialog sequence, because of the callback provided we have:
     // property 'papertrader.modal.handleModalResonse' with contents = function ()
 
+    let reference = getReference()
     if (reference === referenceLocaltrader) {
       saveLocalState(cleanState)
     } else {

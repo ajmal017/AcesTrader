@@ -11,7 +11,7 @@ import resultsReducer from './reducerResults'
 import modalReducer from './reducerModal'
 
 const RESET_APP_STATE = 'RESET_APP_STATE'
-const MAKE_NEW_STATE_COPY = 'MAKE_NEW_STATE_COPY'
+const RESET_STATE_FROM_STORAGE = 'RESET_STATE_FROM_STORAGE'
 
 // this action type is handled in all the reducers except modalReducer
 export const resetAppState = () => {
@@ -21,9 +21,11 @@ export const resetAppState = () => {
 }
 // this action type is handled in all the reducers including modalReducer
 // this is to trigger a refresh of connect's mapStateToProps in all components
-export const makeNewStateCopy = () => {
+export const resetStateFromStorage = (mySlice, myState) => {
   return {
-    type: MAKE_NEW_STATE_COPY,
+    type: RESET_STATE_FROM_STORAGE,
+    slice: mySlice,
+    state: myState,
   }
 }
 
