@@ -1,14 +1,15 @@
 // WelcomeTrader.js
 
 import React from 'react'
-import HomeContent from '../Home/HomeContent'
+import './styles.css'
 
 const WelcomeTrader = (reference) => {
+  let CappedReference = reference.charAt(0).toUpperCase() + reference.slice(1)
+
   return (
     <div>
-      <h1>Welcome {reference}</h1>
-
-      <HomeContent />
+      <h1>Welcome {CappedReference}</h1>
+      {/* <HomeContent /> */}
     </div>
   )
 }

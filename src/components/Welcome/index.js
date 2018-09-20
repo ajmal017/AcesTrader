@@ -2,8 +2,8 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import resetStateFromStorage from '../../redux'
 import { getReference, referenceLocaltrader } from '../../lib/dbReference'
+// import resetStateFromStorage from '../../redux'
 // import { islocalStorageWorking } from '../../lib/localStorage'
 import { loadLocalState } from '../../lib/localStorage'
 import { resetCache } from '../../lib/chartDataCache'
@@ -18,11 +18,14 @@ class Welcome extends Component {
   constructor(props) {
     super(props)
     this.reference = null // identifies the DB source for the app's store
-    this.state = { stateRetrieved: 'pending' }
+    this.state = {}
   }
 
   componentDidMount() {
     window.scrollTo(0, 0)
+    this.setState({ stateRetrieved: 'pending' })
+    // == Restore the user's state now ===
+    this.loadDataForStore() //start async operation
   }
 
   loadDataForStore = () => {
@@ -40,14 +43,16 @@ class Welcome extends Component {
     } else {
       /* running with Firebase database storage */
       var self = this
+      var myTimeoutVar = setTimeout(this.getDataTimedOut, 6000)
       try {
         fire
           .database()
           .ref(this.reference) // see lib/dbReference.js for possible values
           .once('value')
           .then(function(snapshot) {
+            clearTimeout(myTimeoutVar)
             if (snapshot) {
-              // the snapshot.val is null if no saved state exists, using undefined creates default state in the store
+              // the snapshot.val is null if no saved state exists
               persistedState = snapshot.val()
               if (persistedState === null) {
                 self.setState({ stateRetrieved: 'error' }) // causes app to render an unsuccessful messsage
@@ -69,6 +74,11 @@ class Welcome extends Component {
     }
   }
 
+  getDataTimedOut = () => {
+    this.setState({ stateRetrieved: 'ready' }) // fake promise resolve
+    // this.setState({ stateRetrieved: 'timeout' })
+  }
+
   // testlocalStorage = () => {
   //   let response = islocalStorageWorking()
   //   if (!response) {
@@ -84,11 +94,17 @@ class Welcome extends Component {
     this.reference = getReference() //indicates user's role
 
     if (stateRetrieved === 'pending') {
-      // == Restore the user's state now ===
-      this.loadDataForStore() //start async operation
       return (
         <div style={divStyle}>
           <h4>{`Retrieving Your List Data. Please Wait...`}</h4>
+        </div>
+      )
+    }
+
+    if (stateRetrieved === 'timeout') {
+      return (
+        <div style={divStyle}>
+          <h4>{`Timed Out Waiting To Retrieve Your Lists Data. Please Reload App And Try Again...`}</h4>
         </div>
       )
     }
