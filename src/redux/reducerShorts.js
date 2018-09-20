@@ -42,6 +42,9 @@ export const removeAllShortsFromList = () => {
     type: REMOVE_ALL_SHORTS,
   }
 }
+
+const RESET_STATE = 'RESET_STATE' // a "magic string"
+
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
 // so we create a corresponding slice of the defaultState as well.
@@ -49,6 +52,9 @@ const defaultShorts = cloneDeep(defaultState.shorts) //in case state is undefine
 
 export default function chartsReducer(state = defaultShorts, action) {
   switch (action.type) {
+    case RESET_STATE: {
+      return cloneDeep(action.persistedState.shorts) //reset this state's slice to the persisted value
+    }
     case ADD_SHORT_POSITION: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultShortExit)
       let newState = reduceTargetState(

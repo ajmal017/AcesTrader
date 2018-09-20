@@ -21,11 +21,10 @@ export const resetAppState = () => {
 }
 // this action type is handled in all the reducers including modalReducer
 // this is to trigger a refresh of connect's mapStateToProps in all components
-export const resetStateFromStorage = (mySlice, myState) => {
+export const resetStateFromStorage = (persistedState) => {
   return {
     type: RESET_STATE_FROM_STORAGE,
-    slice: mySlice,
-    state: myState,
+    persistedState: persistedState,
   }
 }
 

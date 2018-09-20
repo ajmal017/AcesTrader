@@ -38,6 +38,8 @@ export const removeAllTrendBuysFromList = () => {
   }
 }
 
+const RESET_STATE = 'RESET_STATE' // a "magic string"
+
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
 // so we create a corresponding slice of the defaultState as well.
@@ -45,6 +47,9 @@ const defaultTrendBuys = cloneDeep(defaultState.trendbuys) //in case state is un
 
 export default function trendbuysReducer(state = defaultTrendBuys, action) {
   switch (action.type) {
+    case RESET_STATE: {
+      return cloneDeep(action.persistedState.trendbuys) //reset this state's slice to the persisted value
+    }
     case ADD_TREND_BUYS: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultTrendEntry)
       let newState = reduceTargetState(state, action.trendbuysList, newDashboard, action.theDate, action.theEvent)

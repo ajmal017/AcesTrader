@@ -33,6 +33,9 @@ export const removeAllResultsFromList = () => {
     type: REMOVE_ALL_RESULTS,
   }
 }
+
+const RESET_STATE = 'RESET_STATE' // a "magic string"
+
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
 // so we create a corresponding slice of the defaultState as well.
@@ -40,6 +43,9 @@ const defaultResults = cloneDeep(defaultState.results) //in case state is undefi
 
 export default function chartsReducer(state = defaultResults, action) {
   switch (action.type) {
+    case RESET_STATE: {
+      return cloneDeep(action.persistedState.results) //reset this state's slice to the persisted value
+    }
     case ADD_RESULT: {
       action.theObject.exited = action.theDate
       action.theObject.exitedPrice = action.thePrice

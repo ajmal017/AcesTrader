@@ -43,6 +43,8 @@ export const removeAllLongsFromList = () => {
   }
 }
 
+const RESET_STATE = 'RESET_STATE' // a "magic string"
+
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
 // so we create a corresponding slice of the defaultState as well.
@@ -50,6 +52,9 @@ const defaultLongs = cloneDeep(defaultState.longs) //in case state is undefined
 
 export default function longsReducer(state = defaultLongs, action) {
   switch (action.type) {
+    case RESET_STATE: {
+      return cloneDeep(action.persistedState.longs) //reset this state's slice to the persisted value
+    }
     case ADD_LONG_POSITION: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultLongExit)
       let newState = reduceTargetState(

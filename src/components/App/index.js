@@ -7,8 +7,6 @@ import thunk from 'redux-thunk'
 import rootReducer from '../../redux'
 import ErrorBoundary from '../../components/ErrorBoundary/'
 import Root from '../../components/Root'
-// import RootNoProvider from '../../components/RootNoProvider'
-import { getReference, referenceLocaltrader } from '../../lib/dbReference'
 import fire from '../../fire'
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -56,7 +54,12 @@ class App extends Component {
 
     if (loading) {
       const divStyle = { marginTop: 80, marginLeft: 50 }
-      return <div style={divStyle}>{/* <h4>{`Starting The App. Please Wait...`}</h4> */}</div>
+      return (
+        <div style={divStyle}>
+          {' '}
+          <h4>{`Starting The App. Please Wait...`}</h4>
+        </div>
+      )
     }
 
     // if (authenticated && this.state.stateRetrieved === 'retrieving') {
@@ -79,11 +82,11 @@ class App extends Component {
     //   // == START THE APP NOW ===
     // }
 
-    if (!authenticated && this.store === null) {
+    if (!authenticated || this.store === null) {
       //create the store object now with the default app state,
       //then continue on to the router to trigger the LogIn component
       let persistedState = undefined
-      this.store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(this.reference), thunk)) // 'persistedState=undefined' creates store with default state by using the initial state specified by the reducers
+      this.store = createStore(rootReducer, undefined, applyMiddleware(firebaseSaveState(this.reference), thunk)) // 'persistedState=undefined' creates store with default state by using the initial state specified by the reducers
     }
 
     return (

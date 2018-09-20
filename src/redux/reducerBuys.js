@@ -38,7 +38,7 @@ export const removeAllBuysFromList = () => {
   }
 }
 
-const RESET_STATE_FROM_STORAGE = 'RESET_STATE_FROM_STORAGE'
+const RESET_STATE = 'RESET_STATE' // a "magic string"
 
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
@@ -47,11 +47,8 @@ const defaultBuys = cloneDeep(defaultState.buys) //in case state is undefined
 
 export default function buysReducer(state = defaultBuys, action) {
   switch (action.type) {
-    case RESET_STATE_FROM_STORAGE: {
-      if (action.slice === 'buys') {
-        return cloneDeep(action.state) //reset state to the persisted value
-      }
-      return state
+    case RESET_STATE: {
+      return cloneDeep(action.persistedState.buys) //reset this state's slice to the persisted value
     }
     case ADD_BUYS: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultLongEntry)
