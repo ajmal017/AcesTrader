@@ -4,7 +4,7 @@ import firebase from 'firebase'
 var config = {
   apiKey: 'AIzaSyBooCcArQAIkaqzbDJWY9-mxP4dr9aKa84',
   authDomain: 'acestrader-4be71.firebaseapp.com',
-  databaseURL: 'https://your_app_id.firebaseio.com',
+  databaseURL: 'https://acestrader-4be71.firebaseio.com',
   projectId: 'acestrader-4be71',
   storageBucket: 'acestrader-4be71.appspot.com',
   messagingSenderId: '289727366294',
