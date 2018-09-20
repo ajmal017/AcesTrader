@@ -44,6 +44,8 @@ export const removeAllTrendLongsFromList = () => {
   }
 }
 
+const RESET_STATE = 'RESET_STATE' // a "magic string"
+
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
 // so we create a corresponding slice of the defaultState as well.
@@ -51,6 +53,9 @@ const defaultTrendLongs = cloneDeep(defaultState.trendlongs) //in case state is 
 
 export default function trendlongsReducer(state = defaultTrendLongs, action) {
   switch (action.type) {
+    case RESET_STATE: {
+      return cloneDeep(action.persistedState.trendlongs) //reset this state's slice to the persisted value
+    }
     case ADD_TREND_LONG_POSITION: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultTrendExit)
       let newState = reduceTargetState(

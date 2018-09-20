@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import resetStateFromStorage from '../../redux'
 import { getReference, referenceLocaltrader } from '../../lib/dbReference'
 // import { islocalStorageWorking } from '../../lib/localStorage'
-import { firebaseSaveState } from '../../lib/firebaseSaveState'
 import { loadLocalState } from '../../lib/localStorage'
 import { resetCache } from '../../lib/chartDataCache'
 import fire from '../../fire'
@@ -35,10 +34,8 @@ class Welcome extends Component {
     if (this.reference === referenceLocaltrader) {
       /* demo mode user */
       persistedState = loadLocalState() //returns (undefined) if error or no saved state
-      this.props.dispatch(resetStateFromStorage('buys', persistedState.buys))
-
-      // this.store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(this.reference), thunk)) // 'persistedState=snapshot.val' creates store with current state by overriding the initial state specified by the reducers
-
+      // this.props.dispatch(resetStateFromStorage( persistedState))
+      this.props.dispatch({ type: 'RESET_STATE', persistedState: persistedState })
       this.setState({ stateRetrieved: 'ready' }) // causes app to render
     } else {
       /* running with Firebase database storage */

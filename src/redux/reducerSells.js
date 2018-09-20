@@ -36,6 +36,8 @@ export const removeAllSellsFromList = () => {
   }
 }
 
+const RESET_STATE = 'RESET_STATE' // a "magic string"
+
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
 // so we create a corresponding slice of the defaultState as well.
@@ -43,6 +45,9 @@ const defaultSells = cloneDeep(defaultState.sells) //in case state is undefined
 
 export default function sellsReducer(state = defaultSells, action) {
   switch (action.type) {
+    case RESET_STATE: {
+      return cloneDeep(action.persistedState.sells) //reset this state's slice to the persisted value
+    }
     case ADD_SELLS: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultShortEntry)
       let newState = reduceTargetState(state, action.sellsArray, newDashboard, action.theDate, action.theEvent)
