@@ -12,7 +12,7 @@ class Results extends Component {
   }
 
   render() {
-    return <AppToolbar resultsCharts={true} chartArray={this.props.results} />
+    return <AppToolbar resultsCharts={true} chartArray={this.props.results} originList={'Trades'} />
   }
 }
 

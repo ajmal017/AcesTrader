@@ -46,7 +46,10 @@ const defaultSells = cloneDeep(defaultState.sells) //in case state is undefined
 export default function sellsReducer(state = defaultSells, action) {
   switch (action.type) {
     case RESET_STATE: {
-      return cloneDeep(action.persistedState.sells) //reset this state's slice to the persisted value
+      if (action.persistedState.sells) {
+        return cloneDeep(action.persistedState.sells) //reset this state's slice to the persisted value
+      }
+      return cloneDeep(defaultSells)
     }
     case ADD_SELLS: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultShortEntry)

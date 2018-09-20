@@ -53,7 +53,10 @@ const defaultShorts = cloneDeep(defaultState.shorts) //in case state is undefine
 export default function chartsReducer(state = defaultShorts, action) {
   switch (action.type) {
     case RESET_STATE: {
-      return cloneDeep(action.persistedState.shorts) //reset this state's slice to the persisted value
+      if (action.persistedState.shorts) {
+        return cloneDeep(action.persistedState.shorts) //reset this state's slice to the persisted value
+      }
+      return cloneDeep(defaultShorts)
     }
     case ADD_SHORT_POSITION: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultShortExit)

@@ -91,7 +91,7 @@ class AppToolbar extends Component {
 
         {/* Render either Results or Charts */}
         {resultsCharts ? (
-          <Trades handleClick={this.handleClick} tradesArray={chartArray} />
+          <Trades handleClick={this.handleClick} tradesArray={chartArray} originList={this.props.originList} />
         ) : (
           <Charts handleClick={this.handleClick} chartArray={chartArray} originList={this.props.originList} />
         )}

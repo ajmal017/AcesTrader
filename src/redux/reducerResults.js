@@ -44,7 +44,10 @@ const defaultResults = cloneDeep(defaultState.results) //in case state is undefi
 export default function chartsReducer(state = defaultResults, action) {
   switch (action.type) {
     case RESET_STATE: {
-      return cloneDeep(action.persistedState.results) //reset this state's slice to the persisted value
+      if (action.persistedState.results) {
+        return cloneDeep(action.persistedState.results) //reset this state's slice to the persisted value
+      }
+      return cloneDeep(defaultResults)
     }
     case ADD_RESULT: {
       action.theObject.exited = action.theDate
