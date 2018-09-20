@@ -52,8 +52,8 @@ class Welcome extends Component {
               if (persistedState === null) {
                 self.setState({ stateRetrieved: 'error' }) // causes app to render an unsuccessful messsage
               } else {
-                this.props.dispatch(resetStateFromStorage('buys', persistedState.buys))
-                // self.store = createStore(rootReducer, persistedState, applyMiddleware(firebaseSaveState(self.reference), thunk)) // 'persistedState=snapshot.val' creates store with current state by overriding the initial state specified by the reducers
+                // this.props.dispatch(resetStateFromStorage( persistedState))
+                this.props.dispatch({ type: 'RESET_STATE', persistedState: persistedState })
                 self.setState({ stateRetrieved: 'ready' }) // causes app to render
               }
             } else {
