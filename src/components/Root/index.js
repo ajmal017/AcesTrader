@@ -40,7 +40,7 @@ const Root = ({ store, authenticated }) => (
           <Route component={Appnav} />
           <Switch>
             <PrivateRoute exact path="/" component={Home} authenticated={authenticated} />
-            <PrivateRoute exact path="/home" component={Home} authenticated={authenticated} />
+            <Route exact path="/Home" component={Home} />
             <PrivateRoute exact path="/positionlongs" component={PositionLongs} authenticated={authenticated} />
             <PrivateRoute exact path="/positionshorts" component={PositionShorts} authenticated={authenticated} />
             <PrivateRoute exact path="/positiontrendlongs" component={PositionTrendLongs} authenticated={authenticated} />

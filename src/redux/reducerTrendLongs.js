@@ -54,7 +54,10 @@ const defaultTrendLongs = cloneDeep(defaultState.trendlongs) //in case state is 
 export default function trendlongsReducer(state = defaultTrendLongs, action) {
   switch (action.type) {
     case RESET_STATE: {
-      return cloneDeep(action.persistedState.trendlongs) //reset this state's slice to the persisted value
+      if (action.persistedState.trendlongs) {
+        return cloneDeep(action.persistedState.trendlongs) //reset this state's slice to the persisted value
+      }
+      return cloneDeep(defaultTrendLongs)
     }
     case ADD_TREND_LONG_POSITION: {
       let newDashboard = Object.assign({}, defaultDashboard, defaultTrendExit)

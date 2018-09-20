@@ -16,12 +16,13 @@ const Trades = (props) => {
       </div>
     )
   } else {
-    return <h3 className="error"> There are no trades in this list</h3>
+    return <h3 className="error"> There are no entries in the {props.originList} list</h3>
   }
 }
 
 Trades.propTypes = {
   tradesArray: PropTypes.array.isRequired,
+  originList: PropTypes.string.isRequired,
 }
 
 export default Trades

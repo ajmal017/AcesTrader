@@ -35,9 +35,9 @@ class SignInContainer extends Component {
     //   passwordValue = password
     // }
     putReference(referenceDebugtrader) //(userrole when form is done)
-    this.props.history.push('/welcome')
     try {
       await fire.auth().signInWithEmailAndPassword(email.value, password.value)
+      this.props.history.push('/welcome')
     } catch (error) {
       alert(error)
     }
@@ -48,9 +48,9 @@ class SignInContainer extends Component {
   handleDemoMode = async (event) => {
     event.preventDefault()
     putReference(referenceLocaltrader)
-    this.props.history.push('/welcome')
     try {
       await fire.auth().signInWithEmailAndPassword('demouser@xmail.com', 'rfynmw#23&sxlz')
+      this.props.history.push('/welcome')
     } catch (error) {
       alert(error)
     }

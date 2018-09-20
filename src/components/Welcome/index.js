@@ -58,7 +58,7 @@ class Welcome extends Component {
                 self.setState({ stateRetrieved: 'error' }) // causes app to render an unsuccessful messsage
               } else {
                 // this.props.dispatch(resetStateFromStorage( persistedState))
-                this.props.dispatch({ type: 'RESET_STATE', persistedState: persistedState })
+                self.props.dispatch({ type: 'RESET_STATE', persistedState: persistedState })
                 self.setState({ stateRetrieved: 'ready' }) // causes app to render
               }
             } else {
@@ -69,14 +69,14 @@ class Welcome extends Component {
             alert('Firebase: The App/index database read failed while retrieving the state. Error: ' + error) //rude interruption to user
           })
       } catch (err) {
-        alert('Firebase: The App/index database read failed while retrieving the state. Error: ' + err.message) //rude interruption to user
+        alert('Firebase: The Welcome/index database read failed while retrieving the state. Error: ' + err.message) //rude interruption to user
       }
     }
   }
 
   getDataTimedOut = () => {
-    this.setState({ stateRetrieved: 'ready' }) // fake promise resolve
-    // this.setState({ stateRetrieved: 'timeout' })
+    // this.setState({ stateRetrieved: 'ready' }) // fake promise resolve
+    this.setState({ stateRetrieved: 'timeout' })
   }
 
   // testlocalStorage = () => {
