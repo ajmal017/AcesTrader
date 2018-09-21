@@ -55,7 +55,7 @@
   /* margin-top: -6px; */
   padding: 0;
   width: 40px;
-  border: 0;
+  border: 1px;
   outline: 0;
   cursor: 'pointer';
 }
@@ -104,6 +104,11 @@
 .entry-order-button {
   font-size: 16px;
 }
+
+.entry-order-button:hover {
+  background: #ced4da;
+}
+
 .delete-prospect-button {
   margin-left: 30px;
   font-size: 16px;

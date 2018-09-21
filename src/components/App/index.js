@@ -57,7 +57,7 @@ class App extends Component {
       return (
         <div style={divStyle}>
           {' '}
-          <h4>{`Starting The App. Please Wait...`}</h4>
+          <h4>{`Restarting The App. Please Wait...`}</h4>
         </div>
       )
     }
@@ -82,7 +82,30 @@ class App extends Component {
     //   // == START THE APP NOW ===
     // }
 
-    if (!authenticated || this.store === null) {
+    if (this.store === null) {
+      // this is an initial load or a user reload
+      if (authenticated) {
+        // this is a user reload, force a signout to get back in sync
+        fire
+          .auth()
+          .signOut()
+          .then(
+            function() {
+              console.log('Signed Out')
+            },
+            function(error) {
+              console.error('Sign Out Error', error)
+            }
+          )
+        this.setState({ loading: true }) //wait for an onAuthStateChanged event
+        const divStyle = { marginTop: 80, marginLeft: 50 }
+        return (
+          <div style={divStyle}>
+            {' '}
+            <h4>{`Starting The App. Please Wait...`}</h4>
+          </div>
+        )
+      }
       //create the store object now with the default app state,
       //then continue on to the router to trigger the LogIn component
       let persistedState = undefined

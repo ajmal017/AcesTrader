@@ -46,6 +46,17 @@
   font-weight: bold;
 }
 
+.cell-getlast-button {
+  align-self: flex-start;
+  margin-top: 11px;
+  margin-left: 35px;
+  font-size: 12px;
+}
+
+.cell-getlast-button:hover {
+  background: #ced4da;
+}
+
 .cell-button {
   align-self: flex-start;
   font-size: 32px;

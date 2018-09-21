@@ -24,7 +24,7 @@ class Welcome extends Component {
   componentDidMount() {
     window.scrollTo(0, 0)
     this.setState({ stateRetrieved: 'pending' })
-    // == Restore the user's state now ===
+    // == Restore the user's app state now ===
     this.loadDataForStore() //start async operation
   }
 

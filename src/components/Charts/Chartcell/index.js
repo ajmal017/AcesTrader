@@ -20,6 +20,7 @@ import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
 import { addEnterPriceAsync, addExitPriceAsync } from '../../../redux/thunkEditListObjects'
 import getChartData from '../../../lib/apiGetChartData'
+import getChartLastBar from '../../../lib/apigetChartLastBar'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import ChartDashboard from '../ChartDashboard'
 import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
@@ -34,10 +35,12 @@ class Chartcell extends Component {
     this.handleDelete = this.handleDelete.bind(this)
     this.handleDeleteDispatch = this.handleDeleteDispatch.bind(this)
     this.loadChartData = this.loadChartData.bind(this)
+    this.getLastBar = this.getLastBar.bind(this)
     this.values = null //array of price values from API call
     this.filteredValues = null //array of price values remaining after filter
     this.data = null
-    this.state = {}
+    this.dynamicCounter = 0
+    this.state = { dynamicCounter: this.dynamicCounter }
   }
 
   componentDidMount() {
@@ -64,6 +67,27 @@ class Chartcell extends Component {
         } else {
           putPriceData(symbol, data) //cache the price data for subsequent rendering
           self.setState({ data: true, hide: false }) //triggers render using the cached data
+        }
+      })
+      .catch(function(error) {
+        console.log('getChartData axios error:', error.message)
+        alert('getChartData axios error: ' + error.message) //rude interruption to user
+      })
+  }
+
+  getLastBar = () => {
+    const symbol = this.props.cellObject.symbol
+    const range = 'dynamic'
+    const self = this
+    // console.log('getChartLastBar ' + symbol)
+    getChartLastBar(symbol, range)
+      .then(function(data) {
+        if (data.length) {
+          self.dynamicCounter++
+          self.setState({ dynamicCounter: self.dynamicCounter })
+        } else {
+          // putPriceData(symbol, data) //cache the price data for subsequent rendering
+          // self.setState({ data: true, hide: false }) //triggers render using the cached data
         }
       })
       .catch(function(error) {
@@ -202,6 +226,9 @@ class Chartcell extends Component {
         <div id={cell_id} className="chart-cell">
           <div className="cell-header">
             <span className="cell-title">{chart_name}</span>
+            {/* <button onClick={this.getLastBar} className="cell-getlast-button" type="button" aria-label="getlast">
+              Get Last
+            </button> */}
             {/* if entered is undefined, this is still in a Prospects list, so the X delete button is added */}
             {this.entered === undefined ? (
               <button onClick={this.handleDelete} className="cell-button" type="button" aria-label="delete">
