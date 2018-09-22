@@ -14,10 +14,10 @@ const getChartLastBar = (symbol, range) => {
     const request = axios
       .get(`${IEX_BASE}stock/${symbol}/chart/${range}${filter}`)
       .then((res) => {
-        self.values = res.data
-        let data = self.values.map((obj) => {
+        let values = res.data.data
+        let data = values.map((obj) => {
           let date = obj.date
-          date = date + 'T05:00:00.000Z'
+          date = date + 'T15:00:00.000Z'
           obj.date = new Date(date)
           return obj
         })
@@ -36,10 +36,10 @@ const getChartLastBar = (symbol, range) => {
     const request = axios
       .get(`${IEX_BASE}stock/${symbol}/chart/${range}${filter}`)
       .then((res) => {
-        self.values = res.data
-        let data = self.values.map((obj) => {
+        let values = res.data.data
+        let data = values.map((obj) => {
           let date = obj.date
-          date = date + 'T05:00:00.000Z'
+          date = date + 'T15:00:00.000Z'
           obj.date = new Date(date)
           return obj
         })
