@@ -14,8 +14,7 @@ import 'firebase/auth'
 class App extends Component {
   constructor(props) {
     super(props)
-    this.store = null // receives the created store
-    this.state = { loading: true, authenticated: false, user: null, stateRetrieved: 'pending' }
+    this.state = { loading: true, authenticated: false, user: null, store: null }
   }
 
   componentDidMount() {
@@ -46,75 +45,43 @@ class App extends Component {
         var errorMessage = error.message
         alert(errorCode, errorMessage)
       })
+
+    if (this.state.store === null) {
+      // this is either an initial load or a user reload
+      //create the store object now with the app's state,
+      let theStore = createStore(rootReducer, undefined, applyMiddleware(firebaseSaveState(this.reference), thunk)) // 'persistedState=undefined' creates store with default state by using the initial state specified by the reducers
+      // to handle a possible user reload, force a signout to get back in sync
+      fire
+        .auth()
+        .signOut()
+        .then(
+          function() {
+            // console.log('Signed Out')
+          },
+          function(error) {
+            // console.error('Sign Out Error', error)
+          }
+        )
+      this.setState({ loading: true, store: theStore }) //wait for an onAuthStateChanged event to change this.state.loading
+      //then continue on to the router to trigger the LogIn component
+    }
   }
 
   render() {
-    const { loading, authenticated } = this.state
-    const divStyle = { marginTop: 80, marginLeft: 50 }
+    const { loading, store, authenticated } = this.state
 
     if (loading) {
       const divStyle = { marginTop: 80, marginLeft: 50 }
       return (
         <div style={divStyle}>
-          {' '}
           <h4>{`Restarting The App. Please Wait...`}</h4>
         </div>
       )
     }
 
-    // if (authenticated && this.state.stateRetrieved === 'retrieving') {
-    //   return (
-    //     <div style={divStyle}>
-    //       <h4>{`Retrieving Your List Data. Please Wait...`}</h4>
-    //     </div>
-    //   )
-    // }
-
-    // if (authenticated && this.state.stateRetrieved === 'error') {
-    //   return (
-    //     <div style={divStyle}>
-    //       <h4>{`Error While Retrieving Your Lists Data. Please Restart to Try Again...`}</h4>
-    //     </div>
-    //   )
-    // }
-
-    // if (authenticated && this.state.stateRetrieved === 'pending') {
-    //   // == START THE APP NOW ===
-    // }
-
-    if (this.store === null) {
-      // this is an initial load or a user reload
-      if (authenticated) {
-        // this is a user reload, force a signout to get back in sync
-        fire
-          .auth()
-          .signOut()
-          .then(
-            function() {
-              console.log('Signed Out')
-            },
-            function(error) {
-              console.error('Sign Out Error', error)
-            }
-          )
-        this.setState({ loading: true }) //wait for an onAuthStateChanged event
-        const divStyle = { marginTop: 80, marginLeft: 50 }
-        return (
-          <div style={divStyle}>
-            {' '}
-            <h4>{`Starting The App. Please Wait...`}</h4>
-          </div>
-        )
-      }
-      //create the store object now with the default app state,
-      //then continue on to the router to trigger the LogIn component
-      let persistedState = undefined
-      this.store = createStore(rootReducer, undefined, applyMiddleware(firebaseSaveState(this.reference), thunk)) // 'persistedState=undefined' creates store with default state by using the initial state specified by the reducers
-    }
-
     return (
       <ErrorBoundary>
-        <Root store={this.store} authenticated={authenticated} /> {/* shows Navbar */}
+        <Root store={store} authenticated={authenticated} /> {/* shows Navbar */}
       </ErrorBoundary>
     )
   }
