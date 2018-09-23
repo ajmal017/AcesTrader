@@ -4,37 +4,34 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import SignInView from './SignInView'
 import fire from '../../fire'
-import { putReference, referenceRealtrader, referencePapertrader, referenceDebugtrader, referenceLocaltrader } from '../../lib/dbReference'
+import { putReference, referencePapertrader, referenceDebugtrader, referenceLocaltrader } from '../../lib/dbReference'
 
 class SignInContainer extends Component {
   //
-  // constructor(props) {
-  //   super(props)
-  //   // this.updateState = this.updateState.bind(this)
-  //   // this.state = {
-  //   //   email: '',
-  //   //   password: '',
-  //   //   userrole: '',
-  //   // }
-  // }
+  constructor(props) {
+    super(props)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.state = {
+      reference: referencePapertrader,
+    }
+  }
 
-  // updateState(key, value) {
-  //   this.setState({ [key]: value })
-  // }
+  componentDidMount() {
+    if (process.env.NODE_ENV === 'development') {
+      this.setState({ reference: referenceDebugtrader }) //change default user's role
+    }
+  }
+
+  handleChange = (event) => {
+    this.setState({ reference: event.target.value }) //change user's role
+  }
 
   handleSubmit = async (event) => {
     event.preventDefault()
+    const { reference } = this.state
     const { email, password } = event.target.elements
-    // let emailValue, passwordValue
-    // const { email, password, userrole } = this.state
-    // if (userrole === referenceLocaltrader) {
-    //   emailValue = 'demouser@xmail.com'
-    //   passwordValue = 'rfynmw#23&sxlz'
-    // } else {
-    //   emailValue = email
-    //   passwordValue = password
-    // }
-    putReference(referenceDebugtrader) //(userrole when form is done)
+    putReference(reference) // user's role selected when form is submitted
     try {
       await fire.auth().signInWithEmailAndPassword(email.value, password.value)
       this.props.history.push('/welcome')
@@ -61,24 +58,9 @@ class SignInContainer extends Component {
     this.props.history.push('/signup')
   }
 
-  handleChange = (event) => {
-    this.setState({ value: event.target.value })
-    debugger
-  }
-
-  // handleLiveTrader = (event) => {
-  //   putReference(referenceRealtrader)
-  // }
-
-  // handlePaperTrader = (event) => {
-  //   putReference(referencePapertrader)
-  // }
-  // handleDebugTrader = (event) => {
-  //   putReference(referenceDebugtrader)
-  // }
-
   render() {
-    return <SignInView onSubmit={this.handleSubmit} onSignUp={this.handleSignUp} handleChange={this.handleChange} handleDemoMode={this.handleDemoMode} />
+    const { reference } = this.state
+    return <SignInView onSubmit={this.handleSubmit} onSignUp={this.handleSignUp} handleChange={this.handleChange} handleDemoMode={this.handleDemoMode} reference={reference} />
   }
 }
 

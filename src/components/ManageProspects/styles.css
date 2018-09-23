@@ -101,6 +101,11 @@ textarea {
   cursor: pointer;
 }
 
+#buttonaccept:disabled {
+  /* background: #c4c4c4; */
+  opacity: 0.5;
+}
+
 #buttondelete {
   margin-left: 80px;
 }
