@@ -46,17 +46,21 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, referenc
               />
               <label htmlFor="public">&nbsp;Paper Money</label>
             </div>
-            <div className="input-row">
-              <input
-                type="radio"
-                className={'radioWrapper'}
-                name={referenceDebugtrader}
-                value={referenceDebugtrader}
-                checked={reference === referenceDebugtrader}
-                onChange={handleChange}
-              />
-              <label htmlFor="private">&nbsp;Beta Testing</label>
-            </div>
+            {process.env.NODE_ENV === 'development' ? (
+              <div className="input-row">
+                <input
+                  type="radio"
+                  className={'radioWrapper'}
+                  name={referenceDebugtrader}
+                  value={referenceDebugtrader}
+                  checked={reference === referenceDebugtrader}
+                  onChange={handleChange}
+                />
+                <label htmlFor="private">&nbsp;Beta Testing</label>
+              </div>
+            ) : (
+              <div />
+            )}
           </div>
 
           <span className={'buttonsWrapper'}>
