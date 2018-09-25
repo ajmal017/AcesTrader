@@ -4,7 +4,7 @@ import fire from '../fire'
 import { getReference, referenceLocaltrader } from './dbReference'
 import { saveLocalState } from './localStorage'
 
-const RESET_STATE = 'RESET_STATE' // a "magic string"
+const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
 // note: reference can be "realtrader", "papertrader", "debugtrader", "localtrader", or "tempignore"
 // these are three separate stores in the clould and one store in localstorage, plus a temporary ignore switch.
@@ -13,8 +13,10 @@ export function firebaseSaveState() {
     if (/^QUERY_/.test(action.type) || /^NOTIFICATION/.test(action.type)) {
       return next(action)
     }
-    if (action.type === RESET_STATE) {
-      return next(action) // stop here, do not write state back to storage during this operation
+    if (action.type === RESET_PERSISTED_STATE) {
+      // stop here, do not write state back to storage during this operation
+      // we are copying state from persisted storage into app's memory state
+      return next(action)
     }
 
     next(action) // run the reducers now to do any state changes

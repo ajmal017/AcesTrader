@@ -40,7 +40,8 @@ class Chartcell extends Component {
     this.filteredValues = null //array of price values remaining after filter
     this.data = null
     this.dynamicCounter = 0
-    this.state = { dynamicCounter: this.dynamicCounter }
+    // this.state = { dynamicCounter: this.dynamicCounter }
+    this.state = { lastBar: {} }
   }
 
   componentDidMount() {
@@ -83,8 +84,22 @@ class Chartcell extends Component {
     getChartLastBar(symbol, range)
       .then(function(data) {
         if (data.length) {
-          self.dynamicCounter++
-          self.setState({ dynamicCounter: self.dynamicCounter })
+          let barClose = null
+          let barHigh = 0
+          let barLow = 10000000
+          let barVolume = 0
+          data.forEach((obj) => {
+            if (obj.high > 3) {
+              barClose = obj.close
+              barHigh = obj.high > barHigh ? obj.high : barHigh
+              barLow = obj.low < barLow ? obj.low : barLow
+              barVolume = +obj.volume
+            }
+          })
+          let barOpen = +((barHigh + barLow) / 2).toFixed(2)
+          // TODO Use this bar in Chart
+          // let lastBar = { close: barClose, date: '', high: barHigh, low: barLow, open: barOpen, volume: barVolume }
+          self.setState({ dynamicCounter: ++self.dynamicCounter })
         } else {
           // putPriceData(symbol, data) //cache the price data for subsequent rendering
           // self.setState({ data: true, hide: false }) //triggers render using the cached data

@@ -10,20 +10,20 @@ import trendlongsReducer from './reducerTrendLongs'
 import resultsReducer from './reducerResults'
 import modalReducer from './reducerModal'
 
-const RESET_APP_STATE = 'RESET_APP_STATE'
-const RESET_STATE_FROM_STORAGE = 'RESET_STATE_FROM_STORAGE'
+const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
+const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE'
 
 // this action type is handled in all the reducers except modalReducer
-export const resetAppState = () => {
+export const resetDefaultState = () => {
   return {
-    type: RESET_APP_STATE,
+    type: RESET_DEFAULT_STATE,
   }
 }
 // this action type is handled in all the reducers including modalReducer
 // this is to trigger a refresh of connect's mapStateToProps in all components
-export const resetStateFromStorage = (persistedState) => {
+export const resetPersistedState = (persistedState) => {
   return {
-    type: RESET_STATE_FROM_STORAGE,
+    type: RESET_PERSISTED_STATE,
     persistedState: persistedState,
   }
 }

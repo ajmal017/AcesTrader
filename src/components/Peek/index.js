@@ -1,6 +1,7 @@
 // Peek/index.js
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { resetPeekPrices, putPeekPrice, finishPeekPrices } from '../../lib/appLastPeekPrice'
 import './styles.css'
 
 //This code taken from https://github.com/toddwschneider/stocks
@@ -107,6 +108,7 @@ class Peek extends Component {
         theUpdatedDiv.innerHTML = `Data updated at ${new Date().toLocaleString()}`
       }
       function updateDataForBatch(symbols, addTitle) {
+        resetPeekPrices() //reset the list of prices for use in Charts dashboards
         let filters = ['latestPrice', 'change', 'changePercent', 'marketCap']
         if (addTitle) filters.push('companyName')
         let url = `${BASE_URL}?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}`
@@ -122,6 +124,7 @@ class Peek extends Component {
               let formattedMarketCap = formatMarketCap(data.quote.marketCap)
               let rgbColor = data.quote.changePercent > 0 ? '0,255,0' : '255,0,0'
               let rgbOpacity = Math.min(Math.abs(data.quote.changePercent) * 20, 1)
+              putPeekPrice(symbol, data.quote.latestPrice) //save in the list of prices for use in Charts dashboards
               document.querySelectorAll(`[data-symbol="${symbol}"] .stock-price`).forEach((e) => {
                 e.innerHTML = formattedPrice
                 e.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
@@ -144,6 +147,7 @@ class Peek extends Component {
                 })
               }
             })
+            finishPeekPrices() //this is the complete list of prices for use in Charts dashboards
           })
       }
       // function portfoliosFromQueryParams() {

@@ -7,7 +7,7 @@ import defaultTrendEntry from '../json/defaultTrendEntry.json'
 import reduceTargetState from './reduceTargetState.js'
 var cloneDeep = require('lodash.clonedeep')
 
-const RESET_APP_STATE = 'RESET_APP_STATE'
+const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
 const ADD_TREND_BUYS = 'ADD_TREND_BUYS'
 const REMOVE_ONE_TREND_BUY = 'REMOVE_ONE_TREND_BUY'
 const REMOVE_ALL_TREND_BUYS = 'REMOVE_ALL_TREND_BUYS'
@@ -38,7 +38,7 @@ export const removeAllTrendBuysFromList = () => {
   }
 }
 
-const RESET_STATE = 'RESET_STATE' // a "magic string"
+const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
@@ -47,7 +47,7 @@ const defaultTrendBuys = cloneDeep(defaultState.trendbuys) //in case state is un
 
 export default function trendbuysReducer(state = defaultTrendBuys, action) {
   switch (action.type) {
-    case RESET_STATE: {
+    case RESET_PERSISTED_STATE: {
       if (action.persistedState.trendbuys) {
         return cloneDeep(action.persistedState.trendbuys) //reset this state's slice to the persisted value
       }
@@ -67,7 +67,7 @@ export default function trendbuysReducer(state = defaultTrendBuys, action) {
     case REMOVE_ALL_TREND_BUYS: {
       return cloneDeep(defaultTrendBuys)
     }
-    case RESET_APP_STATE: {
+    case RESET_DEFAULT_STATE: {
       return cloneDeep(defaultTrendBuys)
     }
     default:

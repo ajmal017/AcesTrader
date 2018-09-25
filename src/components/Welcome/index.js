@@ -3,7 +3,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getReference, referenceLocaltrader } from '../../lib/dbReference'
-// import resetStateFromStorage from '../../redux'
+import { resetPeekPrices } from '../../lib/appLastPeekPrice'
+import { resetDefaultState, resetPersistedState } from '../../redux/index.js'
 // import { islocalStorageWorking } from '../../lib/localStorage'
 import { loadLocalState } from '../../lib/localStorage'
 import { resetCache } from '../../lib/chartDataCache'
@@ -17,7 +18,7 @@ import './styles.css'
 class Welcome extends Component {
   constructor(props) {
     super(props)
-    this.reference = null // identifies the DB source for the app's store
+    this.reference = null // identifies the RTDB index for the app's state
     this.state = {}
   }
 
@@ -31,19 +32,20 @@ class Welcome extends Component {
   loadDataForStore = () => {
     // this.testlocalStorage() // test if disabled or full, needs to be enabled in /lib/localStorage
     resetCache() // clear all previously cached chart price data for fresh start
-    let persistedState // receives the saved state from storage
+    resetPeekPrices() //clear old peek symbol prices
+    let persistedState = null
     this.reference = getReference() //indicates which storage to use for app's state based on user's role
 
     if (this.reference === referenceLocaltrader) {
-      /* demo mode user */
+      /* DEMO MODE USR WITH LOCAL STORAGE */
       persistedState = loadLocalState() //returns (undefined) if error or no saved state
-      // this.props.dispatch(resetStateFromStorage( persistedState))
-      this.props.dispatch({ type: 'RESET_STATE', persistedState: persistedState })
+      // this.props.dispatch(resetPersistedState( persistedState))
+      this.props.dispatch({ type: 'RESET_PERSISTED_STATE', persistedState: persistedState })
       this.setState({ stateRetrieved: 'ready' }) // causes app to render
     } else {
-      /* running with Firebase database storage */
-      var self = this
+      /* AUTHORIZED USER WITH FIREBASE RTDB */
       var myTimeoutVar = setTimeout(this.getDataTimedOut, 6000)
+      var self = this
       try {
         fire
           .database()
@@ -52,15 +54,16 @@ class Welcome extends Component {
           .then(function(snapshot) {
             clearTimeout(myTimeoutVar)
             if (snapshot) {
-              // the snapshot.val is null if no saved state exists
               persistedState = snapshot.val()
               if (persistedState === null) {
-                self.setState({ stateRetrieved: 'error' }) // causes app to render an unsuccessful messsage
+                // the snapshot.val is null if no saved state is found,
+                // so we will create the app's default state and it will be saved to storage
+                self.props.dispatch(resetDefaultState())
               } else {
-                // this.props.dispatch(resetStateFromStorage( persistedState))
-                self.props.dispatch({ type: 'RESET_STATE', persistedState: persistedState })
-                self.setState({ stateRetrieved: 'ready' }) // causes app to render
+                // the saved state was recovered and can be used to set the app's state
+                self.props.dispatch(resetPersistedState(persistedState))
               }
+              self.setState({ stateRetrieved: 'ready' }) // causes app to render
             } else {
               self.setState({ stateRetrieved: 'error' }) // causes app to render an unsuccessful messsage
             }
@@ -75,7 +78,6 @@ class Welcome extends Component {
   }
 
   getDataTimedOut = () => {
-    // this.setState({ stateRetrieved: 'ready' }) // fake promise resolve
     this.setState({ stateRetrieved: 'timeout' })
   }
 

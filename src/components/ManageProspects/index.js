@@ -274,7 +274,7 @@ class ManageProspects extends Component {
               <textarea id="syms" readOnly={true} />
               <div className="buttons">
                 <button id="buttonsubmit" onClick={() => this.handleLocalClick('submit')} type="button" aria-label="">
-                  Submit
+                  Verify
                 </button>
                 <button id="buttonaccept" onClick={() => this.handleLocalClick('accept')} type="button" aria-label="" disabled={this.state.isAcceptButtonDisabled}>
                   Accept
