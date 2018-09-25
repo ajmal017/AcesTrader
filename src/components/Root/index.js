@@ -9,6 +9,7 @@ import Appnav from '../../components/Appnav/'
 import SignIn from '../../components/SignIn/'
 import SignUp from '../../components/SignUp/'
 import SignOut from '../../components/SignOut/'
+import StartUp from '../../components/StartUp/'
 import ProspectBuys from '../../components/ProspectBuys/'
 import ProspectSells from '../../components/ProspectSells/'
 import ProspectTrendBuys from '../../components/ProspectTrendBuys/'
@@ -55,9 +56,10 @@ const Root = ({ store, authenticated }) => (
             <PrivateRoute exact path="/eraseLists" component={EraseLists} authenticated={authenticated} />
             <PrivateRoute exact path="/charts" component={Charts} authenticated={authenticated} />
             <PrivateRoute exact path="/signout" component={SignOut} authenticated={authenticated} />
+            <PrivateRoute exact path="/welcome" component={Welcome} authenticated={authenticated} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/welcome" component={Welcome} />
+            <Route exact path="/startUp" component={StartUp} />
             <Route component={NotFound} />{' '}
           </Switch>
         </div>

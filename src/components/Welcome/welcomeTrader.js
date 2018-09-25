@@ -4,12 +4,12 @@ import React from 'react'
 import './styles.css'
 
 const WelcomeTrader = (reference) => {
-  let CappedReference = reference.charAt(0).toUpperCase() + reference.slice(1)
+  let cappedReference = reference.charAt(0).toUpperCase() + reference.slice(1)
+  let spacedReference = cappedReference.replace('trader', ' Trader')
 
   return (
-    <div>
-      <h1>Welcome {CappedReference}</h1>
-      {/* <HomeContent /> */}
+    <div className={'welcome-content'}>
+      <h1>Welcome {spacedReference}</h1>
     </div>
   )
 }

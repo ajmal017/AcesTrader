@@ -34,7 +34,7 @@ class SignInContainer extends Component {
     putReference(reference) // user's role selected when form is submitted
     try {
       await fire.auth().signInWithEmailAndPassword(email.value, password.value)
-      this.props.history.push('/welcome')
+      this.props.history.push('/startUp')
     } catch (error) {
       alert(error)
     }
@@ -47,7 +47,7 @@ class SignInContainer extends Component {
     putReference(referenceLocaltrader)
     try {
       await fire.auth().signInWithEmailAndPassword('demouser@xmail.com', 'rfynmw#23&sxlz')
-      this.props.history.push('/welcome')
+      this.props.history.push('/startUp')
     } catch (error) {
       alert(error)
     }

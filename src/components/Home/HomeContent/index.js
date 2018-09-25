@@ -92,23 +92,25 @@ const HomeContent = function() {
 
       <h4>USING THE PROGRAM</h4>
       <p>
-        Establish a watch list of potential trade securities in the three groups and check them periodically for signals according to your trading scheme. Be aware that the daily
-        charts will not show the correct end-of-day price until after midnight, due to the after-market trading that occurs. You can click the More/Peek menu to see a color coded
-        list showing a snapshot of the day's price activity during market hours for all your securities.
+        Establish a watch list of potential trade securities in the three groups and check them periodically for signals according to your trading scheme. After you have
+        established positions, check these charts to determine when to close a position following your trading approach. Completed trades are listed chronologically in the Trades
+        menu.
       </p>
       <p>
-        After you have established positions, check these charts to determine when to close a position following your trading approach. Completed trades are listed chronologically
-        in the Trades menu.
+        Be aware that the daily charts will not show the correct end-of-day price until after midnight, due to the after-market trading that occurs. But you can click the More/Peek
+        menu any time to see a color coded list showing a snapshot of the last price for all your securities. These prices are used in the dashboard display of your charts to show
+        the last price when you peeked and the difference from the price when you watched or when you entered a position.
       </p>
+      <h4>USING THE DEMO MODE</h4>
       <p>
-        The program as designed can only be used for live trading by one person, using the assigned TDAmeritrade logon user name and password. However a Demo mode is provided as a
-        guest SignIn option for paper trading. This mode has no interaction with TDAmeritrade. Price data for charts is obtained from the IEX stock exchange. Trades are simulated
-        using the IEX price data for execution prices. These prices are obtained at the time of the order, and they are the last price from the ticker feed. So after trading hours
-        they are stale, but still good enough for the demo's simulated swing trading.
+        The program as designed can be used for live brokerage trading by only one person, using the assigned TDAmeritrade logon user name and password. However a Demo mode is
+        provided as a guest sign in option for paper trading. This mode has no interaction with TDAmeritrade. Price data for charts is obtained from the IEX stock exchange. Trades
+        are simulated using the IEX price data for execution prices. These prices are obtained at the time of the order, and they are the last price from the ticker feed. So after
+        trading hours they are stale, but still good enough for the demo's simulated trading.
       </p>
       <p>
         There's another limitation to the Demo mode. There is no access to the cloud storage. The data for your lists are saved in the local storage of your browser. If you create
-        your lists on your desktop computer, you won't be able to see the same data using the program on your iPad. Make your lists in your browser on the device you will use for
+        your lists on your desktop computer, you won't be able to see the same data using the program on your iPad. So make your lists in the browser on the device you will use for
         the demo. On the other hand, this can be used to create different trading portfolios by using a different browser/device combination for each one. Each will have a separate
         database in a separate local storage.
       </p>

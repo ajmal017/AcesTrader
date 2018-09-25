@@ -14,11 +14,8 @@ class ChartsView extends Component {
 
   componentDidMount() {
     window.scrollTo(0, 0)
-  }
-
-  render() {
     // each time More/Peek is clicked, the peekPricesObject is created
-    // the newly available prices are then used to update the dashboards
+    // the newly available prices are then used to update the dashboards,
     // after that the peekPricesObject is emptied, until the next Peek click
     let peekPricesObject = getPeekPrices()
     let peekPricesArray = Object.keys(peekPricesObject)
@@ -27,7 +24,9 @@ class ChartsView extends Component {
       debugger
     }
     resetPeekPrices()
+  }
 
+  render() {
     // Create an array of Chartcells, one for each chart's graph & dashboard
     let cells = this.props.chartArray.map((obj, index) => {
       return <Chartcell key={index.toString()} handleClick={this.props.handleClick} cellObject={obj} />
