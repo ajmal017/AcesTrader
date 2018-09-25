@@ -4,7 +4,7 @@ import defaultState from '../json/defaultState.json'
 import { REPLACE_RESULTS_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
-const RESET_APP_STATE = 'RESET_APP_STATE'
+const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
 const ADD_RESULT = 'ADD_RESULT'
 const REMOVE_RESULT = 'REMOVE_RESULT'
 const REMOVE_ALL_RESULTS = 'REMOVE_ALL_RESULTS'
@@ -34,7 +34,7 @@ export const removeAllResultsFromList = () => {
   }
 }
 
-const RESET_STATE = 'RESET_STATE' // a "magic string"
+const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
@@ -43,7 +43,7 @@ const defaultResults = cloneDeep(defaultState.results) //in case state is undefi
 
 export default function chartsReducer(state = defaultResults, action) {
   switch (action.type) {
-    case RESET_STATE: {
+    case RESET_PERSISTED_STATE: {
       if (action.persistedState.results) {
         return cloneDeep(action.persistedState.results) //reset this state's slice to the persisted value
       }
@@ -76,7 +76,7 @@ export default function chartsReducer(state = defaultResults, action) {
     case REMOVE_ALL_RESULTS: {
       return cloneDeep(defaultResults)
     }
-    case RESET_APP_STATE: {
+    case RESET_DEFAULT_STATE: {
       return cloneDeep(defaultResults)
     }
     default:

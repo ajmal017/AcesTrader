@@ -8,7 +8,7 @@ import reduceInsertedObject from './reduceInsertedObject.js'
 import { REPLACE_POSITION_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
-const RESET_APP_STATE = 'RESET_APP_STATE'
+const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
 const ADD_SHORT_POSITION = 'ADD_SHORT_POSITION'
 const REMOVE_SHORT_POSITION = 'REMOVE_SHORT_POSITION'
 const REMOVE_ALL_SHORTS = 'REMOVE_ALL_SHORTS'
@@ -43,7 +43,7 @@ export const removeAllShortsFromList = () => {
   }
 }
 
-const RESET_STATE = 'RESET_STATE' // a "magic string"
+const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
@@ -52,7 +52,7 @@ const defaultShorts = cloneDeep(defaultState.shorts) //in case state is undefine
 
 export default function chartsReducer(state = defaultShorts, action) {
   switch (action.type) {
-    case RESET_STATE: {
+    case RESET_PERSISTED_STATE: {
       if (action.persistedState.shorts) {
         return cloneDeep(action.persistedState.shorts) //reset this state's slice to the persisted value
       }
@@ -92,7 +92,7 @@ export default function chartsReducer(state = defaultShorts, action) {
     case REMOVE_ALL_SHORTS: {
       return cloneDeep(defaultShorts)
     }
-    case RESET_APP_STATE: {
+    case RESET_DEFAULT_STATE: {
       return cloneDeep(defaultShorts)
     }
     default:

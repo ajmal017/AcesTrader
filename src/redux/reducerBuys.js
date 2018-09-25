@@ -7,7 +7,7 @@ import reduceTargetState from './reduceTargetState.js'
 
 var cloneDeep = require('lodash.clonedeep')
 
-const RESET_APP_STATE = 'RESET_APP_STATE'
+const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
 const ADD_BUYS = 'ADD_BUYS'
 const REMOVE_ONE_BUY = 'REMOVE_ONE_BUY'
 const REMOVE_ALL_BUYS = 'REMOVE_ALL_BUYS'
@@ -38,7 +38,7 @@ export const removeAllBuysFromList = () => {
   }
 }
 
-const RESET_STATE = 'RESET_STATE' // a "magic string"
+const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
@@ -47,7 +47,7 @@ const defaultBuys = cloneDeep(defaultState.buys) //in case state is undefined
 
 export default function buysReducer(state = defaultBuys, action) {
   switch (action.type) {
-    case RESET_STATE: {
+    case RESET_PERSISTED_STATE: {
       if (action.persistedState.buys) {
         return cloneDeep(action.persistedState.buys) //reset this state's slice to the persisted value
       }
@@ -67,7 +67,7 @@ export default function buysReducer(state = defaultBuys, action) {
     case REMOVE_ALL_BUYS: {
       return cloneDeep(defaultBuys)
     }
-    case RESET_APP_STATE: {
+    case RESET_DEFAULT_STATE: {
       return cloneDeep(defaultBuys)
     }
     default:

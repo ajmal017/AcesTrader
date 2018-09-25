@@ -9,7 +9,7 @@ import reduceInsertedObject from './reduceInsertedObject.js'
 import { REPLACE_POSITION_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
-const RESET_APP_STATE = 'RESET_APP_STATE'
+const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
 const ADD_TREND_LONG_POSITION = 'ADD_TREND_LONG_POSITION'
 const REMOVE_TREND_LONG_POSITION = 'CLOSE_TREND_LONG_POSITION'
 const REMOVE_ALL_TREND_LONGS = 'REMOVE_ALL_TREND_LONGS'
@@ -44,7 +44,7 @@ export const removeAllTrendLongsFromList = () => {
   }
 }
 
-const RESET_STATE = 'RESET_STATE' // a "magic string"
+const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
@@ -53,7 +53,7 @@ const defaultTrendLongs = cloneDeep(defaultState.trendlongs) //in case state is 
 
 export default function trendlongsReducer(state = defaultTrendLongs, action) {
   switch (action.type) {
-    case RESET_STATE: {
+    case RESET_PERSISTED_STATE: {
       if (action.persistedState.trendlongs) {
         return cloneDeep(action.persistedState.trendlongs) //reset this state's slice to the persisted value
       }
@@ -93,7 +93,7 @@ export default function trendlongsReducer(state = defaultTrendLongs, action) {
     case REMOVE_ALL_TREND_LONGS: {
       return cloneDeep(defaultTrendLongs)
     }
-    case RESET_APP_STATE: {
+    case RESET_DEFAULT_STATE: {
       return cloneDeep(defaultTrendLongs)
     }
     default:

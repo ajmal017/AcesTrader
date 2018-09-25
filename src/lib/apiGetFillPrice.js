@@ -9,13 +9,12 @@ let reference = getReference() //indicates which storage to use for app state
 const getFillPrice = (symbol) => {
   if (reference === referenceLocaltrader) {
     // Call into the free IEX api
-    const self = this
     const IEX_BASE = 'https://api.iextrading.com/1.0/'
     const request = axios
       .get(`${IEX_BASE}tops/last?symbols=${symbol}`)
       .then((res) => {
-        self.value = res.data[0].price
-        return self.value
+        let value = res.data[0].price
+        return value
       })
       .catch((error) => {
         return error
@@ -24,13 +23,12 @@ const getFillPrice = (symbol) => {
   } else {
     // Call into the Ameritrade api as soon as is ready,
     // but for now call into the free IEX api
-    const self = this
     const IEX_BASE = 'https://api.iextrading.com/1.0/'
     const request = axios
       .get(`${IEX_BASE}tops/last?symbols=${symbol}`)
       .then((res) => {
-        self.value = res.data[0].price
-        return self.value
+        let value = res.data[0].price
+        return value
       })
       .catch((error) => {
         return error

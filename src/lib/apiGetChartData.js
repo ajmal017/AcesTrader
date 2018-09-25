@@ -8,7 +8,6 @@ let reference = getReference() //indicates which source to use for app's chart d
 const getChartData = (symbol, range) => {
   if (reference === referenceLocaltrader) {
     // Call into the free IEX api
-    const self = this
     const IEX_BASE = 'https://api.iextrading.com/1.0/'
     const filter = '?filter=date,open,high,low,close,volume'
     const request = axios
@@ -30,7 +29,6 @@ const getChartData = (symbol, range) => {
   } else {
     // Call into the Ameritrade api as soon as is ready,
     // but for now call into the free IEX api
-    const self = this
     const IEX_BASE = 'https://api.iextrading.com/1.0/'
     const filter = '?filter=date,open,high,low,close,volume'
     const request = axios

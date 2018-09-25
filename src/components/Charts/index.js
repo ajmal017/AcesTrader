@@ -2,8 +2,10 @@
 // This is the container for the nested Charts components
 
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import ChartsView from './ChartsView'
+
 import './styles.css'
 
 const Charts = (props) => {
@@ -25,4 +27,11 @@ Charts.propTypes = {
   chartArray: PropTypes.array.isRequired,
 }
 
-export default Charts
+//Note: this used only to get access to "this.props.dispatch", not for state access
+//the new "props.cellObject" is created in a parent and passed down
+function mapStateToProps(state) {
+  return {}
+}
+export default connect(mapStateToProps)(Charts)
+
+// export default Charts

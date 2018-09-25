@@ -8,7 +8,7 @@ import reduceInsertedObject from './reduceInsertedObject.js'
 import { REPLACE_POSITION_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
-const RESET_APP_STATE = 'RESET_APP_STATE'
+const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
 const ADD_LONG_POSITION = 'ADD_LONG_POSITION'
 const REMOVE_LONG_POSITION = 'REMOVE_LONG_POSITION'
 const REMOVE_ALL_LONGS = 'REMOVE_ALL_LONGS'
@@ -43,7 +43,7 @@ export const removeAllLongsFromList = () => {
   }
 }
 
-const RESET_STATE = 'RESET_STATE' // a "magic string"
+const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
 // *********reducer***********
 // Redux delivers a slice of the state as defined by combineReducers(),
@@ -52,7 +52,7 @@ const defaultLongs = cloneDeep(defaultState.longs) //in case state is undefined
 
 export default function longsReducer(state = defaultLongs, action) {
   switch (action.type) {
-    case RESET_STATE: {
+    case RESET_PERSISTED_STATE: {
       if (action.persistedState.longs) {
         return cloneDeep(action.persistedState.longs) //reset this state's slice to the persisted value
       }
@@ -92,7 +92,7 @@ export default function longsReducer(state = defaultLongs, action) {
     case REMOVE_ALL_LONGS: {
       return cloneDeep(defaultLongs)
     }
-    case RESET_APP_STATE: {
+    case RESET_DEFAULT_STATE: {
       return cloneDeep(defaultLongs)
     }
     default:

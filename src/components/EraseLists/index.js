@@ -2,7 +2,7 @@
 
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { resetAppState } from '../../redux/index.js'
+import { resetDefaultState } from '../../redux/index.js'
 import { queryeraselists } from '../../redux/reducerModal'
 
 class EraseLists extends Component {
@@ -18,7 +18,7 @@ class EraseLists extends Component {
   handleResetQueryResonse(response) {
     let buttonFlag = response.buttonFlag
     if (buttonFlag === 'yes') {
-      this.props.dispatch(resetAppState()) //handled by each reducer
+      this.props.dispatch(resetDefaultState()) //handled by each reducer
     }
     if (this.props.history.length > 0) {
       this.props.history.goBack()
