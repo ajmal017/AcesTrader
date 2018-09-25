@@ -10,7 +10,6 @@
 // If symbols are added during use of the program then
 // the new symbol's data will be obtained at that time.
 
-// import axios from 'axios'
 var cloneDeep = require('lodash.clonedeep')
 
 var dataCache = {

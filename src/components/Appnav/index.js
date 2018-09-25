@@ -76,9 +76,12 @@ const Appnav = function() {
               <LinkContainer to="/peek">
                 <NavItem eventKey={7.2}>Peek</NavItem>
               </LinkContainer>
+              <LinkContainer to="/welcome">
+                <NavItem eventKey={7.4}>Welcome</NavItem>
+              </LinkContainer>
               <MenuItem divider />
               <LinkContainer to="/home">
-                <MenuItem eventKey={7.3}>About AcesTrader</MenuItem>
+                <MenuItem eventKey={8.3}>About AcesTrader</MenuItem>
               </LinkContainer>
               {/* {getResetStateMenu()} */}
             </NavDropdown>
