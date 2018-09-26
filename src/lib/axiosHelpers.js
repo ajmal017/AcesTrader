@@ -1,6 +1,6 @@
 // axiosHelpers.js
 
-import { putPeekPrice, resetPeekPrices } from './appLastPeekPrice'
+import { putWatchedPrice, resetWatchedPrices } from './appWatchedPrice'
 var axios = require('axios')
 
 // Note: we use the free IEX api to test for a valid symbol
@@ -32,12 +32,12 @@ export const getSymbolPrices = function(symbolList) {
   return axios
     .all(promiseArray)
     .then(function(arr) {
-      //need to format data into peek storage area
-      resetPeekPrices()
+      //need to format data into WatchedPrices storage area
+      resetWatchedPrices()
       for (let i = 0; i < arr.length; i++) {
         let symbol = arr[i].data[0].symbol
         let price = arr[i].data[0].price
-        putPeekPrice(symbol, price)
+        putWatchedPrice(symbol, price)
       }
       return {
         firstdata: arr[0].data,
