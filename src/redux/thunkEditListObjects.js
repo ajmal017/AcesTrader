@@ -1,10 +1,13 @@
 // thunkEditListObjects.js
 
+import { getPeekPrices, resetPeekPrices } from '../lib/appLastPeekPrice'
 import getFillPrice from '../lib/apiGetFillPrice'
+import getLastPrice from '../lib/apiGetLastPrice'
 var cloneDeep = require('lodash.clonedeep')
 
-export const REPLACE_POSITION_OBJECT = 'REPLACE_POSITION_OBJECT'
 export const REPLACE_RESULTS_OBJECT = 'REPLACE_RESULTS_OBJECT'
+export const REPLACE_POSITION_OBJECT = 'REPLACE_POSITION_OBJECT'
+export const REPLACE_PROSPECT_OBJECT = 'REPLACE_PROSPECT_OBJECT'
 
 export const addExitPriceAsync = (hash) => {
   return (dispatch, getState) => {
@@ -38,7 +41,7 @@ function replaceTradeObject(theObject) {
     theObject: theObject,
   }
 }
-//AndQuantity
+//AddQuantity
 export const addEnterPriceAsync = (hash) => {
   return (dispatch, getState) => {
     let ourState = getState() //to  search the 3 positions lists
@@ -66,7 +69,7 @@ export const addEnterPriceAsync = (hash) => {
           }
         }
         newObject['filledquantity'] = null //removes wrongly labeled property if it still exists
-        dispatch(replaceListObject(newObject))
+        dispatch(replacePositionObject(newObject))
       })
       .catch(function(error) {
         console.log('getFillPrice axios error:', error.message)
@@ -74,9 +77,49 @@ export const addEnterPriceAsync = (hash) => {
       })
   }
 }
-function replaceListObject(theObject) {
+function replacePositionObject(theObject) {
   return {
     type: REPLACE_POSITION_OBJECT,
+    theObject: theObject,
+  }
+}
+
+export const addWatchPriceAsync = (tradeSide) => {
+  return (dispatch, getState) => {
+    let ourState = getState() //to  search the 3 prospects lists
+
+    //Since the caller of this thunk does not know the hash tags,
+    //which were added after as part of the reducer function,
+    //we have to create a list of objects without the watchedPrice,
+    //they are the ones just added by the ManageProspects component.
+    let prospectsList
+    if (tradeSide === 'SWING BUYS') {
+      prospectsList = ourState.buys.filter((obj) => obj.watchedPrice === undefined)
+    }
+    if (tradeSide === 'SWING SELLS') {
+      prospectsList = ourState.sells.filter((obj) => obj.watchedPrice === undefined)
+    }
+    if (tradeSide === 'TREND BUYS') {
+      prospectsList = ourState.trendbuys.filter((obj) => obj.watchedPrice === undefined)
+    }
+    for (let ii = 0; ii < prospectsList.length; ii++) {
+      let foundObject = prospectsList[ii]
+      let newObject = cloneDeep(foundObject)
+      let price = getPeekPrices(newObject.symbol) //peek prices were loaded in the ManageProspects component
+      if (isNaN(price)) {
+        newObject['watchedPrice'] = 'Not Available'
+      } else {
+        newObject['watchedPrice'] = price //the price when this was watched
+      }
+      dispatch(replaceProspectObject(newObject))
+    }
+    resetPeekPrices()
+  }
+}
+
+function replaceProspectObject(theObject) {
+  return {
+    type: REPLACE_PROSPECT_OBJECT,
     theObject: theObject,
   }
 }

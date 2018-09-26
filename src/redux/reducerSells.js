@@ -4,8 +4,11 @@ import defaultState from '../json/defaultState.json'
 import defaultDashboard from '../json/defaultDashboard.json'
 import defaultShortEntry from '../json/defaultShortEntry.json'
 import reduceTargetState from './reduceTargetState.js'
+import reduceInsertedObject from './reduceInsertedObject.js'
+import { REPLACE_PROSPECT_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
+const UPDATE_DASHBOARD_PEEK_DATA = 'UPDATE_DASHBOARD_PEEK_DATA'
 const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
 const ADD_SELLS = 'ADD_SELLS'
 const REMOVE_ONE_SELL = 'REMOVE_ONE_SELL'
@@ -60,6 +63,16 @@ export default function sellsReducer(state = defaultSells, action) {
       //filter all except the action.symbol one
       // newState = state.filter((obj) => obj.symbol !== action.symbol)
       let newState = state.filter((obj) => obj.hash !== action.hash)
+      return newState
+    }
+    case REPLACE_PROSPECT_OBJECT: {
+      let hash = action.theObject.hash
+      let foundObject = state.find((obj) => obj.hash === hash)
+      if (!foundObject) {
+        return state //target object is not in this list
+      }
+      let prunedState = state.filter((obj) => obj.hash !== hash) //remove the old object versiom
+      let newState = reduceInsertedObject(prunedState, action.theObject) //replace with new version
       return newState
     }
     case REMOVE_ALL_SELLS: {
