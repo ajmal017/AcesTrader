@@ -1,6 +1,6 @@
 // thunkEditListObjects.js
 
-import { getWatchedPrice, resetWatchedPrices } from './appWatchedPrice'
+import { getWatchedPrice, resetWatchedPrices } from '../lib/appWatchedPrice'
 import getFillPrice from '../lib/apiGetFillPrice'
 import getLastPrice from '../lib/apiGetLastPrice'
 var cloneDeep = require('lodash.clonedeep')
@@ -113,7 +113,7 @@ export const addWatchPriceAsync = (tradeSide) => {
       }
       dispatch(replaceProspectObject(newObject))
     }
-    resetPeekPrices()
+    resetWatchedPrices()
   }
 }
 
