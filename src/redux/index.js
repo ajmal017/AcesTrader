@@ -18,7 +18,7 @@ const UPDATE_DASHBOARD_PEEK_DATA = 'UPDATE_DASHBOARD_PEEK_DATA'
 export const updateDashboardPeekData = (peekdataobject) => {
   let date = new Date()
   // let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}`
-  let theDate = date.toLocaleString('en-US')
+  let theDate = date.toLocaleString('en-US').toLowerCase()
   return {
     type: UPDATE_DASHBOARD_PEEK_DATA,
     peekdataobject: peekdataobject,

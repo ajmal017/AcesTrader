@@ -41,7 +41,7 @@ class ChartDashboard extends Component {
           <span className="dashboard-header">{this.tradeSide}</span>
           <form className="dashboard-form">
             <div className="events-log">
-              {this.peekDate !== undefined ? (
+              {this.peekDate !== undefined && this.entered !== undefined ? (
                 <div>
                   <span className="watched">
                     Peek {this.peekDate}
@@ -50,7 +50,9 @@ class ChartDashboard extends Component {
                 </div>
               ) : null}
               <div>
-                <span className="watched">Watched {this.watched}</span>
+                <span className="watched">
+                  Watched {this.watched} @{this.watchedPrice}
+                </span>
                 {this.entered !== undefined ? (
                   <span className="entered">
                     Entered {this.entered}
