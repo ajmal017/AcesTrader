@@ -4,13 +4,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getPeekPrices, resetPeekPrices } from '../../../lib/appLastPeekPrice'
+import { updateDashboardPeekData } from '../../../redux'
 import Chartcell from '../Chartcell'
 import './styles.css'
 
 class ChartsView extends Component {
-  // constructor(props) {
-  //     super(props);
-  // }
+  constructor(props) {
+    super(props)
+  }
 
   componentDidMount() {
     window.scrollTo(0, 0)
@@ -21,7 +22,8 @@ class ChartsView extends Component {
     let peekPricesArray = Object.keys(peekPricesObject)
     if (peekPricesArray.length > 0) {
       // do stuff...
-      debugger
+      this.props.dispatch(updateDashboardPeekData(peekPricesObject))
+      // debugger
     }
     resetPeekPrices()
   }

@@ -19,7 +19,10 @@ class ChartDashboard extends Component {
   render() {
     //handle new props with changed state of cellObjects
     this.symbol = this.props.cellObject.symbol
+    this.peekDate = this.props.cellObject.peekDate
+    this.peekPrice = this.props.cellObject.peekPrice
     this.watched = this.props.cellObject.watched
+    this.watchedPrice = this.props.cellObject.watchedPrice
     this.entered = this.props.cellObject.entered
     this.enteredPrice = this.props.cellObject.enteredPrice
     this.filledQuantity = this.props.cellObject.filledQuantity
@@ -38,6 +41,14 @@ class ChartDashboard extends Component {
           <span className="dashboard-header">{this.tradeSide}</span>
           <form className="dashboard-form">
             <div className="events-log">
+              {this.peekDate !== undefined ? (
+                <div>
+                  <span className="watched">
+                    Peek {this.peekDate}
+                    &nbsp;&nbsp; @ {this.peekPrice}
+                  </span>
+                </div>
+              ) : null}
               <div>
                 <span className="watched">Watched {this.watched}</span>
                 {this.entered !== undefined ? (

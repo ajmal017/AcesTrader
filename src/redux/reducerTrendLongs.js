@@ -9,6 +9,7 @@ import reduceInsertedObject from './reduceInsertedObject.js'
 import { REPLACE_POSITION_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
+const UPDATE_DASHBOARD_PEEK_DATA = 'UPDATE_DASHBOARD_PEEK_DATA'
 const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
 const ADD_TREND_LONG_POSITION = 'ADD_TREND_LONG_POSITION'
 const REMOVE_TREND_LONG_POSITION = 'CLOSE_TREND_LONG_POSITION'

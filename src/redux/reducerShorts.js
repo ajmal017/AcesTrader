@@ -8,6 +8,7 @@ import reduceInsertedObject from './reduceInsertedObject.js'
 import { REPLACE_POSITION_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
+const UPDATE_DASHBOARD_PEEK_DATA = 'UPDATE_DASHBOARD_PEEK_DATA'
 const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
 const ADD_SHORT_POSITION = 'ADD_SHORT_POSITION'
 const REMOVE_SHORT_POSITION = 'REMOVE_SHORT_POSITION'

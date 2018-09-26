@@ -9,9 +9,11 @@ import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
 import { addBuysToList, removeAllBuysFromList } from '../../redux/reducerBuys'
 import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells'
 import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/reducerTrendBuys'
+import { addWatchPriceAsync } from '../../redux/thunkEditListObjects'
 import { queryClearProspectsList } from '../../redux/reducerModal'
 import './styles.css'
-var axiosHelpers = require('../../lib/axiosHelpers.js')
+import * as axiosHelpers from '../../lib/axiosHelpers'
+// const axiosHelpers = require('../../lib/axiosHelpers.js')
 
 class ManageProspects extends Component {
   constructor(props) {
@@ -149,6 +151,17 @@ class ManageProspects extends Component {
             }
           }.bind(this)
         )
+        // get symbol prices for currentPeekPrices object
+        axiosHelpers.getSymbolPrices(verifiedList).then(
+          function(data) {
+            if (data.error) {
+              console.error('error getting symbol prices in ManageProspects')
+            } else {
+              console.log('success in getting symbol prices in ManageProspects')
+              return
+            }
+          }.bind(this)
+        )
       }
     }
 
@@ -187,12 +200,15 @@ class ManageProspects extends Component {
       this.newProspects = this.textAreaBox.value.split(' ').sort()
       if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
         this.props.dispatch(addBuysToList(this.newProspects))
+        this.props.dispatch(addWatchPriceAsync(this.tradeSide.toUpperCase())) //call thunk
         this.props.handleClick('push', 'prospectbuys')
       } else if (this.tradeSide.toUpperCase() === 'SWING SELLS') {
         this.props.dispatch(addSellstoList(this.newProspects))
+        this.props.dispatch(addWatchPriceAsync(this.tradeSide.toUpperCase())) //call thunk
         this.props.handleClick('push', 'prospectsells')
       } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
         this.props.dispatch(addTrendBuysToList(this.newProspects))
+        this.props.dispatch(addWatchPriceAsync(this.tradeSide.toUpperCase())) //call thunk
         this.props.handleClick('push', 'prospecttrendbuys')
       } else {
         alert('ERROR2 Missing tradeSide in ManageProspects')

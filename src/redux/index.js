@@ -12,7 +12,19 @@ import modalReducer from './reducerModal'
 
 const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
 const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE'
+const UPDATE_DASHBOARD_PEEK_DATA = 'UPDATE_DASHBOARD_PEEK_DATA'
 
+// this action type is handled in all the reducers except results & modalReducer
+export const updateDashboardPeekData = (peekdataobject) => {
+  let date = new Date()
+  // let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}`
+  let theDate = date.toLocaleString('en-US')
+  return {
+    type: UPDATE_DASHBOARD_PEEK_DATA,
+    peekdataobject: peekdataobject,
+    theDate: theDate,
+  }
+}
 // this action type is handled in all the reducers except modalReducer
 export const resetDefaultState = () => {
   return {
