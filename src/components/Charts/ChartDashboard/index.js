@@ -39,11 +39,13 @@ class ChartDashboard extends Component {
   }
 
   componentDidMount() {
-    let rgbColor = this.percentGain > 0 ? '0,255,0' : '255,0,0'
-    // let rgbOpacity = Math.min(Math.abs(this.tradePercentGain / 100) * 6, 0.6)
-    let rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
     let el = document.getElementById(this.listGroup+this.hash)
-    el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
+    if (el !== null){
+      let rgbColor = this.percentGain > 0 ? '0,255,0' : '255,0,0'
+      // let rgbOpacity = Math.min(Math.abs(this.tradePercentGain / 100) * 6, 0.6)
+      let rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
+      el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
+    }
   }
 
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
