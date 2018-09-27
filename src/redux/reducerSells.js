@@ -5,6 +5,7 @@ import defaultDashboard from '../json/defaultDashboard.json'
 import defaultShortEntry from '../json/defaultShortEntry.json'
 import reduceTargetState from './reduceTargetState.js'
 import reduceInsertedObject from './reduceInsertedObject.js'
+import reducePeekData from './reducePeekData'
 import { REPLACE_PROSPECT_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
@@ -48,6 +49,10 @@ const defaultSells = cloneDeep(defaultState.sells) //in case state is undefined
 
 export default function sellsReducer(state = defaultSells, action) {
   switch (action.type) {
+    case UPDATE_DASHBOARD_PEEK_DATA: {
+      let newState = reducePeekData(state, 'prospects', action.peekdataobject, action.theDate)
+      return newState
+    }
     case RESET_PERSISTED_STATE: {
       if (action.persistedState.sells) {
         return cloneDeep(action.persistedState.sells) //reset this state's slice to the persisted value
