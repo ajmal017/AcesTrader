@@ -5,6 +5,32 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import './styles.css'
 
+// &nbsp; ${dollarGain}
+function PeekStatusLine({hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, positionValue }) {
+  return peekDate !== undefined && listGroup === 'prospects' ? (
+    <div>
+      <span id={'prospects'+hash} className="watched">
+        Peek {peekDate} @{peekPrice}, &nbsp;&nbsp; Change:&nbsp; {percentGain}%
+      </span>
+    </div>
+  ) : peekDate !== undefined && listGroup === 'positions' ? (
+    <div>
+      <span id={'positions'+hash} className="watched">
+        Peek {peekDate} @{peekPrice},&nbsp;&nbsp; Change:&nbsp; {percentGain}%,&nbsp;&nbsp; Value:&nbsp; ${positionValue}
+      </span>
+    </div>
+  ) : null
+}
+
+// this.percentGain = exitPrice !== 'pending' ? ((100 * (exitPrice - enterPrice)) / enterPrice).toFixed(1) : 'pending'
+// this.dollarGain = exitPrice !== 'pending' ? ((exitPrice - enterPrice)).toFixed(0) : 'pending'
+// this.valueGain = exitPrice !== 'pending' ? (filledQuantity * (exitPrice - enterPrice)).toFixed(0) : 'pending'
+
+// <span id={'peekinfo'}>
+// {dollarGain < 0 ? '-' : ''} ${this.numberWithCommas(dollarGain)}
+// &nbsp;&nbsp;&nbsp;&nbsp; {dollarGain < 0 ? '-' : ''} {this.percentGain}%{/*&nbsp;&nbsp;&nbsp;&nbsp;  Account: {account}  */}
+// </span>
+
 class ChartDashboard extends Component {
   constructor(props) {
     super(props)
@@ -12,13 +38,26 @@ class ChartDashboard extends Component {
     this.state = {}
   }
 
+  componentDidMount() {
+    let rgbColor = this.percentGain > 0 ? '0,255,0' : '255,0,0'
+    // let rgbOpacity = Math.min(Math.abs(this.tradePercentGain / 100) * 6, 0.6)
+    let rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
+    let el = document.getElementById(this.listGroup+this.hash)
+    el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
+  }
+
+  // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+  numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
   handleChange(event) {
     this.setState({ value: event.target.value })
   }
 
   render() {
     //handle new props with changed state of cellObjects
+    this.hash = this.props.cellObject.hash
     this.symbol = this.props.cellObject.symbol
+    this.listGroup = this.props.cellObject.listGroup
     this.peekDate = this.props.cellObject.peekDate
     this.peekPrice = this.props.cellObject.peekPrice
     this.watched = this.props.cellObject.watched
@@ -26,6 +65,7 @@ class ChartDashboard extends Component {
     this.entered = this.props.cellObject.entered
     this.enteredPrice = this.props.cellObject.enteredPrice
     this.filledQuantity = this.props.cellObject.filledQuantity
+    this.percentGain = this.props.cellObject.percentGain
     this.account = this.props.cellObject.account
     this.tradeSide = this.props.cellObject.dashboard.tradeSide
     this.session = this.props.cellObject.dashboard.session
@@ -35,20 +75,30 @@ class ChartDashboard extends Component {
     this.quantity = this.props.cellObject.dashboard.quantity
     this.instruction = this.props.cellObject.dashboard.instruction
     this.buttonLabel = this.instruction // this.props.cellObject.dashboard.buttonLabel
-    return (
+
+    const startPrice = this.listGroup==='positions' ? this.enteredPrice : this.watchedPrice
+    this.dollarGain = this.peekDate !== undefined ? (this.peekPrice - startPrice).toFixed(2) : 'pending'
+    this.percentGain = this.peekDate !== undefined ? ((100 * (this.peekPrice - startPrice)) / startPrice).toFixed(1) : 'pending'
+    this.positionValue = this.peekDate !== undefined ? this.numberWithCommas((this.filledQuantity * (this.peekPrice)).toFixed(0)) : 'pending'
+
+return (
       <div className="dashboard">
         <div className="dashboard-data">
           <span className="dashboard-header">{this.tradeSide}</span>
           <form className="dashboard-form">
             <div className="events-log">
-              {this.peekDate !== undefined && this.entered !== undefined ? (
+              <PeekStatusLine hash={this.hash} listGroup={this.listGroup} peekDate={this.peekDate} peekPrice={this.peekPrice} dollarGain={this.dollarGain} percentGain={this.percentGain} positionValue={this.positionValue} />
+ 
+ 
+              {/* {this.peekDate !== undefined && (this.entered !== undefined || this.watched !== undefined) ? (
                 <div>
                   <span className="watched">
                     Peek {this.peekDate}
                     &nbsp;&nbsp; @ {this.peekPrice}
                   </span>
                 </div>
-              ) : null}
+              ) : null} */}
+
               <div>
                 <span className="watched">
                   Watched {this.watched} @{this.watchedPrice}

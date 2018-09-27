@@ -5,6 +5,7 @@ import defaultDashboard from '../json/defaultDashboard.json'
 import defaultLongExit from '../json/defaultLongExit.json'
 import reduceTargetState from './reduceTargetState.js'
 import reduceInsertedObject from './reduceInsertedObject.js'
+import reducePeekData from './reducePeekData'
 import { REPLACE_POSITION_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
@@ -53,6 +54,10 @@ const defaultLongs = cloneDeep(defaultState.longs) //in case state is undefined
 
 export default function longsReducer(state = defaultLongs, action) {
   switch (action.type) {
+    case UPDATE_DASHBOARD_PEEK_DATA: {
+      let newState = reducePeekData(state, 'positions', action.peekdataobject, action.theDate)
+      return newState
+    }
     case RESET_PERSISTED_STATE: {
       if (action.persistedState.longs) {
         return cloneDeep(action.persistedState.longs) //reset this state's slice to the persisted value

@@ -37,7 +37,8 @@ class TradeCell extends Component {
 
   componentDidMount() {
     let rgbColor = this.tradePercentGain > 0 ? '0,255,0' : '255,0,0'
-    let rgbOpacity = Math.min(Math.abs(this.tradePercentGain / 100) * 6, 0.6)
+    // let rgbOpacity = Math.min(Math.abs(this.tradePercentGain / 100) * 6, 0.6)
+    let rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
     let el = document.getElementById('gaininfo')
     el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
   }
@@ -80,8 +81,6 @@ class TradeCell extends Component {
           <span>
             Enter Price: {enterPrice}
             &nbsp;&nbsp;&nbsp; Exit Price: {exitPrice}
-            {/* </span>
-          <span> */}
             &nbsp;&nbsp;&nbsp; Quantity: {filledQuantity}
           </span>
           <span>
