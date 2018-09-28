@@ -5,18 +5,19 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import './styles.css'
 
-// &nbsp; ${dollarGain}
-function PeekStatusLine({hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, positionValue }) {
+function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, positionValue }) {
   return peekDate !== undefined && listGroup === 'prospects' ? (
     <div>
-      <span id={'prospects'+hash} className="watched">
+      <span id={'prospects' + hash} className="watched">
         Peek {peekDate} @{peekPrice}, &nbsp;&nbsp; Change:&nbsp; {percentGain}%
       </span>
     </div>
   ) : peekDate !== undefined && listGroup === 'positions' ? (
     <div>
-      <span id={'positions'+hash} className="watched">
-        Peek {peekDate} @{peekPrice},&nbsp;&nbsp; Change:&nbsp; {percentGain}%,&nbsp;&nbsp; Value:&nbsp; ${positionValue}
+      <span id={'positions' + hash} className="watched">
+        Peek {peekDate} @{peekPrice}
+        ,&nbsp;&nbsp; Change:&nbsp; {percentGain}
+        %,&nbsp;&nbsp; Value:&nbsp; ${positionValue}
       </span>
     </div>
   ) : null
@@ -39,10 +40,9 @@ class ChartDashboard extends Component {
   }
 
   componentDidMount() {
-    let el = document.getElementById(this.listGroup+this.hash)
-    if (el !== null){
-      let rgbColor = this.percentGain > 0 ? '0,255,0' : '255,0,0'
-      // let rgbOpacity = Math.min(Math.abs(this.tradePercentGain / 100) * 6, 0.6)
+    let el = document.getElementById(this.listGroup + this.hash)
+    if (el !== null) {
+      let rgbColor = this.percentGain > 0 ? '0,255,0' : '255,107,107'
       let rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
       el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
     }
@@ -78,20 +78,27 @@ class ChartDashboard extends Component {
     this.instruction = this.props.cellObject.dashboard.instruction
     this.buttonLabel = this.instruction // this.props.cellObject.dashboard.buttonLabel
 
-    const startPrice = this.listGroup==='positions' ? this.enteredPrice : this.watchedPrice
+    const startPrice = this.listGroup === 'positions' ? this.enteredPrice : this.watchedPrice
     this.dollarGain = this.peekDate !== undefined ? (this.peekPrice - startPrice).toFixed(2) : 'pending'
     this.percentGain = this.peekDate !== undefined ? ((100 * (this.peekPrice - startPrice)) / startPrice).toFixed(1) : 'pending'
-    this.positionValue = this.peekDate !== undefined ? this.numberWithCommas((this.filledQuantity * (this.peekPrice)).toFixed(0)) : 'pending'
+    this.positionValue = this.peekDate !== undefined ? this.numberWithCommas((this.filledQuantity * this.peekPrice).toFixed(0)) : 'pending'
 
-return (
+    return (
       <div className="dashboard">
         <div className="dashboard-data">
           <span className="dashboard-header">{this.tradeSide}</span>
           <form className="dashboard-form">
             <div className="events-log">
-              <PeekStatusLine hash={this.hash} listGroup={this.listGroup} peekDate={this.peekDate} peekPrice={this.peekPrice} dollarGain={this.dollarGain} percentGain={this.percentGain} positionValue={this.positionValue} />
- 
- 
+              <PeekStatusLine
+                hash={this.hash}
+                listGroup={this.listGroup}
+                peekDate={this.peekDate}
+                peekPrice={this.peekPrice}
+                dollarGain={this.dollarGain}
+                percentGain={this.percentGain}
+                positionValue={this.positionValue}
+              />
+
               {/* {this.peekDate !== undefined && (this.entered !== undefined || this.watched !== undefined) ? (
                 <div>
                   <span className="watched">

@@ -9,10 +9,6 @@ import Chartcell from '../Chartcell'
 import './styles.css'
 
 class ChartsView extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentDidMount() {
     window.scrollTo(0, 0)
     // each time More/Peek is clicked, the peekPricesObject is created
@@ -21,9 +17,7 @@ class ChartsView extends Component {
     let peekPricesObject = getPeekPrices()
     let peekPricesArray = Object.keys(peekPricesObject)
     if (peekPricesArray.length > 0) {
-      // do stuff...
       this.props.dispatch(updateDashboardPeekData(peekPricesObject))
-      // debugger
     }
     resetPeekPrices()
   }
