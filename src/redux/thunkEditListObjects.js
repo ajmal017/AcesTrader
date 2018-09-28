@@ -2,7 +2,6 @@
 
 import { getWatchedPrice, resetWatchedPrices } from '../lib/appWatchedPrice'
 import getFillPrice from '../lib/apiGetFillPrice'
-import getLastPrice from '../lib/apiGetLastPrice'
 var cloneDeep = require('lodash.clonedeep')
 
 export const REPLACE_RESULTS_OBJECT = 'REPLACE_RESULTS_OBJECT'
