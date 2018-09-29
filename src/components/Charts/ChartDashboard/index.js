@@ -76,7 +76,7 @@ class ChartDashboard extends Component {
     this.quantityType = this.props.cellObject.dashboard.quantityType
     this.quantity = this.props.cellObject.dashboard.quantity
     this.instruction = this.props.cellObject.dashboard.instruction
-    this.buttonLabel = this.instruction // this.props.cellObject.dashboard.buttonLabel
+    this.buttonLabel = this.props.cellObject.dashboard.buttonLabel // this.instruction
 
     const startPrice = this.listGroup === 'positions' ? this.enteredPrice : this.watchedPrice
     this.dollarGain = this.peekDate !== undefined ? (this.peekPrice - startPrice).toFixed(2) : 'pending'
