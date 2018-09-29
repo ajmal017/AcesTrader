@@ -20,7 +20,7 @@ import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
 import { addEnterPriceAsync, addExitPriceAsync } from '../../../redux/thunkEditListObjects'
 import getChartData from '../../../lib/apiGetChartData'
-import getChartLastBar from '../../../lib/apigetChartLastBar'
+// import getChartLastBar from '../../../lib/apigetChartLastBar'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import ChartDashboard from '../ChartDashboard'
 import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
@@ -35,7 +35,7 @@ class Chartcell extends Component {
     this.handleDelete = this.handleDelete.bind(this)
     this.handleDeleteDispatch = this.handleDeleteDispatch.bind(this)
     this.loadChartData = this.loadChartData.bind(this)
-    this.getLastBar = this.getLastBar.bind(this)
+    // this.getLastBar = this.getLastBar.bind(this)
     this.values = null //array of price values from API call
     this.filteredValues = null //array of price values remaining after filter
     this.data = null
@@ -76,40 +76,40 @@ class Chartcell extends Component {
       })
   }
 
-  getLastBar = () => {
-    const symbol = this.props.cellObject.symbol
-    const range = 'dynamic'
-    const self = this
-    // console.log('getChartLastBar ' + symbol)
-    getChartLastBar(symbol, range)
-      .then(function(data) {
-        if (data.length) {
-          let barClose = null
-          let barHigh = 0
-          let barLow = 10000000
-          let barVolume = 0
-          data.forEach((obj) => {
-            if (obj.high > 3) {
-              barClose = obj.close
-              barHigh = obj.high > barHigh ? obj.high : barHigh
-              barLow = obj.low < barLow ? obj.low : barLow
-              barVolume = +obj.volume
-            }
-          })
-          let barOpen = +((barHigh + barLow) / 2).toFixed(2)
-          // TODO Use this bar in Chart
-          // let lastBar = { close: barClose, date: '', high: barHigh, low: barLow, open: barOpen, volume: barVolume }
-          self.setState({ dynamicCounter: ++self.dynamicCounter })
-        } else {
-          // putPriceData(symbol, data) //cache the price data for subsequent rendering
-          // self.setState({ data: true, hide: false }) //triggers render using the cached data
-        }
-      })
-      .catch(function(error) {
-        console.log('getChartData axios error:', error.message)
-        alert('getChartData axios error: ' + error.message) //rude interruption to user
-      })
-  }
+  // getLastBar = () => {
+  //   const symbol = this.props.cellObject.symbol
+  //   const range = 'dynamic'
+  //   const self = this
+  //   // console.log('getChartLastBar ' + symbol)
+  //   getChartLastBar(symbol, range)
+  //     .then(function(data) {
+  //       if (data.length) {
+  //         let barClose = null
+  //         let barHigh = 0
+  //         let barLow = 10000000
+  //         let barVolume = 0
+  //         data.forEach((obj) => {
+  //           if (obj.high > 3) {
+  //             barClose = obj.close
+  //             barHigh = obj.high > barHigh ? obj.high : barHigh
+  //             barLow = obj.low < barLow ? obj.low : barLow
+  //             barVolume = +obj.volume
+  //           }
+  //         })
+  //         let barOpen = +((barHigh + barLow) / 2).toFixed(2)
+  //         // TODO Use this bar in Chart
+  //         // let lastBar = { close: barClose, date: '', high: barHigh, low: barLow, open: barOpen, volume: barVolume }
+  //         self.setState({ dynamicCounter: ++self.dynamicCounter })
+  //       } else {
+  //         // putPriceData(symbol, data) //cache the price data for subsequent rendering
+  //         // self.setState({ data: true, hide: false }) //triggers render using the cached data
+  //       }
+  //     })
+  //     .catch(function(error) {
+  //       console.log('getChartData axios error:', error.message)
+  //       alert('getChartData axios error: ' + error.message) //rude interruption to user
+  //     })
+  // }
 
   handleEntry(event) {
     event.preventDefault()

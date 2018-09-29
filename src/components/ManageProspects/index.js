@@ -11,6 +11,7 @@ import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells
 import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/reducerTrendBuys'
 import { addWatchPriceAsync } from '../../redux/thunkEditListObjects'
 import { queryClearProspectsList } from '../../redux/reducerModal'
+import getWatchedPrices from '../../lib/appGetWatchedPrices'
 import './styles.css'
 import * as axiosHelpers from '../../lib/axiosHelpers'
 // const axiosHelpers = require('../../lib/axiosHelpers.js')
@@ -151,17 +152,19 @@ class ManageProspects extends Component {
             }
           }.bind(this)
         )
-        // get symbol prices for currentPeekPrices object
-        axiosHelpers.getSymbolPrices(verifiedList).then(
-          function(data) {
-            if (data.error) {
-              console.error('error getting symbol prices in ManageProspects')
-            } else {
-              console.log('success in getting symbol prices in ManageProspects')
-              return
-            }
-          }.bind(this)
-        )
+        // get symbol prices for appWatchedPrice object
+        getWatchedPrices(verifiedList)
+
+        // axiosHelpers.getSymbolPrices(verifiedList).then(
+        //   function(data) {
+        //     if (data.error) {
+        //       console.error('error getting symbol prices in ManageProspects')
+        //     } else {
+        //       console.log('success in getting symbol prices in ManageProspects')
+        //       return
+        //     }
+        //   }.bind(this)
+        // )
       }
     }
 

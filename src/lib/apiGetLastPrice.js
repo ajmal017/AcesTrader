@@ -1,10 +1,9 @@
 // apiGetLastPrice.js
 
 import axios from 'axios'
-import { getReference, referenceLocaltrader } from './dbReference'
-// import { getReference, referenceLocaltrader, referenceRealtrader, referencePapertrader,referenceDebugtrader } from './dbReference'
-
-let reference = getReference() //indicates which storage to use for app state
+// import { getReference, referenceLocaltrader } from './dbReference'
+// // import { getReference, referenceLocaltrader, referenceRealtrader, referencePapertrader,referenceDebugtrader } from './dbReference'
+// let reference = getReference() //indicates which storage to use for app state
 
 const getLastPrice = (symbol) => {
   // Call into the free IEX api

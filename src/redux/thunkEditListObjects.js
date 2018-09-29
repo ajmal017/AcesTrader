@@ -1,8 +1,7 @@
 // thunkEditListObjects.js
 
-import { getPeekPrice, getPeekPrices, resetPeekPrices } from '../lib/appLastPeekPrice'
+import { getWatchedPrice, resetWatchedPrices } from '../lib/appWatchedPrice'
 import getFillPrice from '../lib/apiGetFillPrice'
-import getLastPrice from '../lib/apiGetLastPrice'
 var cloneDeep = require('lodash.clonedeep')
 
 export const REPLACE_RESULTS_OBJECT = 'REPLACE_RESULTS_OBJECT'
@@ -105,7 +104,7 @@ export const addWatchPriceAsync = (tradeSide) => {
     for (let ii = 0; ii < prospectsList.length; ii++) {
       let foundObject = prospectsList[ii]
       let newObject = cloneDeep(foundObject)
-      let price = getPeekPrice(newObject.symbol) //peek prices were loaded in the ManageProspects component
+      let price = getWatchedPrice(newObject.symbol) //peek prices were loaded in the ManageProspects component
       if (isNaN(price)) {
         newObject['watchedPrice'] = 'Not Available'
       } else {
@@ -113,7 +112,7 @@ export const addWatchPriceAsync = (tradeSide) => {
       }
       dispatch(replaceProspectObject(newObject))
     }
-    resetPeekPrices()
+    resetWatchedPrices()
   }
 }
 

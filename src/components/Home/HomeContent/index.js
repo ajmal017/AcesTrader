@@ -15,7 +15,7 @@ const HomeContent = function() {
       <h4>TRADE PROSPECTS</h4>
       <p>
         Two types of trading are envisioned: swing trading and trend following. Three lists of prospective trade entries are available. For swing trading there are a prospective
-        buys list and a short sales list. For trend following there is a prospective trend buys list. You use the Edit Lists menu selection to change the list of symbols in each.
+        buys list and a short sales list. For trend following there is a prospective trend buys list. You use the Edits menu selection to change the list of symbols in each.
       </p>
       <p>
         For ETF swing trading, lists of ETFs can be obtained from the weekly list of "Buy on the Dip Prospects" and "Sell on the Pop Prospects" published in "The Daily ETF Roundup"
@@ -63,9 +63,9 @@ const HomeContent = function() {
 
       <h4>CHARTING TOOLS</h4>
       <p>
-        Charts are created for each ETF and are arranged for inspection in three groups under Prospects: Swing Buys, Swing Short Sales, and Trend Buys. Also in three groups under
-        Positions: Swing Longs, Swing Shorts, and Trend Longs. Each chart has an associated dashboard with parameters initialized for the default order. A button allows the user to
-        enter an order.
+        Charts are created for each symbol and are arranged for inspection in three groups under Prospects: Swing Buys, Swing Short Sales, and Trend Buys. Also in three groups
+        under Positions: Swing Longs, Swing Shorts, and Trend Longs. Each chart has an associated dashboard with parameters initialized for the default order. A button allows the
+        user to enter an order.
       </p>
 
       {/* <h4>TRADER ALERTS</h4>

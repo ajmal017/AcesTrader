@@ -5,6 +5,7 @@ import defaultDashboard from '../json/defaultDashboard.json'
 import defaultShortExit from '../json/defaultShortExit.json'
 import reduceTargetState from './reduceTargetState.js'
 import reduceInsertedObject from './reduceInsertedObject.js'
+import reducePeekData from './reducePeekData'
 import { REPLACE_POSITION_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
@@ -53,6 +54,10 @@ const defaultShorts = cloneDeep(defaultState.shorts) //in case state is undefine
 
 export default function chartsReducer(state = defaultShorts, action) {
   switch (action.type) {
+    case UPDATE_DASHBOARD_PEEK_DATA: {
+      let newState = reducePeekData(state, 'positions', action.peekdataobject, action.theDate)
+      return newState
+    }
     case RESET_PERSISTED_STATE: {
       if (action.persistedState.shorts) {
         return cloneDeep(action.persistedState.shorts) //reset this state's slice to the persisted value
