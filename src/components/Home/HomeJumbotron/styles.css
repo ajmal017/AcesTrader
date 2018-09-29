@@ -5,8 +5,9 @@
 
 /* Georgia font is experimental usage*/
 .duck-jumbotron {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   /* font-family: Georgia, "Helvetica Neue", Helvetica, Arial, sans-serif; */
-  font-family: Arial Rounded MT Bold, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  /* font-family: Arial Rounded MT Bold, 'Helvetica Neue', Helvetica, Arial, sans-serif; */
   font-weight: bold;
   color: #5c7cfa;
 }

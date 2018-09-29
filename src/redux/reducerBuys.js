@@ -54,7 +54,6 @@ export default function buysReducer(state = defaultBuys, action) {
       let newState = reducePeekData(state, 'prospects', action.peekdataobject, action.theDate)
       return newState
     }
-
     case RESET_PERSISTED_STATE: {
       if (action.persistedState.buys) {
         return cloneDeep(action.persistedState.buys) //reset this state's slice to the persisted value
