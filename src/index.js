@@ -10,6 +10,7 @@
 import './styles/normalize.css'
 import './styles/bootstrap-cerulean.css'
 import './styles/styles-global.css'
+import './styles/dialog-polyfill.css'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
