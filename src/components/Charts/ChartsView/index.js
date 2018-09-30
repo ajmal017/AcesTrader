@@ -31,8 +31,12 @@ class ChartsView extends Component {
     // a prospect Buy, a prospect ShortSale, a prospect TrendBuy,
     // a Long position, a Short position, or TrendLong position
     return (
-      <div id="charts-host" className="charts-host">
-        {cells}
+      <div>
+        <div id="charts-host" className="charts-host">
+          {cells}
+        </div>
+        &nbsp;&nbsp;
+        <a href="https://icons8.com">Pencil Icon by Icons8</a>
       </div>
     )
   }

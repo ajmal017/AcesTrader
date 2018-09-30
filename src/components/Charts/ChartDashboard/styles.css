@@ -40,6 +40,7 @@
 }
 
 .dashboard-footer {
+  position: relative;
   grid-area: actionbuttons;
   display: inline-flex;
   justify-content: center;
@@ -112,4 +113,22 @@
 .delete-prospect-button {
   margin-left: 30px;
   font-size: 16px;
+}
+
+.pencil-image {
+  position: absolute;
+  right: 18px;
+  bottom: 12px;
+  cursor: 'hand';
+  /* cursor: 'pointer'; */
+}
+
+/* .pencil-image img:hover {
+  cursor: 'pointer';
+} */
+
+.pencil-image:hover {
+  background: #cac8c8dc;
+  cursor: 'hand';
+  /* cursor: 'pointer'; */
 }
