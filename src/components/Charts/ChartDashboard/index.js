@@ -37,6 +37,8 @@ class ChartDashboard extends Component {
   constructor(props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
+    this.handleEdit = this.handleEdit.bind(this)
+    this.dialog
     this.state = {}
   }
 
@@ -47,8 +49,8 @@ class ChartDashboard extends Component {
       let rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
       el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
     }
-    var dialog = document.getElementById('dialog' + this.hash)
-    dialogPolyfill.registerDialog(dialog) // Now dialog acts like a native <dialog>.
+    this.dialog = document.getElementById('dialog' + this.hash)
+    dialogPolyfill.registerDialog(this.dialog) // Now dialog acts like a native <dialog>.
     // dialog.showModal()
   }
 
@@ -57,6 +59,10 @@ class ChartDashboard extends Component {
 
   handleChange(event) {
     this.setState({ value: event.target.value })
+  }
+
+  handleEdit(event) {
+    this.dialog.showModal()
   }
 
   render() {
@@ -160,6 +166,9 @@ class ChartDashboard extends Component {
                 {this.buttonLabel} {this.symbol}
               </button>
             </div>
+            <span onClick={this.handleEdit} className={'pencil-image'}>
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC" />
+            </span>
           </div>
         </div>
       </div>
