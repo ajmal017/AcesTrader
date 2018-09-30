@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import dialogPolyfill from 'dialog-polyfill'
 import './styles.css'
 
 function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, positionValue }) {
@@ -46,6 +47,9 @@ class ChartDashboard extends Component {
       let rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
       el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
     }
+    var dialog = document.getElementById('dialog' + this.hash)
+    dialogPolyfill.registerDialog(dialog) // Now dialog acts like a native <dialog>.
+    // dialog.showModal()
   }
 
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
@@ -85,6 +89,12 @@ class ChartDashboard extends Component {
 
     return (
       <div className="dashboard">
+        <dialog id={'dialog' + this.hash}>
+          I'm a dialog!
+          <form method="dialog">
+            <input type="submit" value="Close" />
+          </form>
+        </dialog>
         <div className="dashboard-data">
           <span className="dashboard-header">{this.tradeSide}</span>
           <form className="dashboard-form">
