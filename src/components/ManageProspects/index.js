@@ -152,6 +152,7 @@ class ManageProspects extends Component {
             }
           }.bind(this)
         )
+
         // get symbol prices for appWatchedPrice object
         getWatchedPrices(verifiedList)
 
@@ -283,7 +284,7 @@ class ManageProspects extends Component {
               <input type="text" id="pname" value={this.state.value} onChange={this.handleChange} />
 
               <p className="acceptdescription">
-                Symbols already in the {this.tradeSide} list are removed from the submitted list.
+                Symbols already in the {this.tradeSide} list are removed from the prospects list when you click Verfy.
                 <br />
                 The remaining new symbols shown are added to the {this.tradeSide} list when you click Accept.
               </p>
