@@ -95,6 +95,27 @@
   box-sizing: border-box;
 }
 
+.dashboard-edit-form input[type='text'] {
+  width: 32%;
+  margin-left: 10px;
+  margin-right: 20px;
+  padding: 0px 4px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.dashboard-edit-history input[type='text'] {
+  width: 32%;
+  margin-left: 10px;
+  margin-right: 20px;
+  padding: 0px 4px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
 .dashboard-buttons {
   grid-area: actionbuttons;
   width: 100%;
@@ -115,20 +136,40 @@
   font-size: 16px;
 }
 
-.pencil-image {
+.dialog-button-wrapper {
+display:inline;
+}
+
+.button-pencil-image {
+  background: #f9f9f9;
+  height: 28px;
+  border: #f9f9f9;
+  opacity: 0.5;
+}
+.button-pencil-image:hover {
+  background: #cac8c8dc;
+}
+
+.button-pencil-image-absolute {
   position: absolute;
   right: 18px;
   bottom: 12px;
-  cursor: 'hand';
-  /* cursor: 'pointer'; */
+  background: #f9f9f9;
+  height: 28px;
+  border: #f9f9f9;
+  opacity: 0.5;
+}
+.button-pencil-image-absolute:hover {
+  background: #cac8c8dc;
 }
 
-/* .pencil-image img:hover {
-  cursor: 'pointer';
-} */
+.dialog-symbol {
+    background: #f9f9f9;
+    padding: 6px 0 6px 6px;
+    font-size: 16px;
+    font-weight: bold;  
+}
 
-.pencil-image:hover {
-  background: #cac8c8dc;
-  cursor: 'hand';
-  /* cursor: 'pointer'; */
+hr {
+  margin: 6px 0 6px 0;
 }

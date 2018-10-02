@@ -24,21 +24,11 @@ function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, perc
   ) : null
 }
 
-// this.percentGain = exitPrice !== 'pending' ? ((100 * (exitPrice - enterPrice)) / enterPrice).toFixed(1) : 'pending'
-// this.dollarGain = exitPrice !== 'pending' ? ((exitPrice - enterPrice)).toFixed(0) : 'pending'
-// this.valueGain = exitPrice !== 'pending' ? (filledQuantity * (exitPrice - enterPrice)).toFixed(0) : 'pending'
-
-// <span id={'peekinfo'}>
-// {dollarGain < 0 ? '-' : ''} ${this.numberWithCommas(dollarGain)}
-// &nbsp;&nbsp;&nbsp;&nbsp; {dollarGain < 0 ? '-' : ''} {this.percentGain}%{/*&nbsp;&nbsp;&nbsp;&nbsp;  Account: {account}  */}
-// </span>
-
 class ChartDashboard extends Component {
   constructor(props) {
     super(props)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleEdit = this.handleEdit.bind(this)
-    this.dialog
+    this.handleEditDashboardParams = this.handleEditDashboardParams.bind(this)
+    this.dialogDashboardParams
     this.state = {}
   }
 
@@ -49,20 +39,46 @@ class ChartDashboard extends Component {
       let rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
       el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
     }
-    this.dialog = document.getElementById('dialog' + this.hash)
-    dialogPolyfill.registerDialog(this.dialog) // Now dialog acts like a native <dialog>.
-    // dialog.showModal()
+    this.dialogDashboardParams = document.getElementById('dashboard-params' + this.hash)
+    dialogPolyfill.registerDialog(this.dialogDashboardParams) // Now dialog acts like a native <dialog>.
   }
 
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
-  handleChange(event) {
-    this.setState({ value: event.target.value })
+  readEvent(event) {
+    let data = []
+    for (let k = 0; k < event.target.childNodes[3].length; k++) {
+      let text = event.target.childNodes[3][k].outerHTML
+      // Examples of the text recovered from outerHTML:
+      // <input type="text" name="watched" value="9/27/2018"></input>
+      // <input type="text" name="watchedPrice" value="51.28">
+      // <input type="text" name="session" value="NORMAL">
+      let result = /.* name="(.*)" value="(.*)">/.exec(text)
+      if (result === null) {
+        break
+      }
+      let inputJson = '{"name":"' + result[1] + '","value":"' + result[2] + '"}'
+      let obj = JSON.parse(inputJson)
+      data.push(obj)
+    }
+    return data
   }
 
-  handleEdit(event) {
-    this.dialog.showModal()
+  handleEditDashboardParams(event) {
+    this.dialogDashboardParams.showModal()
+    let self = this
+    this.dialogDashboardParams.addEventListener('close', function(event) {
+      if (self.dialogDashboardParams.returnValue === 'yes') {
+        let data = self.readEvent(event)
+        data.map((item) => {
+          let name = item.name
+          let value = item.value
+          self[name] = value
+        })
+        debugger
+      }
+    })
   }
 
   render() {
@@ -95,10 +111,62 @@ class ChartDashboard extends Component {
 
     return (
       <div className="dashboard">
-        <dialog id={'dialog' + this.hash}>
-          I'm a dialog!
+        <dialog id={'dashboard-params' + this.hash} className={'dashboard-edit-form'}>
+          <span className={'dialog-symbol'}> {this.symbol} - Make Your Changes Below.</span>
+          <br />
+          <br />
           <form method="dialog">
-            <input type="submit" value="Close" />
+            <label htmlFor="watched">Watched</label>
+            <input type="text" name="watched" value={this.watched} />
+            <br />
+            <label htmlFor="watchedPrice">WatchedPrice</label>
+            <input type="text" name="watchedPrice" value={this.watchedPrice} />
+            <br />
+            {this.listGroup === 'positions' ? (
+              <span>
+                <label htmlFor="entered">Entered</label>
+                <input type="text" name="entered" value={this.entered} />
+                <br />
+                <label htmlFor="enteredPrice">EnteredPrice</label>
+                <input type="text" name="enteredPrice" value={this.enteredPrice} />
+                <br />
+                <label htmlFor="filledQuantity">FilledQuantity</label>
+                <input type="text" name="filledQuantity" value={this.filledQuantity} />
+                <br />
+              </span>
+            ) : null}
+            <br />
+            <label htmlFor="session">Session</label>
+            <input type="text" name="session" value={this.session} />
+            <br />
+            <label htmlFor="instruction">Instruction</label>
+            <input type="text" name="instruction" value={this.instruction} />
+            <br />
+            <label htmlFor="quantity">Quantity</label>
+            <input type="text" name="quantity" value={this.quantity} />
+            <br />
+            <label htmlFor="quantityType">QuantityType</label>
+            {/* <select>
+              <option />
+              <option>Shares</option>
+              <option>Dollars</option>
+            </select> */}
+            <input type="text" name="quantityType" value={this.quantityType} />
+            <br />
+            <label htmlFor="orderType">OrderType</label>
+            <input type="text" name="orderType" value={this.orderType} />
+            <br />
+            <label htmlFor="duration">Duration</label>
+            <input type="text" name="duration" value={this.duration} />
+            <br />
+            <br />
+            <button type="submit" value="no">
+              Cancel
+            </button>
+            &nbsp; &nbsp; &nbsp; &nbsp;
+            <button type="submit" value="yes">
+              Save
+            </button>
           </form>
         </dialog>
         <div className="dashboard-data">
@@ -114,15 +182,6 @@ class ChartDashboard extends Component {
                 percentGain={this.percentGain}
                 positionValue={this.positionValue}
               />
-
-              {/* {this.peekDate !== undefined && (this.entered !== undefined || this.watched !== undefined) ? (
-                <div>
-                  <span className="watched">
-                    Peek {this.peekDate}
-                    &nbsp;&nbsp; @ {this.peekPrice}
-                  </span>
-                </div>
-              ) : null} */}
 
               <div>
                 <span className="watched">
@@ -142,22 +201,27 @@ class ChartDashboard extends Component {
                     {/* &nbsp;&nbsp; Account {this.account} */}
                   </span>
                 ) : null}
+                {/* <div className={'dialog-button-wrapper'}>
+                  <button onClick={this.handleEditDashboardStatus} className={'button-pencil-image'}>
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC" />
+                  </button>
+                </div> */}
               </div>
             </div>
             <label htmlFor="session">Session</label>
-            <input type="text" name="session" value={this.session} onChange={this.handleChange} />
+            <input readonly type="text" name="session" value={this.session} />
             <label htmlFor="instruction">Instruction</label>
-            <input type="text" name="instruction" value={this.instruction} onChange={this.handleChange} />
+            <input readonly type="text" name="instruction" value={this.instruction} />
             <br />
             <label htmlFor="quantity">Quantity</label>
-            <input type="text" name="quantity" value={this.quantity} onChange={this.handleChange} />
+            <input readonly type="text" name="quantity" value={this.quantity} />
             <label htmlFor="quantityType">QuantityType</label>
-            <input type="text" name="quantityType" value={this.quantityType} onChange={this.handleChange} />
+            <input readonly type="text" name="quantityType" value={this.quantityType} />
             <br />
             <label htmlFor="orderType">OrderType</label>
-            <input type="text" name="orderType" value={this.orderType} onChange={this.handleChange} />
+            <input readonly type="text" name="orderType" value={this.orderType} />
             <label htmlFor="duration">Duration</label>
-            <input type="text" name="duration" value={this.duration} onChange={this.handleChange} />
+            <input readonly type="text" name="duration" value={this.duration} />
           </form>
 
           <div className="dashboard-footer">
@@ -166,9 +230,9 @@ class ChartDashboard extends Component {
                 {this.buttonLabel} {this.symbol}
               </button>
             </div>
-            <span onClick={this.handleEdit} className={'pencil-image'}>
+            <button onClick={this.handleEditDashboardParams} className={'button-pencil-image-absolute'}>
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC" />
-            </span>
+            </button>
           </div>
         </div>
       </div>
