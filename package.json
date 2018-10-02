@@ -14,11 +14,11 @@
     "redux-logger": "^3.0.6"
   },
   "dependencies": {
+    "@firebase/app-types": "0.x",
     "axios": "^0.18.0",
     "base-64": "^0.1.0",
     "bootstrap": "^3.3.7",
     "chain-function": "^1.0.1",
-    "chart.js": "^2.4.0",
     "cheerio": "0.19.x",
     "dialog-polyfill": "^0.4.10",
     "firebase": "^5.3.1",
@@ -28,7 +28,6 @@
     "prop-types": "15.6.0",
     "react": "16.4.1",
     "react-bootstrap": "0.32.0",
-    "react-chartjs-2": "2.6.4",
     "react-dom": "16.4.1",
     "react-notification-system": "0.2.16",
     "react-portal": "^4.0.0",

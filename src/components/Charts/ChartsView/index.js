@@ -27,7 +27,7 @@ class ChartsView extends Component {
     let cells = this.props.chartArray.map((obj, index) => {
       return <Chartcell key={index.toString()} handleClick={this.props.handleClick} cellObject={obj} />
     })
-    // Depending in the initial parent each cell can be
+    // Depending on the initial parent each cell can be
     // a prospect Buy, a prospect ShortSale, a prospect TrendBuy,
     // a Long position, a Short position, or TrendLong position
     return (

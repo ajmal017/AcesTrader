@@ -17,7 +17,6 @@ const UPDATE_DASHBOARD_PEEK_DATA = 'UPDATE_DASHBOARD_PEEK_DATA'
 // this action type is handled in all the reducers except results & modalReducer
 export const updateDashboardPeekData = (peekdataobject) => {
   let date = new Date()
-  // let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}-${date.getHours()}:${date.getMinutes()}`
   let theDate = date.toLocaleString('en-US').toLowerCase()
   return {
     type: UPDATE_DASHBOARD_PEEK_DATA,
