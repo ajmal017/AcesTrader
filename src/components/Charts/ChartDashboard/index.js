@@ -7,19 +7,26 @@ import dialogPolyfill from 'dialog-polyfill'
 import { editDashboardPrarmetersAsync } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 
-function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, positionValue }) {
+function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, daysHere, positionValue }) {
   return peekDate !== undefined && listGroup === 'prospects' ? (
     <div>
       <span id={'prospects' + hash} className="watched">
-        Peek {peekDate} @{peekPrice}, &nbsp;&nbsp; Change:&nbsp; {percentGain}%
+        Peek {peekDate} @{peekPrice}
+        ,&nbsp;&nbsp;Change:&nbsp;
+        {percentGain}
+        %,&nbsp;&nbsp;
+        {daysHere} days
       </span>
     </div>
   ) : peekDate !== undefined && listGroup === 'positions' ? (
     <div>
       <span id={'positions' + hash} className="watched">
         Peek {peekDate} @{peekPrice}
-        ,&nbsp;&nbsp; Change:&nbsp; {percentGain}
-        %,&nbsp;&nbsp; Value:&nbsp; ${positionValue}
+        ,&nbsp;&nbsp;Change:&nbsp;
+        {percentGain}
+        %,&nbsp;&nbsp;
+        {daysHere} days,&nbsp;&nbsp; Value:&nbsp;$
+        {positionValue}
       </span>
     </div>
   ) : null
@@ -73,31 +80,11 @@ class ChartDashboard extends Component {
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
-  readEvent(event) {
-    let data = []
-    for (let k = 0; k < event.target.childNodes[3].length; k++) {
-      let text = event.target.childNodes[3][k].outerHTML
-      // Examples of the text recovered from outerHTML:
-      // <input type="text" name="watched" value="9/27/2018"></input>
-      // <input type="text" name="watchedPrice" value="51.28">
-      // <input type="text" name="session" value="NORMAL">
-      let result = /.* name="(.*)" value="(.*)">/.exec(text)
-      if (result === null) {
-        break
-      }
-      let inputJson = '{"name":"' + result[1] + '","value":"' + result[2] + '"}'
-      let obj = JSON.parse(inputJson)
-      data.push(obj)
-    }
-    return data
-  }
-
   handleEditDashboardParams(event) {
     this.dialogDashboardParams.showModal()
     let self = this
     this.dialogDashboardParams.addEventListener('close', function(event) {
       if (self.dialogDashboardParams.returnValue === 'yes') {
-        // let parameterData = self.readEvent(event) //------------------------------------------
         let parameterData = self.state
         // the parameterData is an object with key/value pairs for each form field: {name: value, name: value, ...}
         self.props.dispatch(editDashboardPrarmetersAsync(self.hash, parameterData))
@@ -141,6 +128,11 @@ class ChartDashboard extends Component {
     this.dollarGain = this.peekDate !== undefined ? (this.peekPrice - startPrice).toFixed(2) : 'pending'
     this.percentGain = this.peekDate !== undefined ? ((100 * (this.peekPrice - startPrice)) / startPrice).toFixed(1) : 'pending'
     this.positionValue = this.peekDate !== undefined ? this.numberWithCommas((this.filledQuantity * this.peekPrice).toFixed(0)) : 'pending'
+
+    const startDate = this.listGroup === 'positions' ? new Date(this.entered) : new Date(this.watched)
+    const endDate = new Date(this.peekDate)
+    const timeDiff = endDate - startDate
+    this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24))) - 1
 
     return (
       <div className="dashboard">
@@ -208,6 +200,7 @@ class ChartDashboard extends Component {
                 peekPrice={this.peekPrice}
                 dollarGain={this.dollarGain}
                 percentGain={this.percentGain}
+                daysHere={this.daysHere}
                 positionValue={this.positionValue}
               />
 
