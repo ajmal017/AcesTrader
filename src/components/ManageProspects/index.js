@@ -112,7 +112,7 @@ class ManageProspects extends Component {
       })
 
       // remove any duplicates in this input array
-      let prunedTokens = cleanedTokens.filter((element, index) => cleanedTokens.indexOf(element) == index)
+      let prunedTokens = cleanedTokens.filter((element, index) => cleanedTokens.indexOf(element) === index)
       // console.log(prunedTokens)
 
       let prospectsArray
