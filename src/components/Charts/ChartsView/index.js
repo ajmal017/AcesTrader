@@ -35,8 +35,18 @@ class ChartsView extends Component {
         <div id="charts-host" className="charts-host">
           {cells}
         </div>
-        &nbsp;&nbsp;
-        <a href="https://icons8.com">Pencil Icon by Icons8</a>
+
+        <div className="footnote">
+          <span>
+            Copyright &copy; 2018{' '}
+            <a href={process.env.PUBLIC_URL + '/bm.html'} target="_blank" rel=" noopener noreferrer">
+              Bruce Martin
+            </a>
+          </span>
+          <span>
+            <a href="https://icons8.com">Pencil Icon by Icons8</a>
+          </span>
+        </div>
       </div>
     )
   }

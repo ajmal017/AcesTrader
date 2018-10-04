@@ -72,7 +72,11 @@ class Chartcell extends Component {
       })
       .catch(function(error) {
         console.log('getChartData axios error:', error.message)
-        alert('getChartData axios error: ' + error.message) //rude interruption to user
+        // Rare occasional error.message seen: "undefined is not an object (evaluating 'e.axes') ".
+        // so we are replacing the alert() with the setState() to allow the program to continue.
+        // Retrying may work, but not tested yet.
+        self.setState({ data: true, noprices: true, hide: false })
+        // alert('getChartData axios error: ' + error.message) //rude interruption to user
       })
   }
 
