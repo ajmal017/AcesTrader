@@ -27,12 +27,26 @@ class ChartsView extends Component {
     let cells = this.props.chartArray.map((obj, index) => {
       return <Chartcell key={index.toString()} handleClick={this.props.handleClick} cellObject={obj} />
     })
-    // Depending in the initial parent each cell can be
+    // Depending on the initial parent each cell can be
     // a prospect Buy, a prospect ShortSale, a prospect TrendBuy,
     // a Long position, a Short position, or TrendLong position
     return (
-      <div id="charts-host" className="charts-host">
-        {cells}
+      <div>
+        <div id="charts-host" className="charts-host">
+          {cells}
+        </div>
+
+        <div className="footnote">
+          <span>
+            Copyright &copy; 2018{' '}
+            <a href={process.env.PUBLIC_URL + '/bm.html'} target="_blank" rel=" noopener noreferrer">
+              Bruce Martin
+            </a>
+          </span>
+          <span>
+            <a href="https://icons8.com">Pencil Icon by Icons8</a>
+          </span>
+        </div>
       </div>
     )
   }

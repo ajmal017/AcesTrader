@@ -17,6 +17,7 @@ class Peek extends Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0, 0)
     this.containerDiv = document.querySelector('.stocks-container')
     this.updatedDiv = document.querySelector('.updated-timestamp')
     this.setState({ mounted: true })
