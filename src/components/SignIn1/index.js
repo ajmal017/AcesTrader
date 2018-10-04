@@ -30,8 +30,8 @@ class SignInContainer extends Component {
     this.setState({ [key]: value })
   }
 
-  // signin the Demo user so that authenticated=true is set allowing access to all nav links
-  // the Reference=referenceLocaltrader constrains the Demo user to IEX api and local storage
+  // signin the Guest user so that authenticated=true is set allowing access to all nav links
+  // the Reference=referenceLocaltrader constrains the Guest user to IEX api and local storage
   handleSignIn = async (event) => {
     event.preventDefault()
     let emailValue, passwordValue
@@ -52,8 +52,8 @@ class SignInContainer extends Component {
     }
   }
 
-  // signin the Demo user so that authenticated=true is set allowing access to all nav links
-  // the Reference=referenceLocaltrader constrains the Demo user to IEX api and local storage
+  // signin the Guest user so that authenticated=true is set allowing access to all nav links
+  // the Reference=referenceLocaltrader constrains the Guest user to IEX api and local storage
   handleDemoMode = async (event) => {
     event.preventDefault()
     putReference(referenceLocaltrader)

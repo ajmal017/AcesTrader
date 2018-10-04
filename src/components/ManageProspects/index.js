@@ -110,6 +110,11 @@ class ManageProspects extends Component {
       let cleanedTokens = cleanedInput.map((token) => {
         return token.replace(/\W*/g, '').toUpperCase()
       })
+
+      // remove any duplicates in this input array
+      let prunedTokens = cleanedTokens.filter((element, index) => cleanedTokens.indexOf(element) == index)
+      // console.log(prunedTokens)
+
       let prospectsArray
       let positionsArray
       if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
@@ -126,7 +131,7 @@ class ManageProspects extends Component {
         // debugger
       }
       // Note: positionsArray not longer scanned for dups, as they are allowed with hash tags for ID instead of symbol
-      verifiedList = this.verifyList(cleanedTokens.sort(), prospectsArray, positionsArray)
+      verifiedList = this.verifyList(prunedTokens.sort(), prospectsArray, positionsArray)
       if (verifiedList.length === 0) {
         this.textAreaBox.value = '**No New Symbols In The List, All These Are Already Entered**'
       } else {
@@ -278,7 +283,7 @@ class ManageProspects extends Component {
               <p>
                 This form takes one or more symbols to be added to the {this.tradeSide} prospect list.
                 <br />
-                Enter the symbols and press the Submit button to verify the entries.
+                Enter the symbols and click the Verfy button to verify the entries.
               </p>
               <label htmlFor="pname">Enter prospective {title.toLowerCase()}:</label>
               <input type="text" id="pname" value={this.state.value} onChange={this.handleChange} />
@@ -289,7 +294,7 @@ class ManageProspects extends Component {
                 The remaining new symbols shown are added to the {this.tradeSide} list when you click Accept.
               </p>
               <label id="textareacaption" htmlFor="syms">
-                Add these prospective {title.toLowerCase()}?
+                Add these new prospective {title.toLowerCase()}?
               </label>
               <textarea id="syms" readOnly={true} />
               <div className="buttons">
