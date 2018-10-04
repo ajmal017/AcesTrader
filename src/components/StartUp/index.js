@@ -33,7 +33,7 @@ class StartUp extends Component {
     this.reference = getReference() //indicates which storage to use for app's state based on user's role
 
     if (this.reference === referenceLocaltrader) {
-      /* DEMO MODE USER WITH LOCAL STORAGE */
+      /* GUEST MODE USER WITH LOCAL STORAGE */
       persistedState = loadLocalState() //returns (undefined) if error or no saved state
       // this.props.dispatch(resetPersistedState( persistedState))
       this.props.dispatch({ type: 'RESET_PERSISTED_STATE', persistedState: persistedState })
