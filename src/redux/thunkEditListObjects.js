@@ -7,6 +7,7 @@ var cloneDeep = require('lodash.clonedeep')
 export const REPLACE_RESULTS_OBJECT = 'REPLACE_RESULTS_OBJECT'
 export const REPLACE_POSITION_OBJECT = 'REPLACE_POSITION_OBJECT'
 export const REPLACE_PROSPECT_OBJECT = 'REPLACE_PROSPECT_OBJECT'
+export const REPLACE_EDITED_OBJECT = 'REPLACE_EDITED_OBJECT'
 
 export const addExitPriceAsync = (hash) => {
   return (dispatch, getState) => {
@@ -40,7 +41,7 @@ function replaceTradeObject(theObject) {
     theObject: theObject,
   }
 }
-//AddQuantity
+//AddQuantity by calculation using the entered price
 export const addEnterPriceAsync = (hash) => {
   return (dispatch, getState) => {
     let ourState = getState() //to  search the 3 positions lists
@@ -119,6 +120,38 @@ export const addWatchPriceAsync = (tradeSide) => {
 function replaceProspectObject(theObject) {
   return {
     type: REPLACE_PROSPECT_OBJECT,
+    theObject: theObject,
+  }
+}
+
+export const editDashboardPrarmetersAsync = (hash, parameterData) => {
+  return (dispatch, getState) => {
+    let ourState = getState() //to  search the list for the target object
+    let foundObject = ourState.longs.find((obj) => obj.hash === hash)
+    if (!foundObject) foundObject = ourState.shorts.find((obj) => obj.hash === hash)
+    if (!foundObject) foundObject = ourState.trendlongs.find((obj) => obj.hash === hash)
+    if (!foundObject) foundObject = ourState.buys.find((obj) => obj.hash === hash)
+    if (!foundObject) foundObject = ourState.sells.find((obj) => obj.hash === hash)
+    if (!foundObject) foundObject = ourState.trendbuys.find((obj) => obj.hash === hash)
+    if (!foundObject) {
+      alert('No foundObject in "editDashboardPrarmetersAsync"')
+      debugger //stop for developer
+    }
+    let newObject = cloneDeep(foundObject)
+    // the parameterData is an object with key/value pairs for each form field: {name: value, name: value, ...}
+    for (let key in parameterData) {
+      if (key === 'watched' || key === 'watchedPrice' || key === 'entered' || key === 'enteredPrice' || key === 'filledQuantity') {
+        newObject[key] = parameterData[key]
+      } else {
+        newObject.dashboard[key] = parameterData[key]
+      }
+    }
+    dispatch(replaceEditedObject(newObject))
+  }
+}
+function replaceEditedObject(theObject) {
+  return {
+    type: REPLACE_EDITED_OBJECT,
     theObject: theObject,
   }
 }

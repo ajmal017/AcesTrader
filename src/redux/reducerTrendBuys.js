@@ -7,7 +7,7 @@ import defaultTrendEntry from '../json/defaultTrendEntry.json'
 import reduceTargetState from './reduceTargetState.js'
 import reduceInsertedObject from './reduceInsertedObject.js'
 import reducePeekData from './reducePeekData'
-import { REPLACE_PROSPECT_OBJECT } from './thunkEditListObjects.js'
+import { REPLACE_PROSPECT_OBJECT, REPLACE_EDITED_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
 const UPDATE_DASHBOARD_PEEK_DATA = 'UPDATE_DASHBOARD_PEEK_DATA'
@@ -73,6 +73,16 @@ export default function trendbuysReducer(state = defaultTrendBuys, action) {
       return newState
     }
     case REPLACE_PROSPECT_OBJECT: {
+      let hash = action.theObject.hash
+      let foundObject = state.find((obj) => obj.hash === hash)
+      if (!foundObject) {
+        return state //target object is not in this list
+      }
+      let prunedState = state.filter((obj) => obj.hash !== hash) //remove the old object versiom
+      let newState = reduceInsertedObject(prunedState, action.theObject) //replace with new version
+      return newState
+    }
+    case REPLACE_EDITED_OBJECT: {
       let hash = action.theObject.hash
       let foundObject = state.find((obj) => obj.hash === hash)
       if (!foundObject) {
