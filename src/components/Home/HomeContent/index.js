@@ -8,7 +8,7 @@ const HomeContent = function() {
       <p>
         <i>
           The AcesTrader program is hobby project by a retired coder, created as an experiment in an easily managed system for end-of-day trading of stocks and ETFs using the API
-          interface of TDAmeritrade's services.
+          interface of TDAmeritrade's services. The program is still in development and is currently in a Beta state.
         </i>
       </p>
       <br />
@@ -85,21 +85,26 @@ const HomeContent = function() {
 
       <h4>PLACING ORDERS</h4>
       <p>
-        Orders to enter or exit a position are placed by manual operation from the user. The program tries to make this manual procedure as frictionless as possible. Pressing an
-        order button will present a form prefilled with default order instructions and a submit button. The user can submit as is, or customize before submitting. Users can always
-        place stop-loss orders or use profit-taking orders through the interface of TDAmeritrade's services.
+        Orders to enter or exit a position are placed by manual operation from the user. The program tries to make this manual procedure as frictionless as possible.{' '}
+        <b>
+          <i>
+            At this time, orders are placed using the default parameters as shown in the dashboard. Work is in progress to enable the user to edit these default parameters. This
+            will allow the user to customize the order before submitting.
+          </i>
+        </b>{' '}
+        Users can always bypass this program and place orders directly using TDAmeritrade's services.
       </p>
 
       <h4>USING THE PROGRAM</h4>
       <p>
         Establish a watch list of potential trade securities in the three groups and check them periodically for signals according to your trading scheme. After you have
         established positions, check these charts to determine when to close a position following your trading approach. Completed trades are listed chronologically in the Trades
-        menu.
+        menu. Be aware that the daily charts will not show the correct end-of-day price until after midnight, due to the after-market trading that occurs.
       </p>
       <p>
-        Be aware that the daily charts will not show the correct end-of-day price until after midnight, due to the after-market trading that occurs. But you can click the More/Peek
-        menu any time to see a color coded list showing a snapshot of the last price for all your securities. These prices are used in the dashboard display of your charts to show
-        the last price when you peeked and the difference from the price when you watched or when you entered a position.
+        But you can click the More/Peek menu any time to see a color coded list showing a snapshot of the day's action including the last price for all your securities. After you
+        click here, these current prices are carried over to the dashboard display of your charts to show the last price when you peeked and the difference from the price when you
+        watched or when you entered a position. This information is also color coded according to the price difference.
       </p>
       <h4>USING THE GUEST MODE</h4>
       <p>
