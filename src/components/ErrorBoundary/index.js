@@ -10,13 +10,20 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, info) {
     this.setState({ hasError: true })
-    console.log(`Error ${error} 
+    if (typeof info === 'object') {
+      const myJSON = JSON.stringify(info)
+      console.log(`Error ${error} 
+      Info ${myJSON}`)
+      alert(`Please take screen shot and email to support@martinapps.com
+      Error ${error} 
+      Info ${myJSON}`)
+    } else {
+      console.log(`Error ${error} 
         Info ${info}`)
-
-    // alert error to iPad screen
-    alert(`Error ${error} 
-        Info ${info}
-        Please take screen shot and email to support@martinapps.com`)
+      alert(`Please take screen shot and email to support@martinapps.com
+        Error ${error} 
+        Info ${info}`)
+    }
     // // You can also log the error to an error reporting service
     // logErrorToMyService(error, info);
   }
