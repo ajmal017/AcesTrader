@@ -1,49 +1,31 @@
+// ErrorBoundary/index.js
+
 import React, { Component } from 'react'
 
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
-    this.state = { error: null, errorInfo: null }
+    this.state = {
+      hasError: false,
+    }
   }
 
-  componentDidCatch(error, errorInfo) {
-    this.setState({
-      error: error,
-      errorInfo: errorInfo,
-    })
-    alert(`Please take screen shot and email to support@martinapps.com
-    this.state.error.toString()
-    this.state.errorInfo.componentStack`)
+  componentDidCatch(error, info) {
+    this.setState({ hasError: true })
+    console.log(`Error ${error} 
+        Info ${info}`)
 
-    // if (typeof info === 'object') {
-    //   const myJSON = JSON.stringify(info)
-    //   console.log(`Error ${error}
-    //   Info ${myJSON}`)
-    //   alert(`Please take screen shot and email to support@martinapps.com
-    //   Error ${error}
-    //   Info ${myJSON}`)
-    // } else {
-    //   alert(`Please take screen shot and email to support@martinapps.com
-    //   this.state.error.toString()
-    //   this.state.errorInfo.componentStack`)
-    // }
-
+    // alert error to iPad screen
+    alert(`Error ${error} 
+        Info ${info}
+        Please take screen shot and email to support@martinapps.com`)
     // // You can also log the error to an error reporting service
     // logErrorToMyService(error, info);
   }
 
   render() {
-    if (this.state.errorInfo) {
-      return (
-        <div>
-          <h2>Something went wrong.</h2>
-          <details style={{ whiteSpace: 'pre-wrap' }}>
-            {this.state.error && this.state.error.toString()}
-            <br />
-            {this.state.errorInfo.componentStack}
-          </details>
-        </div>
-      )
+    if (this.state.hasError) {
+      return <h1>Uh oh! Something went wrong.</h1>
     }
     return this.props.children
   }

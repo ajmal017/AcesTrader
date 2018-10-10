@@ -186,7 +186,7 @@ class CandleStickChartWithMA extends React.Component {
           <YAxis axisAt="left" orient="left" ticks={3} tickFormat={format('.2s')} />
 
           <MouseCoordinateX at="bottom" orient="bottom" displayFormat={timeFormat('%Y-%m-%d')} />
-          {/* <MouseCoordinateY at="left" orient="left" displayFormat={format('.4s')} /> */}
+          {/* *ALWAYS COMMENTED OUT* <MouseCoordinateY at="left" orient="left" displayFormat={format('.4s')} /> */}
 
           <BarSeries yAccessor={(d) => d.volume} fill={(d) => (d.close > d.open ? '#6BA583' : 'red')} />
           {/* <AreaSeries yAccessor={smaVolume50.accessor()} stroke={smaVolume50.stroke()} fill={smaVolume50.fill()} /> */}
