@@ -79,14 +79,14 @@ class App extends Component {
       )
     }
 
-    // remove ErrorBoundary in effort to fix random crash in iOS
-    return <Root store={store} authenticated={authenticated} />
+    // // remove ErrorBoundary in effort to fix random crash in iOS
+    // return <Root store={store} authenticated={authenticated} />
 
-    // return (
-    //   <ErrorBoundary>
-    //     <Root store={store} authenticated={authenticated} /> {/* shows Navbar */}
-    //   </ErrorBoundary>
-    // )
+    return (
+      <ErrorBoundary>
+        <Root store={store} authenticated={authenticated} /> {/* shows Navbar */}
+      </ErrorBoundary>
+    )
   }
 }
 
