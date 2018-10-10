@@ -7,26 +7,17 @@ import dialogPolyfill from 'dialog-polyfill'
 import { editDashboardPrarmetersAsync } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 
-function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, daysHere, positionValue }) {
-  return peekDate !== undefined && listGroup === 'prospects' ? (
-    <div>
-      <span id={'prospects' + hash} className="watched">
-        Peek {peekDate} @{peekPrice}
-        ,&nbsp;&nbsp;Change:&nbsp;
-        {percentGain}
-        %,&nbsp;&nbsp;
-        {daysHere} days
-      </span>
-    </div>
-  ) : peekDate !== undefined && listGroup === 'positions' ? (
-    <div>
+function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, daysHere, positionValue, rgbaValue }) {
+  let thePositionValue = listGroup === 'positions' ? `, Value: ${positionValue}` : null
+  return peekDate !== undefined ? (
+    <div style={{ backgroundColor: 'rgba(' + rgbaValue + ')' }}>
       <span id={'positions' + hash} className="watched">
         Peek {peekDate} @{peekPrice}
         ,&nbsp;&nbsp;Change:&nbsp;
         {percentGain}
         %,&nbsp;&nbsp;
-        {daysHere} days,&nbsp;&nbsp; Value:&nbsp;$
-        {positionValue}
+        {daysHere} days
+        {thePositionValue}
       </span>
     </div>
   ) : null
@@ -39,27 +30,21 @@ class ChartDashboard extends Component {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.dialogDashboardParams = null
     this.state = {
-      watched: this.watched,
-      watchedPrice: this.watchedPrice,
-      entered: this.entered,
-      enteredPrice: this.enteredPrice,
-      filledQuantity: this.filledQuantity,
-      session: this.session,
-      instruction: this.instruction,
-      quantity: this.quantity,
-      quantityType: this.quantityType,
-      orderType: this.orderType,
-      duration: this.duration,
+      // watched: this.watched,
+      // watchedPrice: this.watchedPrice,
+      // entered: this.entered,
+      // enteredPrice: this.enteredPrice,
+      // filledQuantity: this.filledQuantity,
+      // session: this.session,
+      // instruction: this.instruction,
+      // quantity: this.quantity,
+      // quantityType: this.quantityType,
+      // orderType: this.orderType,
+      // duration: this.duration,
     }
   }
 
   componentDidMount() {
-    let el = document.getElementById(this.listGroup + this.hash)
-    if (el !== null) {
-      let rgbColor = this.percentGain > 0 ? '0,255,0' : '255,107,107'
-      let rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
-      el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
-    }
     this.dialogDashboardParams = document.getElementById('dashboard-params' + this.hash)
     dialogPolyfill.registerDialog(this.dialogDashboardParams) // Now dialog acts like a native <dialog>.
     this.setState({
@@ -77,6 +62,15 @@ class ChartDashboard extends Component {
     })
   }
 
+  handleInputChange(event) {
+    const target = event.target
+    const name = target.name
+    const value = target.value
+    this.setState({
+      [name]: value,
+    })
+  }
+
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
@@ -89,15 +83,6 @@ class ChartDashboard extends Component {
         // the parameterData is an object with key/value pairs for each form field: {name: value, name: value, ...}
         self.props.dispatch(editDashboardPrarmetersAsync(self.hash, parameterData))
       }
-    })
-  }
-
-  handleInputChange(event) {
-    const target = event.target
-    const name = target.name
-    const value = target.value
-    this.setState({
-      [name]: value,
     })
   }
 
@@ -128,6 +113,10 @@ class ChartDashboard extends Component {
     this.dollarGain = this.peekDate !== undefined ? (this.peekPrice - startPrice).toFixed(2) : 'pending'
     this.percentGain = this.peekDate !== undefined ? ((100 * (this.peekPrice - startPrice)) / startPrice).toFixed(1) : 'pending'
     this.positionValue = this.peekDate !== undefined ? this.numberWithCommas((this.filledQuantity * this.peekPrice).toFixed(0)) : 'pending'
+
+    this.rgbColor = this.percentGain > 0 ? '0,255,0' : '255,107,107'
+    this.rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
+    this.rgbaValue = this.rgbColor + ',' + this.rgbOpacity
 
     const startDate = this.listGroup === 'positions' ? new Date(this.entered) : new Date(this.watched)
     const endDate = new Date(this.peekDate)
@@ -202,6 +191,9 @@ class ChartDashboard extends Component {
                 percentGain={this.percentGain}
                 daysHere={this.daysHere}
                 positionValue={this.positionValue}
+                rgbaValue={this.rgbaValue}
+                // rgbColor={this.rgbColor}
+                // rgbOpacity={this.rgbOpacity}
               />
 
               <div>

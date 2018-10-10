@@ -5,7 +5,7 @@ import { applyMiddleware, createStore } from 'redux'
 import { firebaseSaveState } from '../../lib/firebaseSaveState'
 import thunk from 'redux-thunk'
 import rootReducer from '../../redux'
-// import ErrorBoundary from '../../components/ErrorBoundary/'
+import ErrorBoundary from '../../components/ErrorBoundary/'
 import Root from '../../components/Root'
 import fire from '../../fire'
 import firebase from 'firebase/app'
@@ -78,9 +78,6 @@ class App extends Component {
         </div>
       )
     }
-
-    // // remove ErrorBoundary in effort to fix random crash in iOS
-    // return <Root store={store} authenticated={authenticated} />
 
     return (
       <ErrorBoundary>
