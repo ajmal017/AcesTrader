@@ -6445,9 +6445,9 @@ react-sizes@1.0.0:
     lodash.throttle "^4.1.1"
     prop-types "^15.6.0"
 
-react-stockcharts@^0.7.6:
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/react-stockcharts/-/react-stockcharts-0.7.6.tgz#8ef84505e182f00d7276f000dc74e134d9b58dac"
+react-stockcharts@^0.7.8:
+  version "0.7.8"
+  resolved "https://registry.yarnpkg.com/react-stockcharts/-/react-stockcharts-0.7.8.tgz#d127a113479835be1a0ef7c37e5b5808740b9803"
   dependencies:
     d3-array "^1.2.1"
     d3-collection "^1.0.4"
@@ -6463,7 +6463,7 @@ react-stockcharts@^0.7.6:
     debug "^3.1.0"
     lodash.flattendeep "^4.4.0"
     prop-types "^15.6.0"
-    save-svg-as-png "^1.2.0"
+    save-svg-as-png "^1.4.5"
 
 react-test-renderer@16.0.0:
   version "16.0.0"
@@ -6957,9 +6957,9 @@ sane@~1.6.0:
     walker "~1.0.5"
     watch "~0.10.0"
 
-save-svg-as-png@^1.2.0:
-  version "1.4.5"
-  resolved "https://registry.yarnpkg.com/save-svg-as-png/-/save-svg-as-png-1.4.5.tgz#44e1e4d9280a62ee80cf17ecc0149e434f4b50c8"
+save-svg-as-png@^1.4.5:
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/save-svg-as-png/-/save-svg-as-png-1.4.6.tgz#8c66dc0a418ae7574ca9783066303781ede47f4d"
 
 sax@^1.2.1, sax@^1.2.4, sax@~1.2.1:
   version "1.2.4"

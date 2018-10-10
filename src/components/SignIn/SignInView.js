@@ -7,7 +7,7 @@ import './styles.css'
 const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, reference }) => {
   return (
     <div>
-      0.1.3
+      0.1.13
       <span className={'header'}>
         <h1>Log In</h1>
       </span>

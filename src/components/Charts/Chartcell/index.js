@@ -8,6 +8,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import ErrorBoundaryChart from '../../../components/ErrorBoundaryChart/'
 import { removeBuyFromList } from '../../../redux/reducerBuys'
 import { removeSellFromList } from '../../../redux/reducerSells'
 import { removeTrendBuyFromList } from '../../../redux/reducerTrendBuys'
@@ -262,7 +263,13 @@ class Chartcell extends Component {
                 <h4>{`No Prices Available For ${chart_name}.`}</h4>
               </div>
             ) : (
-              <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} />
+              <ErrorBoundaryChart>
+                {/* Catch the random timing error here, but don't abort. Continue on (with possible bad chart?!) */}
+                {/* The two errors I've seen have been: 1. undefined is not an object (evaluating 'e.axes') */}
+                {/* and 2. undefined is not an object (evaluating 'e.mouseCoord'). */}
+                {/* Both have come from deep within CandleStickChartWithMA, but I've not found any relavent instructions there. */}
+                <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} />
+              </ErrorBoundaryChart>
             )}
           </div>
           <div className="dashboard-center">
