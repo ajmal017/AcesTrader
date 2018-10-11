@@ -2,7 +2,7 @@
 
 // Experimental - Special ErrorBoundary component to ignore error from within CandleStickChartWithMA
 
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 class ErrorBoundaryChart extends Component {
   constructor(props) {
