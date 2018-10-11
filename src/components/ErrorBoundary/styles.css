@@ -1,0 +1,11 @@
+/* ErrorBoundary/styles.css */
+
+.errorboundary-wrapper {
+  display: grid;
+  /* grid-template-rows: 30px auto; */
+  grid-template-columns: auto 500px auto;
+  grid-template-areas: 'left center right';
+}
+.errorboundary-content {
+  grid-area: center;
+}
