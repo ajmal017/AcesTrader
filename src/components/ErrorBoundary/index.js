@@ -45,6 +45,7 @@ class ErrorBoundary extends Component {
           <div className={'errorboundary-content'}>
             <h2>Something went wrong.</h2>
             <h5>Please take a screen shot and email to support@martinapps.com</h5>
+            <p>You can click the back arrow for a fresh start.</p>
             <h4>{this.state.error && this.state.error.toString()}</h4>
             <p>{this.state.errorInfo.componentStack}</p>
           </div>

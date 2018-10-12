@@ -2,7 +2,7 @@
 
 // Experimental - Special ErrorBoundary component to ignore error from within CandleStickChartWithMA
 
-import { Component } from 'react'
+import React, { Component } from 'react'
 
 class ErrorBoundaryChart extends Component {
   constructor(props) {
@@ -22,6 +22,21 @@ class ErrorBoundaryChart extends Component {
   }
 
   render() {
+    if (this.state.errorInfo) {
+      return (
+        <div>
+          <h2>Something went wrong.</h2>
+          <p>{this.state.error && this.state.error.toString()}</p>
+          <p>Please take screen shot and email to support@martinapps.com</p>
+          <p>You can click the back arrow for a fresh start.</p>
+          {/* <details style={{ whiteSpace: 'pre-wrap' }}>
+            {this.state.error && this.state.error.toString()}
+            <br />
+            {this.state.errorInfo.componentStack}
+          </details> */}
+        </div>
+      )
+    }
     // never abort, always continue regardless of the error
     return this.props.children
   }
