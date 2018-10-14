@@ -10,6 +10,7 @@ import './styles.css'
 
 class ChartsView extends Component {
   componentDidMount() {
+    // throw new Error('An error has occured in Buggy ChartsView component!')
     window.scrollTo(0, 0)
     // each time More/Peek is clicked, the peekPricesObject is created
     // the newly available prices are then used to update the dashboards,
@@ -25,7 +26,7 @@ class ChartsView extends Component {
   render() {
     // Create an array of Chartcells, one for each chart's graph & dashboard
     let cells = this.props.chartArray.map((obj, index) => {
-      return <Chartcell key={index.toString()} handleClick={this.props.handleClick} cellObject={obj} />
+      return <Chartcell key={index.toString()} handleClick={this.props.handleClick} cellObject={obj} errorCount={index} />
     })
     // Depending on the initial parent each cell can be
     // a prospect Buy, a prospect ShortSale, a prospect TrendBuy,

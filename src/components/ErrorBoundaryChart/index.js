@@ -3,6 +3,8 @@
 // Experimental - Special ErrorBoundary component to ignore error from within CandleStickChartWithMA
 
 import React, { Component } from 'react'
+import * as Sentry from '@sentry/browser'
+import './styles.css'
 
 class ErrorBoundaryChart extends Component {
   constructor(props) {
@@ -15,30 +17,31 @@ class ErrorBoundaryChart extends Component {
       error: error,
       errorInfo: errorInfo,
     })
-    // alert('An error happened in the charting program\nbut we are not interrupting the program.\nYou may refresh the page to get a fresh start.')
-
-    // // You can also log the error to an error reporting service
-    // logErrorToMyService(error, info);
+    Sentry.configureScope((scope) => {
+      Object.keys(errorInfo).forEach((key) => {
+        scope.setExtra(key, errorInfo[key])
+      })
+    })
+    Sentry.captureException(error)
+    // Sentry.showReportDialog()
   }
 
   render() {
-    if (this.state.errorInfo) {
+    if (this.state.error) {
       return (
-        <div>
-          <h2>Something went wrong.</h2>
-          <p>{this.state.error && this.state.error.toString()}</p>
-          <p>Please take screen shot and email to support@martinapps.com</p>
-          <p>You can click the back arrow for a fresh start.</p>
-          {/* <details style={{ whiteSpace: 'pre-wrap' }}>
-            {this.state.error && this.state.error.toString()}
-            <br />
-            {this.state.errorInfo.componentStack}
-          </details> */}
+        <div className="errorboundary-wrapper">
+          <div className="errorboundary-content">
+            <h2>Something went wrong drawing your chart.</h2>
+            <a onClick={() => Sentry.showReportDialog()}> Please click here to send feedback</a>
+            <h4>Click the back arrow for a retry.</h4>
+            <h4>Or refresh the page to restart.</h4>
+          </div>
         </div>
       )
     }
-    // never abort, always continue regardless of the error
+    //when there's not an error, render children untouched
     return this.props.children
   }
 }
+
 export default ErrorBoundaryChart

@@ -10,6 +10,7 @@ import Root from '../../components/Root'
 import fire from '../../fire'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import * as Sentry from '@sentry/browser'
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +19,8 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // Showing configuration for martinapps / acestrader
+    Sentry.init({ dsn: 'https://e5464524db8f4d1791a5637c098e78e4@sentry.io/1300553' })
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({

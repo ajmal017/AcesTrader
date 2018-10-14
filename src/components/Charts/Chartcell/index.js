@@ -238,7 +238,7 @@ class Chartcell extends Component {
 
     // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the corrent data for the new current symbol
-    this.data = cloneDeep(getPriceData(this.props.cellObject.symbol))
+    this.data = getPriceData(this.props.cellObject.symbol)
 
     return (
       <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
@@ -265,10 +265,13 @@ class Chartcell extends Component {
             ) : (
               <ErrorBoundaryChart>
                 {/* Catch the random timing error here, but don't abort. Continue on (with possible bad chart?!) */}
-                {/* The two errors I've seen have been: 1. undefined is not an object (evaluating 'e.axes') */}
-                {/* and 2. undefined is not an object (evaluating 'e.mouseCoord'). */}
-                {/* Both have come from deep within CandleStickChartWithMA, but I've not found any relavent instructions there. */}
-                <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} />
+                {/* The three errors I've seen have been:  */}
+                {/* 1. undefined is not an object (evaluating 'e.axes') */}
+                {/* 2. undefined is not an object (evaluating 'e.mouseCoord'). */}
+                {/* 3. undefined is not an object (evaluating 'contexts.mouseCoord'), from GenericComponent. */}
+                {/* All have come from deep within CandleStickChartWithMA, */}
+                {/* but I've not found any relavent instructions there, except for #3. */}
+                <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
               </ErrorBoundaryChart>
             )}
           </div>
