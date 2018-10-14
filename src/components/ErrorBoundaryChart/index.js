@@ -17,13 +17,13 @@ class ErrorBoundaryChart extends Component {
       error: error,
       errorInfo: errorInfo,
     })
-    Sentry.configureScope((scope) => {
-      Object.keys(errorInfo).forEach((key) => {
-        scope.setExtra(key, errorInfo[key])
-      })
-    })
-    Sentry.captureException(error)
-    // Sentry.showReportDialog()
+    // Sentry.configureScope((scope) => {
+    //   Object.keys(errorInfo).forEach((key) => {
+    //     scope.setExtra(key, errorInfo[key])
+    //   })
+    // })
+    // Sentry.captureException(error)
+    // // Sentry.showReportDialog()
   }
 
   render() {
@@ -32,7 +32,7 @@ class ErrorBoundaryChart extends Component {
         <div className="errorboundary-wrapper">
           <div className="errorboundary-content">
             <h2>Something went wrong drawing your chart.</h2>
-            <a onClick={() => Sentry.showReportDialog()}> Please click here to send feedback</a>
+            {/* <a onClick={() => Sentry.showReportDialog()}> Please click here to send feedback</a> */}
             <h4>Click the back arrow for a retry.</h4>
             <h4>Or refresh the page to restart.</h4>
           </div>
