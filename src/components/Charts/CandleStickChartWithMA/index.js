@@ -21,6 +21,7 @@ class CandleStickChartWithMA extends React.Component {
   constructor(props) {
     super(props)
   }
+
   // componentDidMount() {
   //   // for testing the Sentry ErrorBoundary logic, just throw one error
   //   // errorCount is set by ChartsView as a prop for each generated Chartcell and is passed on to here
