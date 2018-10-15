@@ -17,13 +17,13 @@ class ErrorBoundaryChart extends Component {
       error: error,
       errorInfo: errorInfo,
     })
-    // Sentry.configureScope((scope) => {
-    //   Object.keys(errorInfo).forEach((key) => {
-    //     scope.setExtra(key, errorInfo[key])
-    //   })
-    // })
-    // Sentry.captureException(error)
-    // // Sentry.showReportDialog()
+    Sentry.configureScope((scope) => {
+      Object.keys(errorInfo).forEach((key) => {
+        scope.setExtra(key, errorInfo[key])
+      })
+    })
+    Sentry.captureException(error)
+    // Sentry.showReportDialog()
   }
 
   render() {
