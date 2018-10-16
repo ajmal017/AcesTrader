@@ -121,7 +121,7 @@ class ChartDashboard extends Component {
     const startDate = this.listGroup === 'positions' ? new Date(this.entered) : new Date(this.watched)
     const endDate = new Date(this.peekDate)
     const timeDiff = endDate - startDate
-    this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24))) - 1
+    this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
 
     return (
       <div className="dashboard">
