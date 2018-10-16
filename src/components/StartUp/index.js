@@ -35,8 +35,12 @@ class StartUp extends Component {
     if (this.reference === referenceLocaltrader) {
       /* GUEST MODE USER WITH LOCAL STORAGE */
       persistedState = loadLocalState() //returns (undefined) if error or no saved state
-      // this.props.dispatch(resetPersistedState( persistedState))
-      this.props.dispatch({ type: 'RESET_PERSISTED_STATE', persistedState: persistedState })
+      if (persistedState === undefined) {
+        this.props.dispatch(resetDefaultState())
+      } else {
+        this.props.dispatch(resetPersistedState(persistedState))
+        // this.props.dispatch({ type: 'RESET_PERSISTED_STATE', persistedState: persistedState })
+      }
       this.setState({ stateRetrieved: 'ready' }) // causes app to render
     } else {
       /* AUTHORIZED USER WITH FIREBASE RTDB */
