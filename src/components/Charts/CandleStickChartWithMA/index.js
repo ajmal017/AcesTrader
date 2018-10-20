@@ -18,10 +18,9 @@ import { fitWidth } from 'react-stockcharts/lib/helper'
 import { last } from 'react-stockcharts/lib/utils'
 
 class CandleStickChartWithMA extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
+  // constructor(props) {
+  //   super(props)
+  // }
   // componentDidMount() {
   //   // for testing the Sentry ErrorBoundary logic, just throw one error
   //   // errorCount is set by ChartsView as a prop for each generated Chartcell and is passed on to here
@@ -223,12 +222,16 @@ CandleStickChartWithMA.propTypes = {
 
 CandleStickChartWithMA.defaultProps = {
   type: 'hybrid',
-  mouseMoveEvent: true,
-  panEvent: true, //false,,
+  panEvent: true, //false,
   zoomEvent: true, //false,
-  clamp: false, //true
+  clamp: false, //true,
   height: 250,
+  mouseMoveEvent: false, //true, // 10/20/2018 - fixes exception below in drawOnCanvas() ??
 }
+// TypeError ocurred randomly:
+// undefined is not an object (evaluating 'contexts.axes')
+// /static/js/1.chunk.js in getAxisCanvas at line 166434:18
+// /static/js/1.chunk.js in drawOnCanvas at line 166328:29
 
 CandleStickChartWithMA = fitWidth(CandleStickChartWithMA)
 

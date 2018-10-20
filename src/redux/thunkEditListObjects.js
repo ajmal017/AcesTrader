@@ -61,11 +61,11 @@ export const addEnterPriceAsync = (hash) => {
         } else {
           newObject['enteredPrice'] = data2 //the filled price for this order
           if (foundObject.quantityType === 'DOLLARS') {
-            //calc the filled quantity
+            //calculate the filled quantity
             var quantity = newObject['filledQuantity'] / data2
             newObject['filledQuantity'] = isNaN(quantity) ? 'Not Known' : Math.floor(quantity)
           } else {
-            newObject['filledQuantity'] = newObject['filledQuantity'] //as ordered
+            // newObject['filledQuantity'] = newObject['filledQuantity'] //quantity remains as specified in the order
           }
         }
         newObject['filledquantity'] = null //removes wrongly labeled property if it still exists
