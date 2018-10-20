@@ -6,7 +6,7 @@
     "enzyme": "3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "faker": "^4.1.0",
-    "react-scripts": "1.1.0",
+    "react-scripts": "2.0.3",
     "react-test-renderer": "16.0.0",
     "redux-devtools": "^3.4.1",
     "redux-devtools-dock-monitor": "^1.1.2",
@@ -49,5 +49,11 @@
     "deploy": "firebase deploy",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
