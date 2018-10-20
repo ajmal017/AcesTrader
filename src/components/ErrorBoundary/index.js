@@ -28,7 +28,7 @@ class ErrorBoundary extends Component {
         <div className="errorboundary-wrapper">
           <div className="errorboundary-content">
             <h2>Something went wrong.</h2>
-            <a onClick={() => Sentry.showReportDialog()}> Please click here to send feedback</a>
+            {/* <a onClick={() => Sentry.showReportDialog()}> Please click here to send feedback</a> */}
             <h4>You can reload the page and retry</h4>
           </div>
         </div>
