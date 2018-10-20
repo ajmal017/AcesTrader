@@ -5,12 +5,12 @@ import React from 'react'
 const welcomeDemoTrader = () => {
   return (
     <div>
-      <h2>A GUEST FOR PAPER MONEY TRADING</h2>
+      <h2>GUEST LOG IN FOR PAPER MONEY TRADING</h2>
       <br />
       <p>
-        You have full access to the program's functions. Please understand the program is still in a Beta test state. Some features are not fully programmed yet. For instance, you
-        do not have the ability to change the parameters of your orders. All entries are submitted as market day orders for a quantity costing $5,000. All exit orders are for all
-        shares.
+        You have full access to the program's functions. Please understand that the program is still in a Beta test state. Some features are not fully programmed yet. For instance,
+        changing the parameters of your orders is still a work in progress. Even though you can edit these, the edited values are not yet used. All entries are submitted as market
+        day orders for a quantity costing $5,000. All exit orders are for all shares. This will change in the near future.
       </p>
       <p>
         You can create lists of prospective buys and short sells to watch. You can do simulated executions of order instructions to open and close trades. Your trading results are
