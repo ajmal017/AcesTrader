@@ -2,9 +2,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { referenceRealtrader, referencePapertrader, referenceDebugtrader } from '../../lib/dbReference'
+import information from '../../images/help_icon.png'
 import './styles.css'
 
-const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, reference }) => {
+const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDemoInfo, reference }) => {
+  const handleDemoInfoClick = function(e) {
+    // alert('handleInfoClick')
+    handleDemoInfo(e)
+  }
+
   return (
     <div>
       0.1.26
@@ -72,9 +78,14 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, referenc
             </span>
           </div>
 
-          <button onClick={handleDemoMode} className={'buttonsWrapper demomode'}>
-            Guest Mode - Paper Trading
-          </button>
+          <span className={'buttonsWrapper buttonsDemo'}>
+            <div>
+              <button onClick={handleDemoMode} className={'demomode'}>
+                Guest Log In
+              </button>
+              <img onClick={handleDemoInfoClick} src={information} className={'guestInfoIcon'} alt="" width={30} height={30} />
+            </div>
+          </span>
         </form>
       </div>
     </div>
@@ -86,6 +97,7 @@ SignInView.propTypes = {
   onSignUp: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleDemoMode: PropTypes.func.isRequired,
+  handleDemoInfo: PropTypes.func.isRequired,
   reference: PropTypes.string.isRequired,
 }
 

@@ -56,7 +56,8 @@ const Root = ({ store, authenticated }) => (
             <PrivateRoute exact path="/eraseLists" component={EraseLists} authenticated={authenticated} />
             <PrivateRoute exact path="/charts" component={Charts} authenticated={authenticated} />
             <PrivateRoute exact path="/signout" component={SignOut} authenticated={authenticated} />
-            <PrivateRoute exact path="/welcome" component={Welcome} authenticated={authenticated} />
+            {/* <PrivateRoute exact path="/welcome" component={Welcome} authenticated={authenticated} /> */}
+            <Route exact path="/welcome" component={Welcome} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/startUp" component={StartUp} />

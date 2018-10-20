@@ -12,6 +12,8 @@ class SignInContainer extends Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleDemoMode = this.handleDemoMode.bind(this)
+    this.handleDemoInfo = this.handleDemoInfo.bind(this)
     this.state = {
       reference: referencePapertrader,
     }
@@ -40,6 +42,13 @@ class SignInContainer extends Component {
     }
   }
 
+  // Show the Guest user welcome page to handle the help icon click
+  handleDemoInfo = (event) => {
+    event.preventDefault()
+    putReference(referenceLocaltrader)
+    this.props.history.push('/welcome')
+  }
+
   // signin the Guest user so that authenticated=true is set allowing access to all nav links
   // the Reference=referenceLocaltrader constrains the Guest user to IEX api and local storage
   handleDemoMode = async (event) => {
@@ -60,7 +69,16 @@ class SignInContainer extends Component {
 
   render() {
     const { reference } = this.state
-    return <SignInView onSubmit={this.handleSubmit} onSignUp={this.handleSignUp} handleChange={this.handleChange} handleDemoMode={this.handleDemoMode} reference={reference} />
+    return (
+      <SignInView
+        onSubmit={this.handleSubmit}
+        onSignUp={this.handleSignUp}
+        handleChange={this.handleChange}
+        handleDemoMode={this.handleDemoMode}
+        handleDemoInfo={this.handleDemoInfo}
+        reference={reference}
+      />
+    )
   }
 }
 
