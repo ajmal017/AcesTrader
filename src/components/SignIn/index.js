@@ -42,11 +42,11 @@ class SignInContainer extends Component {
     }
   }
 
-  // Show the Guest user welcome page to handle the help icon click
+  // handle the help icon click: show the guest user welcome page
   handleDemoInfo = (event) => {
     event.preventDefault()
     putReference(referenceLocaltrader)
-    this.props.history.push('/welcome')
+    this.props.history.push('/welcomeguest')
   }
 
   // signin the Guest user so that authenticated=true is set allowing access to all nav links

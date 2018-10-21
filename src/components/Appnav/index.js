@@ -76,17 +76,18 @@ const Appnav = function() {
               <LinkContainer to="/peek">
                 <NavItem eventKey={7.2}>Peek</NavItem>
               </LinkContainer>
-              <LinkContainer to="/welcome">
-                <NavItem eventKey={7.4}>Welcome</NavItem>
-              </LinkContainer>
               <MenuItem divider />
               <LinkContainer to="/home">
-                <MenuItem eventKey={8.3}>About AcesTrader</MenuItem>
+                <MenuItem eventKey={8.3}>AcesTrader</MenuItem>
+              </LinkContainer>
+              <MenuItem divider />
+              <LinkContainer to="/welcomeguest">
+                <NavItem eventKey={7.4}>Guest Mode</NavItem>
               </LinkContainer>
               {/* {getResetStateMenu()} */}
             </NavDropdown>
             <LinkContainer to="/signout">
-              <NavItem eventKey={9}>SignOut</NavItem>
+              <NavItem eventKey={9}>SignIn</NavItem>
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>
