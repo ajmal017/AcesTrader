@@ -5,7 +5,7 @@ import React from 'react'
 const welcomeDemoTrader = () => {
   return (
     <div>
-      <h2>GUEST LOG IN FOR PAPER MONEY TRADING</h2>
+      <h2>GUEST MODE FOR PAPER MONEY TRADING</h2>
       <br />
       <p>
         You have full access to the program's functions. Please understand that the program is still in a Beta test state. Some features are not fully programmed yet. For instance,
