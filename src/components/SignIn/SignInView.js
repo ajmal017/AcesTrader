@@ -15,7 +15,7 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
     <div>
       0.1.27
       <span className={'header'}>
-        <h1>Log In</h1>
+        <h1>Sign In</h1>
       </span>
       <div className={'formWrapper'}>
         <form onSubmit={onSubmit} id="fields">
@@ -70,7 +70,7 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
             </div>
             <span className={'buttonsWrapper'}>
               <button type="submit" className={'buttonSignin'}>
-                Log in
+                Sign In
               </button>
               {/* <button className={'buttonSignup'} onClick={onSignUp}>
               Sign Up
@@ -81,7 +81,7 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
           <span className={'buttonsWrapper buttonsDemo'}>
             <div>
               <button onClick={handleDemoMode} className={'demomode'}>
-                Guest Log In
+                Guest Sign In
               </button>
               <img onClick={handleDemoInfoClick} src={information} className={'guestInfoIcon'} alt="" width={30} height={30} />
             </div>
