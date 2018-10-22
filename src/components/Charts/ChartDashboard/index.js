@@ -87,6 +87,7 @@ class ChartDashboard extends Component {
   }
 
   render() {
+    console.log('ChartDashboard rendered')
     //handle new props with changed state of cellObjects
     this.hash = this.props.cellObject.hash
     this.symbol = this.props.cellObject.symbol
