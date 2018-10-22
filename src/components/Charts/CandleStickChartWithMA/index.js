@@ -30,7 +30,6 @@ class CandleStickChartWithMA extends React.Component {
   // }
 
   render() {
-    console.log('CandleStickChartWithMA rendered')
     const ema20 = ema()
       .options({
         windowSize: 20, // optional will default to 10

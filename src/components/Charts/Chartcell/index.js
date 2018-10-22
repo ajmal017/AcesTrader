@@ -204,7 +204,6 @@ class Chartcell extends Component {
   }
 
   render() {
-    console.log('Chartcell rendered')
     const cellObject = this.props.cellObject
     this.tradeSide = cellObject.dashboard.tradeSide
     this.symbol = cellObject.symbol
