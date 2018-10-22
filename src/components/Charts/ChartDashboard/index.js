@@ -30,17 +30,17 @@ class ChartDashboard extends Component {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.dialogDashboardParams = null
     this.state = {
-      // watched: this.watched,
-      // watchedPrice: this.watchedPrice,
-      // entered: this.entered,
-      // enteredPrice: this.enteredPrice,
-      // filledQuantity: this.filledQuantity,
-      // session: this.session,
-      // instruction: this.instruction,
-      // quantity: this.quantity,
-      // quantityType: this.quantityType,
-      // orderType: this.orderType,
-      // duration: this.duration,
+      watched: '', // this.watched,
+      watchedPrice: '', // this.watchedPrice,
+      entered: '', // this.entered,
+      enteredPrice: '', // this.enteredPrice,
+      filledQuantity: '', // this.filledQuantity,
+      session: '', // this.session,
+      instruction: '', // this.instruction,
+      quantity: '', // this.quantity,
+      quantityType: '', // this.quantityType,
+      orderType: '', // this.orderType,
+      duration: '', // this.duration,
     }
   }
 
@@ -87,7 +87,6 @@ class ChartDashboard extends Component {
   }
 
   render() {
-    console.log('ChartDashboard rendered')
     //handle new props with changed state of cellObjects
     this.hash = this.props.cellObject.hash
     this.symbol = this.props.cellObject.symbol
