@@ -148,6 +148,10 @@ class ManageProspects extends Component {
                 isAcceptButtonDisabled: true,
               })
             } else {
+              // Data is an array of objects, each with info about one symbol
+              // Save the array to be used later
+              //
+              // Allow the user to accept this list of prospects' symbols
               this.textAreaBox.value = verifiedList.join(' ')
               this.setState({
                 ...this.state,
