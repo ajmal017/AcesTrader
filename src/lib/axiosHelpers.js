@@ -16,7 +16,7 @@ export const verifySymbolLookups = function(symbolList) {
     .all(promiseArray)
     .then(function(arr) {
       return {
-        companies: arr[0].data,
+        arr,
       }
     })
     .catch(function(error) {
