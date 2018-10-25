@@ -142,7 +142,7 @@ class ManageProspects extends Component {
               // GET .../stock/symbol/company
               let result = /.*\/stock\/(\w+).*/.exec(data.error.request.responseURL)
               let symbol = result[1]
-              this.textAreaBox.value = `Symbol ${symbol} Is Unknown, Correct Name And Submit Again.`
+              this.textAreaBox.value = `Symbol ${symbol} Is Unknown, Correct Symbol And Verify Again.`
               this.setState({
                 ...this.state,
                 isAcceptButtonDisabled: true,
