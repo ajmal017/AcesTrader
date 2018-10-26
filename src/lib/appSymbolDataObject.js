@@ -12,8 +12,6 @@ export const putSymbolDataObjects = (arr) => {
 }
 
 export const getSymbolDataObject = (symbol) => {
-  let foundDataObject = currentSymbolDataObjects.find((obj) => {
-    return obj.data.symbol === symbol
-  })
+  let foundDataObject = currentSymbolDataObjects.find((obj) => obj.data.symbol === symbol)
   return foundDataObject.data
 }
