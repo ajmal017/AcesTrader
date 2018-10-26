@@ -1,5 +1,6 @@
 // @ts-nocheck
 // prevent false error flag on ".value" on this.textBox.value
+
 // ManageProspects/index.js
 
 import React, { Component } from 'react'
@@ -88,6 +89,7 @@ class ManageProspects extends Component {
   }
 
   handleSubmit() {
+    // Verify the submitted list of symbols
     let cleanedInput
     let verifiedList
     this.textBox.value = this.textBox.value.trim()
@@ -139,10 +141,10 @@ class ManageProspects extends Component {
         axiosHelpers.verifySymbolLookups(verifiedList).then(
           function(data) {
             if (data.error) {
-              // GET .../stock/symbol/company
+              // Extract symbol from string ".../stock/symbol/company" to use in reporting error
               let result = /.*\/stock\/(\w+).*/.exec(data.error.request.responseURL)
               let symbol = result[1]
-              this.textAreaBox.value = `Symbol ${symbol} Is Unknown, Correct Symbol And Verify Again.`
+              this.textAreaBox.value = `${symbol} is an unknown symbol, correct the symbol and verify again.`
               this.setState({
                 ...this.state,
                 isAcceptButtonDisabled: true,
@@ -161,40 +163,10 @@ class ManageProspects extends Component {
             }
           }.bind(this)
         )
-
         // get symbol prices for appWatchedPrice object
         getWatchedPrices(verifiedList)
-
-        // axiosHelpers.getSymbolPrices(verifiedList).then(
-        //   function(data) {
-        //     if (data.error) {
-        //       console.error('error getting symbol prices in ManageProspects')
-        //     } else {
-        //       console.log('success in getting symbol prices in ManageProspects')
-        //       return
-        //     }
-        //   }.bind(this)
-        // )
       }
     }
-
-    // .catch(
-    //   function(error) {
-    //     this.textAreaBox.value = 'Symbol Is Unknown, Correct Name And Submit Again.'
-    //     return
-    //   }.bind(this)
-    // )
-    // testList(verifiedList) {
-    //   return false
-    // //============================================
-    // getGithubInfo('martinduo')
-    // .then(function(data){
-    //   this.setState({
-    //     bio: data.bio,
-    //     repos: data.repos
-    //   })
-    // },
-    // //============================================
   }
 
   cleanEtfDb(value) {
