@@ -113,7 +113,7 @@ export const addWatchPriceAsync = (tradeSide) => {
       } else {
         newObject['watchedPrice'] = price //the price when this symbol was added to the prospects' watch list
       }
-      // Add the security type code
+      // Add the IEX security issueType code
       let DataObject = getSymbolDataObject(newObject.symbol)
       newObject['issueType'] = DataObject.issueType
 
