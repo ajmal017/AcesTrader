@@ -2,6 +2,7 @@
 
 import { getWatchedPrice, resetWatchedPrices } from '../lib/appWatchedPrice'
 import getFillPrice from '../lib/apiGetFillPrice'
+import { getSymbolDataObject } from '../lib/appSymbolDataObject'
 var cloneDeep = require('lodash.clonedeep')
 
 export const REPLACE_RESULTS_OBJECT = 'REPLACE_RESULTS_OBJECT'
@@ -87,33 +88,39 @@ function replacePositionObject(theObject) {
 export const addWatchPriceAsync = (tradeSide) => {
   return (dispatch, getState) => {
     let ourState = getState() //to  search the 3 prospects lists
-
     //Since the caller of this thunk does not know the hash tags,
     //which were added after as part of the reducer function,
     //we have to create a list of objects without the watchedPrice,
     //they are the ones just added by the ManageProspects component.
-    let prospectsList
+    let prospectsObjArray
     if (tradeSide === 'SWING BUYS') {
-      prospectsList = ourState.buys.filter((obj) => obj.watchedPrice === undefined)
+      prospectsObjArray = ourState.buys.filter((obj) => obj.watchedPrice === undefined)
     }
     if (tradeSide === 'SWING SELLS') {
-      prospectsList = ourState.sells.filter((obj) => obj.watchedPrice === undefined)
+      prospectsObjArray = ourState.sells.filter((obj) => obj.watchedPrice === undefined)
     }
     if (tradeSide === 'TREND BUYS') {
-      prospectsList = ourState.trendbuys.filter((obj) => obj.watchedPrice === undefined)
+      prospectsObjArray = ourState.trendbuys.filter((obj) => obj.watchedPrice === undefined)
     }
-    for (let ii = 0; ii < prospectsList.length; ii++) {
-      let foundObject = prospectsList[ii]
+    for (let ii = 0; ii < prospectsObjArray.length; ii++) {
+      //for each of the newly added prospect list objects
+      let foundObject = prospectsObjArray[ii]
       let newObject = cloneDeep(foundObject)
-      let price = getWatchedPrice(newObject.symbol) //peek prices were loaded in the ManageProspects component
+      // Add the watched price
+      let price = getWatchedPrice(newObject.symbol) //peek prices were loaded in the ManageProspects component when symbols were submitted
       if (isNaN(price)) {
         newObject['watchedPrice'] = 'Not Available'
       } else {
-        newObject['watchedPrice'] = price //the price when this was watched
+        newObject['watchedPrice'] = price //the price when this symbol was added to the prospects' watch list
       }
+      // Add the security type code
+      let DataObject = getSymbolDataObject(newObject.symbol)
+      newObject['issueType'] = DataObject.issueType
+
       dispatch(replaceProspectObject(newObject))
     }
     resetWatchedPrices()
+    //*************** resetSymbolDataObjects()
   }
 }
 

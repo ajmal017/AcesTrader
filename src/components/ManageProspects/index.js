@@ -12,6 +12,7 @@ import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells
 import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/reducerTrendBuys'
 import { addWatchPriceAsync } from '../../redux/thunkEditListObjects'
 import { queryClearProspectsList } from '../../redux/reducerModal'
+import { putSymbolDataObjects } from '../../lib/appSymbolDataObject'
 import getWatchedPrices from '../../lib/appGetWatchedPrices'
 import './styles.css'
 import * as axiosHelpers from '../../lib/axiosHelpers'
@@ -22,7 +23,7 @@ class ManageProspects extends Component {
     super(props)
     this.state = {
       isAcceptButtonDisabled: true,
-      value: process.env.NODE_ENV === 'development' ? props.mockSymbols : '',
+      textValue: process.env.NODE_ENV === 'development' ? props.mockSymbols : '',
     }
     this.handleClick = props.handleClick
     this.handleChange = this.handleChange.bind(this)
@@ -64,7 +65,7 @@ class ManageProspects extends Component {
     //If you set value to the same, it won't change in chrome.
     this.textBox.focus()
     this.textBox.value = ''
-    this.textBox.value = this.state.value
+    this.textBox.value = this.state.textValue
   }
 
   componentDidUpdate() {
@@ -72,8 +73,8 @@ class ManageProspects extends Component {
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value })
-    this.textAreaBox.value = ''
+    this.setState({ textValue: event.target.value })
+    // this.textAreaBox.value = ''
   }
 
   handleLocalClick(flag) {
@@ -152,7 +153,8 @@ class ManageProspects extends Component {
             } else {
               // Data is an array of objects, each with info about one symbol
               // Save the array to be used later
-              //
+              putSymbolDataObjects(data.arr)
+
               // Allow the user to accept this list of prospects' symbols
               this.textAreaBox.value = verifiedList.join(' ')
               this.setState({
@@ -164,7 +166,7 @@ class ManageProspects extends Component {
           }.bind(this)
         )
         // get symbol prices for appWatchedPrice object
-        getWatchedPrices(verifiedList)
+        getWatchedPrices(verifiedList) //this fetches prices and then puts them into this object for retrival later
       }
     }
   }
@@ -262,7 +264,7 @@ class ManageProspects extends Component {
                 Enter the symbols and click the Verfy button to verify the entries.
               </p>
               <label htmlFor="pname">Enter prospective {title.toLowerCase()}:</label>
-              <input type="text" id="pname" value={this.state.value} onChange={this.handleChange} />
+              <input type="text" id="pname" value={this.state.textValue} onChange={this.handleChange} />
 
               <p className="acceptdescription">
                 Symbols already in the {this.tradeSide} list are removed from the prospects list when you click Verfy.
