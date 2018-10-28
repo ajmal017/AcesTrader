@@ -1,7 +1,7 @@
 // appSymbolDataObject.js
 
 let currentSymbolDataObjects = []
-let dummySymbolDataObjects = [{ symbol: 'ALFA' }, { symbol: 'IBM' }]
+// let dummySymbolDataObjects = [{ symbol: 'ALFA' }, { symbol: 'IBM' }]
 
 export const resetSymbolDataObjects = () => {
   currentSymbolDataObjects = []

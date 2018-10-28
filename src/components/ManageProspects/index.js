@@ -10,7 +10,7 @@ import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
 import { addBuysToList, removeAllBuysFromList } from '../../redux/reducerBuys'
 import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells'
 import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/reducerTrendBuys'
-import { addWatchPriceAsync } from '../../redux/thunkEditListObjects'
+import { addWatchPriceAndIssueTypeAsync } from '../../redux/thunkEditListObjects'
 import { queryClearProspectsList } from '../../redux/reducerModal'
 import { putSymbolDataObjects } from '../../lib/appSymbolDataObject'
 import getWatchedPrices from '../../lib/appGetWatchedPrices'
@@ -187,15 +187,15 @@ class ManageProspects extends Component {
       this.newProspects = this.textAreaBox.value.split(' ').sort()
       if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
         this.props.dispatch(addBuysToList(this.newProspects))
-        this.props.dispatch(addWatchPriceAsync(this.tradeSide.toUpperCase())) //call thunk
+        this.props.dispatch(addWatchPriceAndIssueTypeAsync(this.tradeSide.toUpperCase())) //call thunk
         this.props.handleClick('push', 'prospectbuys')
       } else if (this.tradeSide.toUpperCase() === 'SWING SELLS') {
         this.props.dispatch(addSellstoList(this.newProspects))
-        this.props.dispatch(addWatchPriceAsync(this.tradeSide.toUpperCase())) //call thunk
+        this.props.dispatch(addWatchPriceAndIssueTypeAsync(this.tradeSide.toUpperCase())) //call thunk
         this.props.handleClick('push', 'prospectsells')
       } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
         this.props.dispatch(addTrendBuysToList(this.newProspects))
-        this.props.dispatch(addWatchPriceAsync(this.tradeSide.toUpperCase())) //call thunk
+        this.props.dispatch(addWatchPriceAndIssueTypeAsync(this.tradeSide.toUpperCase())) //call thunk
         this.props.handleClick('push', 'prospecttrendbuys')
       } else {
         alert('ERROR2 Missing tradeSide in ManageProspects')

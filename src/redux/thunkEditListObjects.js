@@ -2,7 +2,7 @@
 
 import { getWatchedPrice, resetWatchedPrices } from '../lib/appWatchedPrice'
 import getFillPrice from '../lib/apiGetFillPrice'
-import { getSymbolDataObject } from '../lib/appSymbolDataObject'
+import { getSymbolDataObject, resetSymbolDataObjects } from '../lib/appSymbolDataObject'
 var cloneDeep = require('lodash.clonedeep')
 
 export const REPLACE_RESULTS_OBJECT = 'REPLACE_RESULTS_OBJECT'
@@ -85,7 +85,7 @@ function replacePositionObject(theObject) {
   }
 }
 
-export const addWatchPriceAsync = (tradeSide) => {
+export const addWatchPriceAndIssueTypeAsync = (tradeSide) => {
   return (dispatch, getState) => {
     let ourState = getState() //to  search the 3 prospects lists
     //Since the caller of this thunk does not know the hash tags,
@@ -120,7 +120,7 @@ export const addWatchPriceAsync = (tradeSide) => {
       dispatch(replaceProspectObject(newObject))
     }
     resetWatchedPrices()
-    //*************** resetSymbolDataObjects()
+    resetSymbolDataObjects()
   }
 }
 
