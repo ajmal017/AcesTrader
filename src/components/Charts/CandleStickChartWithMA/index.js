@@ -1,3 +1,5 @@
+// CandleStickChartWithMA/index.js
+
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -16,6 +18,15 @@ import { ema, sma } from 'react-stockcharts/lib/indicator'
 // import { ema, wma, sma, tma } from 'react-stockcharts/lib/indicator'
 import { fitWidth } from 'react-stockcharts/lib/helper'
 import { last } from 'react-stockcharts/lib/utils'
+
+const mouseEdgeAppearance = {
+  textFill: '#542605',
+  stroke: '#05233B',
+  strokeOpacity: 1,
+  strokeWidth: 1,
+  arrowWidth: 0, //5
+  fill: '#BCDEFA',
+}
 
 class CandleStickChartWithMA extends React.Component {
   // constructor(props) {
@@ -86,10 +97,11 @@ class CandleStickChartWithMA extends React.Component {
       .stroke('#4682B4')
       .fill('#4682B4')
 
-    const { type, chartId, data: initialData, width, ratio } = this.props
-    const { height } = this.props
-    const { symbol } = this.props
+    // const { type, chartId, data: initialData, width, ratio } = this.props
+    // const { height } = this.props
+    // const { symbol } = this.props
     const { clamp } = this.props
+    const { type, data: initialData, width, ratio, chartId, height, symbol } = this.props
     const volBarHeight = height / 5
     const { mouseMoveEvent, panEvent, zoomEvent, zoomAnchor } = this.props
 
@@ -107,12 +119,12 @@ class CandleStickChartWithMA extends React.Component {
         height={height}
         width={width}
         ratio={ratio}
-        margin={{ left: 8, right: 60, top: 10, bottom: 30 }}
-        mouseMoveEvent={mouseMoveEvent}
-        panEvent={panEvent}
-        zoomEvent={zoomEvent}
+        margin={{ left: 40, right: 60, top: 10, bottom: 30 }}
+        // mouseMoveEvent={mouseMoveEvent}
+        // panEvent={panEvent}
+        // zoomEvent={zoomEvent}
+        // zoomAnchor={zoomAnchor}
         clamp={clamp}
-        zoomAnchor={zoomAnchor}
         type={type}
         seriesName={symbol}
         data={data}
@@ -124,7 +136,7 @@ class CandleStickChartWithMA extends React.Component {
           <XAxis axisAt="bottom" orient="bottom" />
           <YAxis axisAt="right" orient="right" ticks={5} />
 
-          <MouseCoordinateY at="right" orient="right" displayFormat={format('.1f')} />
+          <MouseCoordinateY at="right" orient="right" displayFormat={format('.2f')} {...mouseEdgeAppearance} />
 
           <CandlestickSeries />
           {/* <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} /> */}
@@ -146,7 +158,7 @@ class CandleStickChartWithMA extends React.Component {
           <OHLCTooltip origin={[-36, 0]} />
           <MovingAverageTooltip
             onClick={(e) => console.log(e)}
-            origin={[-6, 15]}
+            origin={[-30, 15]}
             options={[
               // {
               //   yAccessor: sma20.accessor(),
@@ -196,8 +208,8 @@ class CandleStickChartWithMA extends React.Component {
         <Chart id={chartId + '2'} yExtents={[(d) => d.volume, smaVolume50.accessor()]} height={volBarHeight} origin={(w, h) => [0, h - volBarHeight]}>
           <YAxis axisAt="left" orient="left" ticks={3} tickFormat={format('.2s')} />
 
-          <MouseCoordinateX at="bottom" orient="bottom" displayFormat={timeFormat('%Y-%m-%d')} />
-          {/* *ALWAYS COMMENTED OUT* <MouseCoordinateY at="left" orient="left" displayFormat={format('.4s')} /> */}
+          <MouseCoordinateX at="bottom" orient="bottom" displayFormat={timeFormat('%Y-%m-%d')} {...mouseEdgeAppearance} />
+          <MouseCoordinateY at="left" orient="left" displayFormat={format('.4s')} {...mouseEdgeAppearance} />
 
           <BarSeries yAccessor={(d) => d.volume} fill={(d) => (d.close > d.open ? '#6BA583' : 'red')} />
           {/* <AreaSeries yAccessor={smaVolume50.accessor()} stroke={smaVolume50.stroke()} fill={smaVolume50.fill()} /> */}
