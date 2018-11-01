@@ -8,7 +8,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import ErrorBoundaryChart from '../../../components/ErrorBoundaryChart/'
+import ErrorBoundary from '../../../components/ErrorBoundary/'
 import { removeBuyFromList } from '../../../redux/reducerBuys'
 import { removeSellFromList } from '../../../redux/reducerSells'
 import { removeTrendBuyFromList } from '../../../redux/reducerTrendBuys'
@@ -23,6 +23,8 @@ import { addEnterPriceAsync, addExitPriceAsync } from '../../../redux/thunkEditL
 import getChartData from '../../../lib/apiGetChartData'
 // import getChartLastBar from '../../../lib/apigetChartLastBar'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
+import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
+import MovingAverageCrossOverAlgorithmV2 from '../MovingAverageCrossOverAlgorithmV2'
 import ChartDashboard from '../ChartDashboard'
 import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
 import './styles.css'
@@ -236,6 +238,8 @@ class Chartcell extends Component {
       )
     }
 
+    this.chartSelector = this.props.chartSelector
+
     // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the corrent data for the new current symbol
     this.data = getPriceData(this.props.cellObject.symbol)
@@ -263,7 +267,7 @@ class Chartcell extends Component {
                 <h4>{`No Prices Available For ${chart_name}.`}</h4>
               </div>
             ) : (
-              <ErrorBoundaryChart>
+              <ErrorBoundary sentry={true} chart={true}>
                 {/* Catch the random timing error here, but don't abort. Continue on (with possible bad chart?!) */}
                 {/* The three errors I've seen have been:  */}
                 {/* 1. undefined is not an object (evaluating 'e.axes') */}
@@ -271,8 +275,13 @@ class Chartcell extends Component {
                 {/* 3. undefined is not an object (evaluating 'contexts.mouseCoord'), from GenericComponent. */}
                 {/* All have come from deep within CandleStickChartWithMA, */}
                 {/* but I've not found any relavent instructions there, except for #3. */}
-                <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
-              </ErrorBoundaryChart>
+                {this.chartSelector ? (
+                  <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
+                ) : (
+                  <CandleStickChartWithMACD chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
+                )}
+                {/* <MovingAverageCrossOverAlgorithmV2 chartId={chartId} data={this.data} symbol={chart_name} /> */}
+              </ErrorBoundary>
             )}
           </div>
           <div className="dashboard-center">

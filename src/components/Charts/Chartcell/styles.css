@@ -18,12 +18,13 @@
 }
 
 /* See media query break for wide screen below */
-/*holds the two main items in one column*/
+/*This one for narrow screens holds the two main items in one column*/
 .chart-cell {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 40px 247px 16px 200px 47px;
+  /* grid-template-rows: 40px 247px 16px 200px 47px; */
+  grid-template-rows: 40px auto 16px auto 47px;
   grid-template-areas:
     'cellheader'
     'cellgraph'
@@ -128,9 +129,9 @@
 @media only screen and (min-width: 1024px), only screen and (orientation: landscape) {
   .chart-cell {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 40px 247px;
-    /* grid-template-rows: 40px 200px 47px; */
+    grid-template-columns: 3fr 2fr;
+    /* grid-template-rows: 40px 247px; */
+    grid-template-rows: 40px auto;
     grid-template-areas:
       'cellheader cellheader'
       'cellgraph dataform';

@@ -25,8 +25,10 @@ class ChartsView extends Component {
 
   render() {
     // Create an array of Chartcells, one for each chart's graph & dashboard
+    let chartSelector = false //toggle switch for testing in Chartcell
     let cells = this.props.chartArray.map((obj, index) => {
-      return <Chartcell key={index.toString()} handleClick={this.props.handleClick} cellObject={obj} errorCount={index} />
+      chartSelector = !chartSelector
+      return <Chartcell key={index.toString()} handleClick={this.props.handleClick} cellObject={obj} errorCount={index} chartSelector={chartSelector} />
     })
     // Depending on the initial parent each cell can be
     // a prospect Buy, a prospect ShortSale, a prospect TrendBuy,

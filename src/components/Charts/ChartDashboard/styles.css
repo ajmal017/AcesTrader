@@ -16,7 +16,7 @@
   border: blue solid 1px; */
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 22px 1fr 38px;
+  grid-template-rows: 22px 1fr 36px;
   grid-template-areas:
     'actionalert'
     'actionparams'
@@ -45,6 +45,7 @@
   display: inline-flex;
   justify-content: center;
   width: 100%;
+  padding-top: 4px;
 }
 
 .order-entry-button: {
@@ -137,7 +138,7 @@
 }
 
 .dialog-button-wrapper {
-display:inline;
+  display: inline;
 }
 
 .button-pencil-image {
@@ -164,10 +165,10 @@ display:inline;
 }
 
 .dialog-symbol {
-    background: #f9f9f9;
-    padding: 6px 0 6px 6px;
-    font-size: 16px;
-    font-weight: bold;  
+  background: #f9f9f9;
+  padding: 6px 0 6px 6px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 hr {

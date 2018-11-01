@@ -83,7 +83,7 @@ class App extends Component {
     }
 
     return (
-      <ErrorBoundary>
+      <ErrorBoundary sentry={true}>
         <Root store={store} authenticated={authenticated} /> {/* shows Navbar */}
       </ErrorBoundary>
     )
