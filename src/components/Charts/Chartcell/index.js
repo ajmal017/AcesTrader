@@ -24,7 +24,6 @@ import getChartData from '../../../lib/apiGetChartData'
 // import getChartLastBar from '../../../lib/apigetChartLastBar'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
-import MovingAverageCrossOverAlgorithmV2 from '../MovingAverageCrossOverAlgorithmV2'
 import ChartDashboard from '../ChartDashboard'
 import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
 import './styles.css'
@@ -280,7 +279,6 @@ class Chartcell extends Component {
                 ) : (
                   <CandleStickChartWithMACD chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
                 )}
-                {/* <MovingAverageCrossOverAlgorithmV2 chartId={chartId} data={this.data} symbol={chart_name} /> */}
               </ErrorBoundary>
             )}
           </div>

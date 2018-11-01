@@ -97,13 +97,10 @@ class CandleStickChartWithMA extends React.Component {
       .stroke('#4682B4')
       .fill('#4682B4')
 
-    // const { type, chartId, data: initialData, width, ratio } = this.props
-    // const { height } = this.props
-    // const { symbol } = this.props
-    const { clamp } = this.props
     const { type, data: initialData, width, ratio, chartId, height, symbol } = this.props
+    const { clamp } = this.props
     const volBarHeight = height / 5
-    const { mouseMoveEvent, panEvent, zoomEvent, zoomAnchor } = this.props
+    // const { mouseMoveEvent, panEvent, zoomEvent, zoomAnchor } = this.props
 
     // const calculatedData = tma20(wma20(sma20(ema20(ema50(smaVolume50(initialData))))))
     const calculatedData = sma200(ema20(ema50(smaVolume50(initialData))))

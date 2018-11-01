@@ -16,7 +16,8 @@ import { OHLCTooltip, MovingAverageTooltip } from 'react-stockcharts/lib/tooltip
 import { ema } from 'react-stockcharts/lib/indicator'
 import { fitWidth } from 'react-stockcharts/lib/helper'
 import algo from 'react-stockcharts/lib/algorithm'
-import { Label, Annotate, SvgPathAnnotation, buyPath, sellPath } from 'react-stockcharts/lib/annotation'
+// import { Label, Annotate, SvgPathAnnotation, buyPath, sellPath } from 'react-stockcharts/lib/annotation'
+import { Annotate, SvgPathAnnotation, buyPath, sellPath } from 'react-stockcharts/lib/annotation'
 import { last } from 'react-stockcharts/lib/utils'
 
 class MovingAverageCrossOverAlgorithmV2 extends React.Component {
