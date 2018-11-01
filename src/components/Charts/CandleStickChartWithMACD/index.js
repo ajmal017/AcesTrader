@@ -7,9 +7,11 @@ import { format } from 'd3-format'
 import { timeFormat } from 'd3-time-format'
 
 import { ChartCanvas, Chart } from 'react-stockcharts'
-import { BarSeries, AreaSeries, CandlestickSeries, LineSeries, MACDSeries } from 'react-stockcharts/lib/series'
+// import { BarSeries, AreaSeries, CandlestickSeries, LineSeries, MACDSeries } from 'react-stockcharts/lib/series'
+import { BarSeries, CandlestickSeries, LineSeries, MACDSeries } from 'react-stockcharts/lib/series'
 import { XAxis, YAxis } from 'react-stockcharts/lib/axes'
-import { CrossHairCursor, EdgeIndicator, CurrentCoordinate, MouseCoordinateX, MouseCoordinateY } from 'react-stockcharts/lib/coordinates'
+// import { CrossHairCursor, EdgeIndicator, CurrentCoordinate, MouseCoordinateX, MouseCoordinateY } from 'react-stockcharts/lib/coordinates'
+import { CrossHairCursor, CurrentCoordinate, MouseCoordinateX, MouseCoordinateY } from 'react-stockcharts/lib/coordinates'
 
 import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale'
 import { OHLCTooltip, MovingAverageTooltip, MACDTooltip } from 'react-stockcharts/lib/tooltip'
