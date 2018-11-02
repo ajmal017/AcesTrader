@@ -33,7 +33,13 @@
     'datafooter';
 }
 
-.cell-header {
+.graph-header {
+  grid-area: cellheader;
+  display: inline-flex;
+  width: 100%;
+  background: #f9f9f9;
+}
+.form-header {
   grid-area: cellheader;
   display: inline-flex;
   width: 100%;
@@ -45,6 +51,7 @@
   padding: 12px 0 6px 6px;
   font-size: 16px;
   font-weight: bold;
+  z-index: 10;
 }
 
 .cell-getlast-button {
@@ -133,11 +140,22 @@
     /* grid-template-rows: 40px 247px; */
     grid-template-rows: 40px auto;
     grid-template-areas:
-      'cellheader cellheader'
+      'graphheader formheader'
       'cellgraph dataform';
-    /* 'cellgraph datafooter'; */
   }
   .chart-cell-wrapper {
     margin: 0 0 10px 10px;
+  }
+  .graph-header {
+    grid-area: graphheader;
+    display: inline-flex;
+    width: 100%;
+    background: #f9f9f9;
+  }
+  .form-header {
+    grid-area: formheader;
+    display: inline-flex;
+    width: 100%;
+    background: #f9f9f9;
   }
 }

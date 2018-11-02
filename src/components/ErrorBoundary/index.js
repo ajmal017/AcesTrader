@@ -8,7 +8,7 @@ class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
     this.state = { error: null }
-    this.active = false
+    this.active = false //***** False in development, True for production *****
   }
 
   componentDidCatch(error, errorInfo) {
@@ -34,9 +34,9 @@ class ErrorBoundary extends Component {
         return (
           <div className="errorboundary-wrapper">
             <div className="errorboundary-content">
-              <h2>Something went wrong drawing your chart.</h2>
+              <h3>Something went wrong drawing your chart.</h3>
               {/* <a onClick={() => Sentry.showReportDialog()}> Please click here to send feedback</a> */}
-              <h4>Click the back arrow for a retry.</h4>
+              <h4>Click the back arrow to retry.</h4>
               <h4>Or refresh the page to restart.</h4>
             </div>
           </div>
@@ -45,9 +45,9 @@ class ErrorBoundary extends Component {
         return (
           <div className="errorboundary-wrapper">
             <div className="errorboundary-content">
-              <h2>Something went wrong.</h2>
+              <h3>Something went wrong.</h3>
               {/* <a onClick={() => Sentry.showReportDialog()}> Please click here to send feedback</a> */}
-              <h4>You can reload the page and retry</h4>
+              <h4>You can refresh the page to retry</h4>
             </div>
           </div>
         )
