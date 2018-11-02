@@ -129,8 +129,8 @@ class Chartcell extends Component {
   handleOrderDispatch() {
     // This is a newly opened position or a newly closed position for this symbol
     this.setState({ hide: false })
-    // Use thunk to async fetch price (when available) for the specified hash id object.
-    // Get the 2 filled prices, quantity, and account number from Ameritrade********
+    // Use Button to fetch confirmed trade price (when available) for the specified hash id object.
+    // Get the filled price, quantity, and account number from Ameritrade********
     const enteredPrice = 'pending'
     const exitedPrice = 'pending'
     const theAccount = 'pending'
@@ -244,57 +244,62 @@ class Chartcell extends Component {
     this.data = getPriceData(this.props.cellObject.symbol)
 
     return (
-      <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
-        {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
-        <div id={cell_id} className="chart-cell">
-          <div className="cell-header">
-            <span className="cell-title">{chart_name}</span>
-            {/* <button onClick={this.getLastBar} className="cell-getlast-button" type="button" aria-label="getlast">
+      <>
+        <dialog />
+        <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
+          {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
+          <div id={cell_id} className="chart-cell">
+            <div className="graph-header">
+              <span className="cell-title">{chart_name}</span>
+              {/* <button onClick={this.getLastBar} className="cell-getlast-button" type="button" aria-label="getlast">
               Get Last
             </button> */}
-            {/* if entered is undefined, this is still in a Prospects list, so the X delete button is added */}
-            {this.entered === undefined ? (
-              <button onClick={this.handleDelete} className="cell-button" type="button" aria-label="delete">
-                &times;
-              </button>
-            ) : null}
-          </div>
-          <div id={chartId} className="graph-content">
-            {this.state.noprices ? (
-              <div id={cell_id} className="chart-cell-wrapper">
-                {' '}
-                <h4>{`No Prices Available For ${chart_name}.`}</h4>
-              </div>
-            ) : (
-              <ErrorBoundary sentry={true} chart={true}>
-                {/* Catch the random timing error here, but don't abort. Continue on (with possible bad chart?!) */}
-                {/* The three errors I've seen have been:  */}
-                {/* 1. undefined is not an object (evaluating 'e.axes') */}
-                {/* 2. undefined is not an object (evaluating 'e.mouseCoord'). */}
-                {/* 3. undefined is not an object (evaluating 'contexts.mouseCoord'), from GenericComponent. */}
-                {/* All have come from deep within CandleStickChartWithMA, */}
-                {/* but I've not found any relavent instructions there, except for #3. */}
-                {this.chartSelector ? (
-                  <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
-                ) : (
-                  <CandleStickChartWithMACD chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
-                )}
-              </ErrorBoundary>
-            )}
-          </div>
-          <div className="dashboard-center">
-            <ChartDashboard handleEntry={this.handleEntry} cellObject={cellObject} />
-          </div>
+            </div>
+            <div className="form-header">
+              {/* if this.entered is undefined, this is still in a Prospects list, so the X delete button is added */}
+              {this.entered === undefined ? (
+                <button onClick={this.handleDelete} className="cell-button" type="button" aria-label="delete">
+                  &times;
+                </button>
+              ) : null}
+            </div>
+            <div id={chartId} className="graph-content">
+              {this.state.noprices ? (
+                <div id={cell_id} className="chart-cell-wrapper">
+                  {' '}
+                  <h4>{`No Prices Available For ${chart_name}.`}</h4>
+                </div>
+              ) : (
+                <ErrorBoundary sentry={true} chart={true}>
+                  {/* Catch the random timing error here, but don't abort. Continue on (with possible bad chart?!) */}
+                  {/* The three errors I've seen have been:  */}
+                  {/* 1. undefined is not an object (evaluating 'e.axes') */}
+                  {/* 2. undefined is not an object (evaluating 'e.mouseCoord'). */}
+                  {/* 3. undefined is not an object (evaluating 'contexts.mouseCoord'), from GenericComponent. */}
+                  {/* All have come from deep within CandleStickChartWithMA, */}
+                  {/* but I've not found any relavent instructions there, except for #3. */}
+                  {this.chartSelector ? (
+                    <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
+                  ) : (
+                    <CandleStickChartWithMACD chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
+                  )}
+                </ErrorBoundary>
+              )}
+            </div>
+            <div className="dashboard-center">
+              <ChartDashboard handleEntry={this.handleEntry} cellObject={cellObject} />
+            </div>
 
-          {/* <div className="dashboard-footer">
+            {/* <div className="dashboard-footer">
             <div className="order-entry-button">
               <button onClick={this.handleEntry} className="entry-order-button">
                 {this.buttonLabel} {this.symbol}
               </button>
             </div>
           </div> */}
+          </div>
         </div>
-      </div>
+      </>
     )
   }
 }
