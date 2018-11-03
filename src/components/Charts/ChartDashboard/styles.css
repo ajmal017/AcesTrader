@@ -154,9 +154,9 @@
 .button-pencil-image-absolute {
   position: absolute;
   right: 18px;
-  bottom: 12px;
+  bottom: 10px;
   background: #f9f9f9;
-  height: 28px;
+  height: 36;
   border: #f9f9f9;
   opacity: 0.5;
 }

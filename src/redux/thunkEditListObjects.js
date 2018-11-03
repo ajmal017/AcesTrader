@@ -131,7 +131,7 @@ function replaceProspectObject(theObject) {
   }
 }
 
-export const editDashboardPrarmetersAsync = (hash, parameterData) => {
+export const editListObjectPrarmetersAsync = (hash, parameterData) => {
   return (dispatch, getState) => {
     let ourState = getState() //to  search the list for the target object
     let foundObject = ourState.longs.find((obj) => obj.hash === hash)
@@ -141,13 +141,13 @@ export const editDashboardPrarmetersAsync = (hash, parameterData) => {
     if (!foundObject) foundObject = ourState.sells.find((obj) => obj.hash === hash)
     if (!foundObject) foundObject = ourState.trendbuys.find((obj) => obj.hash === hash)
     if (!foundObject) {
-      alert('No foundObject in "editDashboardPrarmetersAsync"')
+      alert('No foundObject in "editListObjectPrarmetersAsync"')
       debugger //stop for developer
     }
     let newObject = cloneDeep(foundObject)
     // the parameterData is an object with key/value pairs for each form field: {name: value, name: value, ...}
     for (let key in parameterData) {
-      if (key === 'watched' || key === 'watchedPrice' || key === 'entered' || key === 'enteredPrice' || key === 'filledQuantity') {
+      if (key === 'watched' || key === 'watchedPrice' || key === 'entered' || key === 'enteredPrice' || key === 'filledQuantity' || key === 'weeklyBars' || key === 'macdChart') {
         newObject[key] = parameterData[key]
       } else {
         newObject.dashboard[key] = parameterData[key]

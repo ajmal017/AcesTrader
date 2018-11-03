@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import dialogPolyfill from 'dialog-polyfill'
-import { editDashboardPrarmetersAsync } from '../../../redux/thunkEditListObjects'
+import { editListObjectPrarmetersAsync } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 
 function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, daysHere, positionValue, rgbaValue }) {
@@ -81,7 +81,7 @@ class ChartDashboard extends Component {
       if (self.dialogDashboardParams.returnValue === 'yes') {
         let parameterData = self.state
         // the parameterData is an object with key/value pairs for each form field: {name: value, name: value, ...}
-        self.props.dispatch(editDashboardPrarmetersAsync(self.hash, parameterData))
+        self.props.dispatch(editListObjectPrarmetersAsync(self.hash, parameterData))
       }
     })
   }

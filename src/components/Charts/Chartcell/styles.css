@@ -65,7 +65,7 @@
   background: #ced4da;
 }
 
-.cell-button {
+.cell-delete-button {
   align-self: flex-start;
   font-size: 32px;
   font-weight: 600;
@@ -80,9 +80,38 @@
   cursor: 'pointer';
 }
 
-.cell-button:hover {
+.cell-delete-button:hover {
   background: #f09a9a;
 }
+
+.chart-series-label {
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 13px;
+  margin-left: 20px;
+  margin-bottom: 2px;
+  z-index: 10;
+}
+.chart-indicator-label {
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 13px;
+  margin-left: 18px;
+  margin-bottom: 2px;
+  z-index: 10;
+}
+.chart-edit-button {
+  margin-top: 4px;
+  margin-left: 18px;
+  background: #f9f9f9;
+  height: 33px;
+  border: #f9f9f9;
+  opacity: 0.5;
+}
+.chart-edit-button:hover {
+  background: #cac8c8dc;
+}
+
 .graph-content {
   grid-area: cellgraph;
   width: 100%;

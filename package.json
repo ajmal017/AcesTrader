@@ -14,6 +14,7 @@
     "redux-logger": "^3.0.6"
   },
   "dependencies": {
+    "@atlaskit/radio": "^0.2.4",
     "@firebase/app-types": "0.x",
     "@sentry/browser": "^4.1.1",
     "axios": "^0.18.0",
