@@ -8,7 +8,11 @@ class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
     this.state = { error: null }
-    this.active = false //***** False in development, True for production *****
+    //***** False in development, True for production *****
+    this.active = false
+    if (process.env.NODE_ENV === 'production') {
+      this.active = true
+    }
   }
 
   componentDidCatch(error, errorInfo) {

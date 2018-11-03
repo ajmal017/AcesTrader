@@ -8,6 +8,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import dialogPolyfill from 'dialog-polyfill'
 import ErrorBoundary from '../../../components/ErrorBoundary/'
 import { removeBuyFromList } from '../../../redux/reducerBuys'
 import { removeSellFromList } from '../../../redux/reducerSells'
@@ -26,12 +27,16 @@ import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
 import ChartDashboard from '../ChartDashboard'
 import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
+import { editListObjectPrarmetersAsync } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 var cloneDeep = require('lodash.clonedeep')
 
 class Chartcell extends Component {
   constructor(props) {
     super(props)
+    this.handleEditChartParams = this.handleEditChartParams.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.dialogChartParams = null
     this.handleEntry = this.handleEntry.bind(this)
     this.handleOrderDispatch = this.handleOrderDispatch.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
@@ -41,9 +46,33 @@ class Chartcell extends Component {
     this.values = null //array of price values from API call
     this.filteredValues = null //array of price values remaining after filter
     this.data = null
-    this.dynamicCounter = 0
-    // this.state = { dynamicCounter: this.dynamicCounter }
-    this.state = { lastBar: {} }
+    this.state = {
+      data: false,
+      hide: false,
+      noprices: false,
+    }
+  }
+
+  handleInputChange(event) {
+    const target = event.target
+    const name = target.name
+    const value = target.value
+    this.setState({
+      [name]: value,
+    })
+  }
+
+  handleEditChartParams(event) {
+    this.dialogChartParams.showModal()
+    let self = this
+    this.dialogChartParams.addEventListener('close', function(event) {
+      if (self.dialogChartParams.returnValue === 'yes') {
+        /* save the current data */
+        // the parameterData is an object with key/value pairs for each form field: {name: value, name: value, ...}
+        let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
+        self.props.dispatch(editListObjectPrarmetersAsync(self.hash, parameterData))
+      }
+    })
   }
 
   componentDidMount() {
@@ -52,13 +81,24 @@ class Chartcell extends Component {
     if (this.data) {
       this.setState({ data: true, hide: false }) //data is available in cache
     } else {
-      this.loadChartData()
+      this.loadChartData(this.props.cellObject.weeklyBars, this.props.cellObject.macdChart)
     }
   }
 
-  loadChartData = () => {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.data === false && this.state.data === true) {
+      this.dialogChartParams = document.getElementById('chart-params' + this.hash)
+      dialogPolyfill.registerDialog(this.dialogChartParams) // Now dialog acts like a native <dialog>.
+    }
+    // Not needed? Changed state of symbol's list object caused update already?
+    // if (prevProps !== this.props) {
+    //   this.loadChartData(this.props.cellObject.weeklyBars, this.props.cellObject.macdChart)
+    // }
+  }
+
+  loadChartData = (weeklyBars = null, macdChart = null) => {
     const symbol = this.props.cellObject.symbol
-    const range = '1y'
+    const range = weeklyBars ? '5yr' : '1y'
     const self = this
     // console.log('loadChartData ' + symbol)
     getChartData(symbol, range)
@@ -68,7 +108,8 @@ class Chartcell extends Component {
           //Memory leak reported by VSCode, seems to cause many weird code mistakes when running
           self.setState({ data: true, noprices: true, hide: false })
         } else {
-          putPriceData(symbol, data) //cache the price data for subsequent rendering
+          let priceData = weeklyBars ? this.convertToWeeklyBars(data) : data
+          putPriceData(symbol, priceData) //cache the price data for subsequent rendering
           self.setState({ data: true, hide: false }) //triggers render using the cached data
         }
       })
@@ -81,6 +122,7 @@ class Chartcell extends Component {
         // alert('getChartData axios error: ' + error.message) //rude interruption to user
       })
   }
+  convertToWeeklyBars = (data) => {}
 
   // getLastBar = () => {
   //   const symbol = this.props.cellObject.symbol
@@ -105,7 +147,6 @@ class Chartcell extends Component {
   //         let barOpen = +((barHigh + barLow) / 2).toFixed(2)
   //         // TODO Use this bar in Chart
   //         // let lastBar = { close: barClose, date: '', high: barHigh, low: barLow, open: barOpen, volume: barVolume }
-  //         self.setState({ dynamicCounter: ++self.dynamicCounter })
   //       } else {
   //         // putPriceData(symbol, data) //cache the price data for subsequent rendering
   //         // self.setState({ data: true, hide: false }) //triggers render using the cached data
@@ -129,7 +170,7 @@ class Chartcell extends Component {
   handleOrderDispatch() {
     // This is a newly opened position or a newly closed position for this symbol
     this.setState({ hide: false })
-    // Use Button to fetch confirmed trade price (when available) for the specified hash id object.
+    // Use a Button to fetch confirmed trade data (when available) for the specified hash id object.
     // Get the filled price, quantity, and account number from Ameritrade********
     const enteredPrice = 'pending'
     const exitedPrice = 'pending'
@@ -237,7 +278,7 @@ class Chartcell extends Component {
       )
     }
 
-    this.chartSelector = this.props.chartSelector
+    this.chartSelector = this.props.chartSelector //Temp switch between MACD and MA charts
 
     // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the corrent data for the new current symbol
@@ -245,20 +286,48 @@ class Chartcell extends Component {
 
     return (
       <>
-        <dialog />
+        <dialog id={'chart-params' + this.hash} className={'chart-edit-form'}>
+          <span className={'dialog-symbol'}> {this.symbol} - Make Your Changes Below.</span>
+          <br />
+          <br />
+          <form method="dialog">
+            <label htmlFor="timeSeries">Weekly Bars</label>
+            <input type="text" name="timeSeries" value={this.state.weeklyBars} onChange={this.handleInputChange} />
+            <br />
+            <label htmlFor="indicatorMacd">MACD Indicator</label>
+            <input type="text" name="indicatorMacd" value={this.state.macdChart} onChange={this.handleInputChange} />
+            <br />
+            <br />
+            <button type="submit" value="no">
+              Cancel
+            </button>
+            &nbsp; &nbsp; &nbsp; &nbsp;
+            <button type="submit" value="yes">
+              Save
+            </button>
+          </form>
+        </dialog>
         <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
           {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
           <div id={cell_id} className="chart-cell">
             <div className="graph-header">
               <span className="cell-title">{chart_name}</span>
+              <span className="chart-series-label">{this.weeklyBars ? 'Weekly bars' : 'Daily bars'}</span>
+              <span className="chart-indicator-label">{this.macdChart ? 'MACD' : 'MAs'}</span>
               {/* <button onClick={this.getLastBar} className="cell-getlast-button" type="button" aria-label="getlast">
               Get Last
             </button> */}
+              <button onClick={this.handleEditChartParams} className={'chart-edit-button'}>
+                <img
+                  alt=""
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC"
+                />
+              </button>
             </div>
             <div className="form-header">
               {/* if this.entered is undefined, this is still in a Prospects list, so the X delete button is added */}
               {this.entered === undefined ? (
-                <button onClick={this.handleDelete} className="cell-button" type="button" aria-label="delete">
+                <button onClick={this.handleDelete} className="cell-delete-button" type="button" aria-label="delete">
                   &times;
                 </button>
               ) : null}
