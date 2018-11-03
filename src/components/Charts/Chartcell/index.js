@@ -62,6 +62,14 @@ class Chartcell extends Component {
     })
   }
 
+  handleRadioChange = (event) => {
+    const value = event.target.value
+    if (value === 'daily') this.setState({ ['weeklyBars']: false })
+    if (value === 'weekly') this.setState({ ['weeklyBars']: true })
+    if (value === 'ma') this.setState({ ['macdChart']: false })
+    if (value === 'macd') this.setState({ ['macdChart']: true })
+  }
+
   handleEditChartParams(event) {
     this.dialogChartParams.showModal()
     let self = this
@@ -69,7 +77,7 @@ class Chartcell extends Component {
       if (self.dialogChartParams.returnValue === 'yes') {
         /* save the current data */
         // the parameterData is an object with key/value pairs for each form field: {name: value, name: value, ...}
-        let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
+        let parameterData = { weeklyBars: self.state.weeklyBars, macdChart: self.state.macdChart }
         self.props.dispatch(editListObjectPrarmetersAsync(self.hash, parameterData))
       }
     })
@@ -81,7 +89,7 @@ class Chartcell extends Component {
     if (this.data) {
       this.setState({ data: true, hide: false }) //data is available in cache
     } else {
-      this.loadChartData(this.props.cellObject.weeklyBars, this.props.cellObject.macdChart)
+      this.loadChartData(this.props.cellObject.weeklyBars)
     }
   }
 
@@ -92,11 +100,12 @@ class Chartcell extends Component {
     }
     // Not needed? Changed state of symbol's list object caused update already?
     // if (prevProps !== this.props) {
-    //   this.loadChartData(this.props.cellObject.weeklyBars, this.props.cellObject.macdChart)
+    //   this.loadChartData(this.props.cellObject.weeklyBars)
     // }
   }
 
-  loadChartData = (weeklyBars = null, macdChart = null) => {
+  // dailyBars if weeklyBars===false
+  loadChartData = (weeklyBars = false) => {
     const symbol = this.props.cellObject.symbol
     const range = weeklyBars ? '5yr' : '1y'
     const self = this
@@ -278,8 +287,6 @@ class Chartcell extends Component {
       )
     }
 
-    this.chartSelector = this.props.chartSelector //Temp switch between MACD and MA charts
-
     // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the corrent data for the new current symbol
     this.data = getPriceData(this.props.cellObject.symbol)
@@ -291,11 +298,14 @@ class Chartcell extends Component {
           <br />
           <br />
           <form method="dialog">
-            <label htmlFor="timeSeries">Weekly Bars</label>
-            <input type="text" name="timeSeries" value={this.state.weeklyBars} onChange={this.handleInputChange} />
-            <br />
-            <label htmlFor="indicatorMacd">MACD Indicator</label>
-            <input type="text" name="indicatorMacd" value={this.state.macdChart} onChange={this.handleInputChange} />
+            <div className="chart-radio-row">
+              <input type="radio" value="daily" name="seriesBars" onChange={this.handleRadioChange} defaultChecked={this.props.cellObject.weeklyBars === false} /> Daily Bars
+              <input type="radio" value="weekly" name="seriesBars" onChange={this.handleRadioChange} defaultChecked={this.props.cellObject.weeklyBars === true} /> Weekly Bars
+            </div>
+            <div className="chart-radio-row">
+              <input type="radio" value="ma" name="indicators" onChange={this.handleRadioChange} defaultChecked={this.props.cellObject.macd === false} /> With MA
+              <input type="radio" value="macd" name="indicators" onChange={this.handleRadioChange} defaultChecked={this.props.cellObject.macd === true} /> With MACD
+            </div>
             <br />
             <br />
             <button type="submit" value="no">
@@ -312,8 +322,8 @@ class Chartcell extends Component {
           <div id={cell_id} className="chart-cell">
             <div className="graph-header">
               <span className="cell-title">{chart_name}</span>
-              <span className="chart-series-label">{this.weeklyBars ? 'Weekly bars' : 'Daily bars'}</span>
-              <span className="chart-indicator-label">{this.macdChart ? 'MACD' : 'MAs'}</span>
+              <span className="chart-series-label">{this.props.cellObject.weeklyBars ? 'Weekly Bars' : 'Daily Bars'}</span>
+              <span className="chart-indicator-label">{this.props.cellObject.macdChart ? 'With MACD' : 'With MA'}</span>
               {/* <button onClick={this.getLastBar} className="cell-getlast-button" type="button" aria-label="getlast">
               Get Last
             </button> */}
@@ -341,16 +351,10 @@ class Chartcell extends Component {
               ) : (
                 <ErrorBoundary sentry={true} chart={true}>
                   {/* Catch the random timing error here, but don't abort. Continue on (with possible bad chart?!) */}
-                  {/* The three errors I've seen have been:  */}
-                  {/* 1. undefined is not an object (evaluating 'e.axes') */}
-                  {/* 2. undefined is not an object (evaluating 'e.mouseCoord'). */}
-                  {/* 3. undefined is not an object (evaluating 'contexts.mouseCoord'), from GenericComponent. */}
-                  {/* All have come from deep within CandleStickChartWithMA, */}
-                  {/* but I've not found any relavent instructions there, except for #3. */}
-                  {this.chartSelector ? (
-                    <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
-                  ) : (
+                  {this.props.cellObject.macdChart ? (
                     <CandleStickChartWithMACD chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
+                  ) : (
+                    <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
                   )}
                 </ErrorBoundary>
               )}
