@@ -23,8 +23,8 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  /* grid-template-rows: 40px 247px 16px 200px 47px; */
-  grid-template-rows: 40px auto 16px auto 47px;
+  /* grid-template-rows: 40px auto 16px auto 47px; */
+  grid-template-rows: 40px auto 16px auto 5px;
   grid-template-areas:
     'cellheader'
     'cellgraph'

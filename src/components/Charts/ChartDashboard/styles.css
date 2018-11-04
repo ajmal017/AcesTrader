@@ -5,15 +5,16 @@
   padding: 5px;
   border-radius: 5px;
   border: blue solid 1px;
-  height: 220px;
+  margin-bottom: 10px;
+  /* height: 220px; */
   /* height: 180px; */
 }
 
 .dashboard-data {
-  height: 206px;
+  /* height: 206px; */
   /* height: 168px; */
-  /* border-radius: 5px;
-  border: blue solid 1px; */
+  /* border-radius: 5px; */
+  /* border: blue solid 1px; */
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 22px 1fr 36px;
