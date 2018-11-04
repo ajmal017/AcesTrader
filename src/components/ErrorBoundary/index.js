@@ -28,11 +28,13 @@ class ErrorBoundary extends Component {
       })
       Sentry.captureException(error)
       // Sentry.showReportDialog()
+      debugger
     }
   }
 
   render() {
     if (this.state.error) {
+      debugger
       //render fallback UI
       if (this.props.chart) {
         return (

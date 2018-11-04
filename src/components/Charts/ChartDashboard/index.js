@@ -76,7 +76,7 @@ class ChartDashboard extends Component {
 
   handleEditDashboardParams(event) {
     this.dialogDashboardParams.showModal()
-    let self = this
+    let self = this //Note: bind(this) does not seem to work here. Polyfill problem?
     this.dialogDashboardParams.addEventListener('close', function(event) {
       if (self.dialogDashboardParams.returnValue === 'yes') {
         let parameterData = self.state
