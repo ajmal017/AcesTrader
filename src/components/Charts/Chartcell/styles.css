@@ -112,6 +112,25 @@
   background: #cac8c8dc;
 }
 
+.chart-edit-form-edit-form input[type='radio'] {
+  width: 32%;
+  margin-left: 10px;
+  margin-right: 20px;
+  padding: 0px 4px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.chart-radio-block {
+  display: block;
+  margin-top: 10px;
+}
+.chart-radio-row {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .graph-content {
   grid-area: cellgraph;
   width: 100%;

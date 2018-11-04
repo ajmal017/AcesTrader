@@ -35,14 +35,15 @@ class Chartcell extends Component {
   constructor(props) {
     super(props)
     this.handleEditChartParams = this.handleEditChartParams.bind(this)
+    this.handleRadioChange = this.handleRadioChange.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
-    this.dialogChartParams = null
     this.handleEntry = this.handleEntry.bind(this)
     this.handleOrderDispatch = this.handleOrderDispatch.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
     this.handleDeleteDispatch = this.handleDeleteDispatch.bind(this)
     this.loadChartData = this.loadChartData.bind(this)
     // this.getLastBar = this.getLastBar.bind(this)
+    this.dialogChartParams = null
     this.values = null //array of price values from API call
     this.filteredValues = null //array of price values remaining after filter
     this.data = null
@@ -62,21 +63,28 @@ class Chartcell extends Component {
     })
   }
 
-  handleRadioChange = (event) => {
+  handleRadioChange(event) {
     const value = event.target.value
-    if (value === 'daily') this.setState({ ['weeklyBars']: false })
-    if (value === 'weekly') this.setState({ ['weeklyBars']: true })
-    if (value === 'ma') this.setState({ ['macdChart']: false })
-    if (value === 'macd') this.setState({ ['macdChart']: true })
+    if (value === 'daily') this.setState({ weeklyBars: false })
+    if (value === 'weekly') this.setState({ weeklyBars: true })
+    if (value === 'ma') this.setState({ macdChart: false })
+    if (value === 'macd') this.setState({ macdChart: true })
   }
 
   handleEditChartParams(event) {
+    // reset the current state from the symbol's list object
+    let weeklyBars = this.props.cellObject.weeklyBars ? true : false
+    let macdChart = this.props.cellObject.macdChart ? true : false
+    this.setState({ weeklyBars: weeklyBars, macdChart: macdChart })
+    // let prevState = this.state
+    // console.log(`Model Entrance weeklyBars=${weeklyBars} macdChart=${macdChart}`)
+    // console.log(JSON.stringify(prevState, null, 2)) // a readable log of the object's json
+    // Right click > Copies All in the Console panel to copy to clipboard
     this.dialogChartParams.showModal()
     let self = this
     this.dialogChartParams.addEventListener('close', function(event) {
       if (self.dialogChartParams.returnValue === 'yes') {
-        /* save the current data */
-        // the parameterData is an object with key/value pairs for each form field: {name: value, name: value, ...}
+        // Save the parameterData which is an object with key/value pairs for each form field: {name: value, name: value, ...}
         let parameterData = { weeklyBars: self.state.weeklyBars, macdChart: self.state.macdChart }
         self.props.dispatch(editListObjectPrarmetersAsync(self.hash, parameterData))
       }
@@ -98,10 +106,6 @@ class Chartcell extends Component {
       this.dialogChartParams = document.getElementById('chart-params' + this.hash)
       dialogPolyfill.registerDialog(this.dialogChartParams) // Now dialog acts like a native <dialog>.
     }
-    // Not needed? Changed state of symbol's list object caused update already?
-    // if (prevProps !== this.props) {
-    //   this.loadChartData(this.props.cellObject.weeklyBars)
-    // }
   }
 
   // dailyBars if weeklyBars===false
@@ -131,7 +135,9 @@ class Chartcell extends Component {
         // alert('getChartData axios error: ' + error.message) //rude interruption to user
       })
   }
-  convertToWeeklyBars = (data) => {}
+  convertToWeeklyBars = (data) => {
+    return data // temporary
+  }
 
   // getLastBar = () => {
   //   const symbol = this.props.cellObject.symbol
@@ -291,6 +297,9 @@ class Chartcell extends Component {
     // so we make sure we have the corrent data for the new current symbol
     this.data = getPriceData(this.props.cellObject.symbol)
 
+    // const test = this.props.cellObject.macdChart
+    // const test2 = this.props.cellObject.macd
+
     return (
       <>
         <dialog id={'chart-params' + this.hash} className={'chart-edit-form'}>
@@ -298,13 +307,23 @@ class Chartcell extends Component {
           <br />
           <br />
           <form method="dialog">
-            <div className="chart-radio-row">
-              <input type="radio" value="daily" name="seriesBars" onChange={this.handleRadioChange} defaultChecked={this.props.cellObject.weeklyBars === false} /> Daily Bars
-              <input type="radio" value="weekly" name="seriesBars" onChange={this.handleRadioChange} defaultChecked={this.props.cellObject.weeklyBars === true} /> Weekly Bars
+            <div className="chart-radio-block">
+              <div className="chart-radio-row">
+                <input type="radio" value="daily" name="seriesBars" onChange={this.handleRadioChange} checked={this.state.weeklyBars !== true} />
+                Daily Bars
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <input type="radio" value="weekly" name="seriesBars" onChange={this.handleRadioChange} checked={this.state.weeklyBars === true} />
+                Weekly Bars
+              </div>
             </div>
-            <div className="chart-radio-row">
-              <input type="radio" value="ma" name="indicators" onChange={this.handleRadioChange} defaultChecked={this.props.cellObject.macd === false} /> With MA
-              <input type="radio" value="macd" name="indicators" onChange={this.handleRadioChange} defaultChecked={this.props.cellObject.macd === true} /> With MACD
+            <div className="chart-radio-block">
+              <div className="chart-radio-row">
+                <input type="radio" value="ma" name="indicators" onChange={this.handleRadioChange} checked={this.state.macdChart !== true} />
+                With MA
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <input type="radio" value="macd" name="indicators" onChange={this.handleRadioChange} checked={this.state.macdChart === true} />
+                With MACD
+              </div>
             </div>
             <br />
             <br />
