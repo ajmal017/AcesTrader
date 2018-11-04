@@ -81,7 +81,7 @@ class Chartcell extends Component {
     // console.log(JSON.stringify(prevState, null, 2)) // a readable log of the object's json
     // Right click > Copies All in the Console panel to copy to clipboard
     this.dialogChartParams.showModal()
-    let self = this
+    let self = this //Note: bind(this) does not seem to work here. Polyfill problem?
     this.dialogChartParams.addEventListener('close', function(event) {
       if (self.dialogChartParams.returnValue === 'yes') {
         // Save the parameterData which is an object with key/value pairs for each form field: {name: value, name: value, ...}
