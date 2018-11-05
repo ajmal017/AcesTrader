@@ -29,37 +29,12 @@ class ChartDashboard extends Component {
     this.handleEditDashboardParams = this.handleEditDashboardParams.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.dialogDashboardParams = null
-    this.state = {
-      watched: '', // this.watched,
-      watchedPrice: '', // this.watchedPrice,
-      entered: '', // this.entered,
-      enteredPrice: '', // this.enteredPrice,
-      filledQuantity: '', // this.filledQuantity,
-      session: '', // this.session,
-      instruction: '', // this.instruction,
-      quantity: '', // this.quantity,
-      quantityType: '', // this.quantityType,
-      orderType: '', // this.orderType,
-      duration: '', // this.duration,
-    }
+    this.state = {}
   }
 
   componentDidMount() {
     this.dialogDashboardParams = document.getElementById('dashboard-params' + this.hash)
     dialogPolyfill.registerDialog(this.dialogDashboardParams) // Now dialog acts like a native <dialog>.
-    this.setState({
-      watched: this.watched,
-      watchedPrice: this.watchedPrice,
-      entered: this.entered,
-      enteredPrice: this.enteredPrice,
-      filledQuantity: this.filledQuantity,
-      session: this.session,
-      instruction: this.instruction,
-      quantity: this.quantity,
-      quantityType: this.quantityType,
-      orderType: this.orderType,
-      duration: this.duration,
-    })
   }
 
   handleInputChange(event) {
@@ -75,6 +50,20 @@ class ChartDashboard extends Component {
   numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
   handleEditDashboardParams(event) {
+    // Reset the state of dialog's values, using the current props, to replace left-over values from a canceled updated
+    this.setState({
+      watched: this.watched,
+      watchedPrice: this.watchedPrice,
+      entered: this.entered,
+      enteredPrice: this.enteredPrice,
+      filledQuantity: this.filledQuantity,
+      session: this.session,
+      instruction: this.instruction,
+      quantity: this.quantity,
+      quantityType: this.quantityType,
+      orderType: this.orderType,
+      duration: this.duration,
+    })
     this.dialogDashboardParams.showModal()
     let self = this //Note: bind(this) does not seem to work here. Polyfill problem?
     this.dialogDashboardParams.addEventListener('close', function(event) {
@@ -82,6 +71,7 @@ class ChartDashboard extends Component {
         let parameterData = self.state
         // the parameterData is an object with key/value pairs for each form field: {name: value, name: value, ...}
         self.props.dispatch(editListObjectPrarmetersAsync(self.hash, parameterData))
+        // Note: this dispatch changes the store's state which re-renders this component delivering new props
       }
     })
   }
