@@ -107,12 +107,15 @@ class Chartcell extends Component {
       this.dialogChartParams = document.getElementById('chart-params' + this.hash)
       dialogPolyfill.registerDialog(this.dialogChartParams) // Now dialog acts like a native <dialog>.
     }
+    if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
+      this.loadChartData(this.props.cellObject.weeklyBars)
+    }
   }
 
   // dailyBars if weeklyBars===false
   loadChartData = (weeklyBars = false) => {
     const symbol = this.props.cellObject.symbol
-    const range = weeklyBars ? '5yr' : '1y'
+    const range = weeklyBars ? '5y' : '1y'
     const self = this
     // console.log('loadChartData ' + symbol)
     getChartData(symbol, range)
@@ -122,22 +125,55 @@ class Chartcell extends Component {
           //Memory leak reported by VSCode, seems to cause many weird code mistakes when running
           self.setState({ data: true, noprices: true, hide: false })
         } else {
-          let priceData = weeklyBars ? this.convertToWeeklyBars(data) : data
+          let priceData = weeklyBars ? self.convertToWeeklyBars(data) : data
           putPriceData(symbol, priceData) //cache the price data for subsequent rendering
-          self.setState({ data: true, hide: false }) //triggers render using the cached data
+          self.setState({ data: true, noprices: false, hide: false }) //triggers render using the cached data
         }
       })
       .catch(function(error) {
         console.log('getChartData axios error:', error.message)
-        // Rare occasional error.message seen: "undefined is not an object (evaluating 'e.axes') ".
-        // so we are replacing the alert() with the setState() to allow the program to continue.
-        // Retrying may work, but not tested yet.
-        self.setState({ data: true, noprices: true, hide: false })
-        // alert('getChartData axios error: ' + error.message) //rude interruption to user
+        // self.setState({ data: true, noprices: true, hide: false })
+        alert('getChartData axios error: ' + error.message) //rude interruption to user
       })
   }
   convertToWeeklyBars = (data) => {
-    return data // temporary
+    let obj,
+      day,
+      lastDate,
+      lastDay = 2 // initialize to Tuesday to start with 1st Monday
+    let open, high, low, close, volume
+    let weeklyBars = []
+    for (let k = 0; k < data.length; k++) {
+      obj = data[k].date
+      day = obj.getDay()
+      if (day < lastDay) {
+        // close current weekly bar
+        if (open) {
+          weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
+        }
+        // start new weekly bar
+        open = data[k].open
+        high = data[k].high
+        low = data[k].low
+        close = data[k].close
+        volume = data[k].volume
+      } else if (open) {
+        // add to weekly bar
+        high = high > data[k].high ? high : data[k].high
+        low = low < data[k].low ? low : data[k].low
+        close = data[k].close
+        volume += data[k].volume
+
+        if (k === data.length - 1) {
+          // close last weekly bar
+          weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
+        }
+      }
+      lastDay = day
+      lastDate = data[k].date
+    }
+    return weeklyBars
+    // return data // temporary - no change
   }
 
   // getLastBar = () => {
