@@ -17,20 +17,19 @@
   transition: opacity 0.3s linear;
 }
 
-/* See media query break for wide screen below */
-/*This one for narrow screens holds the two main items in one column*/
+/* This grid layout for narrow screens holds the two main items in one column */
+/* For wide screens, see media query break below at line 170 */
 .chart-cell {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  /* grid-template-rows: 40px auto 16px auto 47px; */
   grid-template-rows: 40px auto 16px auto 5px;
   grid-template-areas:
     'cellheader'
     'cellgraph'
     '.'
     'dataform'
-    'datafooter';
+    '.';
 }
 
 .graph-header {
@@ -159,24 +158,6 @@
   width: 100%;
   /* font-size: 12px; */
 }
-
-/* .dashboard-footer {
-  grid-area: datafooter;
-  display: inline-flex;
-  justify-content: center;
-  width: 100%;
-}
-.order-entry-button: {
-  font-size: 32px;
-  font-weight: 600;
-  background: #f9f9f9;
-  background-color: #f9f9f9;
-  padding: 0;
-  width: 40px;
-  border: 0;
-  outline: 0;
-  cursor: 'pointer';
-} */
 
 /* Desktop with expanded window wdth, OR */
 /* Device in landscape mode.*/

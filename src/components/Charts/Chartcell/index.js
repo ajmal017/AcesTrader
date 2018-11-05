@@ -72,7 +72,7 @@ class Chartcell extends Component {
   }
 
   handleEditChartParams(event) {
-    // reset the current state from the symbol's list object
+    // Reset the state of dialog's values, using the current props, to replace left-over values from a canceled updated
     let weeklyBars = this.props.cellObject.weeklyBars ? true : false
     let macdChart = this.props.cellObject.macdChart ? true : false
     this.setState({ weeklyBars: weeklyBars, macdChart: macdChart })
@@ -87,6 +87,7 @@ class Chartcell extends Component {
         // Save the parameterData which is an object with key/value pairs for each form field: {name: value, name: value, ...}
         let parameterData = { weeklyBars: self.state.weeklyBars, macdChart: self.state.macdChart }
         self.props.dispatch(editListObjectPrarmetersAsync(self.hash, parameterData))
+        // Note: this dispatch changes the store's state which re-renders this component delivering new props
       }
     })
   }
