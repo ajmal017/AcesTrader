@@ -163,9 +163,8 @@ class Chartcell extends Component {
         low = low < data[k].low ? low : data[k].low
         close = data[k].close
         volume += data[k].volume
-
         if (k === data.length - 1) {
-          // close last weekly bar
+          // after the last daily bar, close last weekly bar
           weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
         }
       }
@@ -173,7 +172,6 @@ class Chartcell extends Component {
       lastDate = data[k].date
     }
     return weeklyBars
-    // return data // temporary - no change
   }
 
   // getLastBar = () => {
@@ -334,9 +332,6 @@ class Chartcell extends Component {
     // so we make sure we have the corrent data for the new current symbol
     this.data = getPriceData(this.props.cellObject.symbol)
 
-    // const test = this.props.cellObject.macdChart
-    // const test2 = this.props.cellObject.macd
-
     return (
       <>
         <dialog id={'chart-params' + this.hash} className={'chart-edit-form'}>
@@ -408,9 +403,9 @@ class Chartcell extends Component {
                 <ErrorBoundary sentry={true} chart={true}>
                   {/* Catch the random timing error here, but don't abort. Continue on (with possible bad chart?!) */}
                   {this.props.cellObject.macdChart ? (
-                    <CandleStickChartWithMACD chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
+                    <CandleStickChartWithMACD chartId={chartId} data={this.data} symbol={chart_name} weekly={this.props.cellObject.weeklyBars} errorCount={this.props.errorCount} />
                   ) : (
-                    <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} errorCount={this.props.errorCount} />
+                    <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} weekly={this.props.cellObject.weeklyBars} errorCount={this.props.errorCount} />
                   )}
                 </ErrorBoundary>
               )}
