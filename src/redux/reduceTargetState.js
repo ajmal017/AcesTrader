@@ -30,6 +30,8 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
           theInputObject.symbol = theInputSymbol
           theInputObject.dashboard = newDashboard //includes the order entry parameters
           theInputObject.watched = theDate
+          theInputObject.weeklyBars = false //the default
+          theInputObject.macdChart = false //the default
           theInputObject.hash = uuidv4() // make for unique object ID, instead of symbol (which may be repeated in Positions & Results)
           theInputHash = theInputObject.hash
           break
