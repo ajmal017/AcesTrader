@@ -340,22 +340,14 @@ class Chartcell extends Component {
           <br />
           <form method="dialog">
             <div className="chart-radio-grid">
-              {/* <div className="chart-radio-block-1"> */}
-              {/* <div className="chart-radio-row"> */}
               <input className="buttonDaily" type="radio" value="daily" name="seriesBars" onChange={this.handleRadioChange} checked={this.state.weeklyBars !== true} />
               <span className="labelDaily">Daily Bars</span>
               <input className="buttonMA" type="radio" value="ma" name="indicators" onChange={this.handleRadioChange} checked={this.state.macdChart !== true} />
               <span className="labelMA">With MA</span>
-              {/* </div> */}
-              {/* </div> */}
-              {/* <div className="chart-radio-block-2"> */}
-              {/* <div className="chart-radio-row"> */}
               <input className="buttonWeekly" type="radio" value="weekly" name="seriesBars" onChange={this.handleRadioChange} checked={this.state.weeklyBars === true} />
               <span className="labelWeekly">Weekly Bars</span>
               <input className="buttonMACD" type="radio" value="macd" name="indicators" onChange={this.handleRadioChange} checked={this.state.macdChart === true} />
               <span className="labelMACD">With MACD</span>
-              {/* </div> */}
-              {/* </div> */}
             </div>
             <br />
             <br />
