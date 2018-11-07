@@ -50,7 +50,7 @@ class CandleStickChartWithMA extends React.Component {
       .accessor((d) => d.sma40)
 
     const ema20 = ema()
-      .id(0)
+      .id(1)
       .options({ windowSize: 20 })
       .merge((d, c) => {
         d.ema20 = c
@@ -58,6 +58,7 @@ class CandleStickChartWithMA extends React.Component {
       .accessor((d) => d.ema20)
 
     const ema50 = ema()
+      .id(2)
       .options({ windowSize: 50 })
       .merge((d, c) => {
         d.ema50 = c
@@ -65,6 +66,7 @@ class CandleStickChartWithMA extends React.Component {
       .accessor((d) => d.ema50)
 
     const sma200 = sma()
+      .id(3)
       .options({ windowSize: 200 })
       .merge((d, c) => {
         d.sma200 = c
@@ -135,8 +137,8 @@ class CandleStickChartWithMA extends React.Component {
 
     let maTooltip
     if (weekly) {
-      maTooltip = 
-      <>
+      maTooltip = (
+        <>
           <MovingAverageTooltip
             onClick={(e) => console.log(e)}
             origin={[-30, 15]}
@@ -149,40 +151,41 @@ class CandleStickChartWithMA extends React.Component {
               },
             ]}
           />
-               </>
+        </>
+      )
     } else {
-      maTooltip = 
-      <>
-      <MovingAverageTooltip
-      onClick={(e) => console.log(e)}
-      origin={[-30, 15]}
-      options={[
-        {
-          yAccessor: ema20.accessor(),
-          type: 'EMA',
-          stroke: ema20.stroke(),
-          windowSize: ema20.options().windowSize,
-          // echo: 'some echo here',
-        },
-        {
-          yAccessor: ema50.accessor(),
-          type: 'EMA',
-          stroke: ema50.stroke(),
-          windowSize: ema50.options().windowSize,
-          // echo: 'some echo here',
-        },
-        {
-          yAccessor: sma200.accessor(),
-          type: 'SMA',
-          stroke: sma200.stroke(),
-          windowSize: sma200.options().windowSize,
-          // echo: 'some echo here',
-        },
-      ]}
-      />
-    </>
+      maTooltip = (
+        <>
+          <MovingAverageTooltip
+            onClick={(e) => console.log(e)}
+            origin={[-30, 15]}
+            options={[
+              {
+                yAccessor: ema20.accessor(),
+                type: 'EMA',
+                stroke: ema20.stroke(),
+                windowSize: ema20.options().windowSize,
+                // echo: 'some echo here',
+              },
+              {
+                yAccessor: ema50.accessor(),
+                type: 'EMA',
+                stroke: ema50.stroke(),
+                windowSize: ema50.options().windowSize,
+                // echo: 'some echo here',
+              },
+              {
+                yAccessor: sma200.accessor(),
+                type: 'SMA',
+                stroke: sma200.stroke(),
+                windowSize: sma200.options().windowSize,
+                // echo: 'some echo here',
+              },
+            ]}
+          />
+        </>
+      )
     }
-
 
     return (
       <ChartCanvas
@@ -283,14 +286,13 @@ class CandleStickChartWithMA extends React.Component {
               },
             ]}
           /> */}
-
         </Chart>
         {/* <Chart id={chartId + '2'} yExtents={[(d) => d.volume, smaVolume50.accessor()]} height={volBarHeight} origin={(w, h) => [0, h - volBarHeight]}> */}
         <Chart id={chartId + '2'} yExtents={[(d) => d.volume]} height={volBarHeight} origin={(w, h) => [0, h - volBarHeight]}>
           <YAxis axisAt="left" orient="left" ticks={3} tickFormat={format('.2s')} />
 
           <MouseCoordinateX at="bottom" orient="bottom" displayFormat={timeFormat('%Y-%m-%d')} {...mouseEdgeAppearance} />
-          <MouseCoordinateY at="left" orient="left" displayFormat={format('.4s')} {...mouseEdgeAppearance} />
+          <MouseCoordinateY at="left" orient="left" displayFormat={format('.2s')} {...mouseEdgeAppearance} />
 
           <BarSeries yAccessor={(d) => d.volume} fill={(d) => (d.close > d.open ? '#6BA583' : 'red')} />
           {/* <AreaSeries yAccessor={smaVolume50.accessor()} stroke={smaVolume50.stroke()} fill={smaVolume50.fill()} /> */}
