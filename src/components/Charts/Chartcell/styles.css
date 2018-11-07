@@ -121,7 +121,46 @@
   border-radius: 4px;
   box-sizing: border-box;
 }
-.chart-radio-block {
+.chart-radio-grid {
+  display: grid;
+  grid-template-columns: 30px, 20px, 1fr, 30px, 20px, 1fr;
+  grid-template-rows: 30px, 30px;
+  grid-row-gap: 10px;
+  grid-template-areas:
+    'w butDaily labDaily y butMA labMA'
+    'x butWeekly labWeekly z butMACD labMACD';
+}
+.buttonDaily {
+  grid-area: butDaily;
+}
+.buttonWeekly {
+  grid-area: butWeekly;
+}
+.buttonMA {
+  grid-area: butMA;
+}
+.buttonMACD {
+  grid-area: butMACD;
+}
+.labelDaily {
+  grid-area: labDaily;
+}
+.labelWeekly {
+  grid-area: labWeekly;
+}
+.labelMA {
+  grid-area: labMA;
+}
+.labelMACD {
+  grid-area: labMACD;
+}
+
+.chart-radio-block-1 {
+  display: block;
+  margin-top: 10px;
+  margin-left: -6px;
+}
+.chart-radio-block-2 {
   display: block;
   margin-top: 10px;
 }

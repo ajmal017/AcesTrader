@@ -339,23 +339,23 @@ class Chartcell extends Component {
           <br />
           <br />
           <form method="dialog">
-            <div className="chart-radio-block">
-              <div className="chart-radio-row">
-                <input type="radio" value="daily" name="seriesBars" onChange={this.handleRadioChange} checked={this.state.weeklyBars !== true} />
-                Daily Bars
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                <input type="radio" value="weekly" name="seriesBars" onChange={this.handleRadioChange} checked={this.state.weeklyBars === true} />
-                Weekly Bars
-              </div>
-            </div>
-            <div className="chart-radio-block">
-              <div className="chart-radio-row">
-                <input type="radio" value="ma" name="indicators" onChange={this.handleRadioChange} checked={this.state.macdChart !== true} />
-                With MA
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                <input type="radio" value="macd" name="indicators" onChange={this.handleRadioChange} checked={this.state.macdChart === true} />
-                With MACD
-              </div>
+            <div className="chart-radio-grid">
+              {/* <div className="chart-radio-block-1"> */}
+              {/* <div className="chart-radio-row"> */}
+              <input className="buttonDaily" type="radio" value="daily" name="seriesBars" onChange={this.handleRadioChange} checked={this.state.weeklyBars !== true} />
+              <span className="labelDaily">Daily Bars</span>
+              <input className="buttonMA" type="radio" value="ma" name="indicators" onChange={this.handleRadioChange} checked={this.state.macdChart !== true} />
+              <span className="labelMA">With MA</span>
+              {/* </div> */}
+              {/* </div> */}
+              {/* <div className="chart-radio-block-2"> */}
+              {/* <div className="chart-radio-row"> */}
+              <input className="buttonWeekly" type="radio" value="weekly" name="seriesBars" onChange={this.handleRadioChange} checked={this.state.weeklyBars === true} />
+              <span className="labelWeekly">Weekly Bars</span>
+              <input className="buttonMACD" type="radio" value="macd" name="indicators" onChange={this.handleRadioChange} checked={this.state.macdChart === true} />
+              <span className="labelMACD">With MACD</span>
+              {/* </div> */}
+              {/* </div> */}
             </div>
             <br />
             <br />
