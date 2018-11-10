@@ -107,6 +107,7 @@ class Chartcell extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.data === false && this.state.data === true) {
+      // render call has loaded the DOM at this time
       this.dialogChartParams = document.getElementById('chart-params' + this.hash)
       dialogPolyfill.registerDialog(this.dialogChartParams) // Now dialog acts like a native <dialog>.
     }
@@ -398,9 +399,9 @@ class Chartcell extends Component {
                 <ErrorBoundary sentry={true} chart={true}>
                   {/* Catch the random timing error here, but don't abort. Continue on (with possible bad chart?!) */}
                   {this.props.cellObject.macdChart ? (
-                    <CandleStickChartWithMACD chartId={chartId} data={this.data} symbol={chart_name} weekly={this.props.cellObject.weeklyBars} errorCount={this.props.errorCount} />
+                    <CandleStickChartWithMACD chartId={chartId} data={this.data} symbol={chart_name} weekly={this.props.cellObject.weeklyBars ? true : false} errorCount={this.props.errorCount} />
                   ) : (
-                    <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} weekly={this.props.cellObject.weeklyBars} errorCount={this.props.errorCount} />
+                    <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} weekly={this.props.cellObject.weeklyBars ? true : false} errorCount={this.props.errorCount} />
                   )}
                 </ErrorBoundary>
               )}

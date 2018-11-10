@@ -51,7 +51,7 @@ class App extends Component {
 
     if (this.state.store === null) {
       // this is either an initial load or a user reload
-      //create the store object now with the app's state,
+      //create the store object now with the app's default state,
       let theStore = createStore(rootReducer, undefined, applyMiddleware(firebaseSaveState(this.reference), thunk)) // 'persistedState=undefined' creates store with default state by using the initial state specified by the reducers
       // to handle a possible user reload, force a signout to get back in sync
       fire

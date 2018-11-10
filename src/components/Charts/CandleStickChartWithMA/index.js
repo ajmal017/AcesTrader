@@ -307,6 +307,7 @@ class CandleStickChartWithMA extends React.Component {
 
 CandleStickChartWithMA.propTypes = {
   data: PropTypes.array.isRequired,
+  weekly: PropTypes.bool.isRequired,
   chartId: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   height: PropTypes.number.isRequired,
@@ -321,7 +322,6 @@ CandleStickChartWithMA.defaultProps = {
   zoomEvent: true, //false,
   clamp: false, //true,
   height: 250,
-  weekly: true,
   mouseMoveEvent: false, //true, // 10/20/2018 - fixes exception below in drawOnCanvas() ??
 }
 // TypeError ocurred randomly:

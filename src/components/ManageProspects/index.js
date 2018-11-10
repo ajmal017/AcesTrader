@@ -7,6 +7,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import withSizes from 'react-sizes'
 import appScrollbarWidth from '../../lib/appScrollbarWidth.js'
+import { getReference, referenceLocaltrader } from '../../lib/dbReference'
 import { addBuysToList, removeAllBuysFromList } from '../../redux/reducerBuys'
 import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells'
 import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/reducerTrendBuys'
@@ -23,7 +24,6 @@ class ManageProspects extends Component {
     super(props)
     this.state = {
       isAcceptButtonDisabled: true,
-      textValue: process.env.NODE_ENV === 'development' ? props.mockSymbols : '',
     }
     this.handleClick = props.handleClick
     this.handleChange = this.handleChange.bind(this)
@@ -64,8 +64,11 @@ class ManageProspects extends Component {
     //then when the value is changed it will goto the end.
     //If you set value to the same, it won't change in chrome.
     this.textBox.focus()
+    this.reference = getReference() //indicates the user's role
     this.textBox.value = ''
-    this.textBox.value = this.state.textValue
+    if (this.reference === referenceLocaltrader && process.env.NODE_ENV === 'development') {
+      this.textBox.value = this.props.mockSymbols //for testing and debugging
+    }
   }
 
   componentDidUpdate() {
