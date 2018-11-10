@@ -90,6 +90,9 @@ class Chartcell extends Component {
         // Note: this dispatch changes the store's state which re-renders this component delivering new props
       }
     })
+    this.dialogChartParams.addEventListener('cancel', function(event) {
+      event.preventDefault() // disables using the Esc button to close
+    })
   }
 
   componentDidMount() {
