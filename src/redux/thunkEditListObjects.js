@@ -113,6 +113,9 @@ export const addWatchPriceAndIssueTypeAsync = (tradeSide) => {
       } else {
         newObject['watchedPrice'] = price //the price when this symbol was added to the prospects' watch list
       }
+      if (tradeSide === 'TREND BUYS') {
+        newObject['weeklyBars'] = true // make this the default chart for trend trading
+      }
       // Add the IEX security issueType code
       let DataObject = getSymbolDataObject(newObject.symbol)
       newObject['issueType'] = DataObject.issueType
