@@ -90,7 +90,7 @@ button.buttonsignin {
   font-size: 22px;
   margin-top: 80px;
 }
-.buttonsWrapper.demomode:hover {
+.demomode:hover {
   background: #adb5bd;
 }
 

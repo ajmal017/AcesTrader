@@ -118,7 +118,7 @@ class ChartDashboard extends Component {
 
     return (
       <div className="dashboard">
-        <dialog id={'dashboard-params' + this.hash} className={'dashboard-edit-form'}>
+        <dialog id={'dashboard-params' + this.hash} className={'dashboard-dialog-form'}>
           <span className={'dialog-symbol'}> {this.symbol} - Make Your Changes Below.</span>
           <br />
           <br />
