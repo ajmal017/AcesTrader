@@ -338,7 +338,7 @@ class Chartcell extends Component {
 
     return (
       <>
-        <dialog id={'chart-params' + this.hash} className={'chart-edit-form'}>
+        <dialog id={'chart-params' + this.hash} className={'chart-dialog-form'}>
           <span className={'dialog-symbol'}> {this.symbol} - Make Your Changes Below.</span>
           <br />
           <br />
@@ -399,9 +399,21 @@ class Chartcell extends Component {
                 <ErrorBoundary sentry={true} chart={true}>
                   {/* Catch the random timing error here, but don't abort. Continue on (with possible bad chart?!) */}
                   {this.props.cellObject.macdChart ? (
-                    <CandleStickChartWithMACD chartId={chartId} data={this.data} symbol={chart_name} weekly={this.props.cellObject.weeklyBars ? true : false} errorCount={this.props.errorCount} />
+                    <CandleStickChartWithMACD
+                      chartId={chartId}
+                      data={this.data}
+                      symbol={chart_name}
+                      weekly={this.props.cellObject.weeklyBars ? true : false}
+                      errorCount={this.props.errorCount}
+                    />
                   ) : (
-                    <CandleStickChartWithMA chartId={chartId} data={this.data} symbol={chart_name} weekly={this.props.cellObject.weeklyBars ? true : false} errorCount={this.props.errorCount} />
+                    <CandleStickChartWithMA
+                      chartId={chartId}
+                      data={this.data}
+                      symbol={chart_name}
+                      weekly={this.props.cellObject.weeklyBars ? true : false}
+                      errorCount={this.props.errorCount}
+                    />
                   )}
                 </ErrorBoundary>
               )}
