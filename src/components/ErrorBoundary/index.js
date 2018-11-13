@@ -9,9 +9,10 @@ class ErrorBoundary extends Component {
     super(props)
     this.state = { error: null }
     //***** False in development, True for production *****
-    this.active = false
-    if (process.env.NODE_ENV === 'production') {
-      this.active = true
+    if (process.env.NODE_ENV === 'production' && this.props.sentry) {
+      this.activeSentry = true
+    } else {
+      this.activeSentry = false
     }
   }
 
@@ -20,7 +21,7 @@ class ErrorBoundary extends Component {
       error: error,
       errorInfo: errorInfo,
     })
-    if (this.props.sentry && this.active) {
+    if (this.activeSentry) {
       Sentry.configureScope((scope) => {
         Object.keys(errorInfo).forEach((key) => {
           scope.setExtra(key, errorInfo[key])
@@ -34,7 +35,7 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.error) {
-      debugger
+      // debugger
       //render fallback UI
       if (this.props.chart) {
         return (
