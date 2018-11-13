@@ -98,7 +98,7 @@ class StartUp extends Component {
     if (stateRetrieved === 'pending') {
       return (
         <div style={divStyle}>
-          <h4>{`Retrieving Your List Data. Please Wait...`}</h4>
+          <h4>{`Loading Your Saved Data. Please Wait...`}</h4>
         </div>
       )
     }

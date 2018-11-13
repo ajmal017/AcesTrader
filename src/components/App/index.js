@@ -77,7 +77,7 @@ class App extends Component {
       const divStyle = { marginTop: 80, marginLeft: 50 }
       return (
         <div style={divStyle}>
-          <h4>{`Restarting The App. Please Wait...`}</h4>
+          <h4>{`Starting The App. Please Wait...`}</h4>
         </div>
       )
     }

@@ -49,19 +49,17 @@
   padding-top: 4px;
 }
 
-.order-entry-button: {
+/* .order-entry-button {
   font-size: 32px;
   font-weight: 600;
   background: #f9f9f9;
   background-color: #f9f9f9;
-  /* margin-left: auto; */
-  /* margin-top: -6px; */
   padding: 0;
   width: 40px;
   border: 1px;
   outline: 0;
   cursor: 'pointer';
-}
+} */
 
 .events-log {
   margin-top: 8px;
@@ -87,7 +85,7 @@
 }
 
 .dashboard-form input[type='text'] {
-  width: 22%;
+  width: 28%;
   margin-left: 10px;
   margin-right: 20px;
   padding: 0px 4px;
@@ -186,4 +184,26 @@ dialog {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+.dialog-button-submit:hover {
+  background: #cac8c8dc;
+}
+
+.dialog-button-cancel {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  /* background: white; */
+  /* background-color: white; */
+  background: #f9f9f9;
+  /* background-color: #f9f9f9; */
+
+  /* height: 36; */
+  /* border: #f9f9f9; */
+  /* opacity: 0.5; */
+}
+
+.dialog-button-cancel:hover {
+  background: #cac8c8dc;
 }
