@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import dialogPolyfill from 'dialog-polyfill'
+import DialogForm from './DialogForm'
 import { editListObjectPrarmetersAsync } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 
@@ -26,7 +27,8 @@ function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, perc
 class ChartDashboard extends Component {
   constructor(props) {
     super(props)
-    this.handleEditDashboardParams = this.handleEditDashboardParams.bind(this)
+    this.handleEditDialogOpen = this.handleEditDialogOpen.bind(this)
+    this.handleEditDialogClose = this.handleEditDialogClose.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.dialogDashboardParams = null
     this.state = {}
@@ -36,6 +38,8 @@ class ChartDashboard extends Component {
     this.dialogDashboardParams = document.getElementById('dashboard-params' + this.hash)
     dialogPolyfill.registerDialog(this.dialogDashboardParams) // Now dialog acts like a native <dialog>.
   }
+
+
 
   handleInputChange(event) {
     const target = event.target
@@ -49,7 +53,7 @@ class ChartDashboard extends Component {
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
-  handleEditDashboardParams(event) {
+  handleEditDialogOpen(event) {
     // Reset the state of dialog's values, using the current props, to replace left-over values from a canceled updated
     this.setState({
       watched: this.watched,
@@ -65,18 +69,28 @@ class ChartDashboard extends Component {
       duration: this.duration,
     })
     this.dialogDashboardParams.showModal()
-    let self = this //Note: bind(this) does not seem to work here. Polyfill problem?
-    this.dialogDashboardParams.addEventListener('close', function(event) {
-      if (self.dialogDashboardParams.returnValue === 'yes') {
-        let parameterData = self.state
-        // the parameterData is an object with key/value pairs for each form field: {name: value, name: value, ...}
-        self.props.dispatch(editListObjectPrarmetersAsync(self.hash, parameterData))
-        // Note: this dispatch changes the store's state which re-renders this component delivering new props
-      }
-    })
-    this.dialogDashboardParams.addEventListener('cancel', function(event) {
-      event.preventDefault() // disables using the Esc button to close
-    })
+    // let self = this //Note: bind(this) does not seem to work here. Polyfill problem?
+    // this.dialogDashboardParams.addEventListener('close', function(event) {
+    //   if (self.dialogDashboardParams.returnValue === 'yes') {
+    //     let parameterData = self.state
+    //     // the parameterData is an object with key/value pairs for each form field: {name: value, name: value, ...}
+    //     self.props.dispatch(editListObjectPrarmetersAsync(self.hash, parameterData))
+    //     // Note: this dispatch changes the store's state which re-renders this component delivering new props
+    //   }
+    // })
+    // this.dialogDashboardParams.addEventListener('cancel', function(event) {
+    //   event.preventDefault() // disables using the Esc button to close
+    // })
+  }
+
+  handleEditDialogClose(returnValue) {
+    // returns null if cancelled
+    if (returnValue) {
+      // // the returnValue is an object with key/value pairs for each form field: {name: value, name: value, ...}
+      // this.props.dispatch(editListObjectPrarmetersAsync(this.hash, returnValue))
+      // // Note: this dispatch changes the store's state which re-renders this component delivering new props
+    }
+    this.dialogDashboardParams.close()
   }
 
   render() {
@@ -116,11 +130,38 @@ class ChartDashboard extends Component {
     const timeDiff = endDate - startDate
     this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
 
+    this.dialogFormValues = {
+        watched: this.watched,
+        watchedPrice: this.watchedPrice,
+        entered: this.entered,
+        enteredPrice: this.enteredPrice,
+        filledQuantity: this.filledQuantity,
+        session: this.session,
+        instruction: this.instruction,
+        quantity: this.quantity,
+        quantityType: this.quantityType,
+        orderType: this.orderType,
+        duration: this.duration,
+    }
+
     return (
       <div className="dashboard">
         <dialog id={'dashboard-params' + this.hash} className={'dashboard-dialog-form'}>
+          {/* <button
+            type="submit"
+            className={'dialog-button-cancel'}
+            onClick={() => {
+              this.handleEditDialogClose(null)
+            }}>
+            Cancel
+          </button> */}
+
           <span className={'dialog-symbol'}> {this.symbol} - Make Your Changes Below.</span>
           <br />
+          <br />
+          <DialogForm formValues={this.dialogFormValues} listGroup={this.listGroup} exitCallback={this.handleEditDialogClose} />
+          {/* ================================================ */}
+          {/* <br />
           <br />
           <form method="dialog">
             <label htmlFor="watched">Watched</label>
@@ -142,8 +183,9 @@ class ChartDashboard extends Component {
                 <br />
               </span>
             ) : null}
-            <br />
-            <label htmlFor="session">Session</label>
+            <br /> */}
+          {/* ================================================ */}
+          {/* <label htmlFor="session">Session</label>
             <input type="text" name="session" value={this.state.session} onChange={this.handleInputChange} />
             <br />
             <label htmlFor="instruction">Instruction</label>
@@ -161,15 +203,17 @@ class ChartDashboard extends Component {
             <label htmlFor="duration">Duration</label>
             <input type="text" name="duration" value={this.state.duration} onChange={this.handleInputChange} />
             <br />
-            <br />
-            <button type="submit" value="no">
+            <br /> */}
+          {/* ================================================ */}
+          {/* <button type="submit" value="no">
               Cancel
             </button>
             &nbsp; &nbsp; &nbsp; &nbsp;
             <button type="submit" value="yes">
               Save
             </button>
-          </form>
+          </form> */}
+          {/* ================================================ */}
         </dialog>
         <div className="dashboard-data">
           <span className="dashboard-header">{this.tradeSide}</span>
@@ -236,7 +280,7 @@ class ChartDashboard extends Component {
                 {this.buttonLabel} {this.symbol}
               </button>
             </div>
-            <button onClick={this.handleEditDashboardParams} className={'button-pencil-image-absolute'}>
+            <button onClick={this.handleEditDialogOpen} className={'button-pencil-image-absolute'}>
               <img
                 alt=""
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC"
