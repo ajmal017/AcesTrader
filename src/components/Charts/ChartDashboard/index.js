@@ -29,46 +29,46 @@ class ChartDashboard extends Component {
     super(props)
     this.handleEditDialogOpen = this.handleEditDialogOpen.bind(this)
     this.handleEditDialogClose = this.handleEditDialogClose.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.dialogDashboardParams = null
-    this.state = {}
+    // this.handleInputChange = this.handleInputChange.bind(this)
+    // this.dialogDashboardParams = null
+    this.state = { showDialog: false }
   }
 
-  componentDidMount() {
-    this.dialogDashboardParams = document.getElementById('dashboard-params' + this.hash)
-    dialogPolyfill.registerDialog(this.dialogDashboardParams) // Now dialog acts like a native <dialog>.
-  }
+  // componentDidMount() {
+  //   this.dialogDashboardParams = document.getElementById('dashboard-params' + this.hash)
+  //   dialogPolyfill.registerDialog(this.dialogDashboardParams) // Now dialog acts like a native <dialog>.
+  // }
 
-
-
-  handleInputChange(event) {
-    const target = event.target
-    const name = target.name
-    const value = target.value
-    this.setState({
-      [name]: value,
-    })
-  }
+  // handleInputChange(event) {
+  //   const target = event.target
+  //   const name = target.name
+  //   const value = target.value
+  //   this.setState({
+  //     [name]: value,
+  //   })
+  // }
 
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
   handleEditDialogOpen(event) {
-    // Reset the state of dialog's values, using the current props, to replace left-over values from a canceled updated
+    // // Reset the state of dialog's values, using the current props, to replace left-over values from a canceled updated
     this.setState({
-      watched: this.watched,
-      watchedPrice: this.watchedPrice,
-      entered: this.entered,
-      enteredPrice: this.enteredPrice,
-      filledQuantity: this.filledQuantity,
-      session: this.session,
-      instruction: this.instruction,
-      quantity: this.quantity,
-      quantityType: this.quantityType,
-      orderType: this.orderType,
-      duration: this.duration,
+      // watched: this.watched,
+      // watchedPrice: this.watchedPrice,
+      // entered: this.entered,
+      // enteredPrice: this.enteredPrice,
+      // filledQuantity: this.filledQuantity,
+      // session: this.session,
+      // instruction: this.instruction,
+      // quantity: this.quantity,
+      // quantityType: this.quantityType,
+      // orderType: this.orderType,
+      // duration: this.duration,
+      showDialog: true,
     })
-    this.dialogDashboardParams.showModal()
+
+    // this.dialogDashboardParams.showModal()
     // let self = this //Note: bind(this) does not seem to work here. Polyfill problem?
     // this.dialogDashboardParams.addEventListener('close', function(event) {
     //   if (self.dialogDashboardParams.returnValue === 'yes') {
@@ -86,11 +86,14 @@ class ChartDashboard extends Component {
   handleEditDialogClose(returnValue) {
     // returns null if cancelled
     if (returnValue) {
-      // // the returnValue is an object with key/value pairs for each form field: {name: value, name: value, ...}
-      // this.props.dispatch(editListObjectPrarmetersAsync(this.hash, returnValue))
-      // // Note: this dispatch changes the store's state which re-renders this component delivering new props
+      // the returnValue is an object with key/value pairs for each form field: {name: value, name: value, ...}
+      this.props.dispatch(editListObjectPrarmetersAsync(this.hash, returnValue))
+      // Note: this dispatch changes the store's state which re-renders this component delivering new props
     }
-    this.dialogDashboardParams.close()
+    // this.dialogDashboardParams.close()
+    this.setState({
+      showDialog: false,
+    })
   }
 
   render() {
@@ -131,23 +134,23 @@ class ChartDashboard extends Component {
     this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
 
     this.dialogFormValues = {
-        watched: this.watched,
-        watchedPrice: this.watchedPrice,
-        entered: this.entered,
-        enteredPrice: this.enteredPrice,
-        filledQuantity: this.filledQuantity,
-        session: this.session,
-        instruction: this.instruction,
-        quantity: this.quantity,
-        quantityType: this.quantityType,
-        orderType: this.orderType,
-        duration: this.duration,
+      watched: this.watched,
+      watchedPrice: this.watchedPrice,
+      entered: this.entered,
+      enteredPrice: this.enteredPrice,
+      filledQuantity: this.filledQuantity,
+      session: this.session,
+      instruction: this.instruction,
+      quantity: this.quantity,
+      quantityType: this.quantityType,
+      orderType: this.orderType,
+      duration: this.duration,
     }
 
     return (
       <div className="dashboard">
-        <dialog id={'dashboard-params' + this.hash} className={'dashboard-dialog-form'}>
-          {/* <button
+        {/* <dialog id={'dashboard-params' + this.hash} className={'dashboard-dialog-form'}> */}
+        {/* <button
             type="submit"
             className={'dialog-button-cancel'}
             onClick={() => {
@@ -156,12 +159,19 @@ class ChartDashboard extends Component {
             Cancel
           </button> */}
 
-          <span className={'dialog-symbol'}> {this.symbol} - Make Your Changes Below.</span>
+        {/* <span className={'dialog-symbol'}> {this.symbol} - Make Your Changes Below.</span>
           <br />
-          <br />
-          <DialogForm formValues={this.dialogFormValues} listGroup={this.listGroup} exitCallback={this.handleEditDialogClose} />
-          {/* ================================================ */}
-          {/* <br />
+          <br /> */}
+        <DialogForm
+          showDialog={this.state.showDialog}
+          hash={this.hash}
+          symbol={this.symbol}
+          formValues={this.dialogFormValues}
+          listGroup={this.listGroup}
+          exitCallback={this.handleEditDialogClose}
+        />
+        {/* ================================================ */}
+        {/* <br />
           <br />
           <form method="dialog">
             <label htmlFor="watched">Watched</label>
@@ -184,8 +194,8 @@ class ChartDashboard extends Component {
               </span>
             ) : null}
             <br /> */}
-          {/* ================================================ */}
-          {/* <label htmlFor="session">Session</label>
+        {/* ================================================ */}
+        {/* <label htmlFor="session">Session</label>
             <input type="text" name="session" value={this.state.session} onChange={this.handleInputChange} />
             <br />
             <label htmlFor="instruction">Instruction</label>
@@ -204,8 +214,8 @@ class ChartDashboard extends Component {
             <input type="text" name="duration" value={this.state.duration} onChange={this.handleInputChange} />
             <br />
             <br /> */}
-          {/* ================================================ */}
-          {/* <button type="submit" value="no">
+        {/* ================================================ */}
+        {/* <button type="submit" value="no">
               Cancel
             </button>
             &nbsp; &nbsp; &nbsp; &nbsp;
@@ -213,8 +223,8 @@ class ChartDashboard extends Component {
               Save
             </button>
           </form> */}
-          {/* ================================================ */}
-        </dialog>
+        {/* ================================================ */}
+        {/* </dialog> */}
         <div className="dashboard-data">
           <span className="dashboard-header">{this.tradeSide}</span>
           <form className="dashboard-form">
