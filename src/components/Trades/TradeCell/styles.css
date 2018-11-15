@@ -10,6 +10,7 @@
   overflow: hidden;
   visibility: visible;
   opacity: 1;
+  position: relative;
 }
 
 .trade-cell-wrapper.fadeout {
@@ -69,6 +70,40 @@
 
 .trade-button:hover {
   background: #eb8b8b;
+}
+
+dialog {
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.dashboard-dialog-form input[type='text'] {
+  width: 32%;
+  margin-left: 10px;
+  margin-right: 20px;
+  padding: 0px 4px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.button-pencil-image-absolute {
+  position: absolute;
+  right: 18px;
+  bottom: 10px;
+  background: #f9f9f9;
+  height: 36;
+  border: #f9f9f9;
+  opacity: 0.5;
+}
+.button-pencil-image-absolute:hover {
+  background: #cac8c8dc;
 }
 
 @media only screen and (max-width: 576px) {

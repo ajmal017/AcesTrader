@@ -1,4 +1,4 @@
-// ChartDashboard/DialogForm.js
+// TradesView/DialogForm.js
 
 import React, { Component } from 'react'
 import dialogPolyfill from 'dialog-polyfill'
@@ -8,7 +8,7 @@ class DialogForm extends Component {
   constructor(props) {
     super(props)
     this.handleInputChange = this.handleInputChange.bind(this)
-    this.dialogDashboardParams = null
+    this.dialogTradeParams = null
     this.hash = props.hash
     this.symbol = props.symbol
     this.listGroup = props.listGroup
@@ -17,16 +17,16 @@ class DialogForm extends Component {
   }
 
   componentDidMount() {
-    this.dialogDashboardParams = document.getElementById('dashboard-params' + this.hash)
-    dialogPolyfill.registerDialog(this.dialogDashboardParams) // Now dialog acts like a native <dialog>.
+    this.dialogTradeParams = document.getElementById('trade-dialog-params' + this.hash)
+    dialogPolyfill.registerDialog(this.dialogTradeParams) // Now dialog acts like a native <dialog>.
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.showDialog !== prevProps.showDialog) {
       if (this.props.showDialog) {
-        this.dialogDashboardParams.showModal()
+        this.dialogTradeParams.showModal()
       } else {
-        this.dialogDashboardParams.close()
+        this.dialogTradeParams.close()
       }
     }
     if (this.props.formValues !== prevProps.formValues) {
@@ -45,58 +45,33 @@ class DialogForm extends Component {
 
   render() {
     return (
-      <dialog id={'dashboard-params' + this.hash} className={'dashboard-dialog-form'}>
-        <span className={'dialog-symbol'}> {this.symbol} - Make Your Changes Below.</span>
+      <dialog id={'trade-dialog-params' + this.hash}>
+        <span className={'dialog-symbol'}> {this.state.symbol} - Make Your Changes Below.</span>
         <br />
         <br />
-        <form method="dialog">
-          <label htmlFor="watched">Watched</label>
-          <input type="text" name="watched" value={this.state.watched} onChange={this.handleInputChange} />
+        <form method="dialog" className={'dashboard-dialog-form'}>
+          {/* <span> */}
+          <label htmlFor="enteredPrice">EnteredPrice</label>
+          <input type="text" name="enteredPrice" value={this.state.enterPrice} onChange={this.handleInputChange} />
           <br />
-          <label htmlFor="watchedPrice">WatchedPrice</label>
-          <input type="text" name="watchedPrice" value={this.state.watchedPrice} onChange={this.handleInputChange} />
+          <label htmlFor="exitedPrice">ExitedPrice</label>
+          <input type="text" name="exitedPrice" value={this.state.exitPrice} onChange={this.handleInputChange} />
           <br />
-          {/* ================================================ */}
-          {this.listGroup === 'positions' || this.listGroup === 'trades' ? (
-            <span>
-              <label htmlFor="entered">Entered</label>
-              <input type="text" name="entered" value={this.state.entered} onChange={this.handleInputChange} />
-              <br />
-              <label htmlFor="enteredPrice">EnteredPrice</label>
-              <input type="text" name="enteredPrice" value={this.state.enteredPrice} onChange={this.handleInputChange} />
-              <br />
-              <label htmlFor="filledQuantity">FilledQuantity</label>
-              <input type="text" name="filledQuantity" value={this.state.filledQuantity} onChange={this.handleInputChange} />
-              <br />
-            </span>
-          ) : null}
+          <label htmlFor="entered">Entered</label>
+          <input type="text" name="entered" value={this.state.enterDate} onChange={this.handleInputChange} />
           <br />
-          {/* ================================================ */}
-          <label htmlFor="session">Session</label>
-          <input type="text" name="session" value={this.state.session} onChange={this.handleInputChange} />
+          <label htmlFor="exited">Exited</label>
+          <input type="text" name="exited" value={this.state.exitDate} onChange={this.handleInputChange} />
           <br />
-          <label htmlFor="instruction">Instruction</label>
-          <input type="text" name="instruction" value={this.state.instruction} onChange={this.handleInputChange} />
+          <label htmlFor="filledQuantity">Quantity</label>
+          <input type="text" name="filledQuantity" value={this.state.filledQuantity} onChange={this.handleInputChange} />
           <br />
-          <label htmlFor="quantity">Quantity</label>
-          <input type="text" name="quantity" value={this.state.quantity} onChange={this.handleInputChange} />
+          {/* </span> */}
           <br />
-          <label htmlFor="quantityType">QuantityType</label>
-          <input type="text" name="quantityType" value={this.state.quantityType} onChange={this.handleInputChange} />
-          <br />
-          <label htmlFor="orderType">OrderType</label>
-          <input type="text" name="orderType" value={this.state.orderType} onChange={this.handleInputChange} />
-          <br />
-          <label htmlFor="duration">Duration</label>
-          <input type="text" name="duration" value={this.state.duration} onChange={this.handleInputChange} />
-          <br />
-          <br />
-          {/* ================================================ */}
           <button
             type="submit"
             onClick={() => {
               this.exitCallback(null)
-              // this.dialogDashboardParams.close()
             }}>
             Cancel
           </button>
@@ -105,7 +80,6 @@ class DialogForm extends Component {
             type="submit"
             onClick={() => {
               this.exitCallback(this.state)
-              // this.dialogDashboardParams.close()
             }}>
             Save
           </button>
