@@ -61,7 +61,7 @@ class AppToolbar extends Component {
     // let scrollchorOffset = -94-this.scrollbarWidth-10
     let scrollchorOffset = -108 //number derived from trial and error
 
-    // The chartArray is an array of objects, each one having a hash property, a symbol property and a dashboard property.
+    // The chartArray is an array of list objects, each one having a hash property, a symbol property, a dashboard property, and others as added over time.
 
     // Create the chart picker buttons for the horizontal scrollable menu
     let workArray = chartArray
@@ -69,7 +69,9 @@ class AppToolbar extends Component {
       // this is chronologically listed, must change to alphabetically listed
       workArray = cloneDeep(chartArray) // prepare for mutation by sort
       workArray.sort(function(a, b) {
-        return a.symbol > b.symbol
+        if(a.symbol < b.symbol) { return -1; }
+        if(a.symbol > b.symbol) { return 1; }
+        return 0;
       })
     }
     let menuItems = workArray.map(function(obj, index) {
