@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { querydeleteTradeObject } from '../../../redux/reducerModal'
 import { removeResultFromList } from '../../../redux/reducerResults'
+import DialogForm from './DialogForm'
+import { editListObjectPrarmetersAsync } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 
 // {/* <span id={'gaininfo'}>
@@ -39,7 +41,8 @@ class TradeCell extends Component {
     this.handleDelete = this.handleDelete.bind(this)
     this.handleDeleteQueryResonse = this.handleDeleteQueryResonse.bind(this)
     this.handleDispatch = this.handleDispatch.bind(this)
-    this.state = {}
+    this.handleEditDialogOpen = this.handleEditDialogOpen.bind(this)
+    this.state = { showDialog: false }
   }
 
   handleDelete(event) {
@@ -69,6 +72,22 @@ class TradeCell extends Component {
       el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
     }
   }
+  handleEditDialogOpen(event) {
+    this.setState({
+      showDialog: true,
+    })
+  }
+
+  handleEditDialogClose(returnValue) {
+    if (returnValue) {
+      // the returnValue is null if cancelled, else
+      // the returnValue is an object with key/value pairs for each form field: {name: value, name: value, ...}
+      this.props.dispatch(editListObjectPrarmetersAsync(this.hash, returnValue))
+    }
+    this.setState({
+      showDialog: false,
+    })
+  }
 
   // this.tradePercentGain > 0 ? 0.8 : 0.6  // 250,82,82
 
@@ -95,10 +114,33 @@ class TradeCell extends Component {
     const cell_id = tradeObject.hash
     const wrapperId = 'wrapper-' + cell_id
 
+    this.dialogFormValues = {
+      symbol: symbol,
+      enterDate: enterDate,
+      exitDate: exitDate,
+      enterPrice: enterPrice,
+      exitPrice: exitPrice,
+      filledQuantity: filledQuantity,
+    }
+
     return (
       <div id={wrapperId} className={`trade-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
+        <DialogForm
+          showDialog={this.state.showDialog}
+          hash={this.hash}
+          symbol={this.symbol}
+          formValues={this.dialogFormValues}
+          listGroup={this.listGroup}
+          exitCallback={this.handleEditDialogClose}
+        />
         {/* the TradCell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
         <div id={cell_id} className="trade-cell">
+          <button onClick={this.handleEditDialogOpen} className={'button-pencil-image-absolute'}>
+            <img
+              alt=""
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC"
+            />
+          </button>
           <div className="trade-header">
             <span className="trade-title-formatting">{symbol}</span>
             <span className="tradeside-formatting">Trade: {this.tradeSide}</span>
@@ -116,9 +158,8 @@ class TradeCell extends Component {
             &nbsp;&nbsp;&nbsp; Exit Price: {exitPrice}
             &nbsp;&nbsp;&nbsp; Quantity: {filledQuantity}
           </span>
-          <span>
-            Watched: {watchDate}
-            &nbsp;&nbsp;&nbsp; Entered: {enterDate}
+          <span className={'footerRow'}>
+            Entered: {enterDate}
             &nbsp;&nbsp;&nbsp; Exited: {exitDate}
           </span>
         </div>
