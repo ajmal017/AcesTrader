@@ -55,7 +55,7 @@ export default function chartsReducer(state = defaultResults, action) {
       theObject.exitedPrice = action.thePrice
       theObject.listGroup = 'trades'
       let newState = cloneDeep(state)
-      newState.push(theObject) // put theObject ahead of older objects
+      newState.unshift(theObject) // put theObject ahead of older objects
       return newState
     }
     case REMOVE_RESULT: {
