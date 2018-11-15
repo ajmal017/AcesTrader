@@ -2,7 +2,7 @@
 
 var cloneDeep = require('lodash.clonedeep')
 
-export default function(state, listGroup, peekdataobject, theDate) {
+export default function(state, peekdataobject, theDate) {
   // Parameters:
   // state: A slice of the state as defined by combineReducers, the current target array of objects
   // listGroup: The current target group, 'prospects' or 'positions', determines the dashboard display formating
@@ -14,7 +14,6 @@ export default function(state, listGroup, peekdataobject, theDate) {
     let lastPrice = peekdataobject[symbol]
     obj['peekDate'] = theDate
     obj['peekPrice'] = lastPrice
-    obj['listGroup'] = listGroup
     return obj // with updated dashboard state
   })
   //console.log(JSON.stringify(newState, null, 2)) // a readable log of the object's json

@@ -50,10 +50,12 @@ export default function chartsReducer(state = defaultResults, action) {
       return cloneDeep(defaultResults)
     }
     case ADD_RESULT: {
-      action.theObject.exited = action.theDate
-      action.theObject.exitedPrice = action.thePrice
-      let theObjectArray = [action.theObject]
-      let newState = theObjectArray.concat(state) //adds at start
+      let theObject = cloneDeep(action.theObject)
+      theObject.exited = action.theDate
+      theObject.exitedPrice = action.thePrice
+      theObject.listGroup = 'trades'
+      let newState = cloneDeep(state)
+      newState.push(theObject) // put theObject ahead of older objects
       return newState
     }
     case REMOVE_RESULT: {

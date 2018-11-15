@@ -56,7 +56,7 @@ class DialogForm extends Component {
           <label htmlFor="watchedPrice">WatchedPrice</label>
           <input type="text" name="watchedPrice" value={this.state.watchedPrice} onChange={this.handleInputChange} />
           <br />
-          {this.listGroup === 'positions' ? (
+          {this.listGroup === 'positions' || this.listGroup === 'trades' ? (
             <span>
               <label htmlFor="entered">Entered</label>
               <input type="text" name="entered" value={this.state.entered} onChange={this.handleInputChange} />
