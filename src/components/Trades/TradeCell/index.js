@@ -78,6 +78,7 @@ class TradeCell extends Component {
   render() {
     const tradeObject = this.props.tradeObject
     this.hash = tradeObject.hash
+    this.listGroup = tradeObject.listGroup
     const symbol = tradeObject.symbol
     const watchDate = tradeObject.watched
     const enterDate = tradeObject.entered

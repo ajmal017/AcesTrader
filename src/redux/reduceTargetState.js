@@ -34,6 +34,7 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
           theInputObject.macdChart = false //the default
           theInputObject.hash = uuidv4() // make for unique object ID, instead of symbol (which may be repeated in Positions & Results)
           theInputHash = theInputObject.hash
+          theInputObject.listGroup = 'prospects'
           break
         case 'entered': //theInput is a list of asset objects going into Positions
           theInputSymbol = theInput[kk].symbol
@@ -46,14 +47,18 @@ export default function(state, theInput, newDashboard, theDate, theEvent, thePri
           theInputObject.filledQuantity = theQuantity
           theInputObject.quantityType = theQuantityType //for use in thunkEditListObjects
           theInputObject.account = theAccount
+          theInputObject.listGroup = 'positions'
           break
-        case 'exited': //theInput is a list of asset objects going into Results
-          theInputSymbol = theInput[kk].symbol
-          theInputHash = theInput[kk].hash
-          theInputObject = theInput[kk]
-          theInputObject.exited = theDate
-          theInputObject.exitedPrice = thePrice
-          break
+
+        //  // This never called from reduceResults.js
+        // case 'exited': //theInput is a list of asset objects going into Trades (Results)
+        //   theInputSymbol = theInput[kk].symbol
+        //   theInputHash = theInput[kk].hash
+        //   theInputObject = theInput[kk]
+        //   theInputObject.exited = theDate
+        //   theInputObject.exitedPrice = thePrice
+        //   theInputObject.listGroup = 'trades'
+        //   break
         default:
           alert('Error: no "theEvent" parameter in reduceTargetState.js')
           debugger
