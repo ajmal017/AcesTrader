@@ -42,6 +42,7 @@ class TradeCell extends Component {
     this.handleDeleteQueryResonse = this.handleDeleteQueryResonse.bind(this)
     this.handleDispatch = this.handleDispatch.bind(this)
     this.handleEditDialogOpen = this.handleEditDialogOpen.bind(this)
+    this.handleEditDialogClose = this.handleEditDialogClose.bind(this)
     this.state = { showDialog: false }
   }
 
@@ -99,27 +100,26 @@ class TradeCell extends Component {
     this.hash = tradeObject.hash
     this.listGroup = tradeObject.listGroup
     const symbol = tradeObject.symbol
-    const watchDate = tradeObject.watched
-    const enterDate = tradeObject.entered
-    const exitDate = tradeObject.exited
+    const entered = tradeObject.entered
+    const exited = tradeObject.exited
     this.tradeSide = tradeObject.dashboard.tradeSide
-    const enterPrice = tradeObject.enteredPrice
-    const exitPrice = tradeObject.exitedPrice
+    const enteredPrice = tradeObject.enteredPrice
+    const exitedPrice = tradeObject.exitedPrice
     const filledQuantity = tradeObject.filledQuantity
-    this.tradePercentGainTemp = exitPrice !== 'pending' ? ((100 * (exitPrice - enterPrice)) / enterPrice).toFixed(1) : 'pending'
+    this.tradePercentGainTemp = exitedPrice !== 'pending' ? ((100 * (exitedPrice - enteredPrice)) / enteredPrice).toFixed(1) : 'pending'
     this.tradePercentGain = this.tradeSide === 'Swing Shorts' ? -this.tradePercentGainTemp : this.tradePercentGainTemp
-    this.tradeDollarGain = exitPrice !== 'pending' ? (filledQuantity * (exitPrice - enterPrice)).toFixed(0) : 'pending'
-    // const tradeGain = exitPrice !== 'pending' ? (100 * (exitPrice - enterPrice)) / enterPrice + '%' : 'pending'
+    this.tradeDollarGain = exitedPrice !== 'pending' ? (filledQuantity * (exitedPrice - enteredPrice)).toFixed(0) : 'pending'
+    // const tradeGain = exitedPrice !== 'pending' ? (100 * (exitedPrice - enteredPrice)) / enteredPrice + '%' : 'pending'
     // const account = tradeObject.account
     const cell_id = tradeObject.hash
     const wrapperId = 'wrapper-' + cell_id
 
     this.dialogFormValues = {
       symbol: symbol,
-      enterDate: enterDate,
-      exitDate: exitDate,
-      enterPrice: enterPrice,
-      exitPrice: exitPrice,
+      entered: entered,
+      exited: exited,
+      enteredPrice: enteredPrice,
+      exitedPrice: exitedPrice,
       filledQuantity: filledQuantity,
     }
 
@@ -154,13 +154,13 @@ class TradeCell extends Component {
             &nbsp;&nbsp;&nbsp;&nbsp; {this.tradePercentGain}%
           </span>  */}
           <span>
-            Enter Price: {enterPrice}
-            &nbsp;&nbsp;&nbsp; Exit Price: {exitPrice}
+            Enter Price: {enteredPrice}
+            &nbsp;&nbsp;&nbsp; Exit Price: {exitedPrice}
             &nbsp;&nbsp;&nbsp; Quantity: {filledQuantity}
           </span>
           <span className={'footerRow'}>
-            Entered: {enterDate}
-            &nbsp;&nbsp;&nbsp; Exited: {exitDate}
+            Entered: {entered}
+            &nbsp;&nbsp;&nbsp; Exited: {exited}
           </span>
         </div>
       </div>

@@ -1,0 +1,68 @@
+/* DialogForm.css */
+
+.button-pencil-image-absolute {
+  position: absolute;
+  right: 18px;
+  bottom: 10px;
+  background: #f9f9f9;
+  height: 36;
+  border: #f9f9f9;
+  opacity: 0.5;
+}
+.button-pencil-image-absolute:hover {
+  background: #cac8c8dc;
+}
+
+.dialog-symbol {
+  background: #f9f9f9;
+  padding: 6px 0 6px 6px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+hr {
+  margin: 6px 0 6px 0;
+}
+
+dialog {
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.dialog-form input[type='text'] {
+  width: 32%;
+  margin-left: 10px;
+  margin-right: 20px;
+  padding: 0px 4px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.dialog-button-submit:hover {
+  background: #cac8c8dc;
+}
+
+.dialog-button-cancel {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  /* background: white; */
+  /* background-color: white; */
+  background: #f9f9f9;
+  /* background-color: #f9f9f9; */
+
+  /* height: 36; */
+  /* border: #f9f9f9; */
+  /* opacity: 0.5; */
+}
+
+.dialog-button-cancel:hover {
+  background: #cac8c8dc;
+}
