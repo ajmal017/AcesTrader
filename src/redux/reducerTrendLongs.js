@@ -56,7 +56,7 @@ const defaultTrendLongs = cloneDeep(defaultState.trendlongs) //in case state is 
 export default function trendlongsReducer(state = defaultTrendLongs, action) {
   switch (action.type) {
     case UPDATE_DASHBOARD_PEEK_DATA: {
-      let newState = reducePeekData(state, 'positions', action.peekdataobject, action.theDate)
+      let newState = reducePeekData(state, action.peekdataobject, action.theDate)
       return newState
     }
     case RESET_PERSISTED_STATE: {

@@ -50,7 +50,7 @@ const defaultSells = cloneDeep(defaultState.sells) //in case state is undefined
 export default function sellsReducer(state = defaultSells, action) {
   switch (action.type) {
     case UPDATE_DASHBOARD_PEEK_DATA: {
-      let newState = reducePeekData(state, 'prospects', action.peekdataobject, action.theDate)
+      let newState = reducePeekData(state, action.peekdataobject, action.theDate)
       return newState
     }
     case RESET_PERSISTED_STATE: {

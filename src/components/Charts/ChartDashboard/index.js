@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import DialogForm from './DialogForm'
+import DialogDashboardForm from './DialogDashboardForm'
 import { editListObjectPrarmetersAsync } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 
@@ -29,6 +29,7 @@ class ChartDashboard extends Component {
     this.handleEditDialogOpen = this.handleEditDialogOpen.bind(this)
     this.handleEditDialogClose = this.handleEditDialogClose.bind(this)
     this.state = { showDialog: false }
+    console.log('Dashboard constructor')
   }
 
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
@@ -52,6 +53,7 @@ class ChartDashboard extends Component {
   }
 
   render() {
+    console.log('Dashboard render')
     //handle new props with changed state of cellObjects
     this.hash = this.props.cellObject.hash
     this.symbol = this.props.cellObject.symbol
@@ -88,7 +90,7 @@ class ChartDashboard extends Component {
     const timeDiff = endDate - startDate
     this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
 
-    this.dialogFormValues = {
+    this.dialogDashboardFormValues = {
       watched: this.watched,
       watchedPrice: this.watchedPrice,
       entered: this.entered,
@@ -104,11 +106,12 @@ class ChartDashboard extends Component {
 
     return (
       <div className="dashboard">
-        <DialogForm
+        console.log('Dashboard start return')
+        <DialogDashboardForm
           showDialog={this.state.showDialog}
           hash={this.hash}
           symbol={this.symbol}
-          formValues={this.dialogFormValues}
+          formValues={this.dialogDashboardFormValues}
           listGroup={this.listGroup}
           exitCallback={this.handleEditDialogClose}
         />

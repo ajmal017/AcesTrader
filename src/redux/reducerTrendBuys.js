@@ -52,7 +52,7 @@ const defaultTrendBuys = cloneDeep(defaultState.trendbuys) //in case state is un
 export default function trendbuysReducer(state = defaultTrendBuys, action) {
   switch (action.type) {
     case UPDATE_DASHBOARD_PEEK_DATA: {
-      let newState = reducePeekData(state, 'prospects', action.peekdataobject, action.theDate)
+      let newState = reducePeekData(state, action.peekdataobject, action.theDate)
       return newState
     }
     case RESET_PERSISTED_STATE: {
