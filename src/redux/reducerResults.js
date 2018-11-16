@@ -77,13 +77,22 @@ export default function chartsReducer(state = defaultResults, action) {
       return newState
     }
     case REPLACE_EDITED_OBJECT: {
+      // note: the reducer logic for Results is different than the others,
+      // which replace using alphabetical sorting. The results placed in
+      // the Trades state are in chronological sequence, so we use
+      // the found index to replace the object at that location.
       let hash = action.theObject.hash
-      let foundObject = state.find((obj) => obj.hash === hash)
+      let foundIndex = null
+      let foundObject = state.find((obj, index) => {
+        if (obj.hash === hash) {
+          foundIndex = index
+          return true
+        }
+      })
       if (!foundObject) {
         return state //target object is not in this list
       }
-      let prunedState = state.filter((obj) => obj.hash !== hash) //remove the old object versiom
-      let newState = reduceInsertedObject(prunedState, action.theObject) //replace with new version
+      let newState = reduceInsertedObject(state, action.theObject, foundIndex) //replace with new version
       return newState
     }
     case REMOVE_ALL_RESULTS: {
