@@ -121,7 +121,7 @@ class Chartcell extends Component {
     const symbol = this.props.cellObject.symbol
     const range = weeklyBars ? '5y' : '1y'
     const self = this
-    // console.log('loadChartData ' + symbol)
+    // console.log(`loadChartData ${symbol}, Range=${weeklyBars ? '5y' : '1y'}`)
     getChartData(symbol, range)
       .then(function(data) {
         if (data.length < 2) {

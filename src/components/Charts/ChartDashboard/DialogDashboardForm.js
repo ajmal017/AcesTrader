@@ -1,11 +1,11 @@
-// ChartDashboard/DialogForm.js
+// ChartDashboard/DialogDashboardForm.js
 
 import React, { Component } from 'react'
 import dialogPolyfill from 'dialog-polyfill'
-import './DialogForm.css'
+import './dialogdashboardform.css'
 // import './styles.css'
 
-class DialogForm extends Component {
+class DialogDashboardForm extends Component {
   constructor(props) {
     super(props)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -116,4 +116,4 @@ class DialogForm extends Component {
   }
 }
 
-export default DialogForm
+export default DialogDashboardForm

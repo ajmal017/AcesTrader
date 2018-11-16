@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { querydeleteTradeObject } from '../../../redux/reducerModal'
 import { removeResultFromList } from '../../../redux/reducerResults'
-import DialogForm from './DialogForm'
+import DialogTradeForm from './DialogTradeForm'
 import { editListObjectPrarmetersAsync } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 
@@ -114,7 +114,7 @@ class TradeCell extends Component {
     const cell_id = tradeObject.hash
     const wrapperId = 'wrapper-' + cell_id
 
-    this.dialogFormValues = {
+    this.dialogTradeFormValues = {
       symbol: symbol,
       entered: entered,
       exited: exited,
@@ -125,11 +125,11 @@ class TradeCell extends Component {
 
     return (
       <div id={wrapperId} className={`trade-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
-        <DialogForm
+        <DialogTradeForm
           showDialog={this.state.showDialog}
           hash={this.hash}
           symbol={this.symbol}
-          formValues={this.dialogFormValues}
+          formValues={this.dialogTradeFormValues}
           listGroup={this.listGroup}
           exitCallback={this.handleEditDialogClose}
         />

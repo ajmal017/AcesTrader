@@ -4993,7 +4993,7 @@ a.badge:focus {
 }
 @media screen and (min-width: 768px) {
   .jumbotron {
-    padding-top: 48px;  /*BCM 11/16 48px;*/
+    padding-top: 48px;
     padding-bottom: 48px;
   }
   .container .jumbotron,
