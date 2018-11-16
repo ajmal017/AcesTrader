@@ -143,6 +143,7 @@ export const editListObjectPrarmetersAsync = (hash, parameterData) => {
     if (!foundObject) foundObject = ourState.buys.find((obj) => obj.hash === hash)
     if (!foundObject) foundObject = ourState.sells.find((obj) => obj.hash === hash)
     if (!foundObject) foundObject = ourState.trendbuys.find((obj) => obj.hash === hash)
+    if (!foundObject) foundObject = ourState.results.find((obj) => obj.hash === hash)
     if (!foundObject) {
       alert('No foundObject in "editListObjectPrarmetersAsync"')
       debugger //stop for developer
@@ -150,7 +151,17 @@ export const editListObjectPrarmetersAsync = (hash, parameterData) => {
     let newObject = cloneDeep(foundObject)
     // the parameterData is an object with key/value pairs for each form field: {name: value, name: value, ...}
     for (let key in parameterData) {
-      if (key === 'watched' || key === 'watchedPrice' || key === 'entered' || key === 'enteredPrice' || key === 'filledQuantity' || key === 'weeklyBars' || key === 'macdChart') {
+      if (
+        key === 'watched' ||
+        key === 'watchedPrice' ||
+        key === 'entered' ||
+        key === 'enteredPrice' ||
+        key === 'exited' ||
+        key === 'exitedPrice' ||
+        key === 'filledQuantity' ||
+        key === 'weeklyBars' ||
+        key === 'macdChart'
+      ) {
         newObject[key] = parameterData[key]
       } else {
         newObject.dashboard[key] = parameterData[key]
