@@ -14,22 +14,25 @@ import './styles.css'
 //   &nbsp;&nbsp;&nbsp;&nbsp; {this.tradePercentGain}%{/*&nbsp;&nbsp;&nbsp;&nbsp;  Account: {account}  */}
 // </span>  */}>
 
-function TradeStatusLine({ hash, tradeSide, tradeDollarGain, tradePercentGain }) {
+function TradeStatusLine({ hash, tradeSide, tradeDollarGain, tradePercentGain, carried, adjusted }) {
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   const numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-
+  const carriedValue = carried
+  const adjustedValue = adjusted
   return tradeSide === 'Swing Shorts' ? (
     <div>
       <span id={'gaininfo' + hash} className="watched">
         {tradeDollarGain > 0 ? 'Loss' : 'Gain'} &nbsp;&nbsp;&nbsp; {tradeDollarGain > 0 ? '-' : ''}${numberWithCommas(Math.abs(tradeDollarGain))}
-        &nbsp;&nbsp;&nbsp;&nbsp; {tradePercentGain}%
+        &nbsp;&nbsp;&nbsp;&nbsp; {tradePercentGain}%{/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Carried&nbsp;&nbsp; ${numberWithCommas(Math.abs(carriedValue))} */}
+        {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adjusted&nbsp;&nbsp; ${numberWithCommas(Math.abs(adjustedValue))} */}
       </span>
     </div>
   ) : (
     <div>
       <span id={'gaininfo' + hash} className="watched">
         {tradeDollarGain < 0 ? 'Loss' : 'Gain'} &nbsp;&nbsp;&nbsp; {tradeDollarGain < 0 ? '-' : ''}${numberWithCommas(Math.abs(tradeDollarGain))}
-        &nbsp;&nbsp;&nbsp;&nbsp; {tradePercentGain}%
+        &nbsp;&nbsp;&nbsp;&nbsp; {tradePercentGain}%{/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Carried&nbsp;&nbsp; ${numberWithCommas(Math.abs(carriedValue))} */}
+        {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adjusted&nbsp;&nbsp; ${numberWithCommas(Math.abs(adjustedValue))} */}
       </span>
     </div>
   )
@@ -98,6 +101,8 @@ class TradeCell extends Component {
   render() {
     const tradeObject = this.props.tradeObject
     this.hash = tradeObject.hash
+    // this.carried = tradeObject.carried
+    // this.adjusted = tradeObject.adjusted
     this.listGroup = tradeObject.listGroup
     const symbol = tradeObject.symbol
     const entered = tradeObject.entered
@@ -116,6 +121,7 @@ class TradeCell extends Component {
 
     this.dialogTradeFormValues = {
       symbol: symbol,
+      // carried: this.carried,
       entered: entered,
       exited: exited,
       enteredPrice: enteredPrice,
@@ -148,7 +154,14 @@ class TradeCell extends Component {
               &times;
             </button>
           </div>
-          <TradeStatusLine hash={this.hash} tradeSide={this.tradeSide} tradeDollarGain={this.tradeDollarGain} tradePercentGain={this.tradePercentGain} />
+          <TradeStatusLine
+            hash={this.hash}
+            tradeSide={this.tradeSide}
+            tradeDollarGain={this.tradeDollarGain}
+            tradePercentGain={this.tradePercentGain}
+            carried={this.carried}
+            adjusted={this.adjusted}
+          />
           {/* <span id={'gaininfo'}>
             {tradeDollarGain < 0 ? 'Loss' : 'Gain'} &nbsp;&nbsp;&nbsp; ${this.numberWithCommas(tradeDollarGain)}
             &nbsp;&nbsp;&nbsp;&nbsp; {this.tradePercentGain}%

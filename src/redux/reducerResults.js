@@ -1,8 +1,7 @@
 // redux/reducerResults.js
 
 import defaultState from '../json/defaultState.json'
-import { REPLACE_RESULTS_OBJECT, REPLACE_EDITED_OBJECT } from './thunkEditListObjects.js'
-import reduceInsertedObject from './reduceInsertedObject.js'
+import { REPLACE_EDITED_OBJECT } from './thunkEditListObjects.js'
 var cloneDeep = require('lodash.clonedeep')
 
 const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
@@ -35,6 +34,22 @@ export const removeAllResultsFromList = () => {
   }
 }
 
+const findIndexOfObject = (state, hash) => {
+  let foundIndex = null
+  let foundObject = state.find((obj, index) => {
+    if (obj.hash === hash) {
+      foundIndex = index // use this to replace the object
+      return true
+    }
+  })
+  if (!foundObject) {
+    // should not happen in this particular reducer
+    alert('target result object is not in the results list')
+    debugger // for developer
+  }
+  return foundIndex
+}
+
 const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
 // *********reducer***********
@@ -55,25 +70,31 @@ export default function chartsReducer(state = defaultResults, action) {
       theObject.exited = action.theDate
       theObject.exitedPrice = action.thePrice
       theObject.listGroup = 'trades'
+      if (state.lenght > 0) {
+        theObject.carried = state[state.lenght - 1].adjusted //create link to last object in current chain
+      } else {
+        theObject.carried = 0 //first trade starts with zero portfolio value until edited by user
+      }
       let newState = cloneDeep(state)
       newState.unshift(theObject) // put theObject ahead of older objects
       return newState
     }
     case REMOVE_RESULT: {
-      // filter to keep all except the one with the same
-      // action.symbol and a matching exited date
+      // let foundIndex = findIndexOfObject(state, action.hash)
+      // if (foundIndex === state.length-1) { //removing the last in chain, the earliest one, with the anchor value
+      //   state[foundIndex - 1].carried = state[foundIndex].adjusted //correct the anchor value in resulting chain
+      //   // we are removing the anchor link in chain, so correct the carried value in new anchor link
+      // }
+      /**
+       * Note to self. Does the above code really matter? I don't think so, and the code is commented out.
+       * When displaying the Results page, all these links are dynamically determined
+       * and the carried values and adjusted values are calculated again.
+       * So the only value that is important is the carried value in the oldest linked object at index=state.length-1,
+       * and this will be available in the remaining last object in the new array if any calculations have been done.
+       * If no calculations, then the value will be undefined and will default to zero, and can be edited by the user.
+       */
+      // filter to keep all except the one with the hash
       let newState = state.filter((obj) => obj.hash !== action.hash)
-      return newState
-    }
-    case REPLACE_RESULTS_OBJECT: {
-      let hash = action.theObject.hash
-      let foundObject = state.find((obj) => obj.hash === hash)
-      if (!foundObject) {
-        return state //target object is not in this list
-      }
-      let prunedState = state.filter((obj) => obj.hash !== hash) //remove the old object versiom
-      let newState = cloneDeep(prunedState)
-      newState.unshift(action.theObject) //add the new trade to front of the list
       return newState
     }
     case REPLACE_EDITED_OBJECT: {
@@ -81,18 +102,26 @@ export default function chartsReducer(state = defaultResults, action) {
       // which replace using alphabetical sorting. The results placed in
       // the Trades state are in chronological sequence, so we use
       // the found index to replace the object at that location.
-      let hash = action.theObject.hash
-      let foundIndex = null
-      let foundObject = state.find((obj, index) => {
-        if (obj.hash === hash) {
-          foundIndex = index
-          return true
-        }
-      })
-      if (!foundObject) {
-        return state //target object is not in this list
-      }
-      let newState = reduceInsertedObject(state, action.theObject, foundIndex) //replace with new version
+
+      // let hash = action.theObject.hash
+      // let foundIndex = null
+      // let foundObject = state.find((obj, index) => {
+      //   if (obj.hash === hash) {
+      //     foundIndex = index // use this to replace the object
+      //     return true
+      //   }
+      // })
+      // if (!foundObject) {
+      //   // should not happen in this particular reducer
+      //   alert('target result object is not in the results list')
+      //   debugger // for developer
+      //   return state //target object is not in this list
+      // }
+
+      let foundIndex = findIndexOfObject(state, action.theObject.hash)
+      // Replace the object in the same chronological order in the newState array
+      let newState = cloneDeep(state) // start with the current array to have the object replaced
+      newState[foundIndex] = action.theObject
       return newState
     }
     case REMOVE_ALL_RESULTS: {
