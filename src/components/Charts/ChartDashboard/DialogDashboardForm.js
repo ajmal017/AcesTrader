@@ -54,7 +54,7 @@ class DialogDashboardForm extends Component {
           <label htmlFor="watched">Watched</label>
           <input type="text" name="watched" value={this.state.watched} onChange={this.handleInputChange} />
           <br />
-          <label htmlFor="watchedPrice">WatchedPrice</label>
+          <label htmlFor="watchedPrice">Watched Price</label>
           <input type="text" name="watchedPrice" value={this.state.watchedPrice} onChange={this.handleInputChange} />
           <br />
           {/* ================================================ */}
@@ -63,7 +63,7 @@ class DialogDashboardForm extends Component {
               <label htmlFor="entered">Entered</label>
               <input type="text" name="entered" value={this.state.entered} onChange={this.handleInputChange} />
               <br />
-              <label htmlFor="enteredPrice">EnteredPrice</label>
+              <label htmlFor="enteredPrice">Entered Price</label>
               <input type="text" name="enteredPrice" value={this.state.enteredPrice} onChange={this.handleInputChange} />
               <br />
               <label htmlFor="filledQuantity">Quantity</label>
@@ -82,10 +82,10 @@ class DialogDashboardForm extends Component {
           <label htmlFor="quantity">Quantity</label>
           <input type="text" name="quantity" value={this.state.quantity} onChange={this.handleInputChange} />
           <br />
-          <label htmlFor="quantityType">QuantityType</label>
+          <label htmlFor="quantityType">Quantity Type</label>
           <input type="text" name="quantityType" value={this.state.quantityType} onChange={this.handleInputChange} />
           <br />
-          <label htmlFor="orderType">OrderType</label>
+          <label htmlFor="orderType">Order Type</label>
           <input type="text" name="orderType" value={this.state.orderType} onChange={this.handleInputChange} />
           <br />
           <label htmlFor="duration">Duration</label>

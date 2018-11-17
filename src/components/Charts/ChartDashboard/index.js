@@ -106,7 +106,6 @@ class ChartDashboard extends Component {
 
     return (
       <div className="dashboard">
-        console.log('Dashboard start return')
         <DialogDashboardForm
           showDialog={this.state.showDialog}
           hash={this.hash}

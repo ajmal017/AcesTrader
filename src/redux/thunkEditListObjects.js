@@ -5,17 +5,16 @@ import getFillPrice from '../lib/apiGetFillPrice'
 import { getSymbolDataObject, resetSymbolDataObjects } from '../lib/appSymbolDataObject'
 var cloneDeep = require('lodash.clonedeep')
 
-export const REPLACE_RESULTS_OBJECT = 'REPLACE_RESULTS_OBJECT'
 export const REPLACE_POSITION_OBJECT = 'REPLACE_POSITION_OBJECT'
 export const REPLACE_PROSPECT_OBJECT = 'REPLACE_PROSPECT_OBJECT'
 export const REPLACE_EDITED_OBJECT = 'REPLACE_EDITED_OBJECT'
 
 export const addExitPriceAsync = (hash) => {
   return (dispatch, getState) => {
-    let ourState = getState() //to  search the results lists
-    let foundObject = ourState.results.find((obj) => obj.hash === hash)
+    let ourState = getState() //to search the results lists for the target object
+    let foundObject = ourState.results.find((obj) => obj.hash === hash) //search the results slice of the state
     if (!foundObject) {
-      alert('No found results Object in "addExitPriceAsync"')
+      alert('No found results object in "addExitPriceAsync"')
       debugger //stop for developer
     }
     let newObject = cloneDeep(foundObject)
@@ -27,7 +26,7 @@ export const addExitPriceAsync = (hash) => {
         } else {
           newObject['exitedPrice'] = data1 //the filled price for this order
         }
-        dispatch(replaceTradeObject(newObject))
+        dispatch(replaceEditedObject(newObject))
       })
       .catch(function(error) {
         console.log('getFillPrice axios error:', error.message)
@@ -36,12 +35,6 @@ export const addExitPriceAsync = (hash) => {
   }
 }
 
-function replaceTradeObject(theObject) {
-  return {
-    type: REPLACE_RESULTS_OBJECT,
-    theObject: theObject,
-  }
-}
 //AddQuantity by calculation using the entered price
 export const addEnterPriceAsync = (hash) => {
   return (dispatch, getState) => {
