@@ -66,8 +66,7 @@ export default function buysReducer(state = defaultBuys, action) {
       return newState
     }
     case REMOVE_ONE_BUY: {
-      //filter to keep all except the action.symbol one
-      // let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      //filter to keep all except the action.hash one
       let newState = state.filter((obj) => obj.hash !== action.hash)
       return newState
     }

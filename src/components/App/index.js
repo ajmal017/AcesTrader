@@ -82,8 +82,15 @@ class App extends Component {
       )
     }
 
+    const sentry = false
+    if (process.env.NODE_ENV === 'production') {
+      sentry = true
+    }
+    // For discussion of the above trick for the sentry attribute on ErrorBoundary, see:
+    // https://stackoverflow.com/questions/31163693/how-to-conditionally-add-attributes-to-react-components
+
     return (
-      <ErrorBoundary sentry={true}>
+      <ErrorBoundary sentry={sentry || null}>
         <Root store={store} authenticated={authenticated} /> {/* shows Navbar */}
       </ErrorBoundary>
     )

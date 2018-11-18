@@ -29,7 +29,6 @@ class ChartDashboard extends Component {
     this.handleEditDialogOpen = this.handleEditDialogOpen.bind(this)
     this.handleEditDialogClose = this.handleEditDialogClose.bind(this)
     this.state = { showDialog: false }
-    console.log('Dashboard constructor')
   }
 
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
@@ -53,7 +52,6 @@ class ChartDashboard extends Component {
   }
 
   render() {
-    console.log('Dashboard render')
     //handle new props with changed state of cellObjects
     this.hash = this.props.cellObject.hash
     this.symbol = this.props.cellObject.symbol

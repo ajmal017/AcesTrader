@@ -41,6 +41,7 @@ const findIndexOfObject = (state, hash) => {
       foundIndex = index // use this to replace the object
       return true
     }
+    return false
   })
   if (!foundObject) {
     // should not happen in this particular reducer
@@ -70,11 +71,11 @@ export default function chartsReducer(state = defaultResults, action) {
       theObject.exited = action.theDate
       theObject.exitedPrice = action.thePrice
       theObject.listGroup = 'trades'
-      if (state.lenght > 0) {
-        theObject.carried = state[state.lenght - 1].adjusted //create link to last object in current chain
-      } else {
-        theObject.carried = 0 //first trade starts with zero portfolio value until edited by user
-      }
+      // if (state.length > 0) {
+      //   theObject.carried = state[0].adjusted //get value from the latest object in current chain
+      // } else {
+      //   theObject.carried = 0 //first trade starts with zero portfolio value until edited by user
+      // }
       let newState = cloneDeep(state)
       newState.unshift(theObject) // put theObject ahead of older objects
       return newState

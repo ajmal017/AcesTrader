@@ -32,6 +32,7 @@ export const addLongToList = (theObject, thePrice, theQuantity, theQuantityType,
 }
 
 // NOTE: This object should be moved to results state slice before removing it here
+// If this was deleted by user than this is only action performed.
 export const removeLongFromList = (symbol, hash) => {
   return {
     type: REMOVE_LONG_POSITION,
@@ -80,8 +81,7 @@ export default function longsReducer(state = defaultLongs, action) {
       return newState
     }
     case REMOVE_LONG_POSITION: {
-      //filter to keep all except the action.symbol one
-      // let newState = state.filter((obj) => obj.symbol !== action.symbol)
+      //filter to keep all except the action.hash one
       let newState = state.filter((obj) => obj.hash !== action.hash)
       return newState
     }

@@ -14,11 +14,11 @@ import './styles.css'
 //   &nbsp;&nbsp;&nbsp;&nbsp; {this.tradePercentGain}%{/*&nbsp;&nbsp;&nbsp;&nbsp;  Account: {account}  */}
 // </span>  */}>
 
-function TradeStatusLine({ hash, tradeSide, tradeDollarGain, tradePercentGain, carried, adjusted }) {
+function TradeStatusLine({ hash, tradeSide, tradeDollarGain, tradePercentGain }) {
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   const numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  const carriedValue = carried
-  const adjustedValue = adjusted
+  // const carriedValue = carried
+  // const adjustedValue = adjusted
   return tradeSide === 'Swing Shorts' ? (
     <div>
       <span id={'gaininfo' + hash} className="watched">
