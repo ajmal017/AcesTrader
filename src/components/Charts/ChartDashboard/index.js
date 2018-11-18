@@ -113,7 +113,7 @@ class ChartDashboard extends Component {
           exitCallback={this.handleEditDialogClose}
         />
         <div className="dashboard-data">
-          <span className="dashboard-header">{this.tradeSide}</span>
+          {/* <span className="dashboard-header">{this.tradeSide}</span> */}
           <form className="dashboard-form">
             <div className="events-log">
               <PeekStatusLine
