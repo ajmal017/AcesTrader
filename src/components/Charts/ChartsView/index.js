@@ -18,6 +18,7 @@ class ChartsView extends Component {
     let peekPricesObject = getPeekPrices()
     let peekPricesArray = Object.keys(peekPricesObject)
     if (peekPricesArray.length > 0) {
+      // this.props.dispatch(updateDashboardButtonAlerts(peekPricesObject))
       this.props.dispatch(updateDashboardPeekData(peekPricesObject))
     }
     resetPeekPrices()

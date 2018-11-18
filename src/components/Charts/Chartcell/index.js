@@ -293,6 +293,12 @@ class Chartcell extends Component {
       this.props.dispatch(removeSellFromList(this.symbol, this.hash))
     } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
       this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
+    } else if (this.tradeSide.toUpperCase() === 'SWING LONGS') {
+      this.props.dispatch(removeLongFromList(this.symbol, this.hash))
+    } else if (this.tradeSide.toUpperCase() === 'SWING SHORTS') {
+      this.props.dispatch(removeShortFromList(this.symbol, this.hash))
+    } else if (this.tradeSide.toUpperCase() === 'TREND LONGS') {
+      this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
     } else {
       alert('ERROR3 Missing tradeSide in Chartcell')
       // debugger
@@ -311,6 +317,13 @@ class Chartcell extends Component {
     const cell_id = cellObject.hash
     const wrapperId = 'wrapper-' + cell_id
     const chartId = 'chart-' + cell_id
+
+    const sentry = false
+    if (process.env.NODE_ENV === 'production') {
+      sentry = true
+    }
+    // For discussion of the above trick for the sentry attribute on ErrorBoundary, see:
+    // https://stackoverflow.com/questions/31163693/how-to-conditionally-add-attributes-to-react-components
 
     //Cached storage holds price data (no change until program is restarted)
     //Cached storage holds indicator values used for signal alerts)
@@ -383,11 +396,12 @@ class Chartcell extends Component {
             </div>
             <div className="form-header">
               {/* if this.entered is undefined, this is still in a Prospects list, so the X delete button is added */}
-              {this.entered === undefined ? (
-                <button onClick={this.handleDelete} className="cell-delete-button" type="button" aria-label="delete">
-                  &times;
-                </button>
-              ) : null}
+              {/* Note: 11/17/2018, I removed the distinction between Prospects and Positions, so Delete is added to both */}
+              {/* {this.entered === undefined ? ( */}
+              <button onClick={this.handleDelete} className="cell-delete-button" type="button" aria-label="delete">
+                &times;
+              </button>
+              {/* ) : null} */}
             </div>
             <div id={chartId} className="graph-content">
               {this.state.noprices ? (
@@ -396,7 +410,7 @@ class Chartcell extends Component {
                   <h4>{`No Prices Available For ${chart_name}.`}</h4>
                 </div>
               ) : (
-                <ErrorBoundary sentry={true} chart={true}>
+                <ErrorBoundary chart={true} sentry={sentry || null}>
                   {/* Catch the random timing error here, but don't abort. Continue on (with possible bad chart?!) */}
                   {this.props.cellObject.macdChart ? (
                     <CandleStickChartWithMACD

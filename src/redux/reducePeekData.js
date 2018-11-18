@@ -2,21 +2,23 @@
 
 var cloneDeep = require('lodash.clonedeep')
 
-/** 
+/**
  * This reducer is called by every one of the combineReducers, so every list object in the Store is seen.
- * 
+ *
  * Parameters:
  * state: A slice of the state as defined by combineReducers, the current source array of objects
  * peekdataobject: An object with key/values for symbols and last price
  * theDate: A formatted date and time string
- * 
- * This function is called to referrence the peek data captured when the user selects the More/Peek menue.
+ *
+ * This function is called to referrence the peek data captured when the user selected the More/Peek menue.
  * The peekdataobject at that time is loaded with a key/value pair for every symbol in the app's state.
  * The peekdataobject holding those symbol/price pairs is queried with the symbol to get the price at the tilme of the peek.
  * The data and time is supplied as another input parameter.
  * A slice of the app's state is supplied also.
  * Using the array.map method, each list object in the state is accessed to get it's symbol,
- * and the symbol is used to get the peeked price, which is used to updated the peekPrice property in the list object.
+ * and the symbol is used to get the peeked price.
+ * The price is used to updated the peekPrice property in the list object,
+ * and to color the place order button to signal alerts for the list object from Positions.
  */
 export default function(state, peekdataobject, theDate) {
   // Parameters:
