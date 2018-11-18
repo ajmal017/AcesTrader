@@ -12,13 +12,14 @@ class ChartsView extends Component {
   componentDidMount() {
     // throw new Error('An error has occured in Buggy ChartsView component!')
     window.scrollTo(0, 0)
-    // each time More/Peek is clicked, the peekPricesObject is created
-    // the newly available prices are then used to update the dashboards,
-    // after that the peekPricesObject is emptied, until the next Peek click
+    // Each time More/Peek is clicked, the peekPricesObject is created.
+    // Then when Prospects , Positions or Trades is opened, the
+    // newly available prices are then used to update dashboard and tally
+    // data via a reducer action that is passed to all the state slices.
+    // After that the peekPricesObject is emptied, until the next Peek click.
     let peekPricesObject = getPeekPrices()
     let peekPricesArray = Object.keys(peekPricesObject)
     if (peekPricesArray.length > 0) {
-      // this.props.dispatch(updateDashboardButtonAlerts(peekPricesObject))
       this.props.dispatch(updateDashboardPeekData(peekPricesObject))
     }
     resetPeekPrices()
@@ -26,14 +27,12 @@ class ChartsView extends Component {
 
   render() {
     // Create an array of Chartcells, one for each chart's graph & dashboard
-    let chartSelector = false //toggle switch for testing in Chartcell
     let cells = this.props.chartArray.map((obj, index) => {
-      chartSelector = !chartSelector
-      return <Chartcell key={index.toString()} handleClick={this.props.handleClick} cellObject={obj} errorCount={index} chartSelector={chartSelector} />
+      return <Chartcell key={index.toString()} handleClick={this.props.handleClick} cellObject={obj} errorCount={index} />
     })
-    // Depending on the initial parent each cell can be
-    // a prospect Buy, a prospect ShortSale, a prospect TrendBuy,
-    // a Long position, a Short position, or TrendLong position
+    // Depending on the initial parent, the cells array will be
+    // Buy prospects, ShortSale prospects, TrendBuy prospects,
+    // Long positions, Short positions, or TrendLong positions
     return (
       <div>
         <div id="charts-host" className="charts-host">

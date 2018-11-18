@@ -71,29 +71,11 @@ export default function chartsReducer(state = defaultResults, action) {
       theObject.exited = action.theDate
       theObject.exitedPrice = action.thePrice
       theObject.listGroup = 'trades'
-      // if (state.length > 0) {
-      //   theObject.carried = state[0].adjusted //get value from the latest object in current chain
-      // } else {
-      //   theObject.carried = 0 //first trade starts with zero portfolio value until edited by user
-      // }
       let newState = cloneDeep(state)
       newState.unshift(theObject) // put theObject ahead of older objects
       return newState
     }
     case REMOVE_RESULT: {
-      // let foundIndex = findIndexOfObject(state, action.hash)
-      // if (foundIndex === state.length-1) { //removing the last in chain, the earliest one, with the anchor value
-      //   state[foundIndex - 1].carried = state[foundIndex].adjusted //correct the anchor value in resulting chain
-      //   // we are removing the anchor link in chain, so correct the carried value in new anchor link
-      // }
-      /**
-       * Note to self. Does the above code really matter? I don't think so, and the code is commented out.
-       * When displaying the Results page, all these links are dynamically determined
-       * and the carried values and adjusted values are calculated again.
-       * So the only value that is important is the carried value in the oldest linked object at index=state.length-1,
-       * and this will be available in the remaining last object in the new array if any calculations have been done.
-       * If no calculations, then the value will be undefined and will default to zero, and can be edited by the user.
-       */
       // filter to keep all except the one with the hash
       let newState = state.filter((obj) => obj.hash !== action.hash)
       return newState
