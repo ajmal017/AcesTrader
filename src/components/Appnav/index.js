@@ -30,10 +30,10 @@ const Appnav = function() {
           <Nav>
             <NavDropdown eventKey={5} title="Prospects" id="5-basic-nav-dropdown">
               <LinkContainer to="/prospectbuys">
-                <MenuItem eventKey={5.1}>Swing Buys</MenuItem>
+                <MenuItem eventKey={5.1}>Buys</MenuItem>
               </LinkContainer>
               <LinkContainer to="/prospectsells">
-                <MenuItem eventKey={5.2}>Swing Short Sales</MenuItem>
+                <MenuItem eventKey={5.2}>Short Sales</MenuItem>
               </LinkContainer>
               <LinkContainer to="/prospecttrendbuys">
                 <MenuItem eventKey={5.2}>Trend Buys</MenuItem>
@@ -42,10 +42,10 @@ const Appnav = function() {
 
             <NavDropdown eventKey={4} title="Positions" id="5-basic-nav-dropdown">
               <LinkContainer to="/positionlongs">
-                <MenuItem eventKey={4.1}>Swing Longs</MenuItem>
+                <MenuItem eventKey={4.1}>Longs</MenuItem>
               </LinkContainer>
               <LinkContainer to="/positionshorts">
-                <MenuItem eventKey={4.2}>Swing Shorts</MenuItem>
+                <MenuItem eventKey={4.2}>Shorts</MenuItem>
               </LinkContainer>
               <LinkContainer to="/positiontrendlongs">
                 <MenuItem eventKey={4.6}>Trend Longs</MenuItem>

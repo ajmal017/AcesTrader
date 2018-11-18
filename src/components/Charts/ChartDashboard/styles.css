@@ -17,7 +17,7 @@
   /* border: blue solid 1px; */
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 22px 1fr 36px;
+  grid-template-rows: 4px 1fr 36px;
   grid-template-areas:
     'actionalert'
     'actionparams'
@@ -62,7 +62,7 @@
 } */
 
 .events-log {
-  margin-top: 8px;
+  /* margin-top: 8px; */
   margin-bottom: 12px;
 }
 

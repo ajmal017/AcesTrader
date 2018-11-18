@@ -86,22 +86,18 @@ export default function chartsReducer(state = defaultResults, action) {
       // the Trades state are in chronological sequence, so we use
       // the found index to replace the object at that location.
 
-      // let hash = action.theObject.hash
-      // let foundIndex = null
-      // let foundObject = state.find((obj, index) => {
-      //   if (obj.hash === hash) {
-      //     foundIndex = index // use this to replace the object
-      //     return true
-      //   }
-      // })
-      // if (!foundObject) {
-      //   // should not happen in this particular reducer
-      //   alert('target result object is not in the results list')
-      //   debugger // for developer
-      //   return state //target object is not in this list
-      // }
-
-      let foundIndex = findIndexOfObject(state, action.theObject.hash)
+      let hash = action.theObject.hash
+      let foundIndex = null
+      let foundObject = state.find((obj, index) => {
+        if (obj.hash === hash) {
+          foundIndex = index // use this to replace the object
+          return true
+        }
+        return false
+      })
+      if (!foundObject) {
+        return state //target object is not in this list
+      }
       // Replace the object in the same chronological order in the newState array
       let newState = cloneDeep(state) // start with the current array to have the object replaced
       newState[foundIndex] = action.theObject

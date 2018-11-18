@@ -317,6 +317,20 @@ class Chartcell extends Component {
     const cell_id = cellObject.hash
     const wrapperId = 'wrapper-' + cell_id
     const chartId = 'chart-' + cell_id
+    let tradeDesc = null
+    if ('Swing Buys' === this.tradeSide) {
+      tradeDesc = 'Buy Long -'
+    } else if ('Swing Short Sales' === this.tradeSide) {
+      tradeDesc = 'Sell Short -'
+    } else if ('Trend Buys' === this.tradeSide) {
+      tradeDesc = 'Buy Trend -'
+    } else if ('Swing Longs' === this.tradeSide) {
+      tradeDesc = 'Long Position -'
+    } else if ('Swing Shorts' === this.tradeSide) {
+      tradeDesc = 'Short Position -'
+    } else if ('Trend Longs' === this.tradeSide) {
+      tradeDesc = 'Trend Position -'
+    }
 
     const sentry = false
     if (process.env.NODE_ENV === 'production') {
@@ -380,7 +394,9 @@ class Chartcell extends Component {
         <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
           {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
           <div id={cell_id} className="chart-cell">
+            {/* <div className="chart-cell-header"> */}
             <div className="graph-header">
+              <span className="trade-desc">{tradeDesc}</span>
               <span className="cell-title">{chart_name}</span>
               <span className="chart-series-label">{this.props.cellObject.weeklyBars ? 'Weekly Bars' : 'Daily Bars'}</span>
               <span className="chart-indicator-label">{this.props.cellObject.macdChart ? 'With MACD' : 'With MA'}</span>
@@ -395,14 +411,11 @@ class Chartcell extends Component {
               </button>
             </div>
             <div className="form-header">
-              {/* if this.entered is undefined, this is still in a Prospects list, so the X delete button is added */}
-              {/* Note: 11/17/2018, I removed the distinction between Prospects and Positions, so Delete is added to both */}
-              {/* {this.entered === undefined ? ( */}
               <button onClick={this.handleDelete} className="cell-delete-button" type="button" aria-label="delete">
                 &times;
               </button>
-              {/* ) : null} */}
             </div>
+            {/* </div> */}
             <div id={chartId} className="graph-content">
               {this.state.noprices ? (
                 <div id={cell_id} className="chart-cell-wrapper">
