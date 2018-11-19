@@ -8,12 +8,6 @@ class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
     this.state = { error: null }
-    //***** False in development, True for production *****
-    if (process.env.NODE_ENV === 'production' && this.props.sentry) {
-      this.activeSentry = true
-    } else {
-      this.activeSentry = false
-    }
   }
 
   componentDidCatch(error, errorInfo) {
@@ -21,7 +15,7 @@ class ErrorBoundary extends Component {
       error: error,
       errorInfo: errorInfo,
     })
-    if (this.activeSentry) {
+    if (process.env.NODE_ENV === 'production') {
       Sentry.configureScope((scope) => {
         Object.keys(errorInfo).forEach((key) => {
           scope.setExtra(key, errorInfo[key])
@@ -29,22 +23,20 @@ class ErrorBoundary extends Component {
       })
       Sentry.captureException(error)
       // Sentry.showReportDialog()
-      debugger
     }
   }
 
   render() {
     if (this.state.error) {
-      // debugger
       //render fallback UI
       if (this.props.chart) {
         return (
           <div className="errorboundary-wrapper">
             <div className="errorboundary-content">
-              <h3>Something went wrong drawing your chart.</h3>
+              <h3>Oops- Something went wrong drawing your chart.</h3>
               {/* <a onClick={() => Sentry.showReportDialog()}> Please click here to send feedback</a> */}
-              <h4>Click the back arrow to retry.</h4>
-              <h4>Or refresh the page to restart.</h4>
+              <h4>Click the back arrow,</h4>
+              <h4>or refresh the page to retry.</h4>
             </div>
           </div>
         )
@@ -52,9 +44,9 @@ class ErrorBoundary extends Component {
         return (
           <div className="errorboundary-wrapper">
             <div className="errorboundary-content">
-              <h3>Something went wrong.</h3>
+              <h3>Oops- Something went wrong.</h3>
               {/* <a onClick={() => Sentry.showReportDialog()}> Please click here to send feedback</a> */}
-              <h4>You can refresh the page to retry</h4>
+              <h4>Please refresh the page to retry</h4>
             </div>
           </div>
         )

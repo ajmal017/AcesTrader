@@ -19,8 +19,17 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // Showing configuration for martinapps / acestrader
-    Sentry.init({ dsn: 'https://e5464524db8f4d1791a5637c098e78e4@sentry.io/1300553' })
+    // Sentry.init({ dsn: 'https://e5464524db8f4d1791a5637c098e78e4@sentry.io/1300553' })
+
+    const RELEASE = '0.1.*'
+    if (process.env.NODE_ENV === 'production') {
+      Sentry.init({
+        dsn: 'https://e5464524db8f4d1791a5637c098e78e4@sentry.io/1300553',
+        release: RELEASE,
+      })
+    }
+
+    // Showing configuration for martinapps / acestrader at Firebase
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
@@ -82,15 +91,8 @@ class App extends Component {
       )
     }
 
-    const sentry = false
-    if (process.env.NODE_ENV === 'production') {
-      sentry = true
-    }
-    // For discussion of the above trick for the sentry attribute on ErrorBoundary, see:
-    // https://stackoverflow.com/questions/31163693/how-to-conditionally-add-attributes-to-react-components
-
     return (
-      <ErrorBoundary sentry={sentry || null}>
+      <ErrorBoundary>
         <Root store={store} authenticated={authenticated} /> {/* shows Navbar */}
       </ErrorBoundary>
     )

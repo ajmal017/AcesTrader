@@ -842,46 +842,46 @@
   version "0.2.11"
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.2.11.tgz#32a853fad9974cbbc9fc766ec5699a18b22ccee6"
 
-"@sentry/browser@^4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-4.1.1.tgz#9db1e765bf2afcbe0fb44b028abdf5c74d6e77b0"
+"@sentry/browser@4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-4.3.2.tgz#430b83583c5c25d33041dd80bf6ed19216086f70"
   dependencies:
-    "@sentry/core" "4.1.1"
-    "@sentry/types" "4.1.0"
-    "@sentry/utils" "4.1.1"
+    "@sentry/core" "4.3.2"
+    "@sentry/types" "4.3.2"
+    "@sentry/utils" "4.3.2"
 
-"@sentry/core@4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-4.1.1.tgz#013ee6ee32033b9a404da5bd27f5a2417dcb1a89"
+"@sentry/core@4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-4.3.2.tgz#e8a2850a11316d865ed7d3030ee2c4a1608bb1d8"
   dependencies:
-    "@sentry/hub" "4.1.1"
-    "@sentry/minimal" "4.1.1"
-    "@sentry/types" "4.1.0"
-    "@sentry/utils" "4.1.1"
+    "@sentry/hub" "4.3.2"
+    "@sentry/minimal" "4.3.2"
+    "@sentry/types" "4.3.2"
+    "@sentry/utils" "4.3.2"
 
-"@sentry/hub@4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-4.1.1.tgz#ef093fe4f42587c7868b66299584b5a9f9d67fc6"
+"@sentry/hub@4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-4.3.2.tgz#1ea10038e2080035d2bc09f5f26829cd106a1516"
   dependencies:
-    "@sentry/types" "4.1.0"
-    "@sentry/utils" "4.1.1"
+    "@sentry/types" "4.3.2"
+    "@sentry/utils" "4.3.2"
 
-"@sentry/minimal@4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@sentry/minimal/-/minimal-4.1.1.tgz#46d8a35e0d82b0903ed83dba21d8344b601145a5"
+"@sentry/minimal@4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@sentry/minimal/-/minimal-4.3.2.tgz#c0958e5858b2105a6a0b523787e459a03af603cc"
   dependencies:
-    "@sentry/hub" "4.1.1"
-    "@sentry/types" "4.1.0"
+    "@sentry/hub" "4.3.2"
+    "@sentry/types" "4.3.2"
 
-"@sentry/types@4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-4.1.0.tgz#ebffb9857abbecaad5d1c00152a50f72ac9757a5"
+"@sentry/types@4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-4.3.2.tgz#28b143979482fcbc9f9e520250482dde015b13fa"
 
-"@sentry/utils@4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-4.1.1.tgz#5624517d582c870348f234df27c509db95d4fdc6"
+"@sentry/utils@4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-4.3.2.tgz#de14046eba972af9d62508f78cd998b0352d634a"
   dependencies:
-    "@sentry/types" "4.1.0"
+    "@sentry/types" "4.3.2"
 
 "@svgr/core@^2.4.1":
   version "2.4.1"

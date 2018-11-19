@@ -63,8 +63,8 @@ const HomeContent = function() {
 
       <h4>CHARTING TOOLS</h4>
       <p>
-        Charts are created for each symbol and are arranged for inspection in three groups under Prospects: Swing Buys, Swing Short Sales, and Trend Buys. Also in three groups
-        under Positions: Swing Longs, Swing Shorts, and Trend Longs. Each chart has an associated dashboard with parameters initialized for the default order. A button allows the
+        Charts are created for each symbol and are arranged for inspection in three groups under Prospects: 'Buys, 'Short Sales, and Trend Buys. Also in three groups
+        under Positions: 'Longs, 'Shorts, and Trend Longs. Each chart has an associated dashboard with parameters initialized for the default order. A button allows the
         user to enter an order.
       </p>
 

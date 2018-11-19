@@ -332,13 +332,6 @@ class Chartcell extends Component {
       tradeDesc = 'Trend Position -'
     }
 
-    const sentry = false
-    if (process.env.NODE_ENV === 'production') {
-      sentry = true
-    }
-    // For discussion of the above trick for the sentry attribute on ErrorBoundary, see:
-    // https://stackoverflow.com/questions/31163693/how-to-conditionally-add-attributes-to-react-components
-
     //Cached storage holds price data (no change until program is restarted)
     //Cached storage holds indicator values used for signal alerts)
     //Local state holds duplicate of price data)
@@ -423,7 +416,7 @@ class Chartcell extends Component {
                   <h4>{`No Prices Available For ${chart_name}.`}</h4>
                 </div>
               ) : (
-                <ErrorBoundary chart={true} sentry={sentry || null}>
+                <ErrorBoundary chart={true}>
                   {/* Catch the random timing error here, but don't abort. Continue on (with possible bad chart?!) */}
                   {this.props.cellObject.macdChart ? (
                     <CandleStickChartWithMACD
