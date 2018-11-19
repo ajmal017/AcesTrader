@@ -21,7 +21,7 @@ class ManageSellProspects extends Component {
   render() {
     return (
       <ManageProspects
-        tradeSide={'Swing Sells'}
+        tradeSide={'Short Sales'}
         handleClick={this.handleClick}
         mockSymbols="EFA AGG BIV BND BNDX DRIP EWG EWW FAZ FEZ GDX GOVT HYG IEF JNK JNUG LQD MUB NUGT PFF SDOW SJNK SVXY TLT UGAZ VCSH XLP XLU"
       />

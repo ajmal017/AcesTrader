@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@firebase/app-types": "0.x",
-    "@sentry/browser": "^4.1.1",
+    "@sentry/browser": "^4.3.2",
     "axios": "^0.18.0",
     "base-64": "^0.1.0",
     "bootstrap": "^3.3.7",

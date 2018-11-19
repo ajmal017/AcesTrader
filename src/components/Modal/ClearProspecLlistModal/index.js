@@ -8,7 +8,7 @@ const ClearProspecLlistModal = function(props) {
   if (targetListName.toUpperCase() === 'SWING BUYS') {
     targetListName = 'Swing Buys'
   } else if (targetListName.toUpperCase() === 'SWING SELLS') {
-    targetListName = 'Swing Sells'
+    targetListName = 'Short Sales'
   } else if (targetListName.toUpperCase() === 'TREND BUYS') {
     targetListName = 'Trend Buys'
   } else {
@@ -20,7 +20,8 @@ const ClearProspecLlistModal = function(props) {
   let dialogContent = (
     <span>
       <p>
-        All symbols in the {targetListName} prospect list will be deleted.<br />
+        All symbols in the {targetListName} prospect list will be deleted.
+        <br />
         This data will be lost and cannot be restored.
       </p>
       <p>Are you sure you want to delete this list?</p>
