@@ -169,6 +169,7 @@ class Chartcell extends Component {
         volume += data[k].volume
         if (k === data.length - 1) {
           // after the last daily bar, close last weekly bar
+          lastDate = data[k].date
           weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
         }
       }
