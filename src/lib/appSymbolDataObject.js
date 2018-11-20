@@ -2,7 +2,7 @@
 
 // This data is an array of objects, each with info about one symbol,
 // created by ManageProspects calling putSymbolDataObjects when verifying a list of new prospect symbols.
-// The array is used later with calls to getSymbolDataObject from addWatchPriceAndIssueTypeAsync()
+// The array is used later with calls to getSymbolDataObject from addWatchPriceAndIssueType()
 // in the thunkEditListObjects.js file.
 
 let currentSymbolDataObjects = []

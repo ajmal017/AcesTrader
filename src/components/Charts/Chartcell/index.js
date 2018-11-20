@@ -20,7 +20,7 @@ import { removeLongFromList } from '../../../redux/reducerLongs'
 import { removeShortFromList } from '../../../redux/reducerShorts'
 import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
-import { addEnterPriceAsync, addExitPrice } from '../../../redux/thunkEditListObjects'
+import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
 import getChartData from '../../../lib/apiGetChartData'
 // import getChartLastBar from '../../../lib/apigetChartLastBar'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
@@ -240,19 +240,19 @@ class Chartcell extends Component {
       case 'BUYS': {
         this.props.dispatch(addLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
-        this.props.dispatch(addEnterPriceAsync(theHash))
+        this.props.dispatch(addEnterPrice(theHash))
         break
       }
       case 'SHORT SALES': {
         this.props.dispatch(addShortToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeSellFromList(this.symbol, this.hash))
-        this.props.dispatch(addEnterPriceAsync(theHash))
+        this.props.dispatch(addEnterPrice(theHash))
         break
       }
       case 'TREND BUYS': {
         this.props.dispatch(addTrendLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
-        this.props.dispatch(addEnterPriceAsync(theHash))
+        this.props.dispatch(addEnterPrice(theHash))
         break
       }
       case 'LONGS': {
