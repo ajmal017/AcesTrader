@@ -14,17 +14,19 @@ const HomeContent = function() {
       <br />
       <h4>TRADE PROSPECTS</h4>
       <p>
-        Two types of trading are envisioned: swing trading and trend following. Three lists of prospective trade entries are available. For swing trading there are a prospective
-        buys list and a short sales list. For trend following there is a prospective trend buys list. You use the Edits menu selection to change the list of symbols in each.
+        Two types of trading are envisioned: end-of-day trading and trend following. Three lists of prospective trade entries are available. For end-of-day trading there are a
+        prospective buys list and a prospective short sales list. For trend following there is a prospective trend buys list. You use the Edits menu selection to change the list of
+        symbols in each.
       </p>
       <p>
-        For ETF swing trading, lists of ETFs can be obtained from the weekly list of "Buy on the Dip Prospects" and "Sell on the Pop Prospects" published in "The Daily ETF Roundup"
-        by ETFdb.com. Each Buy on the Dip prospect is deemed to be in an uptrend, and each Sell on the Pop prospect is deemed to be in a downtrend.
+        For ETF end-of-day trading, lists of ETFs can be obtained from the weekly list of "Buy on the Dip Prospects" and "Sell on the Pop Prospects" published in "The Daily ETF
+        Roundup" by ETFdb.com. Each Buy on the Dip prospect is deemed to be in an uptrend, and each Sell on the Pop prospect is deemed to be in a downtrend. The long term trend is
+        indicated by the 50-day moving average being above or below its 200-day moving average.{' '}
       </p>
 
       <p>
-        For ETF trend buys, ETFs that follow diversified assets are used. The long term trend is indicated by the 50-day moving average being above or below its 200-day moving
-        average. For a discussion of trading by trend following see{' '}
+        For ETF trend trading, ETFs that follow diversified assets are used. Trending ETFs are traded by rebalancing monthly, buying when the ETF is priced above the 40-week moving
+        average and selling when priced below the 40-week moving average. For a discussion of trading by trend following see{' '}
         <a href="https://extradash.com/en/strategies/models/5/faber-tactical-asset-allocation/" target="_blank" rel=" noopener noreferrer">
           Faber-Tactical-Asset-Allocation.
         </a>{' '}
@@ -63,9 +65,12 @@ const HomeContent = function() {
 
       <h4>CHARTING TOOLS</h4>
       <p>
-        Charts are created for each symbol and are arranged for inspection in three groups under Prospects: 'Buys, 'Short Sales, and Trend Buys. Also in three groups
-        under Positions: 'Longs, 'Shorts, and Trend Longs. Each chart has an associated dashboard with parameters initialized for the default order. A button allows the
-        user to enter an order.
+        Charts are created for each symbol and are arranged for inspection in three groups under Prospects: 'Buys, 'Short Sales, and Trend Buys. Also in three groups under
+        Positions: 'Longs, 'Shorts, and Trend Longs. Each chart has an Edit button (pencil) to select different chart display options.
+      </p>
+      <p>
+        Each chart has an associated dashboard with parameters initialized for the default order. The dashboard has an Edit button (pencil) to change some order parameters. A
+        button allows the user to enter an order.
       </p>
 
       {/* <h4>TRADER ALERTS</h4>
@@ -109,9 +114,9 @@ const HomeContent = function() {
       <h4>USING THE GUEST MODE</h4>
       <p>
         The program as designed can be used for live brokerage trading by only one person, using the assigned TDAmeritrade logon user name and password. However a Guest mode is
-        provided as a guest sign in option for paper trading. This mode has no interaction with TDAmeritrade. Price data for charts is obtained from the IEX stock exchange. Trades
-        are simulated using the IEX price data for execution prices. These prices are obtained at the time of the order, and they are the last price from the ticker feed. So after
-        trading hours they are stale, but still good enough for the demo's simulated trading.
+        provided as a guest sign in option for simulated paper trading. This mode has no interaction with TDAmeritrade. Price data for charts is obtained from the IEX stock
+        exchange. Trades are simulated using the IEX price data for execution prices. These prices are obtained at the time of the order, and they are the last price from the
+        ticker feed. So after trading hours they are stale, but still good enough for the guest mode simulated trading.
       </p>
       <p>
         There's another limitation to the Guest mode. There is no access to the cloud storage. The data for your lists are saved in the local storage of your browser. If you create

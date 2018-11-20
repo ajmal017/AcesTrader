@@ -123,10 +123,10 @@ class ManageProspects extends Component {
 
       let prospectsArray
       let positionsArray
-      if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
+      if (this.tradeSide.toUpperCase() === 'BUYS') {
         prospectsArray = this.props.state.buys
         positionsArray = this.props.state.longs
-      } else if (this.tradeSide.toUpperCase() === 'SWING SELLS') {
+      } else if (this.tradeSide.toUpperCase() === 'SHORT SALES') {
         prospectsArray = this.props.state.sells
         positionsArray = this.props.state.shorts
       } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
@@ -188,11 +188,11 @@ class ManageProspects extends Component {
   handleAccept() {
     if (this.textAreaBox.value !== '') {
       this.newProspects = this.textAreaBox.value.split(' ').sort()
-      if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
+      if (this.tradeSide.toUpperCase() === 'BUYS') {
         this.props.dispatch(addBuysToList(this.newProspects))
         this.props.dispatch(addWatchPriceAndIssueTypeAsync(this.tradeSide.toUpperCase())) //call thunk
         this.props.handleClick('push', 'prospectbuys')
-      } else if (this.tradeSide.toUpperCase() === 'SWING SELLS') {
+      } else if (this.tradeSide.toUpperCase() === 'SHORT SALES') {
         this.props.dispatch(addSellstoList(this.newProspects))
         this.props.dispatch(addWatchPriceAndIssueTypeAsync(this.tradeSide.toUpperCase())) //call thunk
         this.props.handleClick('push', 'prospectsells')
@@ -304,9 +304,9 @@ class ManageProspects extends Component {
   handleClearQueryResonse(response) {
     let buttonFlag = response.buttonFlag
     if (buttonFlag === 'yes') {
-      if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
+      if (this.tradeSide.toUpperCase() === 'BUYS') {
         this.props.dispatch(removeAllBuysFromList())
-      } else if (this.tradeSide.toUpperCase() === 'SWING SELLS') {
+      } else if (this.tradeSide.toUpperCase() === 'SHORT SALES') {
         this.props.dispatch(removeAllSellsFromList())
       } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
         this.props.dispatch(removeAllTrendBuysFromList())

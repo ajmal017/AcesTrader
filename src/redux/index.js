@@ -41,8 +41,8 @@ export const resetPersistedState = (persistedState) => {
 
 const rootReducer = combineReducers({
   buys: buysReducer,
-  sells: sellsReducer,
   longs: longsReducer,
+  sells: sellsReducer,
   shorts: shortsReducer,
   trendbuys: trendbuysReducer,
   trendlongs: trendlongsReducer,

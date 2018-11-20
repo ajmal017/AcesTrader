@@ -317,7 +317,8 @@ CandleStickChartWithMA.propTypes = {
 }
 
 CandleStickChartWithMA.defaultProps = {
-  type: 'hybrid',
+  type: 'svg',
+  // type: 'hybrid',
   panEvent: true, //false,
   zoomEvent: true, //false,
   clamp: false, //true,

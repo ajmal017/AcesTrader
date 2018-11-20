@@ -34,23 +34,6 @@ export const removeAllResultsFromList = () => {
   }
 }
 
-const findIndexOfObject = (state, hash) => {
-  let foundIndex = null
-  let foundObject = state.find((obj, index) => {
-    if (obj.hash === hash) {
-      foundIndex = index // use this to replace the object
-      return true
-    }
-    return false
-  })
-  if (!foundObject) {
-    // should not happen in this particular reducer
-    alert('target result object is not in the results list')
-    debugger // for developer
-  }
-  return foundIndex
-}
-
 const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
 // *********reducer***********

@@ -5,6 +5,6 @@
   "quantityType": "DOLLARS",
   "quantity": 5000,
   "instruction": "SELL SHORT",
-  "tradeSide": "Swing Short Sales",
+  "tradeSide": "Short Sales",
   "buttonLabel": "SELL SHORT"
 }

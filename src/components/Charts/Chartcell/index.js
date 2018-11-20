@@ -236,13 +236,13 @@ class Chartcell extends Component {
     const theHash = this.props.cellObject.hash //from target object before its removal by dispatch below
 
     switch (this.tradeSide.toUpperCase()) {
-      case 'SWING BUYS': {
+      case 'BUYS': {
         this.props.dispatch(addLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
         this.props.dispatch(addEnterPriceAsync(theHash))
         break
       }
-      case 'SWING SHORT SALES': {
+      case 'SHORT SALES': {
         this.props.dispatch(addShortToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeSellFromList(this.symbol, this.hash))
         this.props.dispatch(addEnterPriceAsync(theHash))
@@ -254,13 +254,13 @@ class Chartcell extends Component {
         this.props.dispatch(addEnterPriceAsync(theHash))
         break
       }
-      case 'SWING LONGS': {
+      case 'LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeLongFromList(this.symbol, this.hash))
         this.props.dispatch(addExitPriceAsync(theHash))
         break
       }
-      case 'SWING SHORTS': {
+      case 'SHORTS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeShortFromList(this.symbol, this.hash))
         this.props.dispatch(addExitPriceAsync(theHash))
@@ -287,15 +287,15 @@ class Chartcell extends Component {
 
   handleDeleteDispatch() {
     this.setState({ hide: false })
-    if (this.tradeSide.toUpperCase() === 'SWING BUYS') {
+    if (this.tradeSide.toUpperCase() === 'BUYS') {
       this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
-    } else if (this.tradeSide.toUpperCase() === 'SWING SHORT SALES') {
+    } else if (this.tradeSide.toUpperCase() === 'SHORT SALES') {
       this.props.dispatch(removeSellFromList(this.symbol, this.hash))
     } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
       this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
-    } else if (this.tradeSide.toUpperCase() === 'SWING LONGS') {
+    } else if (this.tradeSide.toUpperCase() === 'LONGS') {
       this.props.dispatch(removeLongFromList(this.symbol, this.hash))
-    } else if (this.tradeSide.toUpperCase() === 'SWING SHORTS') {
+    } else if (this.tradeSide.toUpperCase() === 'SHORTS') {
       this.props.dispatch(removeShortFromList(this.symbol, this.hash))
     } else if (this.tradeSide.toUpperCase() === 'TREND LONGS') {
       this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
@@ -318,15 +318,15 @@ class Chartcell extends Component {
     const wrapperId = 'wrapper-' + cell_id
     const chartId = 'chart-' + cell_id
     let tradeDesc = null
-    if ('Swing Buys' === this.tradeSide) {
+    if ('Buys' === this.tradeSide) {
       tradeDesc = 'Buy Long -'
-    } else if ('Swing Short Sales' === this.tradeSide) {
+    } else if ('Short Sales' === this.tradeSide) {
       tradeDesc = 'Sell Short -'
     } else if ('Trend Buys' === this.tradeSide) {
       tradeDesc = 'Buy Trend -'
-    } else if ('Swing Longs' === this.tradeSide) {
+    } else if ('Longs' === this.tradeSide) {
       tradeDesc = 'Long Position -'
-    } else if ('Swing Shorts' === this.tradeSide) {
+    } else if ('Shorts' === this.tradeSide) {
       tradeDesc = 'Short Position -'
     } else if ('Trend Longs' === this.tradeSide) {
       tradeDesc = 'Trend Position -'

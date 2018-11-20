@@ -17,7 +17,7 @@ import './styles.css'
 function TradeStatusLine({ hash, tradeSide, tradeDollarGain, tradePercentGain }) {
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   const numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  return tradeSide === 'Swing Shorts' ? (
+  return tradeSide === 'Shorts' ? (
     <div>
       <span id={'gaininfo' + hash} className="watched">
         {tradeDollarGain > 0 ? 'Loss' : 'Gain'} &nbsp;&nbsp;&nbsp; {tradeDollarGain > 0 ? '-' : ''}${numberWithCommas(Math.abs(tradeDollarGain))}
@@ -106,7 +106,7 @@ class TradeCell extends Component {
     const exitedPrice = tradeObject.exitedPrice
     const filledQuantity = tradeObject.filledQuantity
     this.tradePercentGainTemp = exitedPrice !== 'pending' ? ((100 * (exitedPrice - enteredPrice)) / enteredPrice).toFixed(1) : 'pending'
-    this.tradePercentGain = this.tradeSide === 'Swing Shorts' ? -this.tradePercentGainTemp : this.tradePercentGainTemp
+    this.tradePercentGain = this.tradeSide === 'Shorts' ? -this.tradePercentGainTemp : this.tradePercentGainTemp
     this.tradeDollarGain = exitedPrice !== 'pending' ? (filledQuantity * (exitedPrice - enteredPrice)).toFixed(0) : 'pending'
     // const tradeGain = exitedPrice !== 'pending' ? (100 * (exitedPrice - enteredPrice)) / enteredPrice + '%' : 'pending'
     // const account = tradeObject.account

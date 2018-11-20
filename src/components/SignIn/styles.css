@@ -30,6 +30,9 @@
   height: 40px;
   margin: 2px 0 15px 0;
 }
+.input-wrapper {
+  margin-left: 20px;
+}
 .radio-row {
   display: flex;
   flex-flow: row wrap;
@@ -37,19 +40,11 @@
   justify-content: space-evenly;
   align-items: center;
   margin-top: 4px;
+  margin-left: 20px;
 }
-/* .radioWrapper {
-  height:40px;
-} */
-/* .input {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;
-    width: 344px;
-    height: 40px;
-    margin: 15px 0;
-  } */
+.radio-item {
+  margin-right: 20px;
+}
 .recoverPasswordWrapper {
   width: 100%;
   display: flex;
