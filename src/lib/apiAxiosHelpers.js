@@ -1,4 +1,4 @@
-// axiosHelpers.js
+// apiAxiosHelpers.js
 
 import { putWatchedPrice, resetWatchedPrices } from './appWatchedPrice'
 var axios = require('axios')
@@ -6,7 +6,6 @@ var axios = require('axios')
 // Note: we use the free IEX api to test for a valid symbol
 // axios.get(`https://api.iextrading.com/1.0/stock/${symbol}/company`)
 
-// var axiosHelpers = {
 export const verifySymbolLookups = function(symbolList) {
   let promiseArray = symbolList.map((symbol, i) => {
     return axios({ method: 'get', timeout: 2000, url: `https://api.iextrading.com/1.0/stock/${symbol}/company` })
@@ -76,5 +75,3 @@ export const getSymbolPrices = function(symbolList) {
 //       })
 //   },
 // }
-
-// export default axiosHelpers

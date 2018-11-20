@@ -16,8 +16,7 @@ import { queryClearProspectsList } from '../../redux/reducerModal'
 import { putSymbolDataObjects } from '../../lib/appSymbolDataObject'
 import getWatchedPrices from '../../lib/appGetWatchedPrices'
 import './styles.css'
-import * as axiosHelpers from '../../lib/axiosHelpers'
-// const axiosHelpers = require('../../lib/axiosHelpers.js')
+import * as apiAxiosHelpers from '../../lib/apiAxiosHelpers'
 
 class ManageProspects extends Component {
   constructor(props) {
@@ -142,7 +141,7 @@ class ManageProspects extends Component {
         this.textAreaBox.value = '**No New Symbols In The List, All These Are Already Entered**'
       } else {
         this.textAreaBox.value = 'Verifying Symbols, Please Wait...'
-        axiosHelpers.verifySymbolLookups(verifiedList).then(
+        apiAxiosHelpers.verifySymbolLookups(verifiedList).then(
           function(data) {
             if (data.error) {
               // Extract symbol from string ".../stock/symbol/company" to use in reporting error
