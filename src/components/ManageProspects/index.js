@@ -11,7 +11,7 @@ import { getReference, referenceLocaltrader } from '../../lib/dbReference'
 import { addBuysToList, removeAllBuysFromList } from '../../redux/reducerBuys'
 import { addSellstoList, removeAllSellsFromList } from '../../redux/reducerSells'
 import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/reducerTrendBuys'
-import { addWatchPriceAndIssueTypeAsync } from '../../redux/thunkEditListObjects'
+import { addWatchPriceAndIssueType } from '../../redux/thunkEditListObjects'
 import { queryClearProspectsList } from '../../redux/reducerModal'
 import { putSymbolDataObjects } from '../../lib/appSymbolDataObject'
 import getWatchedPrices from '../../lib/appGetWatchedPrices'
@@ -189,15 +189,15 @@ class ManageProspects extends Component {
       this.newProspects = this.textAreaBox.value.split(' ').sort()
       if (this.tradeSide.toUpperCase() === 'BUYS') {
         this.props.dispatch(addBuysToList(this.newProspects))
-        this.props.dispatch(addWatchPriceAndIssueTypeAsync(this.tradeSide.toUpperCase())) //call thunk
+        this.props.dispatch(addWatchPriceAndIssueType(this.tradeSide.toUpperCase())) //call thunk
         this.props.handleClick('push', 'prospectbuys')
       } else if (this.tradeSide.toUpperCase() === 'SHORT SALES') {
         this.props.dispatch(addSellstoList(this.newProspects))
-        this.props.dispatch(addWatchPriceAndIssueTypeAsync(this.tradeSide.toUpperCase())) //call thunk
+        this.props.dispatch(addWatchPriceAndIssueType(this.tradeSide.toUpperCase())) //call thunk
         this.props.handleClick('push', 'prospectsells')
       } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
         this.props.dispatch(addTrendBuysToList(this.newProspects))
-        this.props.dispatch(addWatchPriceAndIssueTypeAsync(this.tradeSide.toUpperCase())) //call thunk
+        this.props.dispatch(addWatchPriceAndIssueType(this.tradeSide.toUpperCase())) //call thunk
         this.props.handleClick('push', 'prospecttrendbuys')
       } else {
         alert('ERROR2 Missing tradeSide in ManageProspects')

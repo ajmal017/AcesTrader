@@ -36,14 +36,14 @@ export const addExitPrice = (hash) => {
 }
 
 //AddQuantity by calculation using the entered price
-export const addEnterPriceAsync = (hash) => {
+export const addEnterPrice = (hash) => {
   return (dispatch, getState) => {
     let ourState = getState() //to  search the 3 positions lists
     let foundObject = ourState.longs.find((obj) => obj.hash === hash)
     if (!foundObject) foundObject = ourState.shorts.find((obj) => obj.hash === hash)
     if (!foundObject) foundObject = ourState.trendlongs.find((obj) => obj.hash === hash)
     if (!foundObject) {
-      alert('No foundObject in "addEnterPriceAsync"')
+      alert('No foundObject in "addEnterPrice"')
       debugger //stop for developer
     }
     let newObject = cloneDeep(foundObject)
@@ -79,7 +79,7 @@ function replacePositionObject(theObject) {
   }
 }
 
-export const addWatchPriceAndIssueTypeAsync = (tradeSide) => {
+export const addWatchPriceAndIssueType = (tradeSide) => {
   return (dispatch, getState) => {
     let ourState = getState() //to  search the 3 prospects lists
     //Since the caller of this thunk does not know the hash tags,
