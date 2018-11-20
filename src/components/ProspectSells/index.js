@@ -5,7 +5,7 @@ import AppToolbar from '../../components/AppToolbar'
 
 class ProspectSells extends Component {
   render() {
-    return <AppToolbar chartArray={this.props.sells} originList={'Swing Short Sales'} />
+    return <AppToolbar chartArray={this.props.sells} originList={'Short Sales'} />
   }
 }
 

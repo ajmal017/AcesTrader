@@ -5,6 +5,6 @@
   "quantity": "ALL_SHARES",
   "quantityType": "SHARES",
   "instruction": "BUY",
-  "tradeSide": "Swing Shorts",
+  "tradeSide": "Shorts",
   "buttonLabel": "EXIT SHORT"
 }

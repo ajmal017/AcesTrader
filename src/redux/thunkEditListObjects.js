@@ -53,6 +53,7 @@ export const addEnterPriceAsync = (hash) => {
         if (isNaN(data2)) {
           newObject['enteredPrice'] = 'Not Available'
         } else {
+          newObject['trailingStopBasis'] = data2 //this initial trailing basis will be adjusted using subsquent peek prices
           newObject['enteredPrice'] = data2 //the filled price for this order
           if (foundObject.quantityType === 'DOLLARS') {
             //calculate the filled quantity
@@ -86,10 +87,10 @@ export const addWatchPriceAndIssueTypeAsync = (tradeSide) => {
     //we have to create a list of objects without the watchedPrice,
     //they are the ones just added by the ManageProspects component.
     let prospectsObjArray
-    if (tradeSide === 'SWING BUYS') {
+    if (tradeSide === 'BUYS') {
       prospectsObjArray = ourState.buys.filter((obj) => obj.watchedPrice === undefined)
     }
-    if (tradeSide === 'SWING SELLS') {
+    if (tradeSide === 'SHORT SALES') {
       prospectsObjArray = ourState.sells.filter((obj) => obj.watchedPrice === undefined)
     }
     if (tradeSide === 'TREND BUYS') {

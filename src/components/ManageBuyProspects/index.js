@@ -21,7 +21,7 @@ class ManageBuyProspects extends Component {
   // "TRTY hyd amzn msft alfa ACWI DBC DIA EFA ERX EWH EWJ FAS GUSH IEFA IJH KBE KRE MCHI MDY OIH TBT VEA VFH VT VTV XLE XLF XLI XOP XRT"
   // Note: For testing and debugging a list of ETF ssymbols is passed to ManageProspects to use as default input to the prospects list
   render() {
-    return <ManageProspects tradeSide={'Swing Buys'} handleClick={this.handleClick} mockSymbols="shv hyd amzn msft alfa vb vt vti vtv trty" />
+    return <ManageProspects tradeSide={'Buys'} handleClick={this.handleClick} mockSymbols="shv hyd amzn msft alfa vb vt vti vtv trty" />
   }
 }
 

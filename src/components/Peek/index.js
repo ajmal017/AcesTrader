@@ -34,8 +34,8 @@ class Peek extends Component {
     const DEFAULT_PORTFOLIOS = [
       { name: 'Swing Buy Prospects', symbols: [...buysSymbols] },
       { name: 'Swing Long Positions', symbols: [...longsSymbols] },
-      { name: 'Swing Short Sale Prospects', symbols: [...sellsSymbols] },
-      { name: 'Swing Short Positions', symbols: [...shortsSymbols] },
+      { name: 'Short Sale Prospects', symbols: [...sellsSymbols] },
+      { name: 'Short Positions', symbols: [...shortsSymbols] },
       { name: 'Trend Buy Prospects', symbols: [...trendbuysSymbols] },
       { name: 'Trend Long Positions', symbols: [...trendlongsSymbols] },
       { name: 'Market ETFs', symbols: ['SPY', 'QQQ', 'IWM', 'DIA'] },

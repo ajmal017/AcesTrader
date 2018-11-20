@@ -5,7 +5,7 @@ import AppToolbar from '../../components/AppToolbar'
 
 class PositionLongs extends Component {
   render() {
-    return <AppToolbar chartArray={this.props.longs} originList={'Swing Longs'} />
+    return <AppToolbar chartArray={this.props.longs} originList={'Longs'} />
   }
 }
 

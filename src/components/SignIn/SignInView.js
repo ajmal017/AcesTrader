@@ -20,17 +20,19 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
       <div className={'formWrapper'}>
         <form onSubmit={onSubmit} id="fields">
           <div id={'loginWrapper'}>
-            <label>
-              Email
-              <input name="email" type="email" className={'inputWrapper'} />
-            </label>
-            <br />
-            <label>
-              Password
-              <input name="password" type="password" className={'inputWrapper'} />
-            </label>
+            <div className={'input-wrapper'}>
+              <label>
+                Email
+                <input name="email" type="email" className={'inputWrapper'} />
+              </label>
+              <br />
+              <label>
+                Password
+                <input name="password" type="password" className={'inputWrapper'} />
+              </label>
+            </div>
             <div className="radio-row">
-              <div className="input-row">
+              <div className="radio-item">
                 <input
                   type="radio"
                   className={'radioWrapper'}
@@ -41,7 +43,7 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
                 />
                 <label htmlFor="public">&nbsp;Live Trading</label>
               </div>
-              <div className="input-row">
+              <div className="radio-item">
                 <input
                   type="radio"
                   className={'radioWrapper'}
@@ -50,10 +52,10 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
                   checked={reference === referencePapertrader}
                   onChange={handleChange}
                 />
-                <label htmlFor="public">&nbsp;Paper Money</label>
+                <label htmlFor="public">&nbsp;Paper Money Trading</label>
               </div>
               {process.env.NODE_ENV === 'development' ? (
-                <div className="input-row">
+                <div className="radio-item">
                   <input
                     type="radio"
                     className={'radioWrapper'}
@@ -62,7 +64,7 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
                     checked={reference === referenceDebugtrader}
                     onChange={handleChange}
                   />
-                  <label htmlFor="private">&nbsp;Beta Testing</label>
+                  <label htmlFor="private">&nbsp;Simulated Trading</label>
                 </div>
               ) : (
                 <div />

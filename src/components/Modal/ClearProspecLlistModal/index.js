@@ -5,9 +5,9 @@ import React from 'react'
 const ClearProspecLlistModal = function(props) {
   let { targetListName } = props
 
-  if (targetListName.toUpperCase() === 'SWING BUYS') {
-    targetListName = 'Swing Buys'
-  } else if (targetListName.toUpperCase() === 'SWING SELLS') {
+  if (targetListName.toUpperCase() === 'BUYS') {
+    targetListName = 'Buys'
+  } else if (targetListName.toUpperCase() === 'SHORT SALES') {
     targetListName = 'Short Sales'
   } else if (targetListName.toUpperCase() === 'TREND BUYS') {
     targetListName = 'Trend Buys'

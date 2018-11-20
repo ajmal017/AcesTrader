@@ -313,8 +313,8 @@ CandleStickChartWithMACD.propTypes = {
 }
 
 CandleStickChartWithMACD.defaultProps = {
-  // type: 'svg',
-  type: 'hybrid',
+  type: 'svg',
+  // type: 'hybrid',
   clamp: false, //true,
   height: 350, // 250,
   weekly: true,
