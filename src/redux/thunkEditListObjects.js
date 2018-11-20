@@ -9,12 +9,12 @@ export const REPLACE_POSITION_OBJECT = 'REPLACE_POSITION_OBJECT'
 export const REPLACE_PROSPECT_OBJECT = 'REPLACE_PROSPECT_OBJECT'
 export const REPLACE_EDITED_OBJECT = 'REPLACE_EDITED_OBJECT'
 
-export const addExitPriceAsync = (hash) => {
+export const addExitPrice = (hash) => {
   return (dispatch, getState) => {
     let ourState = getState() //to search the results lists for the target object
     let foundObject = ourState.results.find((obj) => obj.hash === hash) //search the results slice of the state
     if (!foundObject) {
-      alert('No found results object in "addExitPriceAsync"')
+      alert('No found results object in "addExitPrice"')
       debugger //stop for developer
     }
     let newObject = cloneDeep(foundObject)
