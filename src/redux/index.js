@@ -9,6 +9,8 @@ import trendbuysReducer from './reducerTrendBuys'
 import trendlongsReducer from './reducerTrendLongs'
 import resultsReducer from './reducerResults'
 import modalReducer from './reducerModal'
+// import {format} from 'date-fns/format'
+// var format = require('date-fns/format')
 
 const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
 const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE'
@@ -18,6 +20,11 @@ const UPDATE_DASHBOARD_PEEK_DATA = 'UPDATE_DASHBOARD_PEEK_DATA'
 export const updateDashboardPeekData = (peekdataobject) => {
   let date = new Date()
   let theDate = date.toLocaleString('en-US').toLowerCase()
+  // Extract the parts we want from a local string like: "11/21/2018, 4:49:28 pm"
+  // and build a string like: "11/21/18, 4:49 pm" with a 2 digit year and no seconds
+  let result = /(.*\/.*\/)\d\d(.*:\d{1,2}):\d{1,2}(.*)/.exec(theDate)
+  theDate = result[1] + result[2] + result[3]
+
   return {
     type: UPDATE_DASHBOARD_PEEK_DATA,
     peekdataobject: peekdataobject,

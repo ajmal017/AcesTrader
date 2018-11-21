@@ -18,7 +18,7 @@
 }
 
 /* This grid layout for narrow screens holds the two main items in one column */
-/* For wide screens, see media query break below at line 201 */
+/* For wide screens, see media query break below at line 236 */
 /* .chart-cell {
   width: 100%;
   display: grid;
@@ -65,20 +65,19 @@
   background: #f9f9f9;
 }
 
-.trade-desc{
+.trade-desc {
   /* background: #f9f9f9;
   padding: 12px 0 12px 6px;
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 2px;
    z-index: 10; */
-   display: inline-block;
-   font-size: 14px;
-   margin-top: 13px;
-   /* margin-left: 20px; */
-   margin-bottom: 2px;
-   z-index: 10;
- 
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 13px;
+  /* margin-left: 20px; */
+  margin-bottom: 2px;
+  z-index: 10;
 }
 .cell-title {
   background: #f9f9f9;
@@ -238,10 +237,11 @@
 /* Desktop with expanded window wdth, OR */
 /* Device in landscape mode.*/
 /* The OR condition is specified by the comma at end of line. */
-@media only screen and (min-width: 1024px), only screen and (orientation: landscape) {
+@media only screen and (min-width: 760px), only screen and (orientation: landscape) {
   .chart-cell {
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: 9fr 6fr;
+    /* grid-template-columns: 3fr 2fr; */
     /* grid-template-rows: 40px 247px; */
     grid-template-rows: 40px auto;
     grid-template-areas:

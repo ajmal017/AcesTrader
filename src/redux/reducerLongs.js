@@ -17,7 +17,7 @@ const REMOVE_ALL_LONGS = 'REMOVE_ALL_LONGS'
 
 export const addLongToList = (theObject, thePrice, theQuantity, theQuantityType, theAccount) => {
   let date = new Date()
-  let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+  let theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
   let theObjectArray = [cloneDeep(theObject)]
   return {
     type: ADD_LONG_POSITION,
