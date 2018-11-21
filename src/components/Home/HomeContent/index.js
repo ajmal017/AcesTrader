@@ -19,7 +19,7 @@ const HomeContent = function() {
         symbols in each.
       </p>
       <p>
-        For ETF end-of-day trading, lists of ETFs can be obtained from the weekly list of "Buy on the Dip Prospects" and "Sell on the Pop Prospects" published in "The Daily ETF
+        For ETF end-of-day trading, lists of ETFs can be obtained from the monthly lists of "Buy on the Dip Prospects" and "Sell on the Pop Prospects" published in "The Daily ETF
         Roundup" by ETFdb.com. Each Buy on the Dip prospect is deemed to be in an uptrend, and each Sell on the Pop prospect is deemed to be in a downtrend. The long term trend is
         indicated by the 50-day moving average being above or below its 200-day moving average.{' '}
       </p>

@@ -8,7 +8,7 @@ import { editListObjectPrarmetersAsync } from '../../../redux/thunkEditListObjec
 import './styles.css'
 
 function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, daysHere, positionValue, rgbaValue }) {
-  let thePositionValue = listGroup === 'positions' ? `, Value: ${positionValue}` : null
+  // let thePositionValue = listGroup === 'positions' ? `, Value: ${positionValue}` : null
   return peekDate !== undefined ? (
     <div style={{ backgroundColor: 'rgba(' + rgbaValue + ')' }}>
       <span id={'positions' + hash} className="watched">
@@ -17,7 +17,7 @@ function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, perc
         {percentGain}
         %,&nbsp;&nbsp;
         {daysHere} days
-        {thePositionValue}
+        {/* {thePositionValue} */}
       </span>
     </div>
   ) : null
@@ -149,19 +149,19 @@ class ChartDashboard extends Component {
               </div>
             </div>
             <label htmlFor="session">Session</label>
-            <input readOnly type="text" name="session" value={this.session} />
+            <input className="session" readOnly type="text" name="session" value={this.session} />
             <label htmlFor="instruction">Instruction</label>
-            <input readOnly type="text" name="instruction" value={this.instruction} />
+            <input className="instruction" readOnly type="text" name="instruction" value={this.instruction} />
             <br />
             <label htmlFor="quantity">Quantity</label>
-            <input readOnly type="text" name="quantity" value={this.quantity} />
-            <label htmlFor="quantityType">QuantityType</label>
-            <input readOnly type="text" name="quantityType" value={this.quantityType} />
+            <input className="quantity" readOnly type="text" name="quantity" value={this.quantity} />
+            <label htmlFor="quantityType">Type</label>
+            <input className="quantitytype" readOnly type="text" name="quantityType" value={this.quantityType} />
             <br />
             <label htmlFor="orderType">OrderType</label>
-            <input readOnly type="text" name="orderType" value={this.orderType} />
+            <input className="ordertype" readOnly type="text" name="orderType" value={this.orderType} />
             <label htmlFor="duration">Duration</label>
-            <input readOnly type="text" name="duration" value={this.duration} />
+            <input className="duration" readOnly type="text" name="duration" value={this.duration} />
           </form>
 
           <div className="dashboard-footer">

@@ -17,7 +17,7 @@ const REMOVE_ALL_SHORTS = 'REMOVE_ALL_SHORTS'
 
 export const addShortToList = (theObject, thePrice, theQuantity, theQuantityType, theAccount) => {
   let date = new Date()
-  let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+  let theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
   let theObjectArray = [theObject]
   return {
     type: ADD_SHORT_POSITION,

@@ -11,7 +11,7 @@ const REMOVE_ALL_RESULTS = 'REMOVE_ALL_RESULTS'
 
 export const addResultToList = (theObject, thePrice) => {
   let date = new Date()
-  let theDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+  let theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
   return {
     type: ADD_RESULT,
     theObject: theObject,

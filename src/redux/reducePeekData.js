@@ -5,8 +5,6 @@ import defaultLongEntry from '../json/defaultLongEntry.json'
 import defaultLongExit from '../json/defaultLongExit.json'
 import defaultShortEntry from '../json/defaultShortEntry.json'
 import defaultShortExit from '../json/defaultShortExit.json'
-import defaultTrendEntry from '../json/defaultTrendEntry.json'
-import defaultTrendExit from '../json/defaultTrendExit.json'
 
 var cloneDeep = require('lodash.clonedeep')
 

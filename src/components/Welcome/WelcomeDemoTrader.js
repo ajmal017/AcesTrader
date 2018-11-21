@@ -10,7 +10,7 @@ const welcomeDemoTrader = () => {
       <p>
         Simulated trading is done using price data from the IEX stock exchange. Price data for charts is obtained from IEX data feeds. Order executions are filled when entered
         using the last price from IEX. IEX is a stock exchange based in the United States:
-        <a href="https://en.wikipedia.org/wiki/IEX" target="_blank">
+        <a href="https://en.wikipedia.org/wiki/IEX" target="_blank" rel="noopener noreferrer">
           &nbsp;See information here
         </a>
         .
