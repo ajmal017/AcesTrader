@@ -15,13 +15,12 @@ class SignInContainer extends Component {
     this.handleDemoMode = this.handleDemoMode.bind(this)
     this.handleDemoInfo = this.handleDemoInfo.bind(this)
     this.state = {
-      reference: referencePapertrader,
+      reference: referenceDebugtrader,
     }
   }
-
   componentDidMount() {
     if (process.env.NODE_ENV === 'development') {
-      this.setState({ reference: referenceDebugtrader }) //change default user's role
+      this.setState({ reference: referencePapertrader, email: 'b@g.com', password: '079007' }) //change default user's role
     }
   }
 
@@ -68,7 +67,7 @@ class SignInContainer extends Component {
   }
 
   render() {
-    const { reference } = this.state
+    const { reference, email, password } = this.state
     return (
       <SignInView
         onSubmit={this.handleSubmit}
@@ -77,6 +76,8 @@ class SignInContainer extends Component {
         handleDemoMode={this.handleDemoMode}
         handleDemoInfo={this.handleDemoInfo}
         reference={reference}
+        email={email}
+        password={password}
       />
     )
   }

@@ -22,12 +22,12 @@ class Welcome extends Component {
     this.reference = getReference() //indicates user's role
 
     return (
-      <div>
-        <div>
+      <div className={'welcome-container'}>
+        <div className={'welcome-header'}>
           <HomeJumbotron />
         </div>
         <div className={'welcome-content'}>{this.reference === referenceLocaltrader ? WelcomeGuestTrader() : WelcomeTrader(this.reference)}</div>
-        <div>
+        <div className={'welcome-footer'}>
           <HomeFootnote />
         </div>
       </div>
