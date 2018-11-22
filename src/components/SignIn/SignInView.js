@@ -5,7 +5,7 @@ import { referenceRealtrader, referencePapertrader, referenceDebugtrader } from 
 import information from '../../images/help_icon.png'
 import './styles.css'
 
-const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDemoInfo, reference }) => {
+const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDemoInfo, reference, email, password }) => {
   const handleDemoInfoClick = function(e) {
     // alert('handleInfoClick')
     handleDemoInfo(e)
@@ -13,7 +13,7 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
 
   return (
     <div>
-      0.1.46
+      0.1.47
       <span className={'header'}>
         <h1>Sign In</h1>
       </span>
@@ -23,12 +23,12 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
             <div className={'input-wrapper'}>
               <label>
                 Email
-                <input name="email" type="email" className={'inputWrapper'} />
+                <input name="email" type="email" className={'inputWrapper'} value={email} />
               </label>
               <br />
               <label>
                 Password
-                <input name="password" type="password" className={'inputWrapper'} />
+                <input name="password" type="password" className={'inputWrapper'} value={password} />
               </label>
             </div>
             <div className="radio-row">
@@ -101,6 +101,8 @@ SignInView.propTypes = {
   handleDemoMode: PropTypes.func.isRequired,
   handleDemoInfo: PropTypes.func.isRequired,
   reference: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
 }
 
 export default SignInView

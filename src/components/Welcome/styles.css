@@ -1,11 +1,37 @@
+.welcome-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr 30px;
+  grid-template-areas: 'header' 'content' 'footer';
+}
+.welcome-header {
+  grid-area: header;
+}
 .welcome-content {
-  width: 100%;
+  /* width: 100%; */
+  grid-area: content;
   margin-top: 100px;
   margin-bottom: 50px;
   padding-right: 14%;
   padding-left: 14%;
   background-color: #ecf0f1;
 }
+
+.welcome-footer {
+  grid-area: footer;
+}
+
+/* .footnote { */
+/* margin-top: 20px; */
+/* margin-left: 20px; */
+/* margin-right: 20px; */
+/* padding-top: 6px; */
+/* padding-bottom: 10px; */
+/*background-color: blue;*/
+/* display: flex; */
+/* justify-content: space-between; */
+/* } */
+
 /* Tablet in desktop narrow window, OR */
 /* Device in portait mode. */
 /* The OR condition is specified by the comma at end of line. */
