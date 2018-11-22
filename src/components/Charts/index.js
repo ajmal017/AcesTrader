@@ -18,7 +18,12 @@ const Charts = (props) => {
       </div>
     )
   } else {
-    return <h3 className="error"> There are no entries in the {props.originList} list</h3>
+    return (
+      <>
+        <h3 className="error"> There are no entries in the {props.originList} list</h3>
+        <h3 className="error"> Use the "Edits" menu to add symbols to watch</h3>
+      </>
+    )
   }
 }
 
