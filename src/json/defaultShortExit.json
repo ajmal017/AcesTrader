@@ -2,9 +2,9 @@
   "session": "NORMAL",
   "duration": "DAY",
   "orderType": "MARKET",
-  "quantity": "ALL_SHARES",
+  "quantity": "ALL SHARES",
   "quantityType": "SHARES",
-  "instruction": "BUY",
+  "instruction": "COVER",
   "tradeSide": "Shorts",
   "buttonLabel": "EXIT SHORT"
 }
