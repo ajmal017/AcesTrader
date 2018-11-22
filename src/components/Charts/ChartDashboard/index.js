@@ -132,10 +132,12 @@ class ChartDashboard extends Component {
               />
 
               <div>
-                <span className='watched'>
-                  Watched {this.watched} @{this.watchedPrice}
-                </span>
-                {this.entered !== undefined ? (
+                {this.listGroup === 'prospects' ? (
+                  <span className='watched'>
+                    Watched {this.watched} @{this.watchedPrice}
+                  </span>
+                ) : null}
+                {this.listGroup === 'positions' ? (
                   <span className='entered'>
                     Entered {this.entered}
                     &nbsp;&nbsp; Price {this.enteredPrice}
@@ -151,6 +153,7 @@ class ChartDashboard extends Component {
                 ) : null}
               </div>
             </div>
+            {/* Use regex below to strip out spaces in tradeSide names for use in CSS selectors */}
             <label htmlFor='session'>Session</label>
             <input className={'session-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='session' value={this.session} />
             <label htmlFor='instruction'>Instruction</label>
