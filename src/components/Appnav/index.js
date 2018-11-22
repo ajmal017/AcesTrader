@@ -66,10 +66,11 @@ const Appnav = function() {
               <LinkContainer to="/managetrendbuyprospects">
                 <MenuItem eventKey={6.7}>Trend Buy Prospects</MenuItem>
               </LinkContainer>
-              <MenuItem divider />
+
+              {/* <MenuItem divider />
               <LinkContainer to="/EraseLists">
                 <MenuItem eventKey={6.8}>** Erase All Lists **</MenuItem>
-              </LinkContainer>
+              </LinkContainer> */}
             </NavDropdown>
 
             <NavDropdown eventKey={7} title="More" id="5-basic-nav-dropdown">
