@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import HomeJumbotron from '../../components/Home/HomeJumbotron'
-import WelcomeDemoTrader from './WelcomeDemoTrader'
+import WelcomeGuestTrader from './WelcomeGuestTrader'
 import HomeFootnote from '../../components/Home/HomeFootnote'
 import './styles.css'
 
@@ -17,7 +17,7 @@ class WelcomeGuest extends Component {
         <div>
           <HomeJumbotron />
         </div>
-        <div className={'welcome-content'}> {WelcomeDemoTrader()} </div>
+        <div className={'welcome-content'}> {WelcomeGuestTrader()} </div>
         <div>
           <HomeFootnote />
         </div>

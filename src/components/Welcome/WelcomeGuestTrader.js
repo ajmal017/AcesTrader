@@ -1,8 +1,8 @@
-// welcomeDemoTrader.js
+// WelcomeGuestTrader.js
 
 import React from 'react'
 
-const welcomeDemoTrader = () => {
+const WelcomeGuestTrader = () => {
   return (
     <div>
       <h2>Guest Mode - Simulated Trading</h2>
@@ -39,4 +39,4 @@ const welcomeDemoTrader = () => {
     </div>
   )
 }
-export default welcomeDemoTrader
+export default WelcomeGuestTrader
