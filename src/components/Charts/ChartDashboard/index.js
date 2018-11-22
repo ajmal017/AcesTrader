@@ -11,7 +11,7 @@ function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, perc
   // let thePositionValue = listGroup === 'positions' ? `, Value: ${positionValue}` : null
   return peekDate !== undefined ? (
     <div style={{ backgroundColor: 'rgba(' + rgbaValue + ')' }}>
-      <span id={'positions' + hash} className="watched">
+      <span id={'positions' + hash} className='watched'>
         Peek {peekDate} @{peekPrice}
         ,&nbsp;&nbsp;Change:&nbsp;
         {percentGain}
@@ -71,8 +71,11 @@ class ChartDashboard extends Component {
     this.orderType = this.props.cellObject.dashboard.orderType
     this.quantityType = this.props.cellObject.dashboard.quantityType
     this.quantity = this.props.cellObject.dashboard.quantity
-    this.instruction = this.props.cellObject.dashboard.instruction
     this.buttonLabel = this.props.cellObject.dashboard.buttonLabel
+
+    this.instructionRaw = this.props.cellObject.dashboard.instruction
+    this.instructionTest = this.tradeSide === 'Shorts' ? true : false
+    this.instruction = this.instructionTest ? 'COVER' : this.instructionRaw
 
     const startPrice = this.listGroup === 'positions' ? this.enteredPrice : this.watchedPrice
     this.dollarGain = this.peekDate !== undefined ? (this.peekPrice - startPrice).toFixed(2) : 'pending'
@@ -103,7 +106,7 @@ class ChartDashboard extends Component {
     }
 
     return (
-      <div className="dashboard">
+      <div className='dashboard'>
         <DialogDashboardForm
           showDialog={this.state.showDialog}
           hash={this.hash}
@@ -112,10 +115,10 @@ class ChartDashboard extends Component {
           listGroup={this.listGroup}
           exitCallback={this.handleEditDialogClose}
         />
-        <div className="dashboard-data">
+        <div className='dashboard-data'>
           {/* <span className="dashboard-header">{this.tradeSide}</span> */}
-          <form className="dashboard-form">
-            <div className="events-log">
+          <form className='dashboard-form'>
+            <div className='events-log'>
               <PeekStatusLine
                 hash={this.hash}
                 listGroup={this.listGroup}
@@ -129,11 +132,11 @@ class ChartDashboard extends Component {
               />
 
               <div>
-                <span className="watched">
+                <span className='watched'>
                   Watched {this.watched} @{this.watchedPrice}
                 </span>
                 {this.entered !== undefined ? (
-                  <span className="entered">
+                  <span className='entered'>
                     Entered {this.entered}
                     &nbsp;&nbsp; Price {this.enteredPrice}
                   </span>
@@ -141,39 +144,39 @@ class ChartDashboard extends Component {
                 {/* </div>
               <div> */}
                 {this.filledQuantity !== undefined ? (
-                  <span className="filledquantity">
+                  <span className='filledquantity'>
                     Quantity {this.filledQuantity}
                     {/* &nbsp;&nbsp; Account {this.account} */}
                   </span>
                 ) : null}
               </div>
             </div>
-            <label htmlFor="session">Session</label>
-            <input className="session" readOnly type="text" name="session" value={this.session} />
-            <label htmlFor="instruction">Instruction</label>
-            <input className="instruction" readOnly type="text" name="instruction" value={this.instruction} />
+            <label htmlFor='session'>Session</label>
+            <input className={'session-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='session' value={this.session} />
+            <label htmlFor='instruction'>Instruction</label>
+            <input className={'instruction-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='instruction' value={this.instruction} />
             <br />
-            <label htmlFor="quantity">Quantity</label>
-            <input className="quantity" readOnly type="text" name="quantity" value={this.quantity} />
-            <label htmlFor="quantityType">Type</label>
-            <input className="quantitytype" readOnly type="text" name="quantityType" value={this.quantityType} />
+            <label htmlFor='quantity'>Quantity</label>
+            <input className={'quantity-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='quantity' value={this.quantity} />
+            <label htmlFor='quantityType'>Type</label>
+            <input className={'quantitytype-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='quantityType' value={this.quantityType} />
             <br />
-            <label htmlFor="orderType">OrderType</label>
-            <input className="ordertype" readOnly type="text" name="orderType" value={this.orderType} />
-            <label htmlFor="duration">Duration</label>
-            <input className="duration" readOnly type="text" name="duration" value={this.duration} />
+            <label htmlFor='orderType'>OrderType</label>
+            <input className={'ordertype-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='orderType' value={this.orderType} />
+            <label htmlFor='duration'>Duration</label>
+            <input className={'duration-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='duration' value={this.duration} />
           </form>
 
-          <div className="dashboard-footer">
-            <div className="order-entry-button">
-              <button onClick={this.props.handleEntry} className="entry-order-button">
+          <div className='dashboard-footer'>
+            <div className='order-entry-button'>
+              <button onClick={this.props.handleEntry} className='entry-order-button'>
                 {this.buttonLabel} {this.symbol}
               </button>
             </div>
             <button onClick={this.handleEditDialogOpen} className={'button-pencil-image-absolute'}>
               <img
-                alt=""
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC"
+                alt=''
+                src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC'
               />
             </button>
           </div>
