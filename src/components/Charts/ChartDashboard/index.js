@@ -51,6 +51,12 @@ class ChartDashboard extends Component {
     })
   }
 
+  handleOrderEntry = (event) => {
+    event.preventDefault()
+    // Call a confirmation dialog
+    this.props.handleEntry(event)
+  }
+
   render() {
     //handle new props with changed state of cellObjects
     this.hash = this.props.cellObject.hash
@@ -172,7 +178,7 @@ class ChartDashboard extends Component {
 
           <div className='dashboard-footer'>
             <div className='order-entry-button'>
-              <button onClick={this.props.handleEntry} className='entry-order-button'>
+              <button onClick={this.handleOrderEntry} className='entry-order-button'>
                 {this.buttonLabel} {this.symbol}
               </button>
             </div>

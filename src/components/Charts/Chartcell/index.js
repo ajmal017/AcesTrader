@@ -347,7 +347,7 @@ class Chartcell extends Component {
 
     if (!this.state.data) {
       return (
-        <div className="chart-cell-wrapper">
+        <div className='chart-cell-wrapper'>
           <h4>{`Loading Chart ${chart_name}. Please Wait...`}</h4>
         </div>
       )
@@ -363,56 +363,56 @@ class Chartcell extends Component {
           <span className={'dialog-symbol'}> {this.symbol} - Make Your Changes Below.</span>
           <br />
           <br />
-          <form method="dialog">
-            <div className="chart-radio-grid">
-              <input className="buttonDaily" type="radio" value="daily" name="seriesBars" onChange={this.handleRadioChange} checked={this.state.weeklyBars !== true} />
-              <span className="labelDaily">Daily Bars</span>
-              <input className="buttonMA" type="radio" value="ma" name="indicators" onChange={this.handleRadioChange} checked={this.state.macdChart !== true} />
-              <span className="labelMA">With MA</span>
-              <input className="buttonWeekly" type="radio" value="weekly" name="seriesBars" onChange={this.handleRadioChange} checked={this.state.weeklyBars === true} />
-              <span className="labelWeekly">Weekly Bars</span>
-              <input className="buttonMACD" type="radio" value="macd" name="indicators" onChange={this.handleRadioChange} checked={this.state.macdChart === true} />
-              <span className="labelMACD">With MACD</span>
+          <form method='dialog'>
+            <div className='chart-radio-grid'>
+              <input className='buttonDaily' type='radio' value='daily' name='seriesBars' onChange={this.handleRadioChange} checked={this.state.weeklyBars !== true} />
+              <span className='labelDaily'>Daily Bars</span>
+              <input className='buttonMA' type='radio' value='ma' name='indicators' onChange={this.handleRadioChange} checked={this.state.macdChart !== true} />
+              <span className='labelMA'>With MA</span>
+              <input className='buttonWeekly' type='radio' value='weekly' name='seriesBars' onChange={this.handleRadioChange} checked={this.state.weeklyBars === true} />
+              <span className='labelWeekly'>Weekly Bars</span>
+              <input className='buttonMACD' type='radio' value='macd' name='indicators' onChange={this.handleRadioChange} checked={this.state.macdChart === true} />
+              <span className='labelMACD'>With MACD</span>
             </div>
             <br />
             <br />
-            <button type="submit" value="no">
+            <button type='submit' value='no'>
               Cancel
             </button>
             &nbsp; &nbsp; &nbsp; &nbsp;
-            <button type="submit" value="yes">
+            <button type='submit' value='yes'>
               Save
             </button>
           </form>
         </dialog>
         <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
           {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
-          <div id={cell_id} className="chart-cell">
+          <div id={cell_id} className='chart-cell'>
             {/* <div className="chart-cell-header"> */}
-            <div className="graph-header">
-              <span className="trade-desc">{tradeDesc}</span>
-              <span className="cell-title">{chart_name}</span>
-              <span className="chart-series-label">{this.props.cellObject.weeklyBars ? 'Weekly Bars' : 'Daily Bars'}</span>
-              <span className="chart-indicator-label">{this.props.cellObject.macdChart ? 'With MACD' : 'With MA'}</span>
+            <div className='graph-header'>
+              <span className='trade-desc'>{tradeDesc}</span>
+              <span className='cell-title'>{chart_name}</span>
+              <span className='chart-series-label'>{this.props.cellObject.weeklyBars ? 'Weekly Bars' : 'Daily Bars'}</span>
+              <span className='chart-indicator-label'>{this.props.cellObject.macdChart ? 'With MACD' : 'With MA'}</span>
               {/* <button onClick={this.getLastBar} className="cell-getlast-button" type="button" aria-label="getlast">
               Get Last
             </button> */}
               <button onClick={this.handleEditChartParams} className={'chart-edit-button'}>
                 <img
-                  alt=""
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC"
+                  alt=''
+                  src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC'
                 />
               </button>
             </div>
-            <div className="form-header">
-              <button onClick={this.handleDelete} className="cell-delete-button" type="button" aria-label="delete">
+            <div className='form-header'>
+              <button onClick={this.handleDelete} className='cell-delete-button' type='button' aria-label='delete'>
                 &times;
               </button>
             </div>
             {/* </div> */}
-            <div id={chartId} className="graph-content">
+            <div id={chartId} className='graph-content'>
               {this.state.noprices ? (
-                <div id={cell_id} className="chart-cell-wrapper">
+                <div id={cell_id} className='chart-cell-wrapper'>
                   {' '}
                   <h4>{`No Prices Available For ${chart_name}.`}</h4>
                 </div>
@@ -439,7 +439,7 @@ class Chartcell extends Component {
                 </ErrorBoundary>
               )}
             </div>
-            <div className="dashboard-center">
+            <div className='dashboard-center'>
               <ChartDashboard handleEntry={this.handleEntry} cellObject={cellObject} />
             </div>
 
