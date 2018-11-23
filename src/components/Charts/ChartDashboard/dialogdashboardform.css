@@ -5,7 +5,7 @@
   right: 18px;
   bottom: 10px;
   background: #f9f9f9;
-  height: 36;
+  /* height: 36; */
   border: #f9f9f9;
   opacity: 0.5;
 }
@@ -15,15 +15,16 @@
 
 .confirm-symbol {
   background: #f9f9f9;
-  padding: 6px 0 6px 0;
+  /* padding: 6px 0 6px 0; */
   margin-bottom: 7px;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  width: 440px;
 }
 .order-pending {
   margin-bottom: 18px;
+  font-weight: bold;
 }
-.dialog-symbol {
+.edit-symbol {
   background: #f9f9f9;
   padding: 6px 0 6px 6px;
   font-size: 16px;
@@ -45,7 +46,7 @@ dialog {
 }
 
 .dialog-form input[type='text'] {
-  width: 32%;
+  width: 52%;
   margin-left: 10px;
   margin-right: 20px;
   padding: 0px 4px;
@@ -55,24 +56,30 @@ dialog {
   box-sizing: border-box;
 }
 
-.dialog-button-submit:hover {
+.dialog-button-row {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.dialog-button:hover {
   background: #cac8c8dc;
 }
 
-.dialog-button-cancel {
-  position: absolute;
-  right: 16px;
-  bottom: 14px;
-  /* background: white; */
-  /* background-color: white; */
-  background: #f9f9f9;
-  /* background-color: #f9f9f9; */
+/* .dialog-button-cancel { */
+/* position: absolute; */
+/* right: 16px; */
+/* bottom: 14px; */
+/* background: #f9f9f9; */
 
-  /* height: 36; */
-  /* border: #f9f9f9; */
-  /* opacity: 0.5; */
-}
+/* background: white; */
+/* background-color: white; */
+/* background-color: #f9f9f9; */
 
-.dialog-button-cancel:hover {
+/* height: 36; */
+/* border: #f9f9f9; */
+/* opacity: 0.5; */
+/* } */
+
+/* .dialog-button-cancel:hover {
   background: #cac8c8dc;
-}
+} */

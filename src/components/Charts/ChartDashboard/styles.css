@@ -86,8 +86,8 @@ label {
 }
 
 .dashboard-form input[type='text'] {
-  margin-left: 6px;
-  margin-right: 14px;
+  margin-left: 3px;
+  margin-right: 6px;
   padding: 0px 4px;
   display: inline-block;
   border: 1px solid #ccc;

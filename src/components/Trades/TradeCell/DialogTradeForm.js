@@ -47,30 +47,30 @@ class DialogTradeForm extends Component {
   render() {
     return (
       <dialog id={'dialog-params' + this.hash}>
-        <span className={'dialog-symbol'}> {this.state.symbol} - Make Your Changes Below.</span>
+        <span className={'edit-symbol'}> {this.state.symbol} - Make Your Changes Below.</span>
         <br />
         <br />
-        <form method="dialog" className={'dialog-form'}>
+        <form method='dialog' className={'dialog-form'}>
           {/* <span> */}
-          <label htmlFor="enteredPrice">Entered Price</label>
-          <input type="text" name="enteredPrice" value={this.state.enteredPrice} onChange={this.handleInputChange} />
+          <label htmlFor='enteredPrice'>Entered Price</label>
+          <input type='text' name='enteredPrice' value={this.state.enteredPrice} onChange={this.handleInputChange} />
           <br />
-          <label htmlFor="exitedPrice">Exited Price</label>
-          <input type="text" name="exitedPrice" value={this.state.exitedPrice} onChange={this.handleInputChange} />
+          <label htmlFor='exitedPrice'>Exited Price</label>
+          <input type='text' name='exitedPrice' value={this.state.exitedPrice} onChange={this.handleInputChange} />
           <br />
-          <label htmlFor="entered">Entered</label>
-          <input type="text" name="entered" value={this.state.entered} onChange={this.handleInputChange} />
+          <label htmlFor='entered'>Entered</label>
+          <input type='text' name='entered' value={this.state.entered} onChange={this.handleInputChange} />
           <br />
-          <label htmlFor="exited">Exited</label>
-          <input type="text" name="exited" value={this.state.exited} onChange={this.handleInputChange} />
+          <label htmlFor='exited'>Exited</label>
+          <input type='text' name='exited' value={this.state.exited} onChange={this.handleInputChange} />
           <br />
-          <label htmlFor="filledQuantity">Quantity</label>
-          <input type="text" name="filledQuantity" value={this.state.filledQuantity} onChange={this.handleInputChange} />
+          <label htmlFor='filledQuantity'>Quantity</label>
+          <input type='text' name='filledQuantity' value={this.state.filledQuantity} onChange={this.handleInputChange} />
           <br />
           {/* </span> */}
           <br />
           <button
-            type="submit"
+            type='submit'
             onClick={() => {
               this.exitCallback(null)
             }}>
@@ -78,7 +78,7 @@ class DialogTradeForm extends Component {
           </button>
           &nbsp; &nbsp; &nbsp; &nbsp;
           <button
-            type="submit"
+            type='submit'
             onClick={() => {
               this.exitCallback(this.state)
             }}>
