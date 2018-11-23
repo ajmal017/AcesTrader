@@ -359,7 +359,7 @@ class Chartcell extends Component {
     return (
       <>
         <dialog id={'chart-params' + this.hash} className={'chart-dialog-form'}>
-          <span className={'dialog-symbol'}> {this.symbol} - Make Your Changes Below.</span>
+          <span className={'edit-symbol'}> {this.symbol} - Make Your Changes Below.</span>
           <br />
           <br />
           <form method='dialog'>
@@ -375,13 +375,15 @@ class Chartcell extends Component {
             </div>
             <br />
             <br />
-            <button type='submit' value='no'>
-              Cancel
-            </button>
-            &nbsp; &nbsp; &nbsp; &nbsp;
-            <button type='submit' value='yes'>
-              Save
-            </button>
+            <scan className={'dialog-button-row'}>
+              <button className={'dialog-button'} type='submit' value='no'>
+                Cancel
+              </button>
+              &nbsp; &nbsp; &nbsp; &nbsp;
+              <button className={'dialog-button'} type='submit' value='yes'>
+                Save
+              </button>
+            </scan>
           </form>
         </dialog>
         <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>

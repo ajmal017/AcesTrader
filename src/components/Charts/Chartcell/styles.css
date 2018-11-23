@@ -208,6 +208,14 @@
   width: 100%;
   background: #f9f9f9;
 }
+.dialog-button-row {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.dialog-button:hover {
+  background: #cac8c8dc;
+}
 
 /* .dashboard-wrapper {
   background-color: #f9f9f9;

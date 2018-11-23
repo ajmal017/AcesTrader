@@ -25,6 +25,10 @@ class DialogDashboardForm extends Component {
     if (this.props.showDialog !== prevProps.showDialog) {
       if (this.props.showDialog) {
         this.dialogDashboardParams.showModal()
+        // Move the focus away from the text input to prevent the iPad keyboard from popping up
+        let el1 = document.getElementById('dialog-params' + this.hash)
+        let el2 = el1.getElementsByClassName('dialog-button')
+        el2[1].focus()
       } else {
         this.dialogDashboardParams.close()
       }
@@ -93,22 +97,26 @@ function ConfirmDialog(props) {
         <div className={'order-pending'}>
           <p>{`${instruction} ${quantity} ${quantityType} of ${symbol} at ${orderType} ${duration}`}</p>
         </div>
-        <button
-          type='submit'
-          onClick={() => {
-            props.exitCallback(null)
-            // props.dialogDashboardParams.close()
-          }}>
-          Cancel
-        </button>
-        &nbsp; &nbsp; &nbsp; &nbsp;
-        <button
-          type='submit'
-          onClick={() => {
-            props.exitCallback({ action: 'confirm' })
-          }}>
-          Confirm
-        </button>
+        <scan className={'dialog-button-row'}>
+          <button
+            className={'dialog-button'}
+            type='submit'
+            onClick={() => {
+              props.exitCallback(null)
+              // props.dialogDashboardParams.close()
+            }}>
+            Cancel
+          </button>
+          &nbsp; &nbsp; &nbsp; &nbsp;
+          <button
+            className={'dialog-button'}
+            type='submit'
+            onClick={() => {
+              props.exitCallback({ action: 'confirm' })
+            }}>
+            Confirm
+          </button>
+        </scan>
       </form>
     </>
   )
@@ -116,7 +124,7 @@ function ConfirmDialog(props) {
 function EditDialog(props) {
   return (
     <>
-      <span className={'dialog-symbol'}> {props.symbol} - Make Your Changes Below.</span>
+      <span className={'edit-symbol'}> {props.symbol} - Make Your Changes Below.</span>
       <form method='dialog'>
         {props.formValues.listGroup === 'prospects' ? (
           <span>
@@ -164,22 +172,26 @@ function EditDialog(props) {
         <br />
         <br />
         {/* ================================================ */}
-        <button
-          type='submit'
-          onClick={() => {
-            props.exitCallback(null)
-            // props.dialogDashboardParams.close()
-          }}>
-          Cancel
-        </button>
-        &nbsp; &nbsp; &nbsp; &nbsp;
-        <button
-          type='submit'
-          onClick={() => {
-            props.exitCallback({ formFields: props.formValues, action: 'edit' })
-          }}>
-          Save
-        </button>
+        <scan className={'dialog-button-row'}>
+          <button
+            className={'dialog-button'}
+            type='submit'
+            onClick={() => {
+              props.exitCallback(null)
+              // props.dialogDashboardParams.close()
+            }}>
+            Cancel
+          </button>
+          &nbsp; &nbsp; &nbsp; &nbsp;
+          <button
+            className={'dialog-button'}
+            type='submit'
+            onClick={() => {
+              props.exitCallback({ formFields: props.formValues, action: 'edit' })
+            }}>
+            Save
+          </button>
+        </scan>
       </form>
     </>
   )
