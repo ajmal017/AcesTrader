@@ -213,8 +213,7 @@ class Chartcell extends Component {
   //     })
   // }
 
-  handleEntry(event) {
-    event.preventDefault()
+  handleEntry() {
     // fade-out this object before dispatching redux action,
     // which will remove this object and then
     // will snap in new object and reset all props.

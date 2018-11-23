@@ -26,25 +26,43 @@ function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, perc
 class ChartDashboard extends Component {
   constructor(props) {
     super(props)
+    this.handleOrderEntry = this.handleOrderEntry.bind(this)
     this.handleEditDialogOpen = this.handleEditDialogOpen.bind(this)
     this.handleEditDialogClose = this.handleEditDialogClose.bind(this)
-    this.state = { showDialog: false }
+    this.state = { showDialog: false, showConfirm: false }
   }
 
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
   handleEditDialogOpen(event) {
+    event.preventDefault()
     this.setState({
       showDialog: true,
+      showConfirm: false,
+    })
+  }
+  doConfirmDialogOpen() {
+    this.setState({
+      showDialog: true,
+      showConfirm: true,
     })
   }
 
   handleEditDialogClose(returnValue) {
     if (returnValue) {
-      // the returnValue is null if cancelled, else
-      // the returnValue is an object with key/value pairs for each form field: {name: value, name: value, ...}
-      this.props.dispatch(editListObjectPrarmetersAsync(this.hash, returnValue))
+      // the returnValue is null if dialog was cancelled, else
+      // the returnValue is object of shape {action:string, formFields:{}}
+
+      if (returnValue.action === 'edit') {
+        // the returnValue has an object with key/value pairs for each form field: {name: value, name: value, ...}
+        this.props.dispatch(editListObjectPrarmetersAsync(this.hash, returnValue.formFields))
+      } else if (returnValue.action === 'confirm') {
+        this.props.handleEntry() // the order entry was confirmed
+      } else {
+        alert('Missing returnValue.action in handleEditDialogClose')
+        debugger // pause for developer
+      }
     }
     this.setState({
       showDialog: false,
@@ -53,8 +71,7 @@ class ChartDashboard extends Component {
 
   handleOrderEntry = (event) => {
     event.preventDefault()
-    // Call a confirmation dialog
-    this.props.handleEntry(event)
+    this.doConfirmDialogOpen() // Call for a confirmation dialog
   }
 
   render() {
@@ -115,6 +132,7 @@ class ChartDashboard extends Component {
       <div className='dashboard'>
         <DialogDashboardForm
           showDialog={this.state.showDialog}
+          showConfirm={this.state.showConfirm}
           hash={this.hash}
           symbol={this.symbol}
           formValues={this.dialogDashboardFormValues}
