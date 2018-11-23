@@ -13,6 +13,16 @@
   background: #cac8c8dc;
 }
 
+.confirm-symbol {
+  background: #f9f9f9;
+  padding: 6px 0 6px 0;
+  margin-bottom: 7px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.order-pending {
+  margin-bottom: 18px;
+}
 .dialog-symbol {
   background: #f9f9f9;
   padding: 6px 0 6px 6px;

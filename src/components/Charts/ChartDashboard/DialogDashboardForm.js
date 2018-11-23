@@ -3,7 +3,6 @@
 import React, { Component } from 'react'
 import dialogPolyfill from 'dialog-polyfill'
 import './dialogdashboardform.css'
-// import './styles.css'
 
 class DialogDashboardForm extends Component {
   constructor(props) {
@@ -45,75 +44,145 @@ class DialogDashboardForm extends Component {
   }
 
   render() {
+    const showConfirm = this.props.showConfirm
+    let dialogContent
+    if (showConfirm) {
+      dialogContent = (
+        <ConfirmDialog
+          handleInputChange={this.handleInputChange}
+          symbol={this.props.symbol}
+          listGroup={this.props.listGroup}
+          exitCallback={this.props.exitCallback}
+          formValues={this.state}
+        />
+      )
+    } else {
+      dialogContent = (
+        <EditDialog
+          handleInputChange={this.handleInputChange}
+          symbol={this.props.symbol}
+          listGroup={this.props.listGroup}
+          exitCallback={this.props.exitCallback}
+          formValues={this.state}
+        />
+      )
+    }
     return (
       <dialog id={'dialog-params' + this.hash} className={'dialog-form'}>
-        <span className={'dialog-symbol'}> {this.symbol} - Make Your Changes Below.</span>
-        <br />
-        <br />
-        <form method="dialog">
-          <label htmlFor="watched">Watched</label>
-          <input type="text" name="watched" value={this.state.watched} onChange={this.handleInputChange} />
-          <br />
-          <label htmlFor="watchedPrice">Watched Price</label>
-          <input type="text" name="watchedPrice" value={this.state.watchedPrice} onChange={this.handleInputChange} />
-          <br />
-          {/* ================================================ */}
-          {this.listGroup === 'positions' || this.listGroup === 'trades' ? (
-            <span>
-              <label htmlFor="entered">Entered</label>
-              <input type="text" name="entered" value={this.state.entered} onChange={this.handleInputChange} />
-              <br />
-              <label htmlFor="enteredPrice">Entered Price</label>
-              <input type="text" name="enteredPrice" value={this.state.enteredPrice} onChange={this.handleInputChange} />
-              <br />
-              <label htmlFor="filledQuantity">Quantity</label>
-              <input type="text" name="filledQuantity" value={this.state.filledQuantity} onChange={this.handleInputChange} />
-              <br />
-            </span>
-          ) : null}
-          <br />
-          {/* ================================================ */}
-          <label htmlFor="session">Session</label>
-          <input type="text" name="session" value={this.state.session} onChange={this.handleInputChange} />
-          <br />
-          <label htmlFor="instruction">Instruction</label>
-          <input type="text" name="instruction" value={this.state.instruction} onChange={this.handleInputChange} />
-          <br />
-          <label htmlFor="quantity">Quantity</label>
-          <input type="text" name="quantity" value={this.state.quantity} onChange={this.handleInputChange} />
-          <br />
-          <label htmlFor="quantityType">Quantity Type</label>
-          <input type="text" name="quantityType" value={this.state.quantityType} onChange={this.handleInputChange} />
-          <br />
-          <label htmlFor="orderType">Order Type</label>
-          <input type="text" name="orderType" value={this.state.orderType} onChange={this.handleInputChange} />
-          <br />
-          <label htmlFor="duration">Duration</label>
-          <input type="text" name="duration" value={this.state.duration} onChange={this.handleInputChange} />
-          <br />
-          <br />
-          {/* ================================================ */}
-          <button
-            type="submit"
-            onClick={() => {
-              this.exitCallback(null)
-              // this.dialogDashboardParams.close()
-            }}>
-            Cancel
-          </button>
-          &nbsp; &nbsp; &nbsp; &nbsp;
-          <button
-            type="submit"
-            onClick={() => {
-              this.exitCallback(this.state)
-              // this.dialogDashboardParams.close()
-            }}>
-            Save
-          </button>
-        </form>
+        {dialogContent}
       </dialog>
     )
   }
+}
+
+function ConfirmDialog(props) {
+  const symbol = props.symbol
+  const instruction = props.formValues.instruction
+  const quantity = props.formValues.quantity
+  const quantityType = !isNaN(quantity) ? props.formValues.quantityType : ''
+  const orderType = props.formValues.orderType
+
+  const durationDay = props.formValues.duration === 'DAY' ? 'good the Day' : null
+  const durationGC = props.formValues.duration === 'GTC' ? 'good til Cancelled' : null
+  const duration = durationDay ? durationDay : durationGC ? durationGC : null
+
+  return (
+    <>
+      <div className={'confirm-symbol'}> {symbol} - Confirm your order before submitting.</div>
+      <form method='dialog'>
+        <div className={'order-pending'}>
+          <p>{`${instruction} ${quantity} ${quantityType} of ${symbol} at ${orderType} ${duration}`}</p>
+        </div>
+        <button
+          type='submit'
+          onClick={() => {
+            props.exitCallback(null)
+            // props.dialogDashboardParams.close()
+          }}>
+          Cancel
+        </button>
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        <button
+          type='submit'
+          onClick={() => {
+            props.exitCallback({ action: 'confirm' })
+          }}>
+          Confirm
+        </button>
+      </form>
+    </>
+  )
+}
+function EditDialog(props) {
+  return (
+    <>
+      <span className={'dialog-symbol'}> {props.symbol} - Make Your Changes Below.</span>
+      <form method='dialog'>
+        {props.formValues.listGroup === 'prospects' ? (
+          <span>
+            <label htmlFor='watched'>Watched</label>
+            <input type='text' name='watched' value={props.formValues.watched} onChange={props.handleInputChange} />
+            <br />
+            <label htmlFor='watchedPrice'>Watched Price</label>
+            <input type='text' name='watchedPrice' value={props.formValues.watchedPrice} onChange={props.handleInputChange} />
+            <br />
+          </span>
+        ) : null}
+        {/* ================================================ */}
+        {props.formValues.listGroup === 'positions' || props.formValues.listGroup === 'trades' ? (
+          <span>
+            <label htmlFor='entered'>Entered</label>
+            <input type='text' name='entered' value={props.formValues.entered} onChange={props.handleInputChange} />
+            <br />
+            <label htmlFor='enteredPrice'>Entered Price</label>
+            <input type='text' name='enteredPrice' value={props.formValues.enteredPrice} onChange={props.handleInputChange} />
+            <br />
+            <label htmlFor='filledQuantity'>Quantity</label>
+            <input type='text' name='filledQuantity' value={props.formValues.filledQuantity} onChange={props.handleInputChange} />
+            <br />
+          </span>
+        ) : null}
+        <br />
+        {/* ================================================ */}
+        <label htmlFor='session'>Session</label>
+        <input type='text' name='session' value={props.formValues.session} onChange={props.handleInputChange} />
+        <br />
+        <label htmlFor='instruction'>Instruction</label>
+        <input type='text' name='instruction' value={props.formValues.instruction} onChange={props.handleInputChange} />
+        <br />
+        <label htmlFor='quantity'>Quantity</label>
+        <input type='text' name='quantity' value={props.formValues.quantity} onChange={props.handleInputChange} />
+        <br />
+        <label htmlFor='quantityType'>Quantity Type</label>
+        <input type='text' name='quantityType' value={props.formValues.quantityType} onChange={props.handleInputChange} />
+        <br />
+        <label htmlFor='orderType'>Order Type</label>
+        <input type='text' name='orderType' value={props.formValues.orderType} onChange={props.handleInputChange} />
+        <br />
+        <label htmlFor='duration'>Duration</label>
+        <input type='text' name='duration' value={props.formValues.duration} onChange={props.handleInputChange} />
+        <br />
+        <br />
+        {/* ================================================ */}
+        <button
+          type='submit'
+          onClick={() => {
+            props.exitCallback(null)
+            // props.dialogDashboardParams.close()
+          }}>
+          Cancel
+        </button>
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        <button
+          type='submit'
+          onClick={() => {
+            props.exitCallback({ formFields: props.formValues, action: 'edit' })
+          }}>
+          Save
+        </button>
+      </form>
+    </>
+  )
 }
 
 export default DialogDashboardForm
