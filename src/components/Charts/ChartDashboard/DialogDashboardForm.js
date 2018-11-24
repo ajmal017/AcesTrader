@@ -82,7 +82,8 @@ class DialogDashboardForm extends Component {
 
 function ConfirmDialog(props) {
   const symbol = props.symbol
-  const instruction = props.formValues.instruction
+  let instruction = props.formValues.instruction
+  instruction = instruction === 'COVER' ? 'buy to COVER' : instruction
   const quantity = props.formValues.quantity
   const quantityType = !isNaN(quantity) ? props.formValues.quantityType : ''
   const orderType = props.formValues.orderType
@@ -123,12 +124,14 @@ function ConfirmDialog(props) {
   )
 }
 function EditDialog(props) {
+  const listGroup = props.listGroup
   return (
     <>
       <span className={'edit-symbol'}> {props.symbol} - Make Your Changes</span>
       <form method='dialog'>
-        {props.formValues.listGroup === 'prospects' ? (
+        {props.listGroup === 'prospects' ? (
           <span>
+            <br />
             <label htmlFor='watched'>Watched</label>
             <input type='text' name='watched' value={props.formValues.watched} onChange={props.handleInputChange} />
             <br />
@@ -138,8 +141,9 @@ function EditDialog(props) {
           </span>
         ) : null}
         {/* ================================================ */}
-        {props.formValues.listGroup === 'positions' || props.formValues.listGroup === 'trades' ? (
+        {props.listGroup === 'positions' || props.listGroup === 'trades' ? (
           <span>
+            <br />
             <label htmlFor='entered'>Entered</label>
             <input type='text' name='entered' value={props.formValues.entered} onChange={props.handleInputChange} />
             <br />
@@ -152,28 +156,27 @@ function EditDialog(props) {
           </span>
         ) : null}
         <br />
-        {/* ================================================ */}
-        <label htmlFor='session'>Session</label>
-        <input type='text' name='session' value={props.formValues.session} onChange={props.handleInputChange} />
-        <br />
-        <label htmlFor='instruction'>Instruction</label>
+        <label htmlFor='instruction'>Order</label>
         <input type='text' name='instruction' value={props.formValues.instruction} onChange={props.handleInputChange} />
         <br />
+        <label htmlFor='orderType'>Order Type</label>
+        <input type='text' name='orderType' value={props.formValues.orderType} onChange={props.handleInputChange} />
+        <br />
         <label htmlFor='quantity'>Quantity</label>
-        <input type='text' name='quantity' value={props.formValues.quantity} onChange={props.handleInputChange} />
+        <input type='text' className={'quantity-edit'} name='quantity' value={props.formValues.quantity} onChange={props.handleInputChange} />
         <br />
         <label htmlFor='quantityType'>Quantity Type</label>
         <input type='text' name='quantityType' value={props.formValues.quantityType} onChange={props.handleInputChange} />
         <br />
-        <label htmlFor='orderType'>Order Type</label>
-        <input type='text' name='orderType' value={props.formValues.orderType} onChange={props.handleInputChange} />
+        <label htmlFor='session'>Session</label>
+        <input type='text' name='session' value={props.formValues.session} onChange={props.handleInputChange} />
         <br />
         <label htmlFor='duration'>Duration</label>
         <input type='text' name='duration' value={props.formValues.duration} onChange={props.handleInputChange} />
         <br />
         <br />
         {/* ================================================ */}
-        <scan className={'dialog-button-row'}>
+        <span className={'dialog-button-row'}>
           <button
             className={'dialog-button'}
             type='submit'
@@ -192,7 +195,7 @@ function EditDialog(props) {
             }}>
             Save
           </button>
-        </scan>
+        </span>
       </form>
     </>
   )
