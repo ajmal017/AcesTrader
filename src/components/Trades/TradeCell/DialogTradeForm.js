@@ -47,11 +47,10 @@ class DialogTradeForm extends Component {
   render() {
     return (
       <dialog id={'dialog-params' + this.hash}>
-        <span className={'edit-symbol'}> {this.state.symbol} - Make Your Changes Below.</span>
+        <span className={'edit-symbol'}> {this.state.symbol} - Make Changes Below.</span>
         <br />
         <br />
-        <form method='dialog' className={'dialog-form'}>
-          {/* <span> */}
+        <form method='dialog' className={'dialog-form-trade'}>
           <label htmlFor='enteredPrice'>Entered Price</label>
           <input type='text' name='enteredPrice' value={this.state.enteredPrice} onChange={this.handleInputChange} />
           <br />
@@ -67,23 +66,24 @@ class DialogTradeForm extends Component {
           <label htmlFor='filledQuantity'>Quantity</label>
           <input type='text' name='filledQuantity' value={this.state.filledQuantity} onChange={this.handleInputChange} />
           <br />
-          {/* </span> */}
           <br />
-          <button
-            type='submit'
-            onClick={() => {
-              this.exitCallback(null)
-            }}>
-            Cancel
-          </button>
-          &nbsp; &nbsp; &nbsp; &nbsp;
-          <button
-            type='submit'
-            onClick={() => {
-              this.exitCallback(this.state)
-            }}>
-            Save
-          </button>
+          <span className={'dialog-trade-button-row'}>
+            <button
+              type='submit'
+              onClick={() => {
+                this.exitCallback(null)
+              }}>
+              Cancel
+            </button>
+            &nbsp; &nbsp; &nbsp; &nbsp;
+            <button
+              type='submit'
+              onClick={() => {
+                this.exitCallback(this.state)
+              }}>
+              Save
+            </button>
+          </span>
         </form>
       </dialog>
     )

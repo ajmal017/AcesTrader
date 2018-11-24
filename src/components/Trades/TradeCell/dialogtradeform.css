@@ -34,8 +34,12 @@ dialog {
   margin: auto;
 }
 
-.dialog-form input[type='text'] {
-  width: 32%;
+.dialog-form-trade {
+  width: 240px;
+}
+
+.dialog-form-trade input[type='text'] {
+  width: 30%;
   margin-left: 10px;
   margin-right: 20px;
   padding: 0px 4px;
@@ -43,6 +47,12 @@ dialog {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+.dialog-trade-button-row {
+  display: flex;
+  justify-content: space-evenly;
+  width: 220px;
 }
 
 .dialog-button-submit:hover {
