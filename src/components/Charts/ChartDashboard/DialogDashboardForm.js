@@ -71,8 +71,9 @@ class DialogDashboardForm extends Component {
         />
       )
     }
+    let dialogClassName = `dialog-form ${showConfirm ? 'dialog-form-confirm' : 'dialog-form-edit'}`
     return (
-      <dialog id={'dialog-params' + this.hash} className={'dialog-form'}>
+      <dialog id={'dialog-params' + this.hash} className={dialogClassName}>
         {dialogContent}
       </dialog>
     )
@@ -85,17 +86,17 @@ function ConfirmDialog(props) {
   const quantity = props.formValues.quantity
   const quantityType = !isNaN(quantity) ? props.formValues.quantityType : ''
   const orderType = props.formValues.orderType
-
-  const durationDay = props.formValues.duration === 'DAY' ? 'good the Day' : null
-  const durationGC = props.formValues.duration === 'GTC' ? 'good til Cancelled' : null
+  const durationDay = props.formValues.duration === 'DAY' ? 'good the DAY' : null
+  const durationGC = props.formValues.duration === 'GTC' ? 'Good Til Cancelled' : null
   const duration = durationDay ? durationDay : durationGC ? durationGC : null
+  const orderString = `${instruction} ${quantity} ${quantityType} ${symbol} ${orderType} ${duration}`
 
   return (
     <>
       <div className={'confirm-symbol'}> {symbol} - Confirm your order before submitting.</div>
       <form method='dialog'>
         <div className={'order-pending'}>
-          <p>{`${instruction} ${quantity} ${quantityType} of ${symbol} at ${orderType} ${duration}`}</p>
+          <p>{orderString}</p>
         </div>
         <scan className={'dialog-button-row'}>
           <button
@@ -124,7 +125,7 @@ function ConfirmDialog(props) {
 function EditDialog(props) {
   return (
     <>
-      <span className={'edit-symbol'}> {props.symbol} - Make Your Changes Below.</span>
+      <span className={'edit-symbol'}> {props.symbol} - Make Your Changes</span>
       <form method='dialog'>
         {props.formValues.listGroup === 'prospects' ? (
           <span>

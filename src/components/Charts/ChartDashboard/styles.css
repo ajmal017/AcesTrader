@@ -85,16 +85,6 @@ label {
   font-weight: 600;
 }
 
-.dashboard-form input[type='text'] {
-  margin-left: 3px;
-  margin-right: 6px;
-  padding: 0px 4px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
 .entry-order-button {
   font-size: 16px;
 }
@@ -108,7 +98,18 @@ label {
   font-size: 16px;
 }
 
-/* Dashboard input widths for Prospects */
+/* Dashboard text input general parameters*/
+.dashboard-form input[type='text'] {
+  margin-left: 3px;
+  margin-right: 6px;
+  padding: 0px 4px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Dashboard text input widths for Prospects */
 
 .dashboard-form .session-Buys {
   width: 62px;
@@ -165,7 +166,7 @@ label {
   width: 40px;
 }
 
-/* Dashboard input widths for Positions */
+/* Dashboard text input widths for Positions */
 
 .dashboard-form .session-Longs {
   width: 62px;

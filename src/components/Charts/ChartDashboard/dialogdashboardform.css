@@ -18,7 +18,7 @@
   /* padding: 6px 0 6px 0; */
   margin-bottom: 7px;
   font-size: 14px;
-  width: 440px;
+  /* width: 440px; */
 }
 .order-pending {
   margin-bottom: 18px;
@@ -45,8 +45,16 @@ dialog {
   margin: auto;
 }
 
+.dialog-form-confirm {
+  width: 400px;
+}
+.dialog-form-edit {
+  width: 280px;
+}
+
 .dialog-form input[type='text'] {
   width: 52%;
+  /* height: 44px; */
   margin-left: 10px;
   margin-right: 20px;
   padding: 0px 4px;
@@ -79,7 +87,3 @@ dialog {
 /* border: #f9f9f9; */
 /* opacity: 0.5; */
 /* } */
-
-/* .dialog-button-cancel:hover {
-  background: #cac8c8dc;
-} */
