@@ -15,10 +15,8 @@
 
 .confirm-symbol {
   background: #f9f9f9;
-  /* padding: 6px 0 6px 0; */
   margin-bottom: 7px;
   font-size: 14px;
-  /* width: 440px; */
 }
 .order-pending {
   margin-bottom: 18px;
@@ -53,8 +51,7 @@ dialog {
 }
 
 .dialog-form input[type='text'] {
-  width: 52%;
-  /* height: 44px; */
+  /* width: 52%; */
   margin-left: 10px;
   margin-right: 20px;
   padding: 0px 4px;
@@ -72,18 +69,3 @@ dialog {
 .dialog-button:hover {
   background: #cac8c8dc;
 }
-
-/* .dialog-button-cancel { */
-/* position: absolute; */
-/* right: 16px; */
-/* bottom: 14px; */
-/* background: #f9f9f9; */
-
-/* background: white; */
-/* background-color: white; */
-/* background-color: #f9f9f9; */
-
-/* height: 36; */
-/* border: #f9f9f9; */
-/* opacity: 0.5; */
-/* } */

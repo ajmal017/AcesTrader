@@ -114,6 +114,121 @@ class ChartDashboard extends Component {
     const timeDiff = endDate - startDate
     this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
 
+    this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
+
+    // /* Dashboard text input widths for Prospects */
+
+    // session-Buys { width: 62;}
+
+    // .dashboard-form .session-ShortSales {
+    //   width: 62px;
+    // }
+    // .dashboard-form .session-TrendBuys {
+    //   width: 62px;
+    // }
+    // .dashboard-form .instruction-Buys {
+    //   width: 40px;
+    // }
+    // .dashboard-form .instruction-ShortSales {
+    //   width: 78px;
+    // }
+    // .dashboard-form .instruction-TrendBuys {
+    //   width: 40px;
+    // }
+    // .dashboard-form .quantity-Buys {
+    //   width: 50px;
+    // }
+    // .dashboard-form .quantity-ShortSales {
+    //   width: 50px;
+    // }
+    // .dashboard-form .quantity-TrendBuys {
+    //   width: 50px;
+    // }
+    // .dashboard-form .quantitytype-Buys {
+    //   width: 68px;
+    // }
+    // .dashboard-form .quantitytype-ShortSales {
+    //   width: 68px;
+    // }
+    // .dashboard-form .quantitytype-TrendBuys {
+    //   width: 68px;
+    // }
+    // .dashboard-form .ordertype-Buys {
+    //   width: 62px;
+    // }
+    // .dashboard-form .ordertype-ShortSales {
+    //   width: 62px;
+    // }
+    // .dashboard-form .ordertype-TrendBuys {
+    //   width: 62px;
+    // }
+    // .dashboard-form .duration-Buys {
+    //   width: 40px;
+    // }
+    // .dashboard-form .duration-ShortSales {
+    //   width: 40px;
+    // }
+    // .dashboard-form .duration-TrendBuys {
+    //   width: 40px;
+    // }
+
+    // /* Dashboard text input widths for Positions */
+
+    // .dashboard-form .session-Longs {
+    //   width: 62px;
+    // }
+    // .dashboard-form .session-Shorts {
+    //   width: 62px;
+    // }
+    // .dashboard-form .session-TrendLongs {
+    //   width: 62px;
+    // }
+    // .dashboard-form .instruction-Longs {
+    //   width: 40px;
+    // }
+    // .dashboard-form .instruction-Shorts {
+    //   width: 58px;
+    // }
+    // .dashboard-form .instruction-TrendLongs {
+    //   width: 40px;
+    // }
+    // .dashboard-form .quantity-Longs {
+    //   width: 86px;
+    // }
+    // .dashboard-form .quantity-Shorts {
+    //   width: 86px;
+    // }
+    // .dashboard-form .quantity-TrendLongs {
+    //   width: 86px;
+    // }
+    // .dashboard-form .quantitytype-Longs {
+    //   width: 58px;
+    // }
+    // .dashboard-form .quantitytype-Shorts {
+    //   width: 58px;
+    // }
+    // .dashboard-form .quantitytype-TrendLongs {
+    //   width: 58px;
+    // }
+    // .dashboard-form .ordertype-Longs {
+    //   width: 62px;
+    // }
+    // .dashboard-form .ordertype-Shorts {
+    //   width: 62px;
+    // }
+    // .dashboard-form .ordertype-TrendLongs {
+    //   width: 62px;
+    // }
+    // .dashboard-form .duration-Longs {
+    //   width: 40px;
+    // }
+    // .dashboard-form .duration-Shorts {
+    //   width: 40px;
+    // }
+    // .dashboard-form .duration-TrendLongs {
+    //   width: 40px;
+    // }
+
     this.dialogDashboardFormValues = {
       watched: this.watched,
       watchedPrice: this.watchedPrice,
@@ -177,21 +292,21 @@ class ChartDashboard extends Component {
                 ) : null}
               </div>
             </div>
-            {/* Use regex below to strip out spaces in tradeSide names for use in CSS selectors */}
+            {/* Use regex below to strip out spaces in tradeSideLc names for use in CSS selectors */}
             <label htmlFor='session'>Session</label>
-            <input className={'session-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='session' value={this.session} />
+            <input className={'session-' + this.tradeSideLc.replace(/[\W_]/g, '')} readOnly type='text' name='session' value={this.session} />
             <label htmlFor='instruction'>Instruction</label>
-            <input className={'instruction-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='instruction' value={this.instruction} />
+            <input className={'instruction-' + this.tradeSideLc.replace(/[\W_]/g, '')} readOnly type='text' name='instruction' value={this.instruction} />
             <br />
             <label htmlFor='quantity'>Quantity</label>
-            <input className={'quantity-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='quantity' value={this.quantity} />
+            <input className={'quantity-' + this.tradeSideLc.replace(/[\W_]/g, '')} readOnly type='text' name='quantity' value={this.quantity} />
             <label htmlFor='quantityType'>Type</label>
-            <input className={'quantitytype-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='quantityType' value={this.quantityType} />
+            <input className={'quantitytype-' + this.tradeSideLc.replace(/[\W_]/g, '')} readOnly type='text' name='quantityType' value={this.quantityType} />
             <br />
             <label htmlFor='orderType'>OrderType</label>
-            <input className={'ordertype-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='orderType' value={this.orderType} />
+            <input className={'ordertype-' + this.tradeSideLc.replace(/[\W_]/g, '')} readOnly type='text' name='orderType' value={this.orderType} />
             <label htmlFor='duration'>Duration</label>
-            <input className={'duration-' + this.tradeSide.replace(/[\W_]/g, '')} readOnly type='text' name='duration' value={this.duration} />
+            <input className={'duration-' + this.tradeSideLc.replace(/[\W_]/g, '')} readOnly type='text' name='duration' value={this.duration} />
           </form>
 
           <div className='dashboard-footer'>

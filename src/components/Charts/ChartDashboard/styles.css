@@ -111,114 +111,114 @@ label {
 
 /* Dashboard text input widths for Prospects */
 
-.dashboard-form .session-Buys {
+.dashboard-form .session-buys {
   width: 62px;
 }
-.dashboard-form .session-ShortSales {
+.dashboard-form .session-shortsales {
   width: 62px;
 }
-.dashboard-form .session-TrendBuys {
+.dashboard-form .session-trendbuys {
   width: 62px;
 }
-.dashboard-form .instruction-Buys {
+.dashboard-form .instruction-buys {
   width: 40px;
 }
-.dashboard-form .instruction-ShortSales {
+.dashboard-form .instruction-shortsales {
   width: 78px;
 }
-.dashboard-form .instruction-TrendBuys {
+.dashboard-form .instruction-trendbuys {
   width: 40px;
 }
-.dashboard-form .quantity-Buys {
+.dashboard-form .quantity-buys {
   width: 50px;
 }
-.dashboard-form .quantity-ShortSales {
+.dashboard-form .quantity-shortsales {
   width: 50px;
 }
-.dashboard-form .quantity-TrendBuys {
+.dashboard-form .quantity-trendbuys {
   width: 50px;
 }
-.dashboard-form .quantitytype-Buys {
+.dashboard-form .quantitytype-buys {
   width: 68px;
 }
-.dashboard-form .quantitytype-ShortSales {
+.dashboard-form .quantitytype-shortsales {
   width: 68px;
 }
-.dashboard-form .quantitytype-TrendBuys {
+.dashboard-form .quantitytype-trendbuys {
   width: 68px;
 }
-.dashboard-form .ordertype-Buys {
+.dashboard-form .ordertype-buys {
   width: 62px;
 }
-.dashboard-form .ordertype-ShortSales {
+.dashboard-form .ordertype-shortsales {
   width: 62px;
 }
-.dashboard-form .ordertype-TrendBuys {
+.dashboard-form .ordertype-trendbuys {
   width: 62px;
 }
-.dashboard-form .duration-Buys {
+.dashboard-form .duration-buys {
   width: 40px;
 }
-.dashboard-form .duration-ShortSales {
+.dashboard-form .duration-shortsales {
   width: 40px;
 }
-.dashboard-form .duration-TrendBuys {
+.dashboard-form .duration-trendbuys {
   width: 40px;
 }
 
 /* Dashboard text input widths for Positions */
 
-.dashboard-form .session-Longs {
+.dashboard-form .session-longs {
   width: 62px;
 }
-.dashboard-form .session-Shorts {
+.dashboard-form .session-shorts {
   width: 62px;
 }
-.dashboard-form .session-TrendLongs {
+.dashboard-form .session-trendlongs {
   width: 62px;
 }
-.dashboard-form .instruction-Longs {
+.dashboard-form .instruction-longs {
   width: 40px;
 }
-.dashboard-form .instruction-Shorts {
+.dashboard-form .instruction-shorts {
   width: 58px;
 }
-.dashboard-form .instruction-TrendLongs {
+.dashboard-form .instruction-trendlongs {
   width: 40px;
 }
-.dashboard-form .quantity-Longs {
+.dashboard-form .quantity-longs {
   width: 86px;
 }
-.dashboard-form .quantity-Shorts {
+.dashboard-form .quantity-shorts {
   width: 86px;
 }
-.dashboard-form .quantity-TrendLongs {
+.dashboard-form .quantity-trendlongs {
   width: 86px;
 }
-.dashboard-form .quantitytype-Longs {
+.dashboard-form .quantitytype-longs {
   width: 58px;
 }
-.dashboard-form .quantitytype-Shorts {
+.dashboard-form .quantitytype-shorts {
   width: 58px;
 }
-.dashboard-form .quantitytype-TrendLongs {
+.dashboard-form .quantitytype-trendlongs {
   width: 58px;
 }
-.dashboard-form .ordertype-Longs {
+.dashboard-form .ordertype-longs {
   width: 62px;
 }
-.dashboard-form .ordertype-Shorts {
+.dashboard-form .ordertype-shorts {
   width: 62px;
 }
-.dashboard-form .ordertype-TrendLongs {
+.dashboard-form .ordertype-trendlongs {
   width: 62px;
 }
-.dashboard-form .duration-Longs {
+.dashboard-form .duration-longs {
   width: 40px;
 }
-.dashboard-form .duration-Shorts {
+.dashboard-form .duration-shorts {
   width: 40px;
 }
-.dashboard-form .duration-TrendLongs {
+.dashboard-form .duration-trendlongs {
   width: 40px;
 }
