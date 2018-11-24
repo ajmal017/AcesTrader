@@ -58,7 +58,7 @@
   font-size: 18px;
 }
 
-input[type='text'],
+.content-box input[type='text'],
 select {
   width: 96%;
   padding: 10px 20px;
