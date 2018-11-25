@@ -26,6 +26,10 @@ class DialogTradeForm extends Component {
     if (this.props.showDialog !== prevProps.showDialog) {
       if (this.props.showDialog) {
         this.dialogTradeParams.showModal()
+        // Move the focus away from the text input to prevent the iPad keyboard from popping up
+        let el1 = document.getElementById('dialog-params' + this.hash)
+        let el2 = el1.getElementsByClassName('dialog-button')
+        el2[0].focus() // make the cancel button the default focus
       } else {
         this.dialogTradeParams.close()
       }
@@ -69,6 +73,7 @@ class DialogTradeForm extends Component {
           <br />
           <span className={'dialog-trade-button-row'}>
             <button
+              className={'dialog-button'}
               type='submit'
               onClick={() => {
                 this.exitCallback(null)
@@ -77,6 +82,7 @@ class DialogTradeForm extends Component {
             </button>
             &nbsp; &nbsp; &nbsp; &nbsp;
             <button
+              className={'dialog-button'}
               type='submit'
               onClick={() => {
                 this.exitCallback(this.state)

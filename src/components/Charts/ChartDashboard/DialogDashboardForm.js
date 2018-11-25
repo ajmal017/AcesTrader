@@ -28,7 +28,7 @@ class DialogDashboardForm extends Component {
         // Move the focus away from the text input to prevent the iPad keyboard from popping up
         let el1 = document.getElementById('dialog-params' + this.hash)
         let el2 = el1.getElementsByClassName('dialog-button')
-        el2[1].focus()
+        el2[0].focus() // make the cancel button the default focus
       } else {
         this.dialogDashboardParams.close()
       }
@@ -83,7 +83,7 @@ class DialogDashboardForm extends Component {
 function ConfirmDialog(props) {
   const symbol = props.symbol
   let instruction = props.formValues.instruction
-  instruction = instruction === 'COVER' ? 'buy to COVER' : instruction
+  instruction = instruction === 'COVER' ? 'BUY to COVER' : instruction
   const quantity = props.formValues.quantity
   const quantityType = !isNaN(quantity) ? props.formValues.quantityType : ''
   const orderType = props.formValues.orderType
