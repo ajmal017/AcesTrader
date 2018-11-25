@@ -11,6 +11,10 @@
   opacity: 1;
 }
 
+.chart-cell-wrapper.chart-cell-expanded {
+  height: 440px;
+}
+
 .chart-cell-wrapper.fadeout {
   visibility: visible;
   opacity: 0.1;
