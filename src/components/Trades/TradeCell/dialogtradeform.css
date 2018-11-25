@@ -55,24 +55,22 @@ dialog {
   width: 220px;
 }
 
-.dialog-button-submit:hover {
+.dialog-button {
+  background: #f9f9f9;
+}
+.dialog-buttonl:hover {
   background: #cac8c8dc;
 }
 
+/* .dialog-button-submit:hover {
+  background: #cac8c8dc;
+}
 .dialog-button-cancel {
   position: absolute;
   right: 16px;
   bottom: 14px;
-  /* background: white; */
-  /* background-color: white; */
   background: #f9f9f9;
-  /* background-color: #f9f9f9; */
-
-  /* height: 36; */
-  /* border: #f9f9f9; */
-  /* opacity: 0.5; */
 }
-
 .dialog-button-cancel:hover {
   background: #cac8c8dc;
-}
+} */

@@ -13,6 +13,13 @@
   position: relative;
 }
 
+/* Special hack for iPad workaround */
+/* Without this, the dialog is clipped to the small window height, */
+/* and is useless for editing the trade data. */
+.trade-cell-wrapper.expanded {
+  height: 300px;
+}
+
 .trade-cell-wrapper.fadeout {
   visibility: visible;
   opacity: 0.1;

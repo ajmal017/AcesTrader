@@ -19,14 +19,14 @@ function TradeStatusLine({ hash, tradeSide, tradeDollarGain, tradePercentGain })
   const numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   return tradeSide === 'Shorts' ? (
     <div>
-      <span id={'gaininfo' + hash} className="watched">
+      <span id={'gaininfo' + hash} className='watched'>
         {tradeDollarGain > 0 ? 'Loss' : 'Gain'} &nbsp;&nbsp;&nbsp; {tradeDollarGain > 0 ? '-' : ''}${numberWithCommas(Math.abs(tradeDollarGain))}
         &nbsp;&nbsp;&nbsp;&nbsp; {tradePercentGain}%
       </span>
     </div>
   ) : (
     <div>
-      <span id={'gaininfo' + hash} className="watched">
+      <span id={'gaininfo' + hash} className='watched'>
         {tradeDollarGain < 0 ? 'Loss' : 'Gain'} &nbsp;&nbsp;&nbsp; {tradeDollarGain < 0 ? '-' : ''}${numberWithCommas(Math.abs(tradeDollarGain))}
         &nbsp;&nbsp;&nbsp;&nbsp; {tradePercentGain}%
       </span>
@@ -123,7 +123,7 @@ class TradeCell extends Component {
     }
 
     return (
-      <div id={wrapperId} className={`trade-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
+      <div id={wrapperId} className={`trade-cell-wrapper ${this.state.showDialog ? 'expanded' : ''} ${this.state.hide ? 'fadeout' : ''}`}>
         <DialogTradeForm
           showDialog={this.state.showDialog}
           hash={this.hash}
@@ -133,17 +133,17 @@ class TradeCell extends Component {
           exitCallback={this.handleEditDialogClose}
         />
         {/* the TradCell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
-        <div id={cell_id} className="trade-cell">
+        <div id={cell_id} className='trade-cell'>
           <button onClick={this.handleEditDialogOpen} className={'button-pencil-image-absolute'}>
             <img
-              alt=""
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC"
+              alt=''
+              src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC'
             />
           </button>
-          <div className="trade-header">
-            <span className="trade-title-formatting">{symbol}</span>
-            <span className="tradeside-formatting">Trade: {this.tradeSide}</span>
-            <button onClick={this.handleDelete} className="trade-button" type="button" aria-label="delete">
+          <div className='trade-header'>
+            <span className='trade-title-formatting'>{symbol}</span>
+            <span className='tradeside-formatting'>Trade: {this.tradeSide}</span>
+            <button onClick={this.handleDelete} className='trade-button' type='button' aria-label='delete'>
               &times;
             </button>
           </div>
