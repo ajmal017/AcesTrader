@@ -75,10 +75,14 @@ class Chartcell extends Component {
     // Reset the state of dialog's values, using the current props, to replace left-over values from a canceled updated
     let weeklyBars = this.props.cellObject.weeklyBars ? true : false
     let macdChart = this.props.cellObject.macdChart ? true : false
-    this.setState({ weeklyBars: weeklyBars, macdChart: macdChart })
-    // let prevState = this.state
+
+    /* Note: showDialog usage is a special hack for iPad display workaround */
+    /* Without this, the dialog is clipped to the list object's window height, */
+    /* and is useless for editing all the list object's data. */
+    this.setState({ weeklyBars: weeklyBars, macdChart: macdChart, showDialog: true })
+
     // console.log(`Model Entrance weeklyBars=${weeklyBars} macdChart=${macdChart}`)
-    // console.log(JSON.stringify(prevState, null, 2)) // a readable log of the object's json
+    console.log(JSON.stringify(this.state, null, 2)) // a readable log of the object's json
     // Right click > Copies All in the Console panel to copy to clipboard
     this.dialogChartParams.showModal()
     let self = this //Note: bind(this) does not seem to work here. Polyfill problem?
@@ -86,12 +90,18 @@ class Chartcell extends Component {
       if (self.dialogChartParams.returnValue === 'yes') {
         // Save the parameterData which is an object with key/value pairs for each form field: {name: value, name: value, ...}
         let parameterData = { weeklyBars: self.state.weeklyBars, macdChart: self.state.macdChart }
-        self.props.dispatch(editListObjectPrarmetersAsync(self.hash, parameterData))
+        self.props.dispatch(editListObjectPrarmetersAsync(self.hash, parameterData))()
         // Note: this dispatch changes the store's state which re-renders this component delivering new props
+      }
+      if (this.state.showDialog) {
+        this.setState({ showDialog: false })
       }
     })
     this.dialogChartParams.addEventListener('cancel', function(event) {
       event.preventDefault() // disables using the Esc button to close
+      if (this.state.showDialog) {
+        this.setState({ showDialog: false })
+      }
     })
   }
 
@@ -107,7 +117,7 @@ class Chartcell extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.data === false && this.state.data === true) {
-      // render call has loaded the DOM at this time
+      // the render() call has loaded the DOM at this time
       this.dialogChartParams = document.getElementById('chart-params' + this.hash)
       dialogPolyfill.registerDialog(this.dialogChartParams) // Now dialog acts like a native <dialog>.
     }
@@ -375,7 +385,7 @@ class Chartcell extends Component {
             </div>
             <br />
             <br />
-            <scan className={'dialog-button-row'}>
+            <span className={'dialog-button-row'}>
               <button className={'dialog-button'} type='submit' value='no'>
                 Cancel
               </button>
@@ -383,10 +393,10 @@ class Chartcell extends Component {
               <button className={'dialog-button'} type='submit' value='yes'>
                 Save
               </button>
-            </scan>
+            </span>
           </form>
         </dialog>
-        <div id={wrapperId} className={`chart-cell-wrapper ${this.state.hide ? 'fadeout' : ''}`}>
+        <div id={wrapperId} className={`chart-cell-wrapper  ${this.state.showDialog ? 'chart-cell-expanded' : ''} ${this.state.hide ? 'fadeout' : ''}`}>
           {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
           <div id={cell_id} className='chart-cell'>
             {/* <div className="chart-cell-header"> */}
@@ -443,14 +453,6 @@ class Chartcell extends Component {
             <div className='dashboard-center'>
               <ChartDashboard handleEntry={this.handleEntry} cellObject={cellObject} />
             </div>
-
-            {/* <div className="dashboard-footer">
-            <div className="order-entry-button">
-              <button onClick={this.handleEntry} className="entry-order-button">
-                {this.buttonLabel} {this.symbol}
-              </button>
-            </div>
-          </div> */}
           </div>
         </div>
       </>

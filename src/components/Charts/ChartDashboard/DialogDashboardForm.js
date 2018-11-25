@@ -99,7 +99,8 @@ function ConfirmDialog(props) {
         <div className={'order-pending'}>
           <p>{orderString}</p>
         </div>
-        <scan className={'dialog-button-row'}>
+        <span>
+          className={'dialog-button-row'}>
           <button
             className={'dialog-button'}
             type='submit'
@@ -118,7 +119,7 @@ function ConfirmDialog(props) {
             }}>
             Confirm
           </button>
-        </scan>
+        </span>
       </form>
     </>
   )

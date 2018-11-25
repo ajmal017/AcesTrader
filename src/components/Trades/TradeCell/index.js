@@ -123,7 +123,7 @@ class TradeCell extends Component {
     }
 
     return (
-      <div id={wrapperId} className={`trade-cell-wrapper ${this.state.showDialog ? 'expanded' : ''} ${this.state.hide ? 'fadeout' : ''}`}>
+      <div id={wrapperId} className={`trade-cell-wrapper ${this.state.showDialog ? 'trade-cell-expanded' : ''} ${this.state.hide ? 'fadeout' : ''}`}>
         <DialogTradeForm
           showDialog={this.state.showDialog}
           hash={this.hash}

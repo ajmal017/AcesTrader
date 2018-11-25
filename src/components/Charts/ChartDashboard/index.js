@@ -79,6 +79,7 @@ class ChartDashboard extends Component {
     this.hash = this.props.cellObject.hash
     this.symbol = this.props.cellObject.symbol
     this.listGroup = this.props.cellObject.listGroup
+    this.trailingStopBasis = this.props.cellObject.trailingStopBasis
     this.peekDate = this.props.cellObject.peekDate
     this.peekPrice = this.props.cellObject.peekPrice
     this.watched = this.props.cellObject.watched
@@ -104,8 +105,12 @@ class ChartDashboard extends Component {
     this.dollarGain = this.peekDate !== undefined ? (this.peekPrice - startPrice).toFixed(2) : 'pending'
     this.percentGain = this.peekDate !== undefined ? ((100 * (this.peekPrice - startPrice)) / startPrice).toFixed(1) : 'pending'
     this.positionValue = this.peekDate !== undefined ? this.numberWithCommas((this.filledQuantity * this.peekPrice).toFixed(0)) : 'pending'
-
-    this.rgbColor = this.percentGain > 0 ? '0,255,0' : '255,107,107'
+    this.rgbColor = null
+    if (this.tradeSide === 'Shorts') {
+      this.rgbColor = this.percentGain > 0 ? '255,107,107' : '0,255,0'
+    } else {
+      this.rgbColor = this.percentGain > 0 ? '0,255,0' : '255,107,107'
+    }
     this.rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
     this.rgbaValue = this.rgbColor + ',' + this.rgbOpacity
 
@@ -115,6 +120,15 @@ class ChartDashboard extends Component {
     this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
 
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
+
+    this.stopGap = this.peekPrice - this.trailingStopBasis
+    // this.stopGap = 0.055 * this.trailingStopBasis //BCM Test Exits
+    this.percentTrailingStopGap = ((100 * this.stopGap) / this.trailingStopBasis).toFixed(1)
+    if ((this.tradeSide === 'Shorts' && this.percentTrailingStopGap > 5) || (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -5)) {
+      this.rgbaBackground = '255,107,107,0.6'
+    } else {
+      this.rgbaBackground = null
+    }
 
     this.dialogDashboardFormValues = {
       watched: this.watched,
@@ -196,8 +210,11 @@ class ChartDashboard extends Component {
           </form>
 
           <div className='dashboard-footer'>
-            <div className='order-entry-button'>
-              <button onClick={this.handleOrderEntry} className='entry-order-button'>
+            <div>
+              {/* <button onClick={this.handleOrderEntry} className='entry-order-button'> */}
+              <button className={'entry-order-button'} onClick={this.handleOrderEntry} style={{ background: 'rgba(' + `${this.rgbaBackground}` + ')' }}>
+                {/* <button onClick={this.handleOrderEntry} style={this.buttonStyle}> */}
+                {/* <button onClick={this.handleOrderEntry}> */}
                 {this.buttonLabel} {this.symbol}
               </button>
             </div>
