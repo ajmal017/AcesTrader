@@ -3,19 +3,19 @@
 /* Dashboard text input widths for Prospects */
 
 .session-buys {
-  width: 64px;
+  width: 66px;
 }
 .session-shortsales {
-  width: 64px;
+  width: 66px;
 }
 .session-trendbuys {
-  width: 64px;
+  width: 66px;
 }
 .instruction-buys {
   width: 40px;
 }
 .instruction-shortsales {
-  width: 82px;
+  width: 86px;
 }
 .instruction-trendbuys {
   width: 40px;
@@ -30,22 +30,22 @@
   width: 50px;
 }
 .quantitytype-buys {
-  width: 68px;
+  width: 70px;
 }
 .quantitytype-shortsales {
-  width: 68px;
+  width: 70px;
 }
 .quantitytype-trendbuys {
-  width: 68px;
+  width: 70px;
 }
 .ordertype-buys {
-  width: 62px;
+  width: 64px;
 }
 .ordertype-shortsales {
-  width: 62px;
+  width: 64px;
 }
 .ordertype-trendbuys {
-  width: 62px;
+  width: 64px;
 }
 .duration-buys {
   width: 40px;
@@ -80,13 +80,13 @@
 /* Dashboard text input widths for Positions */
 
 .session-longs {
-  width: 64px;
+  width: 66px;
 }
 .session-shorts {
-  width: 64px;
+  width: 66px;
 }
 .session-trendlongs {
-  width: 64px;
+  width: 66px;
 }
 .instruction-longs {
   width: 40px;
@@ -98,31 +98,31 @@
   width: 40px;
 }
 .quantity-longs {
-  width: 86px;
+  width: 50px;
 }
 .quantity-shorts {
-  width: 86px;
+  width: 50px;
 }
 .quantity-trendlongs {
-  width: 86px;
+  width: 50px;
 }
 .quantitytype-longs {
-  width: 58px;
+  width: 70px;
 }
 .quantitytype-shorts {
-  width: 58px;
+  width: 70px;
 }
 .quantitytype-trendlongs {
-  width: 58px;
+  width: 70px;
 }
 .ordertype-longs {
-  width: 62px;
+  width: 64px;
 }
 .ordertype-shorts {
-  width: 62px;
+  width: 64px;
 }
 .ordertype-trendlongs {
-  width: 62px;
+  width: 64px;
 }
 .duration-longs {
   width: 40px;

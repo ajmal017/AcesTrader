@@ -2,7 +2,7 @@
   "session": "NORMAL",
   "duration": "DAY",
   "orderType": "MARKET",
-  "quantity": "ALL SHARES",
+  "quantity": "ALL",
   "quantityType": "SHARES",
   "instruction": "COVER",
   "tradeSide": "Shorts",
