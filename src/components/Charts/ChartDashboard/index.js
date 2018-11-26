@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import DialogDashboardForm from './DialogDashboardForm'
-import { editListObjectPrarmetersAsync } from '../../../redux/thunkEditListObjects'
+import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 import './stylesTextWidths.css'
 
@@ -57,7 +57,7 @@ class ChartDashboard extends Component {
 
       if (returnValue.action === 'edit') {
         // the returnValue has an object with key/value pairs for each form field: {name: value, name: value, ...}
-        this.props.dispatch(editListObjectPrarmetersAsync(this.hash, returnValue.formFields))
+        this.props.dispatch(editListObjectPrarmeters(this.hash, returnValue.formFields))
       } else if (returnValue.action === 'confirm') {
         this.props.handleEntry() // the order entry was confirmed
       } else {

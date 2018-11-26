@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { querydeleteTradeObject } from '../../../redux/reducerModal'
 import { removeResultFromList } from '../../../redux/reducerResults'
 import DialogTradeForm from './DialogTradeForm'
-import { editListObjectPrarmetersAsync } from '../../../redux/thunkEditListObjects'
+import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 
 // {/* <span id={'gaininfo'}>
@@ -82,7 +82,7 @@ class TradeCell extends Component {
     if (returnValue) {
       // the returnValue is null if cancelled, else
       // the returnValue is an object with key/value pairs for each form field: {name: value, name: value, ...}
-      this.props.dispatch(editListObjectPrarmetersAsync(this.hash, returnValue))
+      this.props.dispatch(editListObjectPrarmeters(this.hash, returnValue))
     }
     this.setState({
       showDialog: false,

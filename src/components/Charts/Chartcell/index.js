@@ -27,7 +27,7 @@ import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
 import ChartDashboard from '../ChartDashboard'
 import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
-import { editListObjectPrarmetersAsync } from '../../../redux/thunkEditListObjects'
+import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 var cloneDeep = require('lodash.clonedeep')
 
@@ -90,7 +90,7 @@ class Chartcell extends Component {
       if (self.dialogChartParams.returnValue === 'yes') {
         // Save the parameterData which is an object with key/value pairs for each form field: {name: value, name: value, ...}
         let parameterData = { weeklyBars: self.state.weeklyBars, macdChart: self.state.macdChart }
-        self.props.dispatch(editListObjectPrarmetersAsync(self.hash, parameterData))()
+        self.props.dispatch(editListObjectPrarmeters(self.hash, parameterData))()
         // Note: this dispatch changes the store's state which re-renders this component delivering new props
       }
       if (this.state.showDialog) {
