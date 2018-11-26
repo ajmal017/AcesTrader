@@ -1,0 +1,165 @@
+/* stylesTextWidths.css */
+
+/* Dashboard text input widths for Prospects */
+
+.session-buys {
+  width: 64px;
+}
+.session-shortsales {
+  width: 64px;
+}
+.session-trendbuys {
+  width: 64px;
+}
+.instruction-buys {
+  width: 40px;
+}
+.instruction-shortsales {
+  width: 82px;
+}
+.instruction-trendbuys {
+  width: 40px;
+}
+.quantity-buys {
+  width: 50px;
+}
+.quantity-shortsales {
+  width: 50px;
+}
+.quantity-trendbuys {
+  width: 50px;
+}
+.quantitytype-buys {
+  width: 68px;
+}
+.quantitytype-shortsales {
+  width: 68px;
+}
+.quantitytype-trendbuys {
+  width: 68px;
+}
+.ordertype-buys {
+  width: 62px;
+}
+.ordertype-shortsales {
+  width: 62px;
+}
+.ordertype-trendbuys {
+  width: 62px;
+}
+.duration-buys {
+  width: 40px;
+}
+.duration-shortsales {
+  width: 40px;
+}
+.duration-trendbuys {
+  width: 40px;
+}
+
+.watched-buys {
+  width: 78px;
+}
+.watched-shortsales {
+  width: 78px;
+}
+.watched-trendbuys {
+  width: 78px;
+}
+
+.watchedprice-buys {
+  width: 60px;
+}
+.watchedprice-shortsales {
+  width: 60px;
+}
+.watchedprice-trendbuys {
+  width: 60px;
+}
+
+/* Dashboard text input widths for Positions */
+
+.session-longs {
+  width: 64px;
+}
+.session-shorts {
+  width: 64px;
+}
+.session-trendlongs {
+  width: 64px;
+}
+.instruction-longs {
+  width: 40px;
+}
+.instruction-shorts {
+  width: 58px;
+}
+.instruction-trendlongs {
+  width: 40px;
+}
+.quantity-longs {
+  width: 86px;
+}
+.quantity-shorts {
+  width: 86px;
+}
+.quantity-trendlongs {
+  width: 86px;
+}
+.quantitytype-longs {
+  width: 58px;
+}
+.quantitytype-shorts {
+  width: 58px;
+}
+.quantitytype-trendlongs {
+  width: 58px;
+}
+.ordertype-longs {
+  width: 62px;
+}
+.ordertype-shorts {
+  width: 62px;
+}
+.ordertype-trendlongs {
+  width: 62px;
+}
+.duration-longs {
+  width: 40px;
+}
+.duration-shorts {
+  width: 40px;
+}
+.duration-trendlongs {
+  width: 40px;
+}
+
+.entered-longs {
+  width: 78px;
+}
+.entered-shorts {
+  width: 78px;
+}
+.entered-trendlongs {
+  width: 78px;
+}
+
+.enteredprice-longs {
+  width: 60px;
+}
+.enteredprice-shorts {
+  width: 60px;
+}
+.enteredprice-trendlongs {
+  width: 60px;
+}
+
+.filledquantity-longs {
+  width: 40px;
+}
+.filledquantity-shorts {
+  width: 40px;
+}
+.filledquantity-trendlongs {
+  width: 40px;
+}
