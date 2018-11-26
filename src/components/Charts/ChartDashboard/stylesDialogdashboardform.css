@@ -1,4 +1,14 @@
-/* DialogForm.css */
+/* stylesDialogdashboardform.css */
+
+.dialog {
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
 
 .button-pencil-image-absolute {
   position: absolute;
@@ -13,6 +23,21 @@
   background: #cac8c8dc;
 }
 
+.dialog-form-confirm input[type='text'] {
+  width: 86px;
+  margin-left: 10px;
+  margin-right: 20px;
+  padding: 0px 4px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.dialog-form-confirm {
+  width: 440px;
+}
+
 .confirm-symbol {
   background: #f9f9f9;
   margin-bottom: 7px;
@@ -22,6 +47,26 @@
   margin-bottom: 18px;
   font-weight: bold;
 }
+
+hr {
+  margin: 6px 0 6px 0;
+}
+
+.dialog-form-edit {
+  width: 280px;
+}
+.dialog-form-edit input[type='text'] {
+  /* width: 42%; */
+  margin-left: 3px;
+  margin-right: 6px;
+  padding: 0px 4px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
 .edit-symbol {
   background: #f9f9f9;
   padding: 6px 0 6px 6px;
@@ -29,57 +74,11 @@
   font-weight: bold;
 }
 
-hr {
-  margin: 6px 0 6px 0;
-}
-
-dialog {
-  border: 2px solid rgba(0, 0, 0, 0.3);
-  border-radius: 6px;
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
-.dialog-form-confirm {
-  width: 440px;
-}
-.dialog-form-edit {
-  width: 280px;
-}
-.dialog-form-edit input[type='text'] {
-  width: 42%;
-  margin-left: 10px;
-  margin-right: 20px;
-  padding: 0px 4px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
 .dialog-form-edit .dialog-button-row {
   display: flex;
   justify-content: space-evenly;
   width: 230px;
 }
-
-.dialog-form input[type='text'] {
-  width: 86px;
-  margin-left: 10px;
-  margin-right: 20px;
-  padding: 0px 4px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-/* .dialog-form .quantity-edit {
-  width: 86px;
-} */
 
 .dialog-button:hover {
   background: #cac8c8dc;

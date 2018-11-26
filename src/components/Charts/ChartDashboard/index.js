@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import DialogDashboardForm from './DialogDashboardForm'
 import { editListObjectPrarmetersAsync } from '../../../redux/thunkEditListObjects'
 import './styles.css'
+import './stylesTextWidths.css'
 
 function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, daysHere, positionValue, rgbaValue }) {
   // let thePositionValue = listGroup === 'positions' ? `, Value: ${positionValue}` : null
@@ -153,10 +154,10 @@ class ChartDashboard extends Component {
           symbol={this.symbol}
           formValues={this.dialogDashboardFormValues}
           listGroup={this.listGroup}
+          tradeSideLc={this.tradeSideLc}
           exitCallback={this.handleEditDialogClose}
         />
         <div className='dashboard-data'>
-          {/* <span className="dashboard-header">{this.tradeSide}</span> */}
           <form className='dashboard-form'>
             <div className='events-log'>
               <PeekStatusLine
@@ -211,10 +212,7 @@ class ChartDashboard extends Component {
 
           <div className='dashboard-footer'>
             <div>
-              {/* <button onClick={this.handleOrderEntry} className='entry-order-button'> */}
               <button className={'entry-order-button'} onClick={this.handleOrderEntry} style={{ background: 'rgba(' + `${this.rgbaBackground}` + ')' }}>
-                {/* <button onClick={this.handleOrderEntry} style={this.buttonStyle}> */}
-                {/* <button onClick={this.handleOrderEntry}> */}
                 {this.buttonLabel} {this.symbol}
               </button>
             </div>

@@ -2,7 +2,9 @@
 
 import React, { Component } from 'react'
 import dialogPolyfill from 'dialog-polyfill'
-import './dialogdashboardform.css'
+// import EditDialog from './EditDialog'
+import './stylesDialogdashboardform.css'
+import './stylesTextWidths.css'
 
 class DialogDashboardForm extends Component {
   constructor(props) {
@@ -12,6 +14,7 @@ class DialogDashboardForm extends Component {
     this.hash = props.hash
     this.symbol = props.symbol
     this.listGroup = props.listGroup
+    this.tradeSideLc = props.tradeSideLc
     this.exitCallback = props.exitCallback
     this.state = props.formValues
   }
@@ -56,6 +59,7 @@ class DialogDashboardForm extends Component {
           handleInputChange={this.handleInputChange}
           symbol={this.props.symbol}
           listGroup={this.props.listGroup}
+          tradeSideLc={this.props.tradeSideLc}
           exitCallback={this.props.exitCallback}
           formValues={this.state}
         />
@@ -66,12 +70,14 @@ class DialogDashboardForm extends Component {
           handleInputChange={this.handleInputChange}
           symbol={this.props.symbol}
           listGroup={this.props.listGroup}
+          tradeSideLc={this.props.tradeSideLc}
           exitCallback={this.props.exitCallback}
           formValues={this.state}
         />
       )
     }
-    let dialogClassName = `dialog-form ${showConfirm ? 'dialog-form-confirm' : 'dialog-form-edit'}`
+    // let dialogClassName = `dialog-form ${showConfirm ? 'dialog-form-confirm' : 'dialog-form-edit'}`
+    let dialogClassName = `${showConfirm ? 'dialog-form-confirm' : 'dialog-form-edit'}`
     return (
       <dialog id={'dialog-params' + this.hash} className={dialogClassName}>
         {dialogContent}
@@ -134,10 +140,9 @@ function EditDialog(props) {
           <span>
             <br />
             <label htmlFor='watched'>Watched</label>
-            <input type='text' name='watched' value={props.formValues.watched} onChange={props.handleInputChange} />
-            <br />
-            <label htmlFor='watchedPrice'>Watched Price</label>
-            <input type='text' name='watchedPrice' value={props.formValues.watchedPrice} onChange={props.handleInputChange} />
+            <input className={'watched-' + props.tradeSideLc} type='text' name='watched' value={props.formValues.watched} onChange={props.handleInputChange} />
+            <label htmlFor='watchedPrice'>Price</label>
+            <input className={'watchedprice-' + props.tradeSideLc} type='text' name='watchedPrice' value={props.formValues.watchedPrice} onChange={props.handleInputChange} />
             <br />
           </span>
         ) : null}
@@ -146,34 +151,30 @@ function EditDialog(props) {
           <span>
             <br />
             <label htmlFor='entered'>Entered</label>
-            <input type='text' name='entered' value={props.formValues.entered} onChange={props.handleInputChange} />
-            <br />
-            <label htmlFor='enteredPrice'>Entered Price</label>
-            <input type='text' name='enteredPrice' value={props.formValues.enteredPrice} onChange={props.handleInputChange} />
+            <input className={'entered-' + props.tradeSideLc} type='text' name='entered' value={props.formValues.entered} onChange={props.handleInputChange} />
+            <label htmlFor='enteredPrice'>Price</label>
+            <input className={'enteredprice-' + props.tradeSideLc} type='text' name='enteredPrice' value={props.formValues.enteredPrice} onChange={props.handleInputChange} />
             <br />
             <label htmlFor='filledQuantity'>Quantity</label>
-            <input type='text' name='filledQuantity' value={props.formValues.filledQuantity} onChange={props.handleInputChange} />
+            <input className={'filledquantity-' + props.tradeSideLc} type='text' name='filledQuantity' value={props.formValues.filledQuantity} onChange={props.handleInputChange} />
             <br />
           </span>
         ) : null}
         <br />
         <label htmlFor='instruction'>Order</label>
-        <input type='text' name='instruction' value={props.formValues.instruction} onChange={props.handleInputChange} />
-        <br />
-        <label htmlFor='orderType'>Order Type</label>
-        <input type='text' name='orderType' value={props.formValues.orderType} onChange={props.handleInputChange} />
+        <input className={'instruction-' + props.tradeSideLc} type='text' name='instruction' value={props.formValues.instruction} onChange={props.handleInputChange} />
+        <label htmlFor='orderType'>Type</label>
+        <input className={'ordertype-' + props.tradeSideLc} type='text' name='orderType' value={props.formValues.orderType} onChange={props.handleInputChange} />
         <br />
         <label htmlFor='quantity'>Quantity</label>
-        <input type='text' className={'quantity-edit'} name='quantity' value={props.formValues.quantity} onChange={props.handleInputChange} />
-        <br />
-        <label htmlFor='quantityType'>Quantity Type</label>
-        <input type='text' name='quantityType' value={props.formValues.quantityType} onChange={props.handleInputChange} />
+        <input className={'quantity-' + props.tradeSideLc} type='text' name='quantity' value={props.formValues.quantity} onChange={props.handleInputChange} />
+        <label htmlFor='quantityType'>Type</label>
+        <input className={'quantitytype-' + props.tradeSideLc} type='text' name='quantityType' value={props.formValues.quantityType} onChange={props.handleInputChange} />
         <br />
         <label htmlFor='session'>Session</label>
-        <input type='text' name='session' value={props.formValues.session} onChange={props.handleInputChange} />
-        <br />
+        <input className={'session-' + props.tradeSideLc} type='text' name='session' value={props.formValues.session} onChange={props.handleInputChange} />
         <label htmlFor='duration'>Duration</label>
-        <input type='text' name='duration' value={props.formValues.duration} onChange={props.handleInputChange} />
+        <input className={'duration-' + props.tradeSideLc} type='text' name='duration' value={props.formValues.duration} onChange={props.handleInputChange} />
         <br />
         <br />
         {/* ================================================ */}
