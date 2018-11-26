@@ -128,7 +128,7 @@ function replaceProspectObject(theObject) {
   }
 }
 
-export const editListObjectPrarmetersAsync = (hash, parameterData) => {
+export const editListObjectPrarmeters = (hash, parameterData) => {
   return (dispatch, getState) => {
     let ourState = getState() //to  search the list for the target object
     let foundObject = ourState.longs.find((obj) => obj.hash === hash)
@@ -139,7 +139,7 @@ export const editListObjectPrarmetersAsync = (hash, parameterData) => {
     if (!foundObject) foundObject = ourState.trendbuys.find((obj) => obj.hash === hash)
     if (!foundObject) foundObject = ourState.results.find((obj) => obj.hash === hash)
     if (!foundObject) {
-      alert('No foundObject in "editListObjectPrarmetersAsync"')
+      alert('No foundObject in "editListObjectPrarmeters"')
       debugger //stop for developer
     }
     let newObject = cloneDeep(foundObject)

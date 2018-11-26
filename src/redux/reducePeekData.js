@@ -65,6 +65,16 @@ export default function(state, peekdataobject, theDate) {
      * End of the special operation
      */
 
+    /**
+     * Another special operation to update existing 'quantity' values
+     */
+    if (obj.dashboard.quantity === 'ALL SHARES' || obj.dashboard.quantity === 'ALL_SHARES') {
+      obj.dashboard.quantity = 'ALL'
+    }
+    /**
+     * End of another special operation
+     */
+
     let symbol = obj.symbol
     let lastPrice = peekdataobject[symbol]
     obj['peekDate'] = theDate

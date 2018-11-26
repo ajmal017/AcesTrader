@@ -33,23 +33,29 @@ class ChartsView extends Component {
     // Depending on the initial parent, the cells array will be
     // Buy prospects, ShortSale prospects, TrendBuy prospects,
     // Long positions, Short positions, or TrendLong positions
-    return (
-      <div>
-        <div id="charts-host" className="charts-host">
-          {cells}
-        </div>
 
-        <div className="footnote">
+    // This "footnoteExpanded" hack is needed for iOS bug in showing the
+    // HTML Dialog element when the page height is too small for the dialog
+    let footnoteExpanded = false
+    if (cells.length === 1) {
+      footnoteExpanded = true
+    }
+
+    return (
+      <div id='charts-host'>
+        <main className='charts-host'>{cells}</main>
+
+        <footer className={` ${footnoteExpanded ? 'footnoteExpanded' : 'footnote'}`}>
           <span>
             Copyright &copy; 2018{' '}
-            <a href={process.env.PUBLIC_URL + '/bm.html'} target="_blank" rel=" noopener noreferrer">
+            <a href={process.env.PUBLIC_URL + '/bm.html'} target='_blank' rel=' noopener noreferrer'>
               Bruce Martin
             </a>
           </span>
           <span>
-            <a href="https://icons8.com">Pencil Icon by Icons8</a>
+            <a href='https://icons8.com'>Pencil Icon by Icons8</a>
           </span>
-        </div>
+        </footer>
       </div>
     )
   }
