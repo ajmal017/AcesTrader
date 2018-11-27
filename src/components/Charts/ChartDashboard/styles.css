@@ -75,10 +75,12 @@ label {
 
 .entry-order-button {
   font-size: 16px;
+  background: #ced4da;
 }
 
 .entry-order-button:hover {
-  background: #ced4da;
+  background: #c7c4dd;
+  /* background: #ced4da; */
 }
 
 .delete-prospect-button {
