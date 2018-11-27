@@ -399,7 +399,6 @@ class Chartcell extends Component {
         <div id={wrapperId} className={`chart-cell-wrapper  ${this.state.showDialog ? 'chart-cell-expanded' : ''} ${this.state.hide ? 'fadeout' : ''}`}>
           {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
           <div id={cell_id} className='chart-cell'>
-            {/* <div className="chart-cell-header"> */}
             <div className='graph-header'>
               <span className='trade-desc'>{tradeDesc}</span>
               <span className='cell-title'>{chart_name}</span>
@@ -420,7 +419,6 @@ class Chartcell extends Component {
                 &times;
               </button>
             </div>
-            {/* </div> */}
             <div id={chartId} className='graph-content'>
               {this.state.noprices ? (
                 <div id={cell_id} className='chart-cell-wrapper'>

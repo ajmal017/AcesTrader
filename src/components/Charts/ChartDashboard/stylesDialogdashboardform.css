@@ -10,16 +10,16 @@
   margin: auto;
 }
 
-.button-pencil-image-absolute {
+.dashboard-button-pencil-image-absolute {
   position: absolute;
-  right: 18px;
+  right: 6px;
   bottom: 10px;
   background: #f9f9f9;
   /* height: 36; */
   border: #f9f9f9;
   opacity: 0.5;
 }
-.button-pencil-image-absolute:hover {
+.dashboard-button-pencil-image-absolute:hover {
   background: #cac8c8dc;
 }
 

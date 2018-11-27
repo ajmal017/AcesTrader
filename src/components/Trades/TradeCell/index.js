@@ -134,7 +134,7 @@ class TradeCell extends Component {
         />
         {/* the TradCell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
         <div id={cell_id} className='trade-cell'>
-          <button onClick={this.handleEditDialogOpen} className={'button-pencil-image-absolute'}>
+          <button onClick={this.handleEditDialogOpen} className={'tradecell-button-pencil-image-absolute'}>
             <img
               alt=''
               src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC'
@@ -143,7 +143,7 @@ class TradeCell extends Component {
           <div className='trade-header'>
             <span className='trade-title-formatting'>{symbol}</span>
             <span className='tradeside-formatting'>Trade: {this.tradeSide}</span>
-            <button onClick={this.handleDelete} className='trade-button' type='button' aria-label='delete'>
+            <button onClick={this.handleDelete} className='trade-delete-button' type='button' aria-label='delete'>
               &times;
             </button>
           </div>
