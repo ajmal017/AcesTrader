@@ -216,7 +216,7 @@ class ChartDashboard extends Component {
                 {this.buttonLabel} {this.symbol}
               </button>
             </div>
-            <button onClick={this.handleEditDialogOpen} className={'button-pencil-image-absolute'}>
+            <button onClick={this.handleEditDialogOpen} className={'dashboard-button-pencil-image-absolute'}>
               <img
                 alt=''
                 src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC'

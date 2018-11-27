@@ -1,15 +1,15 @@
 /* dialogtradeform.css */
 
-.button-pencil-image-absolute {
+.tradecell-button-pencil-image-absolute {
   position: absolute;
-  right: 18px;
+  right: 14px;
   bottom: 10px;
   background: #f9f9f9;
   height: 36;
   border: #f9f9f9;
   opacity: 0.5;
 }
-.button-pencil-image-absolute:hover {
+.tradecell-button-pencil-image-absolute:hover {
   background: #cac8c8dc;
 }
 
@@ -61,16 +61,3 @@ dialog {
 .dialog-buttonl:hover {
   background: #cac8c8dc;
 }
-
-/* .dialog-button-submit:hover {
-  background: #cac8c8dc;
-}
-.dialog-button-cancel {
-  position: absolute;
-  right: 16px;
-  bottom: 14px;
-  background: #f9f9f9;
-}
-.dialog-button-cancel:hover {
-  background: #cac8c8dc;
-} */

@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react'
 import dialogPolyfill from 'dialog-polyfill'
-// import EditDialog from './EditDialog'
 import './stylesDialogdashboardform.css'
 import './stylesTextWidths.css'
 
@@ -105,8 +104,7 @@ function ConfirmDialog(props) {
         <div className={'order-pending'}>
           <p>{orderString}</p>
         </div>
-        <span>
-          className={'dialog-button-row'}>
+        <span className={'dialog-button-row'}>
           <button
             className={'dialog-button'}
             type='submit'
