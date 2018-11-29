@@ -21,6 +21,10 @@ class DialogDashboardForm extends Component {
   componentDidMount() {
     this.dialogDashboardParams = document.getElementById('dialog-params' + this.hash)
     dialogPolyfill.registerDialog(this.dialogDashboardParams) // Now dialog acts like a native <dialog>.
+    document.body.appendChild(this.dialogDashboardParams)
+  }
+  componentWillUnmount() {
+    document.body.removeChild(this.dialogDashboardParams)
   }
 
   componentDidUpdate(prevProps) {

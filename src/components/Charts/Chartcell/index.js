@@ -36,7 +36,7 @@ class Chartcell extends Component {
     super(props)
     this.handleEditChartParams = this.handleEditChartParams.bind(this)
     this.handleRadioChange = this.handleRadioChange.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this)
+    // this.handleInputChange = this.handleInputChange.bind(this)
     this.handleEntry = this.handleEntry.bind(this)
     this.handleOrderDispatch = this.handleOrderDispatch.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
@@ -54,14 +54,14 @@ class Chartcell extends Component {
     }
   }
 
-  handleInputChange(event) {
-    const target = event.target
-    const name = target.name
-    const value = target.value
-    this.setState({
-      [name]: value,
-    })
-  }
+  // handleInputChange(event) {
+  //   const target = event.target
+  //   const name = target.name
+  //   const value = target.value
+  //   this.setState({
+  //     [name]: value,
+  //   })
+  // }
 
   handleRadioChange(event) {
     const value = event.target.value
@@ -75,38 +75,32 @@ class Chartcell extends Component {
     // Reset the state of dialog's values, using the current props, to replace left-over values from a canceled updated
     let weeklyBars = this.props.cellObject.weeklyBars ? true : false
     let macdChart = this.props.cellObject.macdChart ? true : false
-
-    /* Note: showDialog usage is a special hack for iPad display workaround */
-    /* Without this, the dialog is clipped to the list object's window height, */
-    /* and is useless for editing all the list object's data. */
-    this.setState({ weeklyBars: weeklyBars, macdChart: macdChart, showDialog: true })
+    this.setState({ weeklyBars: weeklyBars, macdChart: macdChart })
 
     // console.log(`Model Entrance weeklyBars=${weeklyBars} macdChart=${macdChart}`)
-    console.log(JSON.stringify(this.state, null, 2)) // a readable log of the object's json
-    // Right click > Copies All in the Console panel to copy to clipboard
+    // console.log(JSON.stringify(this.state, null, 2)) // a readable log of the object's json
+    // note: Right click > Copies All in the Console panel to copy to clipboard
     this.dialogChartParams.showModal()
     let self = this //Note: bind(this) does not seem to work here. Polyfill problem?
     this.dialogChartParams.addEventListener('close', function(event) {
       if (self.dialogChartParams.returnValue === 'yes') {
-        // Save the parameterData which is an object with key/value pairs for each form field: {name: value, name: value, ...}
+        // Note that this.State has been updated by handleRadioChange() above
+        // Save the parameterData which is an object with key/value pairs for each form field: {name: value, name: value}
         let parameterData = { weeklyBars: self.state.weeklyBars, macdChart: self.state.macdChart }
         self.props.dispatch(editListObjectPrarmeters(self.hash, parameterData))()
         // Note: this dispatch changes the store's state which re-renders this component delivering new props
       }
-      if (this.state.showDialog) {
-        this.setState({ showDialog: false })
-      }
     })
     this.dialogChartParams.addEventListener('cancel', function(event) {
       event.preventDefault() // disables using the Esc button to close
-      if (this.state.showDialog) {
-        this.setState({ showDialog: false })
-      }
     })
   }
 
   componentDidMount() {
-    // first try to recover cached price data to avoid another http request
+    this.dialogChartParams = document.getElementById('chart-params' + this.hash)
+    dialogPolyfill.registerDialog(this.dialogChartParams) // Now dialog acts like a native <dialog>.
+    document.body.appendChild(this.dialogChartParams)
+    // try to recover cached price data to avoid another http request
     this.data = cloneDeep(getPriceData(this.props.cellObject.symbol))
     if (this.data) {
       this.setState({ data: true, hide: false }) //data is available in cache
@@ -115,12 +109,11 @@ class Chartcell extends Component {
     }
   }
 
+  componentWillUnmount() {
+    document.body.removeChild(this.dialogChartParams)
+  }
+
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.data === false && this.state.data === true) {
-      // the render() call has loaded the DOM at this time
-      this.dialogChartParams = document.getElementById('chart-params' + this.hash)
-      dialogPolyfill.registerDialog(this.dialogChartParams) // Now dialog acts like a native <dialog>.
-    }
     if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
       this.loadChartData(this.props.cellObject.weeklyBars)
     }
@@ -148,6 +141,7 @@ class Chartcell extends Component {
         console.log('getChartData axios error:', error.message)
         // self.setState({ data: true, noprices: true, hide: false })
         alert('getChartData axios error: ' + error.message) //rude interruption to user
+        debugger // pause for developer
       })
   }
   convertToWeeklyBars = (data) => {
@@ -354,13 +348,13 @@ class Chartcell extends Component {
     //   )
     // }
 
-    if (!this.state.data) {
-      return (
-        <div className='chart-cell-wrapper'>
-          <h4>{`Loading Chart ${chart_name}. Please Wait...`}</h4>
-        </div>
-      )
-    }
+    // if (!this.state.data) {
+    //   return (
+    //     <div className='chart-cell-wrapper'>
+    //       <h4>{`Loading Chart ${chart_name}. Please Wait...`}</h4>
+    //     </div>
+    //   )
+    // }
 
     // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the corrent data for the new current symbol
@@ -396,7 +390,7 @@ class Chartcell extends Component {
             </span>
           </form>
         </dialog>
-        <div id={wrapperId} className={`chart-cell-wrapper  ${this.state.showDialog ? 'chart-cell-expanded' : ''} ${this.state.hide ? 'fadeout' : ''}`}>
+        <div id={wrapperId} className={`chart-cell-wrapper  ${this.state.hide ? 'fadeout' : ''}`}>
           {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
           <div id={cell_id} className='chart-cell'>
             <div className='graph-header'>
@@ -421,9 +415,13 @@ class Chartcell extends Component {
             </div>
             <div id={chartId} className='graph-content'>
               {this.state.noprices ? (
-                <div id={cell_id} className='chart-cell-wrapper'>
+                <div id={cell_id} className='chart-cell-alert-wrapper'>
                   {' '}
                   <h4>{`No Prices Available For ${chart_name}.`}</h4>
+                </div>
+              ) : !this.state.data ? (
+                <div id={cell_id} className='chart-cell-alert-wrapper'>
+                  <h4>{`Loading Chart ${chart_name}. Please Wait...`}</h4>
                 </div>
               ) : (
                 <ErrorBoundary chart={true}>

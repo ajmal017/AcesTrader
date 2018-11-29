@@ -1,5 +1,14 @@
 /* Chartcell/styles.css */
 
+.chart-cell-alert-wrapper {
+  background-color: #f9f9f9;
+  padding: 0 10px 0px 10px;
+  margin: 40px 0 0 20px;
+  overflow: hidden;
+  visibility: visible;
+  opacity: 1;
+}
+
 .chart-cell-wrapper {
   background-color: #f9f9f9;
   border-radius: 5px;
@@ -9,10 +18,6 @@
   overflow: hidden;
   visibility: visible;
   opacity: 1;
-}
-
-.chart-cell-wrapper.chart-cell-expanded {
-  height: 440px;
 }
 
 .chart-cell-wrapper.fadeout {

@@ -5,8 +5,7 @@
   background-color: #f5f5f5;
   margin-top: 60px;
   /*body's padding-top plus this page margin-top moves content below the fixed navbar and toolbar*/
- }
-
+}
 
 .charts-host {
   display: grid;
@@ -15,14 +14,4 @@
   grid-auto-rows: minmax(300px, auto);
   grid-gap: 10px;
   border-bottom: 1px solid #ced4da;
-}
-
-/* This hack is needed for iOS bug in showing the */
-/* HTML Dialog element when the page height is too small for the dialog */
-.footnoteExpanded{
-  height: 300px;
-  margin-left: 20px;
-  margin-right: 20px;
-  display: flex;
-  justify-content: space-between;
 }
