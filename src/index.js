@@ -22,6 +22,11 @@ import App from './components/App'
 // which tells to upgrade browser or use bigger screen.
 import canapprun from './lib/canapprun.js'
 import pinverified from './lib/pinverified.js'
+import getOS from './lib/getOS.js'
+
+// The getOS tests for an iOS or an Android OS and sets an global flag showing which is running.
+// The flag is used to trigger any required programming hacks to work around OS problems.
+getOS()
 
 // The canapprun() tests for CSS Grid Layout feature, as it is required for the app's views.
 // And the screen size is tested, as a minimum size is required for the app's views.

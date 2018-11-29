@@ -20,6 +20,10 @@ class DialogTradeForm extends Component {
   componentDidMount() {
     this.dialogTradeParams = document.getElementById('dialog-params' + this.hash)
     dialogPolyfill.registerDialog(this.dialogTradeParams) // Now dialog acts like a native <dialog>.
+    document.body.appendChild(this.dialogTradeParams)
+  }
+  componentWillUnmount() {
+    document.body.removeChild(this.dialogTradeParams)
   }
 
   componentDidUpdate(prevProps) {

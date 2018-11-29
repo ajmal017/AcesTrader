@@ -1,9 +1,9 @@
 .footnote {
-  margin-top: 20px;
+  margin-top: 0;
   margin-left: 20px;
   margin-right: 20px;
   padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 18px;
   /*background-color: blue;*/
   display: flex;
   justify-content: space-between;

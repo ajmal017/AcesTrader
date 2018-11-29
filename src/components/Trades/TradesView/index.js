@@ -25,9 +25,23 @@ export default class TradesView extends Component {
 
     // Each cell is a TradeList component with one trade object to render
     return (
-      <div id="trades-host" className="trades-host">
-        {cells}
-      </div>
+      <>
+        <main id='trades-host' className='trades-host'>
+          {cells}
+        </main>
+
+        <footer className={'footnote'}>
+          <span>
+            Copyright &copy; 2018{' '}
+            <a href={process.env.PUBLIC_URL + '/bm.html'} target='_blank' rel=' noopener noreferrer'>
+              Bruce Martin
+            </a>
+          </span>
+          <span>
+            <a href='https://icons8.com'>Pencil Icon by Icons8</a>
+          </span>
+        </footer>
+      </>
     )
   }
 }
