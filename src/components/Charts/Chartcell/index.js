@@ -34,11 +34,12 @@ var cloneDeep = require('lodash.clonedeep')
 class Chartcell extends Component {
   constructor(props) {
     super(props)
-    this.handleEditChartParams = this.handleEditChartParams.bind(this)
+    this.handleEditChartParamsDialog = this.handleEditChartParamsDialog.bind(this)
     this.handleRadioChange = this.handleRadioChange.bind(this)
     // this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleEntry = this.handleEntry.bind(this)
+    this.handleOrderEntry = this.handleOrderEntry.bind(this)
     this.handleOrderDispatch = this.handleOrderDispatch.bind(this)
+    this.handleDispatchOfDialogEdit = this.handleDispatchOfDialogEdit.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
     this.handleDeleteDispatch = this.handleDeleteDispatch.bind(this)
     this.loadChartData = this.loadChartData.bind(this)
@@ -47,59 +48,18 @@ class Chartcell extends Component {
     this.values = null //array of price values from API call
     this.filteredValues = null //array of price values remaining after filter
     this.data = null
+    this.dispatch = this.props.dispatch
     this.state = {
       data: false,
       hide: false,
       noprices: false,
+      isDialogShowing: false,
     }
-  }
-
-  // handleInputChange(event) {
-  //   const target = event.target
-  //   const name = target.name
-  //   const value = target.value
-  //   this.setState({
-  //     [name]: value,
-  //   })
-  // }
-
-  handleRadioChange(event) {
-    const value = event.target.value
-    if (value === 'daily') this.setState({ weeklyBars: false })
-    if (value === 'weekly') this.setState({ weeklyBars: true })
-    if (value === 'ma') this.setState({ macdChart: false })
-    if (value === 'macd') this.setState({ macdChart: true })
-  }
-
-  handleEditChartParams(event) {
-    // Reset the state of dialog's values, using the current props, to replace left-over values from a canceled updated
-    let weeklyBars = this.props.cellObject.weeklyBars ? true : false
-    let macdChart = this.props.cellObject.macdChart ? true : false
-    this.setState({ weeklyBars: weeklyBars, macdChart: macdChart })
-
-    // console.log(`Model Entrance weeklyBars=${weeklyBars} macdChart=${macdChart}`)
-    // console.log(JSON.stringify(this.state, null, 2)) // a readable log of the object's json
-    // note: Right click > Copies All in the Console panel to copy to clipboard
-    this.dialogChartParams.showModal()
-    let self = this //Note: bind(this) does not seem to work here. Polyfill problem?
-    this.dialogChartParams.addEventListener('close', function(event) {
-      if (self.dialogChartParams.returnValue === 'yes') {
-        // Note that this.State has been updated by handleRadioChange() above
-        // Save the parameterData which is an object with key/value pairs for each form field: {name: value, name: value}
-        let parameterData = { weeklyBars: self.state.weeklyBars, macdChart: self.state.macdChart }
-        self.props.dispatch(editListObjectPrarmeters(self.hash, parameterData))()
-        // Note: this dispatch changes the store's state which re-renders this component delivering new props
-      }
-    })
-    this.dialogChartParams.addEventListener('cancel', function(event) {
-      event.preventDefault() // disables using the Esc button to close
-    })
   }
 
   componentDidMount() {
     this.dialogChartParams = document.getElementById('chart-params' + this.hash)
     dialogPolyfill.registerDialog(this.dialogChartParams) // Now dialog acts like a native <dialog>.
-    document.body.appendChild(this.dialogChartParams)
     // try to recover cached price data to avoid another http request
     this.data = cloneDeep(getPriceData(this.props.cellObject.symbol))
     if (this.data) {
@@ -109,24 +69,88 @@ class Chartcell extends Component {
     }
   }
 
-  componentWillUnmount() {
-    document.body.removeChild(this.dialogChartParams)
+  handleRadioChange(event) {
+    const value = event.target.value
+    if (value === 'daily') this.setState({ weeklyBars: false })
+    if (value === 'weekly') this.setState({ weeklyBars: true })
+    if (value === 'ma') this.setState({ macdChart: false })
+    if (value === 'macd') this.setState({ macdChart: true })
   }
 
+  handleEditChartParamsDialog(event) {
+    // Reset the state of dialog's values, using the current props, to replace left-over values from a canceled updated
+    let weeklyBars = this.props.cellObject.weeklyBars ? true : false
+    let macdChart = this.props.cellObject.macdChart ? true : false
+    this.setState({ weeklyBars: weeklyBars, macdChart: macdChart, isDialogShowing: true })
+    // document.body.appendChild(this.dialogChartParams)
+    this.dialogChartParams.showModal()
+    this.dialogChartParams.addEventListener('close', (event) => {
+      // let dialogParentElement = document.getElementById('chart-main' + this.hash)
+      // // document.body.removeChild(this.dialogChartParams)
+      // dialogParentElement.appendChild(this.dialogChartParams)
+      // let theParent = this.dialogChartParams.parentNode
+      if (this.dialogChartParams.returnValue === 'yes') {
+        // Note that this.State has been updated by handleRadioChange() calls from the <dialog/> element
+
+        setTimeout(this.handleDispatchOfDialogEdit, 100)
+
+        // let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
+        // this.dispatch(editListObjectPrarmeters(this.hash, parameterData))()
+
+        // this.setState({ isDispatchable: true }) // trigger update with new parameter data
+
+        // Save the parameterData which is an object with key/value pairs for each form field: {name: value, name: value}
+        // let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
+        // this.dispatch(editListObjectPrarmeters(this.hash, parameterData))()
+        // Note: this dispatch changes the store's state which re-renders this component delivering new props
+      } else {
+        this.setState({ isDialogShowing: false }) // allow component to update
+      }
+    })
+    this.dialogChartParams.addEventListener('cancel', function(event) {
+      event.preventDefault() // disables using the Esc button to close
+    })
+  }
+
+  handleDispatchOfDialogEdit() {
+    // updated list object parameter values are in this.state from the edit dialog
+    this.setState({ isDialogShowing: false }) // allow component to update
+    let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
+    this.props.dispatch(editListObjectPrarmeters(this.hash, parameterData)) // renders updated chart
+  }
+
+  // componentWillUnmount() {
+  //   document.body.removeChild(this.dialogChartParams)
+  // }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (this.state.isDialogShowing || nextState.isDialogShowing) {
+  //     return false // don't trigger a render() on dialog form changes
+  //   }
+  //   return true
+  // }
+
   componentDidUpdate(prevProps, prevState) {
+    // if (this.state.isDispatchable) {
+    //   // new list object parameter values were saved from the edit dialog
+    //   let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
+    //   this.props.dispatch(editListObjectPrarmeters(this.hash, parameterData))()
+    //   this.setState({ isDispatchable: false })
+    // }
     if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
-      this.loadChartData(this.props.cellObject.weeklyBars)
+      this.loadChartData(this.props.cellObject.weeklyBars) // produce daily or weekly bars depending on the boolean value of weeklyBars
     }
   }
 
-  // dailyBars if weeklyBars===false
+  // dailyBars considered true if weeklyBars===false
   loadChartData = (weeklyBars = false) => {
     const symbol = this.props.cellObject.symbol
     const range = weeklyBars ? '5y' : '1y'
     const self = this
-    // console.log(`loadChartData ${symbol}, Range=${weeklyBars ? '5y' : '1y'}`)
+    console.log(`loadChartData ${symbol}, Range=${weeklyBars ? '5y' : '1y'}`)
     getChartData(symbol, range)
       .then(function(data) {
+        console.log('getChartData axios response: data.length=', data.length)
         if (data.length < 2) {
           //CandleStickChartWithMA bug seen with new issue "TRTY" when only 0 or 1 day's data available
           //Memory leak reported by VSCode, seems to cause many weird code mistakes when running
@@ -217,7 +241,7 @@ class Chartcell extends Component {
   //     })
   // }
 
-  handleEntry() {
+  handleOrderEntry() {
     // fade-out this object before dispatching redux action,
     // which will remove this object and then
     // will snap in new object and reset all props.
@@ -361,7 +385,7 @@ class Chartcell extends Component {
     this.data = getPriceData(this.props.cellObject.symbol)
 
     return (
-      <>
+      <div id={'chart-main' + this.hash}>
         <dialog id={'chart-params' + this.hash} className={'chart-dialog-form'}>
           <span className={'edit-symbol'}> {this.symbol} - Make Your Changes Below.</span>
           <br />
@@ -401,7 +425,7 @@ class Chartcell extends Component {
               {/* <button onClick={this.getLastBar} className="cell-getlast-button" type="button" aria-label="getlast">
               Get Last
             </button> */}
-              <button onClick={this.handleEditChartParams} className={'chart-edit-button'}>
+              <button onClick={this.handleEditChartParamsDialog} className={'chart-edit-button'}>
                 <img
                   alt=''
                   src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC'
@@ -447,11 +471,11 @@ class Chartcell extends Component {
               )}
             </div>
             <div className='dashboard-center'>
-              <ChartDashboard handleEntry={this.handleEntry} cellObject={cellObject} />
+              <ChartDashboard handleOrderEntry={this.handleOrderEntry} cellObject={cellObject} />
             </div>
           </div>
         </div>
-      </>
+      </div>
     )
   }
 }

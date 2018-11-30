@@ -59,7 +59,7 @@ class ChartDashboard extends Component {
         // the returnValue has an object with key/value pairs for each form field: {name: value, name: value, ...}
         this.props.dispatch(editListObjectPrarmeters(this.hash, returnValue.formFields))
       } else if (returnValue.action === 'confirm') {
-        this.props.handleEntry() // the order entry was confirmed
+        this.props.handleOrderEntry() // the order entry was confirmed
       } else {
         alert('Missing returnValue.action in handleEditDialogClose')
         debugger // pause for developer
@@ -212,7 +212,7 @@ class ChartDashboard extends Component {
 
           <div className='dashboard-footer'>
             <div>
-              <button className={'entry-order-button'} onClick={this.handleOrderEntry} style={{ background: 'rgba(' + `${this.rgbaBackground}` + ')' }}>
+              <button className={'entry-order-button'} onClick={this.handleOrderEntry} style={{ background: `rgba(${this.rgbaBackground})` }}>
                 {this.buttonLabel} {this.symbol}
               </button>
             </div>
@@ -229,7 +229,7 @@ class ChartDashboard extends Component {
   }
 }
 ChartDashboard.propTypes = {
-  handleEntry: PropTypes.func.isRequired,
+  handleOrderEntry: PropTypes.func.isRequired,
   cellObject: PropTypes.object.isRequired,
 }
 
