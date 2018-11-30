@@ -1,6 +1,6 @@
 // getOS.js
 
-var userOS
+// var userOS = null
 export default function() {
   window.userOS = 'unknown' //create a windows global variable
   var ua = navigator.userAgent

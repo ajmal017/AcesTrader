@@ -54,7 +54,7 @@ class DialogDashboardForm extends Component {
   }
 
   render() {
-    const showConfirm = this.props.showConfirm
+    const showConfirm = this.props.showConfirm //get the boolean switch value
     let dialogContent
     if (showConfirm) {
       dialogContent = (
@@ -133,7 +133,6 @@ function ConfirmDialog(props) {
   )
 }
 function EditDialog(props) {
-  const listGroup = props.listGroup
   return (
     <>
       <span className={'edit-symbol'}> {props.symbol} - Make Your Changes</span>
