@@ -10,7 +10,7 @@ import './styles.css'
 
 class ChartsView extends Component {
   componentDidMount() {
-    // throw new Error('An error has occured in Buggy ChartsView component!')
+    // throw new Error('An error has occured in Buggy ChartsView component!') // for testing Sentry
     window.scrollTo(0, 0)
     // Each time More/Peek is clicked, the peekPricesObject is created.
     // Then when Prospects , Positions or Trades is opened, the
@@ -20,7 +20,7 @@ class ChartsView extends Component {
     let peekPricesObject = getPeekPrices()
     let peekPricesArray = Object.keys(peekPricesObject)
     if (peekPricesArray.length > 0) {
-      this.props.dispatch(updateDashboardPeekData(peekPricesObject))
+      this.props.dispatch(updateDashboardPeekData(peekPricesObject)) //reducers update each list object
     }
     resetPeekPrices()
   }
@@ -34,10 +34,15 @@ class ChartsView extends Component {
     // Buy prospects, ShortSale prospects, TrendBuy prospects,
     // Long positions, Short positions, or TrendLong positions
 
+    let footnoteExpandsion = 0
+    if (cells.length < 2) {
+      footnoteExpandsion = 40 //make space for the <dialog> window
+    }
+
     return (
       <div id='charts-host'>
         <main className='charts-host'>{cells}</main>
-        <footer className={'footnote'}>
+        <footer className={'footnote'} footnoteExpandsion={footnoteExpandsion}>
           <span>
             Copyright &copy; 2018{' '}
             <a href={process.env.PUBLIC_URL + '/bm.html'} target='_blank' rel=' noopener noreferrer'>
@@ -48,6 +53,24 @@ class ChartsView extends Component {
             <a href='https://icons8.com'>Pencil Icon by Icons8</a>
           </span>
         </footer>
+
+        {/* this hack is to provide sufficient space so the <dialog> model window is not cropped */}
+        {cells.length < 2 ? (
+          <div>
+            <div>
+              <br />
+            </div>
+            <div>
+              <br />
+            </div>
+            <div>
+              <br />
+            </div>
+            )
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     )
   }

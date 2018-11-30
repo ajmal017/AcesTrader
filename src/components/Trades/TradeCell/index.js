@@ -72,6 +72,7 @@ class TradeCell extends Component {
       el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
     }
   }
+
   handleEditDialogOpen(event) {
     this.setState({
       showDialog: true,
