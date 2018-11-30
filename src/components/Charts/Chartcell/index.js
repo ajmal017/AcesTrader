@@ -77,6 +77,13 @@ class Chartcell extends Component {
     if (value === 'macd') this.setState({ macdChart: true })
   }
 
+  // Note: a recommended procedure is to move the dialog object to be a child of window.body.
+  // That procedure is done in the Trades component, and seems to work fine.
+  // But it did not work here, as it seemed to confuse the ReactStockcharts component when
+  // values in the dialog form, which were used by the charts, were changed by updating the local state.
+  // When clicking Save, the results were handled by the reducers, but after that a return to the rendered
+  // charts produced exceptions apparently from some D3 routines.
+
   handleEditChartParamsDialog(event) {
     // Reset the state of dialog's values, using the current props, to replace left-over values from a canceled updated
     let weeklyBars = this.props.cellObject.weeklyBars ? true : false

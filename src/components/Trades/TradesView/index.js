@@ -41,6 +41,24 @@ export default class TradesView extends Component {
             <a href='https://icons8.com'>Pencil Icon by Icons8</a>
           </span>
         </footer>
+
+        {/* this hack is to provide sufficient space so the <dialog> model window is not cropped */}
+        {cells.length < 4 ? (
+          <div>
+            <div>
+              <br />
+            </div>
+            <div>
+              <br />
+            </div>
+            <div>
+              <br />
+            </div>
+            )
+          </div>
+        ) : (
+          ''
+        )}
       </>
     )
   }
