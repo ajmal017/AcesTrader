@@ -34,15 +34,10 @@ class ChartsView extends Component {
     // Buy prospects, ShortSale prospects, TrendBuy prospects,
     // Long positions, Short positions, or TrendLong positions
 
-    let footnoteExpandsion = 0
-    if (cells.length < 2) {
-      footnoteExpandsion = 40 //make space for the <dialog> window
-    }
-
     return (
       <div id='charts-host'>
         <main className='charts-host'>{cells}</main>
-        <footer className={'footnote'} footnoteExpandsion={footnoteExpandsion}>
+        <footer className={'footnote'}>
           <span>
             Copyright &copy; 2018{' '}
             <a href={process.env.PUBLIC_URL + '/bm.html'} target='_blank' rel=' noopener noreferrer'>
@@ -55,22 +50,7 @@ class ChartsView extends Component {
         </footer>
 
         {/* this hack is to provide sufficient space so the <dialog> model window is not cropped */}
-        {cells.length < 2 ? (
-          <div>
-            <div>
-              <br />
-            </div>
-            <div>
-              <br />
-            </div>
-            <div>
-              <br />
-            </div>
-            )
-          </div>
-        ) : (
-          ''
-        )}
+        {cells.length < 2 ? <div style={{ height: 300 }}> </div> : ''}
       </div>
     )
   }
