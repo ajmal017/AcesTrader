@@ -50,7 +50,7 @@ class ChartsView extends Component {
         </footer>
 
         {/* this hack is to provide sufficient space so the <dialog> model window is not cropped */}
-        {cells.length < 2 ? <div style={{ height: 600, backgroundColor: '#bac8ff' }}> </div> : ''}
+        {/* {cells.length < 2 ? <div style={{ height: 600, backgroundColor: '#bac8ff' }}> </div> : ''} */}
       </div>
     )
   }
