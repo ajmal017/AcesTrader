@@ -43,7 +43,7 @@ export default class TradesView extends Component {
         </footer>
 
         {/* this hack is to provide sufficient space so the <dialog> model window is not cropped */}
-        {cells.length < 4 ? (
+        {/* {cells.length < 4 ? (
           <div>
             <div>
               <br />
@@ -58,7 +58,7 @@ export default class TradesView extends Component {
           </div>
         ) : (
           ''
-        )}
+        )} */}
       </>
     )
   }

@@ -1,0 +1,129 @@
+/* stylesDialogChartCellForm.css */
+
+.graph-header {
+  grid-area: graphheader; /* cellheader; */
+  display: inline-flex;
+  width: 100%;
+  background: #f9f9f9;
+}
+.trade-desc {
+  /* background: #f9f9f9;
+    padding: 12px 0 12px 6px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 2px;
+     z-index: 10; */
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 13px;
+  /* margin-left: 20px; */
+  margin-bottom: 2px;
+  z-index: 10;
+}
+.cell-title {
+  background: #f9f9f9;
+  padding: 12px 0 6px 6px;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 10;
+}
+.trade-desc {
+  /* background: #f9f9f9;
+  padding: 12px 0 12px 6px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 2px;
+   z-index: 10; */
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 13px;
+  /* margin-left: 20px; */
+  margin-bottom: 2px;
+  z-index: 10;
+}
+.chart-series-label {
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 13px;
+  margin-left: 16px;
+  margin-bottom: 2px;
+  z-index: 10;
+}
+.chart-indicator-label {
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 13px;
+  margin-left: 18px;
+  margin-bottom: 2px;
+  z-index: 10;
+}
+.cell-getlast-button {
+  align-self: flex-start;
+  margin-top: 11px;
+  margin-left: 35px;
+  font-size: 12px;
+}
+.cell-getlast-button:hover {
+  background: #ced4da;
+}
+.chart-edit-button {
+  margin-top: 4px;
+  margin-left: 18px;
+  background: #f9f9f9;
+  height: 33px;
+  border: #f9f9f9;
+  opacity: 0.5;
+}
+.chart-edit-button:hover {
+  background: #cac8c8dc;
+}
+.chart-dialog-form-edit-form input[type='radio'] {
+  width: 32%;
+  margin-left: 10px;
+  margin-right: 20px;
+  padding: 0px 4px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.chart-radio-grid {
+  display: grid;
+  grid-template-columns: 30px, 20px, 1fr, 30px, 20px, 1fr;
+  grid-template-rows: 30px, 30px;
+  grid-row-gap: 10px;
+  grid-template-areas:
+    'w butDaily labDaily y butMA labMA'
+    'x butWeekly labWeekly z butMACD labMACD';
+}
+.buttonDaily {
+  grid-area: butDaily;
+}
+.buttonWeekly {
+  grid-area: butWeekly;
+}
+.buttonMA {
+  grid-area: butMA;
+}
+.buttonMACD {
+  grid-area: butMACD;
+}
+.labelDaily {
+  grid-area: labDaily;
+}
+.labelWeekly {
+  grid-area: labWeekly;
+}
+.labelMA {
+  grid-area: labMA;
+}
+.labelMACD {
+  grid-area: labMACD;
+}
+.dialog-button-row {
+  display: flex;
+  justify-content: space-evenly;
+}
+/* .dialog-button:hover {
+  background: #cac8c8dc;
+} */

@@ -8,7 +8,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import dialogPolyfill from 'dialog-polyfill'
 import ErrorBoundary from '../../../components/ErrorBoundary/'
 import { removeBuyFromList } from '../../../redux/reducerBuys'
 import { removeSellFromList } from '../../../redux/reducerSells'
@@ -26,6 +25,7 @@ import getChartData from '../../../lib/apiGetChartData'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
 import ChartDashboard from '../ChartDashboard'
+import DialogChartCellForm from './DialogChartCellForm'
 import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import './styles.css'
@@ -34,8 +34,6 @@ var cloneDeep = require('lodash.clonedeep')
 class Chartcell extends Component {
   constructor(props) {
     super(props)
-    this.handleEditChartParamsDialog = this.handleEditChartParamsDialog.bind(this)
-    this.handleRadioChange = this.handleRadioChange.bind(this)
     // this.handleInputChange = this.handleInputChange.bind(this)
     this.handleOrderEntry = this.handleOrderEntry.bind(this)
     this.handleOrderDispatch = this.handleOrderDispatch.bind(this)
@@ -58,8 +56,9 @@ class Chartcell extends Component {
   }
 
   componentDidMount() {
-    this.dialogChartParams = document.getElementById('chart-params' + this.hash)
-    dialogPolyfill.registerDialog(this.dialogChartParams) // Now dialog acts like a native <dialog>.
+    // this.dialogChartParams = document.getElementById('chart-params' + this.hash)
+    // dialogPolyfill.registerDialog(this.dialogChartParams) // Now dialog acts like a native <dialog>.
+    // document.body.appendChild(this.dialogChartParams)
     // try to recover cached price data to avoid another http request
     this.data = cloneDeep(getPriceData(this.props.cellObject.symbol))
     if (this.data) {
@@ -69,81 +68,23 @@ class Chartcell extends Component {
     }
   }
 
-  handleRadioChange(event) {
-    const value = event.target.value
-    if (value === 'daily') this.setState({ weeklyBars: false })
-    if (value === 'weekly') this.setState({ weeklyBars: true })
-    if (value === 'ma') this.setState({ macdChart: false })
-    if (value === 'macd') this.setState({ macdChart: true })
-  }
-
-  // Note: a recommended procedure is to move the dialog object to be a child of window.body.
-  // That procedure is done in the Trades component, and seems to work fine.
-  // But it did not work here, as it seemed to confuse the ReactStockcharts component when
-  // values in the dialog form, which were used by the charts, were changed by updating the local state.
-  // When clicking Save, the results were handled by the reducers, but after that a return to the rendered
-  // charts produced exceptions apparently from some D3 routines.
-
-  handleEditChartParamsDialog(event) {
-    // Reset the state of dialog's values, using the current props, to replace left-over values from a canceled updated
-    let weeklyBars = this.props.cellObject.weeklyBars ? true : false
-    let macdChart = this.props.cellObject.macdChart ? true : false
-    this.setState({ weeklyBars: weeklyBars, macdChart: macdChart, isDialogShowing: true })
-    // document.body.appendChild(this.dialogChartParams)
-    this.dialogChartParams.showModal()
-    this.dialogChartParams.addEventListener('close', (event) => {
-      // let dialogParentElement = document.getElementById('chart-main' + this.hash)
-      // // document.body.removeChild(this.dialogChartParams)
-      // dialogParentElement.appendChild(this.dialogChartParams)
-      // let theParent = this.dialogChartParams.parentNode
-      if (this.dialogChartParams.returnValue === 'yes') {
-        // Note that this.State has been updated by handleRadioChange() calls from the <dialog/> element
-
-        setTimeout(this.handleDispatchOfDialogEdit, 100)
-
-        // let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
-        // this.dispatch(editListObjectPrarmeters(this.hash, parameterData))()
-
-        // this.setState({ isDispatchable: true }) // trigger update with new parameter data
-
-        // Save the parameterData which is an object with key/value pairs for each form field: {name: value, name: value}
-        // let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
-        // this.dispatch(editListObjectPrarmeters(this.hash, parameterData))()
-        // Note: this dispatch changes the store's state which re-renders this component delivering new props
-      } else {
-        this.setState({ isDialogShowing: false }) // allow component to update
-      }
-    })
-    this.dialogChartParams.addEventListener('cancel', function(event) {
-      event.preventDefault() // disables using the Esc button to close
-    })
-  }
-
-  handleDispatchOfDialogEdit() {
-    // updated list object parameter values are in this.state from the edit dialog
-    this.setState({ isDialogShowing: false }) // allow component to update
-    let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
-    this.props.dispatch(editListObjectPrarmeters(this.hash, parameterData)) // renders updated chart
-  }
-
   // componentWillUnmount() {
   //   document.body.removeChild(this.dialogChartParams)
   // }
 
+  // Note: a recommended procedure is to move the dialog object to be a child of window.body.
+
+  handleDispatchOfDialogEdit(parameterData) {
+    // updated list object parameter values are in this.state from the edit dialog
+    // this.setState({ isDialogShowing: false }) // allow component to update
+    // let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
+    this.props.dispatch(editListObjectPrarmeters(this.hash, parameterData)) // renders updated chart
+  }
+
   // shouldComponentUpdate(nextProps, nextState) {
-  //   if (this.state.isDialogShowing || nextState.isDialogShowing) {
-  //     return false // don't trigger a render() on dialog form changes
-  //   }
-  //   return true
   // }
 
   componentDidUpdate(prevProps, prevState) {
-    // if (this.state.isDispatchable) {
-    //   // new list object parameter values were saved from the edit dialog
-    //   let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
-    //   this.props.dispatch(editListObjectPrarmeters(this.hash, parameterData))()
-    //   this.setState({ isDispatchable: false })
-    // }
     if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
       this.loadChartData(this.props.cellObject.weeklyBars) // produce daily or weekly bars depending on the boolean value of weeklyBars
     }
@@ -352,21 +293,6 @@ class Chartcell extends Component {
     const cell_id = cellObject.hash
     const wrapperId = 'wrapper-' + cell_id
     const chartId = 'chart-' + cell_id
-    let tradeDesc = null
-    if ('Buys' === this.tradeSide) {
-      tradeDesc = 'Buy Long -'
-    } else if ('Short Sales' === this.tradeSide) {
-      tradeDesc = 'Sell Short -'
-    } else if ('Trend Buys' === this.tradeSide) {
-      tradeDesc = 'Buy Trend -'
-    } else if ('Longs' === this.tradeSide) {
-      tradeDesc = 'Long Position -'
-    } else if ('Shorts' === this.tradeSide) {
-      tradeDesc = 'Short Position -'
-    } else if ('Trend Longs' === this.tradeSide) {
-      tradeDesc = 'Trend Position -'
-    }
-
     //Cached storage holds price data (no change until program is restarted)
     //Cached storage holds indicator values used for signal alerts)
     //Local state holds duplicate of price data)
@@ -393,52 +319,11 @@ class Chartcell extends Component {
 
     return (
       <div id={'chart-main' + this.hash}>
-        <dialog id={'chart-params' + this.hash} className={'chart-dialog-form'}>
-          <span className={'edit-symbol'}> {this.symbol} - Make Your Changes Below.</span>
-          <br />
-          <br />
-          <form method='dialog'>
-            <div className='chart-radio-grid'>
-              <input className='buttonDaily' type='radio' value='daily' name='seriesBars' onChange={this.handleRadioChange} checked={this.state.weeklyBars !== true} />
-              <span className='labelDaily'>Daily Bars</span>
-              <input className='buttonMA' type='radio' value='ma' name='indicators' onChange={this.handleRadioChange} checked={this.state.macdChart !== true} />
-              <span className='labelMA'>With MA</span>
-              <input className='buttonWeekly' type='radio' value='weekly' name='seriesBars' onChange={this.handleRadioChange} checked={this.state.weeklyBars === true} />
-              <span className='labelWeekly'>Weekly Bars</span>
-              <input className='buttonMACD' type='radio' value='macd' name='indicators' onChange={this.handleRadioChange} checked={this.state.macdChart === true} />
-              <span className='labelMACD'>With MACD</span>
-            </div>
-            <br />
-            <br />
-            <span className={'dialog-button-row'}>
-              <button className={'dialog-button'} type='submit' value='no'>
-                Cancel
-              </button>
-              &nbsp; &nbsp; &nbsp; &nbsp;
-              <button className={'dialog-button'} type='submit' value='yes'>
-                Save
-              </button>
-            </span>
-          </form>
-        </dialog>
         <div id={wrapperId} className={`chart-cell-wrapper  ${this.state.hide ? 'fadeout' : ''}`}>
           {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
           <div id={cell_id} className='chart-cell'>
-            <div className='graph-header'>
-              <span className='trade-desc'>{tradeDesc}</span>
-              <span className='cell-title'>{chart_name}</span>
-              <span className='chart-series-label'>{this.props.cellObject.weeklyBars ? 'Weekly Bars' : 'Daily Bars'}</span>
-              <span className='chart-indicator-label'>{this.props.cellObject.macdChart ? 'With MACD' : 'With MA'}</span>
-              {/* <button onClick={this.getLastBar} className="cell-getlast-button" type="button" aria-label="getlast">
-              Get Last
-            </button> */}
-              <button onClick={this.handleEditChartParamsDialog} className={'chart-edit-button'}>
-                <img
-                  alt=''
-                  src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACOSURBVDhP1ZDBCYQwFAWzF2FtQbAMYT1pZXraKjzK3rcBrcI+7EDnRXMR1hgPKw4M8oT38xPzbzJ8Y2RTICmOOOEXg4Yk67dGDZDa5BAv1MmVTcsQZV3Hiyu7U90Qt9Eu27JU1lt4+VXWfy85XlMWT/zgqXKBD9QjtaiyNjpMjw1qSIxBZTFgh6VNN8GYGaGaLE+Bi37NAAAAAElFTkSuQmCC'
-                />
-              </button>
-            </div>
+            <DialogChartCellForm cellObject={this.props.cellObject} handleDispatchOfDialogEdit={this.handleDispatchOfDialogEdit} />
+
             <div className='form-header'>
               <button onClick={this.handleDelete} className='cell-delete-button' type='button' aria-label='delete'>
                 &times;
