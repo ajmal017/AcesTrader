@@ -26,21 +26,10 @@
   transition: opacity 0.3s linear;
 }
 
-/* This grid layout for narrow screens holds the two main items in one column */
-/* For wide screens, see media query break below at line 236 */
-/* .chart-cell {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 40px auto 16px auto 5px;
-  grid-template-areas:
-    'cellheader'
-    'cellgraph'
-    '.'
-    'dataform'
-    '.';
-} */
-
+/* This grid layout for narrow screens displays the two main items in one column */
+/* The two column grid layout is to position the "X" delete button at the top right */
+/* The other items are spread over both columns */
+/* For wider screens (including iPads), see media query break below at line 100 */
 .chart-cell {
   width: 100%;
   display: grid;
@@ -54,15 +43,8 @@
     '. .';
 }
 
-/* .chart-cell-header {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 30px;
-  grid-template-areas: 'graphheader formheader';
-} */
-
 .form-header {
-  grid-area: formheader; /* cellheader; */
+  grid-area: formheader;
   display: inline-flex;
   width: 100%;
   background: #f9f9f9;
@@ -86,15 +68,6 @@
   background: #f09a9a;
 }
 
-.chart-radio-block-1 {
-  display: block;
-  margin-top: 10px;
-  margin-left: -6px;
-}
-.chart-radio-block-2 {
-  display: block;
-  margin-top: 10px;
-}
 .chart-radio-row {
   display: flex;
   justify-content: space-evenly;
@@ -106,38 +79,19 @@
   background: #f9f9f9;
 }
 
-/* .dashboard-wrapper {
-  background-color: #f9f9f9;
-  border-radius: 5px;
-  padding: 0 10px 0px 10px;
-  border: 1px solid blue;
-  overflow: hidden;
-} */
-
-/* .dashboard-title {
-  grid-area: dataheader;
-  height: 24px;
-  background: #f9f9f9;
-  width: 100%;
-  text-align: center;
-  font-weight: bold;
-} */
-
 .dashboard-center {
   grid-area: dataform;
   width: 100%;
   /* font-size: 12px; */
 }
 
-/* This grid layout for wide screens holds the two main items in two columns */
-/* For narrow screens, see media query break above at line 20 */
-/* Desktop with expanded window wdth, OR */
-/* Device in landscape mode.*/
-/* The OR condition is specified by the comma at end of line. */
+/* This grid layout for wider screens holds the two main items in two columns */
+/* For narrow phone screens, see media query break above at line 30 */
+/* The OR condition is specified by the comma at middle of line. */
 @media only screen and (min-width: 760px), only screen and (orientation: landscape) {
   .chart-cell {
     display: grid;
-    grid-template-columns: 9fr 6fr;
+    grid-template-columns: 7fr 5fr;
     /* grid-template-columns: 3fr 2fr; */
     /* grid-template-rows: 40px 247px; */
     grid-template-rows: 40px auto;
