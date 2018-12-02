@@ -58,13 +58,13 @@
 }
 
 .watched-buys {
-  width: 78px;
+  width: 68px;
 }
 .watched-shortsales {
-  width: 78px;
+  width: 68px;
 }
 .watched-trendbuys {
-  width: 78px;
+  width: 68px;
 }
 
 .watchedprice-buys {
@@ -135,13 +135,13 @@
 }
 
 .entered-longs {
-  width: 78px;
+  width: 68px;
 }
 .entered-shorts {
-  width: 78px;
+  width: 68px;
 }
 .entered-trendlongs {
-  width: 78px;
+  width: 68px;
 }
 
 .enteredprice-longs {

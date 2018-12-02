@@ -100,7 +100,6 @@ function ConfirmDialog(props) {
   const durationGC = props.formValues.duration === 'GTC' ? 'Good Til Cancelled' : null
   const duration = durationDay ? durationDay : durationGC ? durationGC : null
   const orderString = `${instruction} ${quantity} ${quantityType} ${symbol} ${orderType} ${duration}`
-
   return (
     <>
       <div className={'confirm-symbol'}> {symbol} - Confirm your order before submitting.</div>
