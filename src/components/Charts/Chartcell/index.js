@@ -72,12 +72,12 @@ class Chartcell extends Component {
     this.props.dispatch(editListObjectPrarmeters(this.hash, parameterData)) // renders updated chart
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (cloneDeep(nextProps.cellObject) === cloneDeep(this.props.cellObject)) {
-      return false
-    }
-    return true
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (cloneDeep(nextProps.cellObject) === cloneDeep(this.props.cellObject)) {
+  //     return false
+  //   }
+  //   return true
+  // }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
