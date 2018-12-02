@@ -34,7 +34,6 @@ var cloneDeep = require('lodash.clonedeep')
 class Chartcell extends Component {
   constructor(props) {
     super(props)
-    // this.handleInputChange = this.handleInputChange.bind(this)
     this.handleOrderEntry = this.handleOrderEntry.bind(this)
     this.handleOrderDispatch = this.handleOrderDispatch.bind(this)
     this.handleDispatchOfDialogEdit = this.handleDispatchOfDialogEdit.bind(this)
@@ -51,14 +50,10 @@ class Chartcell extends Component {
       data: false,
       hide: false,
       noprices: false,
-      isDialogShowing: false,
     }
   }
 
   componentDidMount() {
-    // this.dialogChartParams = document.getElementById('chart-params' + this.hash)
-    // dialogPolyfill.registerDialog(this.dialogChartParams) // Now dialog acts like a native <dialog>.
-    // document.body.appendChild(this.dialogChartParams)
     // try to recover cached price data to avoid another http request
     this.data = cloneDeep(getPriceData(this.props.cellObject.symbol))
     if (this.data) {
@@ -68,16 +63,12 @@ class Chartcell extends Component {
     }
   }
 
-  // componentWillUnmount() {
-  //   document.body.removeChild(this.dialogChartParams)
-  // }
-
-  // Note: a recommended procedure is to move the dialog object to be a child of window.body.
-
   handleDispatchOfDialogEdit(parameterData) {
-    // updated list object parameter values are in this.state from the edit dialog
-    // this.setState({ isDialogShowing: false }) // allow component to update
-    // let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
+    // This is a callback function passed to the DialogChartCellForm component.
+    // Because of a problem with the react stockchart component, the DialogChartCellForm
+    // wes created to separate its DOM, with the <dialog> element, from this DOM.
+    // The document.body.appendChild() procedure caused the D3 operations
+    // in the charting code to fail when the append was done from this DOM.
     this.props.dispatch(editListObjectPrarmeters(this.hash, parameterData)) // renders updated chart
   }
 
@@ -155,6 +146,7 @@ class Chartcell extends Component {
     return weeklyBars
   }
 
+  // The getLastBar button is a possible future feature which composes a last bar from the last peek data
   // getLastBar = () => {
   //   const symbol = this.props.cellObject.symbol
   //   const range = 'dynamic'
@@ -200,15 +192,14 @@ class Chartcell extends Component {
   handleOrderDispatch() {
     // This is a newly opened position or a newly closed position for this symbol
     this.setState({ hide: false })
-    // Use a Button to fetch confirmed trade data (when available) for the specified hash id object.
-    // Get the filled price, quantity, and account number from Ameritrade********
+    //TODO Use a Button to fetch confirmed trade data (when available) for the specified hash id object.
+    //TODO Get the filled price, quantity, and account number from Ameritrade********
     const enteredPrice = 'pending'
     const exitedPrice = 'pending'
     const theAccount = 'pending'
     const theCellObject = this.props.cellObject //the target object originating the dispatch action
     const filledQuantity = this.props.cellObject.dashboard.quantity //will be revised if quantityType==='DOLLARS'
     const enteredQuantityType = this.props.cellObject.dashboard.quantityType
-    // theCellObject.enterQuantity = this.props.cellObject.dashboard.quantity //from target object before its removal by dispatch below
     const theHash = this.props.cellObject.hash //from target object before its removal by dispatch below
 
     switch (this.tradeSide.toUpperCase()) {
@@ -293,25 +284,6 @@ class Chartcell extends Component {
     const cell_id = cellObject.hash
     const wrapperId = 'wrapper-' + cell_id
     const chartId = 'chart-' + cell_id
-    //Cached storage holds price data (no change until program is restarted)
-    //Cached storage holds indicator values used for signal alerts)
-    //Local state holds duplicate of price data)
-
-    // if (this.state.noprices) {
-    //   return (
-    //     <div id={cell_id} className="chart-cell-wrapper">
-    //       <h4>{`No Prices Available For ${chart_name}.`}</h4>
-    //     </div>
-    //   )
-    // }
-
-    // if (!this.state.data) {
-    //   return (
-    //     <div className='chart-cell-wrapper'>
-    //       <h4>{`Loading Chart ${chart_name}. Please Wait...`}</h4>
-    //     </div>
-    //   )
-    // }
 
     // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the corrent data for the new current symbol
@@ -323,7 +295,6 @@ class Chartcell extends Component {
           {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
           <div id={cell_id} className='chart-cell'>
             <DialogChartCellForm cellObject={this.props.cellObject} handleDispatchOfDialogEdit={this.handleDispatchOfDialogEdit} />
-
             <div className='form-header'>
               <button onClick={this.handleDelete} className='cell-delete-button' type='button' aria-label='delete'>
                 &times;
@@ -341,7 +312,9 @@ class Chartcell extends Component {
                 </div>
               ) : (
                 <ErrorBoundary chart={true}>
-                  {/* Catch the random timing error here, but don't abort. Continue on (with possible bad chart?!) */}
+                  {/* Catch the random D3 errors here, but don't abort. Continue on (with possible bad chart?!) */}
+                  {/* Note: this problem has apparently been fixed by changing the stockchart's defaultProps */}
+                  {/* to type:'svg' from type:'hybrid'. I think the errors came from operations on the html canvas. */}
                   {this.props.cellObject.macdChart ? (
                     <CandleStickChartWithMACD
                       chartId={chartId}
