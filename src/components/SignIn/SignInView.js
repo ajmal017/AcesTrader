@@ -13,7 +13,7 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
 
   return (
     <div>
-      0.1.72
+      0.1.73
       <span className={'header'}>
         <h1>Sign In</h1>
       </span>
