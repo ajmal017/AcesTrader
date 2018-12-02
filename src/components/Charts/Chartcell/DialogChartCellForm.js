@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react'
 import dialogPolyfill from 'dialog-polyfill'
-// import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import './stylesDialogChartCellForm.css'
 
 class DialogChartCellForm extends Component {
@@ -34,30 +33,12 @@ class DialogChartCellForm extends Component {
         // Note that this.State has been updated by handleRadioChange() calls from the <dialog/> element
         let parameterData = { weeklyBars: this.state.weeklyBars, macdChart: this.state.macdChart }
         this.props.handleDispatchOfDialogEdit(parameterData)
-        // this.dispatch(editListObjectPrarmeters(this.hash, parameterData))()
-        // Note: this dispatch changes the store's state which re-renders this component delivering new props
       }
     })
     this.DialogChartCellFormParams.addEventListener('cancel', function(event) {
       event.preventDefault() // disables using the Esc button to close
     })
   }
-  // componentDidUpdate(prevProps) {
-  //   if (this.props.showDialog !== prevProps.showDialog) {
-  //     if (this.props.showDialog) {
-  //       this.dialogDashboardParams.showModal()
-  //       // Move the focus away from the text input to prevent the iPad keyboard from popping up
-  //       let el1 = document.getElementById('dialog-params' + this.hash)
-  //       let el2 = el1.getElementsByClassName('dialog-button')
-  //       el2[0].focus() // make the cancel button the default focus
-  //     } else {
-  //       this.dialogDashboardParams.close()
-  //     }
-  //   }
-  //   if (this.props.formValues !== prevProps.formValues) {
-  //     this.setState(this.props.formValues)
-  //   }
-  // }
 
   handleRadioChange(event) {
     const value = event.target.value
@@ -123,9 +104,12 @@ class DialogChartCellForm extends Component {
           <span className='cell-title'>{chart_name}</span>
           <span className='chart-series-label'>{this.props.cellObject.weeklyBars ? 'Weekly Bars' : 'Daily Bars'}</span>
           <span className='chart-indicator-label'>{this.props.cellObject.macdChart ? 'With MACD' : 'With MA'}</span>
+
+          {/* The getLastBar button is a possible future feature which composes a last bar from the last peek data */}
           {/* <button onClick={this.getLastBar} className="cell-getlast-button" type="button" aria-label="getlast">
               Get Last
             </button> */}
+
           <button onClick={this.handleEditChartParamsDialog} className={'chart-edit-button'}>
             <img
               alt=''
