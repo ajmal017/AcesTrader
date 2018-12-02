@@ -26,7 +26,8 @@ import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
 import ChartDashboard from '../ChartDashboard'
 import DialogChartCellForm from './DialogChartCellForm'
-import { putPriceData, getPriceData } from '../../../lib/chartDataCache'
+import { putPriceData, getPriceData, putSma40Data, getSma40Data } from '../../../lib/chartDataCache'
+import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 var cloneDeep = require('lodash.clonedeep')
@@ -81,7 +82,7 @@ class Chartcell extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
-      console.log('componentDidUpdate with changed weeklyBars') // testing BCM
+      console.log('componentDidUpdate with changed weeklyBars=' + this.props.cellObject.weeklyBars) // testing BCM
       this.loadChartData(this.props.cellObject.weeklyBars) // produce daily or weekly bars depending on the boolean value of weeklyBars
     }
   }
@@ -91,7 +92,7 @@ class Chartcell extends Component {
     const symbol = this.props.cellObject.symbol
     const range = weeklyBars ? '5y' : '1y'
     const self = this
-    console.log(`loadChartData ${symbol}, Range=${weeklyBars ? '5y' : '1y'}`)
+    // console.log(`loadChartData ${symbol}, Range=${weeklyBars ? '5y' : '1y'}`)
     getChartData(symbol, range)
       .then(function(data) {
         console.log('getChartData axios response: data.length=', data.length)
@@ -102,6 +103,14 @@ class Chartcell extends Component {
         } else {
           let priceData = weeklyBars ? self.convertToWeeklyBars(data) : data
           putPriceData(symbol, priceData) //cache the price data for subsequent rendering
+          if (weeklyBars) {
+            initSma(40, priceData.length)
+            for (let kk = 0; kk < priceData.length; kk++) {
+              addSmaPrice(priceData[kk].close, priceData[kk].date)
+            }
+            let smaArray = getSmaArray()
+            putSma40Data(symbol, smaArray) //cache the sma40 data for subsequent use
+          }
           self.setState({ data: true, noprices: false, hide: false }) //triggers render using the cached data
         }
       })
