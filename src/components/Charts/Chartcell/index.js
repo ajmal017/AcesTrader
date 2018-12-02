@@ -72,11 +72,16 @@ class Chartcell extends Component {
     this.props.dispatch(editListObjectPrarmeters(this.hash, parameterData)) // renders updated chart
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  // }
+  shouldComponentUpdate(nextProps, nextState) {
+    if (cloneDeep(nextProps.cellObject) === cloneDeep(this.props.cellObject)) {
+      return false
+    }
+    return true
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
+      console.log('componentDidUpdate with changed weeklyBars') // testing BCM
       this.loadChartData(this.props.cellObject.weeklyBars) // produce daily or weekly bars depending on the boolean value of weeklyBars
     }
   }
@@ -146,7 +151,9 @@ class Chartcell extends Component {
     return weeklyBars
   }
 
-  // The getLastBar button is a possible future feature which composes a last bar from the last peek data
+  /**
+   * The getLastBar button is a possible future feature which composes a last bar from the last peek data
+   */
   // getLastBar = () => {
   //   const symbol = this.props.cellObject.symbol
   //   const range = 'dynamic'
