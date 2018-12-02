@@ -26,11 +26,24 @@ var dataCache = {
     // dictionary of key/value pairs
     // key=symbol, value=array of objects [{date,ma-value}, ...]
   },
+  sma40: {
+    // dictionary of key/value pairs
+    // key=symbol, value=array of objects [{date,ma-value}, ...]
+  },
   sma200: {
     // dictionary of key/value pairs
     // key=symbol, value=array of objects [{date,ma-value}, ...]
   },
 }
+
+export const putSma40Data = (symbol, data) => {
+  dataCache.sma40[symbol] = cloneDeep(data)
+}
+export const getSma40Data = (symbol) => {
+  let smaData = cloneDeep(dataCache.sma40[symbol])
+  return smaData
+}
+
 export const putPriceData = (symbol, data) => {
   dataCache.prices[symbol] = cloneDeep(data)
   // let newArray = (dataCache.prices[symbol] = [])
