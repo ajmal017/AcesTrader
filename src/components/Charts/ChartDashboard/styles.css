@@ -91,7 +91,7 @@ label {
 /* Dashboard text input general parameters*/
 .dashboard-form input[type='text'] {
   margin-left: 3px;
-  margin-right: 6px;
+  margin-right: 16px;
   padding: 0px 4px;
   display: inline-block;
   border: 1px solid #ccc;
