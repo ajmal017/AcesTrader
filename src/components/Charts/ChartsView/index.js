@@ -48,9 +48,6 @@ class ChartsView extends Component {
             <a href='https://icons8.com'>Pencil Icon by Icons8</a>
           </span>
         </footer>
-
-        {/* this hack is to provide sufficient space so the <dialog> model window is not cropped */}
-        {/* {cells.length < 2 ? <div style={{ height: 600, backgroundColor: '#bac8ff' }}> </div> : ''} */}
       </div>
     )
   }
