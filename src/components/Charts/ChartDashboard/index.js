@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import DialogDashboardForm from './DialogDashboardForm'
+import { getLastSma40Price } from '../../../lib/chartDataCache'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 import './stylesTextWidths.css'
@@ -107,11 +108,12 @@ class ChartDashboard extends Component {
     this.percentGain = this.peekDate !== undefined ? ((100 * (this.peekPrice - startPrice)) / startPrice).toFixed(1) : 'pending'
     this.positionValue = this.peekDate !== undefined ? this.numberWithCommas((this.filledQuantity * this.peekPrice).toFixed(0)) : 'pending'
     this.rgbColor = null
-    if (this.tradeSide === 'Shorts') {
-      this.rgbColor = this.percentGain > 0 ? '255,107,107' : '0,255,0'
-    } else {
-      this.rgbColor = this.percentGain > 0 ? '0,255,0' : '255,107,107'
-    }
+    // if (this.tradeSide === 'Shorts') {
+    //   this.rgbColor = this.percentGain > 0 ? '255,107,107' : '0,255,0'
+    // } else {
+    //   this.rgbColor = this.percentGain > 0 ? '0,255,0' : '255,107,107'
+    // }
+    this.rgbColor = this.percentGain > 0 ? '0,255,0' : '255,107,107'
     this.rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
     this.rgbaValue = this.rgbColor + ',' + this.rgbOpacity
 
@@ -123,12 +125,23 @@ class ChartDashboard extends Component {
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
 
     this.stopGap = this.peekPrice - this.trailingStopBasis
-    // this.stopGap = 0.055 * this.trailingStopBasis //BCM Test Exits
+    // this.stopGap = 0.055 * this.trailingStopBasis // a way to test exits
     this.percentTrailingStopGap = ((100 * this.stopGap) / this.trailingStopBasis).toFixed(1)
     if ((this.tradeSide === 'Shorts' && this.percentTrailingStopGap > 5) || (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -5)) {
       this.rgbaBackground = '255,107,107,0.6'
     } else {
       this.rgbaBackground = null
+    }
+
+    if (this.props.iexData > 0) {
+      const weekly = this.props.cellObject.weeklyBars
+      const lastSma40 = weekly ? getLastSma40Price(this.symbol) : null
+      if (lastSma40 && this.listGroup === 'prospects') {
+        this.rgbaBackground = this.peekPrice > lastSma40.smaValue ? '250,196,0,0.6' : null
+      }
+      if (lastSma40 && this.listGroup === 'positions') {
+        this.rgbaBackground = this.peekPrice < lastSma40.smaValue ? '250,196,0,0.6' : null
+      }
     }
 
     this.dialogDashboardFormValues = {
@@ -231,6 +244,7 @@ class ChartDashboard extends Component {
 ChartDashboard.propTypes = {
   handleOrderEntry: PropTypes.func.isRequired,
   cellObject: PropTypes.object.isRequired,
+  iexData: PropTypes.number.isRequired,
 }
 
 //Note: this used only to get access to "this.props.dispatch", not for state access
