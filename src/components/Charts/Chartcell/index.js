@@ -1,8 +1,7 @@
 // Chartcell/index.js
 
-// Each Chartcell gets its chart price data from the IEX API
-// and creates the chart display data
-// Data provided for free by IEX. View IEX’s Terms of Use.
+// Each Chartcell gets its chart price data from the IEX API.
+// Data is provided for free by IEX. View IEX’s Terms of Use.
 // See: https://iextrading.com/developer/
 
 import React, { Component } from 'react'
@@ -26,7 +25,7 @@ import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
 import ChartDashboard from '../ChartDashboard'
 import DialogChartCellForm from './DialogChartCellForm'
-import { putPriceData, getPriceData, putSma40Data, getSma40Data } from '../../../lib/chartDataCache'
+import { putPriceData, getPriceData, putSma40Data, setPricesWeekly, arePricesWeekly } from '../../../lib/chartDataCache'
 import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import './styles.css'
@@ -48,19 +47,23 @@ class Chartcell extends Component {
     this.data = null
     this.dispatch = this.props.dispatch
     this.state = {
-      data: false,
+      iexData: 0, // count of switches between daily and weekly bars to trigger dashboard render
       hide: false,
       noprices: false,
     }
   }
 
   componentDidMount() {
-    // try to recover cached price data to avoid another http request
-    this.data = cloneDeep(getPriceData(this.props.cellObject.symbol))
-    if (this.data) {
-      this.setState({ data: true, hide: false }) //data is available in cache
+    let recoveredData
+    if (this.weeklyBars === arePricesWeekly()) {
+      // try to recover cached price data to avoid another http request
+      recoveredData = getPriceData(this.symbol)
+    }
+    if (recoveredData) {
+      this.data = recoveredData
+      this.setState({ iexData: this.state.iexData + 1, hide: false }) //data is available in cache
     } else {
-      this.loadChartData(this.props.cellObject.weeklyBars)
+      this.loadChartData(this.weeklyBars)
     }
   }
 
@@ -82,7 +85,7 @@ class Chartcell extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
-      console.log('componentDidUpdate with changed weeklyBars=' + this.props.cellObject.weeklyBars) // testing BCM
+      // console.log('componentDidUpdate with changed weeklyBars=' + this.props.cellObject.weeklyBars) // testing
       this.loadChartData(this.props.cellObject.weeklyBars) // produce daily or weekly bars depending on the boolean value of weeklyBars
     }
   }
@@ -95,14 +98,15 @@ class Chartcell extends Component {
     // console.log(`loadChartData ${symbol}, Range=${weeklyBars ? '5y' : '1y'}`)
     getChartData(symbol, range)
       .then(function(data) {
-        console.log('getChartData axios response: data.length=', data.length)
+        //console.log('getChartData axios response: data.length=', data.length)
         if (data.length < 2) {
           //CandleStickChartWithMA bug seen with new issue "TRTY" when only 0 or 1 day's data available
           //Memory leak reported by VSCode, seems to cause many weird code mistakes when running
-          self.setState({ data: true, noprices: true, hide: false })
+          self.setState({ iexData: self.state.iexData + 1, noprices: true, hide: false })
         } else {
           let priceData = weeklyBars ? self.convertToWeeklyBars(data) : data
           putPriceData(symbol, priceData) //cache the price data for subsequent rendering
+          setPricesWeekly(symbol, weeklyBars) // record type of the price data
           if (weeklyBars) {
             initSma(40, priceData.length)
             for (let kk = 0; kk < priceData.length; kk++) {
@@ -111,12 +115,12 @@ class Chartcell extends Component {
             let smaArray = getSmaArray()
             putSma40Data(symbol, smaArray) //cache the sma40 data for subsequent use
           }
-          self.setState({ data: true, noprices: false, hide: false }) //triggers render using the cached data
+          self.setState({ iexData: self.state.iexData + 1, noprices: false, hide: false }) //triggers render using the cached data
         }
       })
       .catch(function(error) {
         console.log('getChartData axios error:', error.message)
-        // self.setState({ data: true, noprices: true, hide: false })
+        // self.setState({ iexData: self.state.iexData+1, noprices: true, hide: false })
         alert('getChartData axios error: ' + error.message) //rude interruption to user
         debugger // pause for developer
       })
@@ -188,7 +192,7 @@ class Chartcell extends Component {
   //         // let lastBar = { close: barClose, date: '', high: barHigh, low: barLow, open: barOpen, volume: barVolume }
   //       } else {
   //         // putPriceData(symbol, data) //cache the price data for subsequent rendering
-  //         // self.setState({ data: true, hide: false }) //triggers render using the cached data
+  //         // self.setState({ iexData: self.state.iexData+1, hide: false }) //triggers render using the cached data
   //       }
   //     })
   //     .catch(function(error) {
@@ -290,6 +294,7 @@ class Chartcell extends Component {
 
   render() {
     const cellObject = this.props.cellObject
+    this.weeklyBars = cellObject.weeklyBars
     this.tradeSide = cellObject.dashboard.tradeSide
     this.symbol = cellObject.symbol
     this.hash = cellObject.hash
@@ -303,7 +308,7 @@ class Chartcell extends Component {
 
     // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the corrent data for the new current symbol
-    this.data = getPriceData(this.props.cellObject.symbol)
+    this.data = getPriceData(this.symbol)
 
     return (
       <div id={'chart-main' + this.hash}>
@@ -322,7 +327,7 @@ class Chartcell extends Component {
                   {' '}
                   <h4>{`No Prices Available For ${chart_name}.`}</h4>
                 </div>
-              ) : !this.state.data ? (
+              ) : this.state.iexData === 0 ? (
                 <div id={cell_id} className='chart-cell-alert-wrapper'>
                   <h4>{`Loading Chart ${chart_name}. Please Wait...`}</h4>
                 </div>
@@ -351,9 +356,13 @@ class Chartcell extends Component {
                 </ErrorBoundary>
               )}
             </div>
+            {/* {this.state.iexData>0 ? ( */}
             <div className='dashboard-center'>
-              <ChartDashboard handleOrderEntry={this.handleOrderEntry} cellObject={cellObject} />
+              <ChartDashboard handleOrderEntry={this.handleOrderEntry} cellObject={cellObject} iexData={this.state.iexData} />
             </div>
+            {/* ) : (
+              <div />
+            )} */}
           </div>
         </div>
       </div>

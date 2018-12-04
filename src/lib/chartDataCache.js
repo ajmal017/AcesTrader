@@ -14,6 +14,10 @@ var cloneDeep = require('lodash.clonedeep')
 
 var dataCache = {
   // keyed by data category
+  pricesWeekly: {
+    // dictionary of key/value pairs
+    // key=symbol, value=boolean true=weekly bars, false=daily bars
+  },
   prices: {
     // dictionary of key/value pairs
     // key=symbol, value=array of objects [{date,open,high,low,close,volume}, ...]
@@ -40,18 +44,36 @@ export const putSma40Data = (symbol, data) => {
   dataCache.sma40[symbol] = cloneDeep(data)
 }
 export const getSma40Data = (symbol) => {
-  let smaData = cloneDeep(dataCache.sma40[symbol])
-  return smaData
+  if (dataCache.sma40[symbol]) {
+    let smaData = cloneDeep(dataCache.sma40[symbol])
+    return smaData
+  } else {
+    return null
+  }
+}
+
+export const getLastSma40Price = (symbol) => {
+  if (dataCache.sma40[symbol]) {
+    let sma40Array = dataCache.sma40[symbol]
+    let lastSma40 = sma40Array[sma40Array.length - 1]
+    return lastSma40
+  } else {
+    return null
+  }
 }
 
 export const putPriceData = (symbol, data) => {
   dataCache.prices[symbol] = cloneDeep(data)
-  // let newArray = (dataCache.prices[symbol] = [])
-  // newArray.push(data)
 }
 export const getPriceData = (symbol) => {
   let priceData = cloneDeep(dataCache.prices[symbol])
   return priceData
+}
+export const setPricesWeekly = (symbol, isWeekly) => {
+  dataCache.pricesWeekly[symbol] = isWeekly
+}
+export const arePricesWeekly = (symbol) => {
+  return dataCache.pricesWeekly[symbol]
 }
 
 export const resetCache = () => {
