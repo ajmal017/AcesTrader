@@ -128,19 +128,20 @@ class ChartDashboard extends Component {
     // this.stopGap = 0.055 * this.trailingStopBasis // a way to test exits
     this.percentTrailingStopGap = ((100 * this.stopGap) / this.trailingStopBasis).toFixed(1)
     if ((this.tradeSide === 'Shorts' && this.percentTrailingStopGap > 5) || (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -5)) {
-      this.rgbaBackground = '255,107,107,0.6'
+      this.rgbaBackground = '255,107,107,0.6' // show alert for trailing stop loss
     } else {
       this.rgbaBackground = null
     }
 
     if (this.props.iexData > 0) {
+      // the data has changed
       const weekly = this.props.cellObject.weeklyBars
       const lastSma40 = weekly ? getLastSma40Price(this.symbol) : null
       if (lastSma40 && this.listGroup === 'prospects') {
-        this.rgbaBackground = this.peekPrice > lastSma40.smaValue ? '250,196,0,0.6' : null
+        this.rgbaBackground = this.peekPrice > lastSma40.smaValue ? '250,196,0,0.6' : null // show alert for trading buy
       }
       if (lastSma40 && this.listGroup === 'positions') {
-        this.rgbaBackground = this.peekPrice < lastSma40.smaValue ? '250,196,0,0.6' : null
+        this.rgbaBackground = this.peekPrice < lastSma40.smaValue ? '250,196,0,0.6' : null // show alert for trading sell
       }
     }
 
