@@ -12,8 +12,24 @@
 
 var cloneDeep = require('lodash.clonedeep')
 
+/**
+ * This was envisioned as neccessary if the data cache
+ * was in local storage. But since the cache is
+ * created in the run time memory, this is really
+ * unneccessary now as the data is loaded as empty.
+ */
+export const resetDataCache = () => {
+  dataCache.pricesWeekly = {}
+  dataCache.prices = {}
+  dataCache.ema20 = {}
+  dataCache.ema50 = {}
+  dataCache.sma40 = {}
+  dataCache.sma200 = {}
+}
+
 var dataCache = {
   // keyed by data category
+
   pricesWeekly: {
     // dictionary of key/value pairs
     // key=symbol, value=boolean true=weekly bars, false=daily bars
@@ -51,7 +67,6 @@ export const getSma40Data = (symbol) => {
     return null
   }
 }
-
 export const getLastSma40Price = (symbol) => {
   if (dataCache.sma40[symbol]) {
     let sma40Array = dataCache.sma40[symbol]
@@ -74,8 +89,4 @@ export const setPricesWeekly = (symbol, isWeekly) => {
 }
 export const arePricesWeekly = (symbol) => {
   return dataCache.pricesWeekly[symbol]
-}
-
-export const resetCache = () => {
-  localStorage.removeItem('dataCache') //clear old cache
 }

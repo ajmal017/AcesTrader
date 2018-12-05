@@ -7,7 +7,7 @@ import { getReference, referenceLocaltrader } from '../../lib/dbReference'
 import { loadLocalState } from '../../lib/localStorage'
 import { resetDefaultState, resetPersistedState } from '../../redux/index.js'
 import { resetPeekPrices } from '../../lib/appLastPeekPrice'
-import { resetCache } from '../../lib/chartDataCache'
+import { resetDataCache } from '../../lib/chartDataCache'
 import fire from '../../fire'
 import Welcome from '../../components/Welcome'
 
@@ -27,7 +27,7 @@ class StartUp extends Component {
 
   loadDataForStore = () => {
     // this.testlocalStorage() // test if disabled or full, needs to be enabled in /lib/localStorage
-    resetCache() // clear all previously cached chart price data for fresh start
+    resetDataCache() // clear all previously cached chart price data for fresh start
     resetPeekPrices() //clear old peek symbol prices
     let persistedState = null
     this.reference = getReference() //indicates which storage to use for app's state based on user's role
