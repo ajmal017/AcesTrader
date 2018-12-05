@@ -13,10 +13,13 @@
 var cloneDeep = require('lodash.clonedeep')
 
 /**
- * This was envisioned as neccessary if the data cache
- * was in local storage. But since the cache is
- * created in the run time memory, this is really
- * unneccessary now as the data is loaded as empty.
+ * This is envisioned as neccessary if the user
+ * switches log-ins between live trading and
+ * paper trading, since the price data is kept
+ * by symbol with a selection of bar periods
+ * which may not be in sync between these
+ * two trading options. It forces a reload
+ * of the symbol data at log-in.
  */
 export const resetDataCache = () => {
   dataCache.pricesWeekly = {}
