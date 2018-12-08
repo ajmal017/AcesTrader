@@ -356,13 +356,9 @@ class Chartcell extends Component {
                 </ErrorBoundary>
               )}
             </div>
-            {/* {this.state.iexData>0 ? ( */}
             <div className='dashboard-center'>
               <ChartDashboard handleOrderEntry={this.handleOrderEntry} cellObject={cellObject} iexData={this.state.iexData} />
             </div>
-            {/* ) : (
-              <div />
-            )} */}
           </div>
         </div>
       </div>

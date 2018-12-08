@@ -81,6 +81,7 @@ class ChartDashboard extends Component {
     this.hash = this.props.cellObject.hash
     this.symbol = this.props.cellObject.symbol
     this.listGroup = this.props.cellObject.listGroup
+    this.etfDescription = this.props.cellObject.etfDescription
     this.trailingStopBasis = this.props.cellObject.trailingStopBasis
     this.peekDate = this.props.cellObject.peekDate
     this.peekPrice = this.props.cellObject.peekPrice
@@ -133,15 +134,15 @@ class ChartDashboard extends Component {
       this.rgbaBackground = null
     }
 
-    if (this.props.iexData > 0) {
-      // the data has changed
-      const weekly = this.props.cellObject.weeklyBars
-      const lastSma40 = weekly ? getLastSma40Price(this.symbol) : null
-      if (lastSma40 && this.listGroup === 'prospects') {
-        this.rgbaBackground = this.peekPrice > lastSma40.smaValue ? '250,196,0,0.6' : null // show alert for trading buy
+    const weekly = this.props.cellObject.weeklyBars
+    this.lastSma40 = weekly ? getLastSma40Price(this.symbol) : null
+    if (this.lastSma40 && this.props.iexData > 0) {
+      // iexData > 0 means data is available in Chartcell, triggering new props to ChartDashboard to render
+      if (this.listGroup === 'prospects') {
+        this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '250,196,0,0.6' : null // show alert for trading buy
       }
-      if (lastSma40 && this.listGroup === 'positions') {
-        this.rgbaBackground = this.peekPrice < lastSma40.smaValue ? '250,196,0,0.6' : null // show alert for trading sell
+      if (this.listGroup === 'positions') {
+        this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '250,196,0,0.6' : null // show alert for trading sell
       }
     }
 
@@ -151,6 +152,7 @@ class ChartDashboard extends Component {
       entered: this.entered,
       enteredPrice: this.enteredPrice,
       filledQuantity: this.filledQuantity,
+      etfDescription: this.etfDescription,
       session: this.session,
       instruction: this.instruction,
       quantity: this.quantity,
@@ -207,6 +209,7 @@ class ChartDashboard extends Component {
                   </span>
                 ) : null}
               </div>
+              <div>{this.etfDescription !== undefined ? <span className='etfDescription'>{this.etfDescription}</span> : null}</div>
             </div>
             <label htmlFor='instruction'>Order</label>
             <input className={'instruction-' + this.tradeSideLc} readOnly type='text' name='instruction' value={this.instruction} />
@@ -225,6 +228,7 @@ class ChartDashboard extends Component {
           </form>
 
           <div className='dashboard-footer'>
+            {this.lastSma40 && process.env.NODE_ENV === 'development' ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.smaValue.toFixed(2)}</div> : ''}
             <div>
               <button className={'entry-order-button'} onClick={this.handleOrderEntry} style={{ background: `rgba(${this.rgbaBackground})` }}>
                 {this.buttonLabel} {this.symbol}

@@ -1,5 +1,9 @@
 /* stylesTextWidths.css */
 
+.etfDescription {
+  width: 200px;
+}
+
 /* Dashboard text input widths for Prospects */
 
 .session-buys {
