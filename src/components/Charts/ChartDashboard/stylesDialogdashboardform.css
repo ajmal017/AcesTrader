@@ -1,14 +1,19 @@
 /* stylesDialogdashboardform.css */
 
+/* This */
+.trailingStopBasis-absolute {
+  position: absolute;
+  left: 56px;
+  bottom: 10px;
+  background: #f9f9f9;
+}
+
 /* This is a temp display for comparing the local SMA calculation to the value from react-stockcharts */
 .lastSma40Value-absolute {
   position: absolute;
-  left: 6px;
+  left: 10px;
   bottom: 10px;
   background: #f9f9f9;
-  /* height: 36; */
-  /* border: #f9f9f9; */
-  /* opacity: 0.5; */
 }
 
 .dialog {

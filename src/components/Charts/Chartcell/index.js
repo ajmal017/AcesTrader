@@ -29,7 +29,7 @@ import { putPriceData, getPriceData, putSma40Data, setPricesWeekly, arePricesWee
 import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import './styles.css'
-var cloneDeep = require('lodash.clonedeep')
+// var cloneDeep = require('lodash.clonedeep')
 
 class Chartcell extends Component {
   constructor(props) {
