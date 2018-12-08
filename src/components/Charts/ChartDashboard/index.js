@@ -134,17 +134,24 @@ class ChartDashboard extends Component {
       this.rgbaBackground = null
     }
 
+    // If weekly bars, determine the status of the buy/sell alert signals
     const weekly = this.props.cellObject.weeklyBars
-    this.lastSma40 = weekly ? getLastSma40Price(this.symbol) : null
-    if (this.lastSma40 && this.props.iexData > 0) {
-      // iexData > 0 means data is available in Chartcell, triggering new props to ChartDashboard to render
-      if (this.listGroup === 'prospects') {
-        this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '250,196,0,0.6' : null // show alert for trading buy
+    if (weekly && this.tradeSide !== 'Shorts') {
+      this.lastSma40 = getLastSma40Price(this.symbol)
+      if (this.lastSma40 && this.props.iexData > 0) {
+        // iexData > 0 means data is available in Chartcell, triggering new props to ChartDashboard to render
+        if (this.listGroup === 'prospects') {
+          this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '250,196,0,0.6' : '206,212,218,0.6' // alert for trading buy OR default background
+        }
+        if (this.listGroup === 'positions') {
+          this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '250,196,0,0.6' : '206,212,218,0.6' // alert for trading sell OR default background
+        }
       }
-      if (this.listGroup === 'positions') {
-        this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '250,196,0,0.6' : null // show alert for trading sell
-      }
+    } else {
+      this.rgbaBackground = '206,212,218,0.6' // reset to the alert default of #ced4da
     }
+
+    console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)
 
     this.dialogDashboardFormValues = {
       watched: this.watched,
@@ -228,6 +235,7 @@ class ChartDashboard extends Component {
           </form>
 
           <div className='dashboard-footer'>
+            {process.env.NODE_ENV === 'development' ? <div className={'trailingStopBasis-absolute'}>{this.trailingStopBasis}</div> : ''}
             {this.lastSma40 && process.env.NODE_ENV === 'development' ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.smaValue.toFixed(2)}</div> : ''}
             <div>
               <button className={'entry-order-button'} onClick={this.handleOrderEntry} style={{ background: `rgba(${this.rgbaBackground})` }}>
