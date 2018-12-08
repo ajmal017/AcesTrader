@@ -136,8 +136,8 @@ class ChartDashboard extends Component {
 
     // If weekly bars, determine the status of the buy/sell alert signals
     const weekly = this.props.cellObject.weeklyBars
+    this.lastSma40 = weekly ? getLastSma40Price(this.symbol) : null
     if (weekly && this.tradeSide !== 'Shorts') {
-      this.lastSma40 = getLastSma40Price(this.symbol)
       if (this.lastSma40 && this.props.iexData > 0) {
         // iexData > 0 means data is available in Chartcell, triggering new props to ChartDashboard to render
         if (this.listGroup === 'prospects') {
@@ -151,7 +151,7 @@ class ChartDashboard extends Component {
       this.rgbaBackground = '206,212,218,0.6' // reset to the alert default of #ced4da
     }
 
-    console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)
+    // console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)
 
     this.dialogDashboardFormValues = {
       watched: this.watched,
