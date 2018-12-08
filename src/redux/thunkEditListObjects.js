@@ -154,7 +154,8 @@ export const editListObjectPrarmeters = (hash, parameterData) => {
         key === 'exitedPrice' ||
         key === 'filledQuantity' ||
         key === 'weeklyBars' ||
-        key === 'macdChart'
+        key === 'macdChart' ||
+        key ==='etfDescription'
       ) {
         newObject[key] = parameterData[key]
       } else {

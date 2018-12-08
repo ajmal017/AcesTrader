@@ -32,11 +32,11 @@ class Peek extends Component {
     const trendlongsSymbols = this.props.state.trendlongs.map((obj) => obj.symbol)
 
     const DEFAULT_PORTFOLIOS = [
-      { name: 'Swing Buy Prospects', symbols: [...buysSymbols] },
-      { name: 'Swing Long Positions', symbols: [...longsSymbols] },
+      { name: 'Buy Prospects', symbols: [...buysSymbols] },
       { name: 'Short Sale Prospects', symbols: [...sellsSymbols] },
-      { name: 'Short Positions', symbols: [...shortsSymbols] },
       { name: 'Trend Buy Prospects', symbols: [...trendbuysSymbols] },
+      { name: 'Long Positions', symbols: [...longsSymbols] },
+      { name: 'Short Positions', symbols: [...shortsSymbols] },
       { name: 'Trend Long Positions', symbols: [...trendlongsSymbols] },
       { name: 'Market ETFs', symbols: ['SPY', 'QQQ', 'IWM', 'DIA'] },
       // { name: 'Tech', symbols: ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'FB', 'TWTR', 'NFLX', 'SNAP', 'SPOT', 'DBX', 'BABA', 'INTC', 'AMD', 'NVDA', 'ORCL'] },
@@ -188,10 +188,10 @@ class Peek extends Component {
       }
     }
     return (
-      <div className="pagebody">
-        <div className="stocks-container" />
+      <div className='pagebody'>
+        <div className='stocks-container' />
 
-        <p className="updated-timestamp" />
+        <p className='updated-timestamp' />
       </div>
     )
   }
