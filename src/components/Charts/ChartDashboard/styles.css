@@ -75,7 +75,8 @@ label {
 
 .entry-order-button {
   font-size: 16px;
-  background: #ced4da;
+  /* background is overriden by an inline style attribute in the jsx */
+  /* background: #e9ecef; */
 }
 
 .entry-order-button:hover {

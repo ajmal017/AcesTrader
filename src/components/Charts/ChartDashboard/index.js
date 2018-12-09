@@ -104,11 +104,13 @@ class ChartDashboard extends Component {
     this.instructionTest = this.tradeSide === 'Shorts' ? true : false
     this.instruction = this.instructionTest ? 'COVER' : this.instructionRaw
 
+    const defaultRgbaBackground = '206,212,218,0.3'
     const startPrice = this.listGroup === 'positions' ? this.enteredPrice : this.watchedPrice
     this.dollarGain = this.peekDate !== undefined ? (this.peekPrice - startPrice).toFixed(2) : 'pending'
     this.percentGain = this.peekDate !== undefined ? ((100 * (this.peekPrice - startPrice)) / startPrice).toFixed(1) : 'pending'
     this.positionValue = this.peekDate !== undefined ? this.numberWithCommas((this.filledQuantity * this.peekPrice).toFixed(0)) : 'pending'
     this.rgbColor = null
+    // Reverse colors for shorts **Abandoned idea**
     // if (this.tradeSide === 'Shorts') {
     //   this.rgbColor = this.percentGain > 0 ? '255,107,107' : '0,255,0'
     // } else {
@@ -125,13 +127,24 @@ class ChartDashboard extends Component {
 
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
 
+    this.trailingStopPercent = this.props.cellObject.trailingStopPercent ? this.props.cellObject.trailingStopPercent : 5
+    this.trailingStopPrice = null
+    if (this.tradeSide === 'Shorts') {
+      this.trailingStopPrice = (this.trailingStopBasis + (this.trailingStopPercent * this.trailingStopBasis) / 100).toFixed(2)
+    } else {
+      this.trailingStopPrice = (this.trailingStopBasis - (this.trailingStopPercent * this.trailingStopBasis) / 100).toFixed(2)
+    }
+
     this.stopGap = this.peekPrice - this.trailingStopBasis
     // this.stopGap = 0.055 * this.trailingStopBasis // a way to test exits
     this.percentTrailingStopGap = ((100 * this.stopGap) / this.trailingStopBasis).toFixed(1)
-    if ((this.tradeSide === 'Shorts' && this.percentTrailingStopGap > 5) || (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -5)) {
-      this.rgbaBackground = '255,107,107,0.6' // show alert for trailing stop loss
+    if (
+      (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
+      (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
+    ) {
+      this.rgbaBackground = '255,107,107,0.3' // show alert for trailing stop loss
     } else {
-      this.rgbaBackground = null
+      this.rgbaBackground = defaultRgbaBackground
     }
 
     // If weekly bars, determine the status of the buy/sell alert signals
@@ -141,14 +154,14 @@ class ChartDashboard extends Component {
       if (this.lastSma40 && this.props.iexData > 0) {
         // iexData > 0 means data is available in Chartcell, triggering new props to ChartDashboard to render
         if (this.listGroup === 'prospects') {
-          this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '250,196,0,0.6' : '206,212,218,0.6' // alert for trading buy OR default background
+          this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '250,196,0,0.3' : defaultRgbaBackground // alert for trading buy OR default background
         }
         if (this.listGroup === 'positions') {
-          this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '250,196,0,0.6' : '206,212,218,0.6' // alert for trading sell OR default background
+          this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '250,196,0,0.3' : defaultRgbaBackground // alert for trading sell OR default background
         }
       }
     } else {
-      this.rgbaBackground = '206,212,218,0.6' // reset to the alert default of #ced4da
+      this.rgbaBackground = defaultRgbaBackground
     }
 
     // console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)
@@ -166,6 +179,7 @@ class ChartDashboard extends Component {
       quantityType: this.quantityType,
       orderType: this.orderType,
       duration: this.duration,
+      trailingStopPercent: this.trailingStopPercent,
     }
 
     return (
@@ -178,6 +192,7 @@ class ChartDashboard extends Component {
           formValues={this.dialogDashboardFormValues}
           listGroup={this.listGroup}
           tradeSideLc={this.tradeSideLc}
+          trailingStopBasis={this.trailingStopBasis}
           exitCallback={this.handleEditDialogClose}
         />
         <div className='dashboard-data'>
@@ -232,11 +247,20 @@ class ChartDashboard extends Component {
             <input className={'session-' + this.tradeSideLc} readOnly type='text' name='session' value={this.session} />
             <label htmlFor='duration'>Duration</label>
             <input className={'duration-' + this.tradeSideLc} readOnly type='text' name='duration' value={this.duration} />
+            {this.listGroup === 'positions' ? (
+              <>
+                <br />
+                <label htmlFor='trailingStopPercent'>Stop Loss %</label>
+                <input className={'trailingstop-percent'} readOnly type='text' name='trailingStopPercent' value={this.trailingStopPercent} />
+                <label htmlFor='trailingStopPrice'>Stop Price</label>
+                <input className={'trailingstop-price'} readOnly type='text' name='trailingStopPrice' value={this.trailingStopPrice} />
+              </>
+            ) : null}
           </form>
 
           <div className='dashboard-footer'>
-            {process.env.NODE_ENV === 'development' ? <div className={'trailingStopBasis-absolute'}>{this.trailingStopBasis}</div> : ''}
-            {this.lastSma40 && process.env.NODE_ENV === 'development' ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.smaValue.toFixed(2)}</div> : ''}
+            {/* {process.env.NODE_ENV === 'development' ? <div className={'trailingStopBasis-absolute'}>{this.trailingStopBasis}</div> : ''} */}
+            {/* {this.lastSma40 && process.env.NODE_ENV === 'development' ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.smaValue.toFixed(2)}</div> : ''} */}
             <div>
               <button className={'entry-order-button'} onClick={this.handleOrderEntry} style={{ background: `rgba(${this.rgbaBackground})` }}>
                 {this.buttonLabel} {this.symbol}
