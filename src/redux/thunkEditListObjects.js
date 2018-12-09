@@ -35,7 +35,8 @@ export const addExitPrice = (hash) => {
   }
 }
 
-//AddQuantity by calculation using the entered price
+//Add Quantity by calculation using the entered price
+//Add trailingStopPercent from app's default value
 export const addEnterPrice = (hash) => {
   return (dispatch, getState) => {
     let ourState = getState() //to  search the 3 positions lists
@@ -64,6 +65,7 @@ export const addEnterPrice = (hash) => {
           }
         }
         newObject['filledquantity'] = null //removes wrongly labeled property if it still exists
+        newObject['trailingStopPercent'] = 5 //this is the current default app value
         dispatch(replacePositionObject(newObject))
       })
       .catch(function(error) {
@@ -155,7 +157,8 @@ export const editListObjectPrarmeters = (hash, parameterData) => {
         key === 'filledQuantity' ||
         key === 'weeklyBars' ||
         key === 'macdChart' ||
-        key ==='etfDescription'
+        key === 'trailingStopPercent' ||
+        key === 'etfDescription'
       ) {
         newObject[key] = parameterData[key]
       } else {

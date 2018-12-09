@@ -4,6 +4,13 @@
   width: 200px;
 }
 
+.trailingstop-percent {
+  width: 30px;
+}
+.trailingstop-price {
+  width: 60px;
+}
+
 /* Dashboard text input widths for Prospects */
 
 .session-buys {

@@ -14,6 +14,7 @@ class DialogDashboardForm extends Component {
     this.symbol = props.symbol
     this.listGroup = props.listGroup
     this.tradeSideLc = props.tradeSideLc
+    this.trailingStopBasis = props.trailingStopBasis
     this.etfDescription = props.etfDescription
     this.exitCallback = props.exitCallback
     this.state = props.formValues
@@ -75,6 +76,7 @@ class DialogDashboardForm extends Component {
           symbol={this.props.symbol}
           listGroup={this.props.listGroup}
           tradeSideLc={this.props.tradeSideLc}
+          trailingStopBasis={this.props.trailingStopBasis}
           etfDescription={this.props.etfDescription}
           exitCallback={this.props.exitCallback}
           formValues={this.state}
@@ -134,6 +136,14 @@ function ConfirmDialog(props) {
   )
 }
 function EditDialog(props) {
+  let trailingStopBasis = props.trailingStopBasis
+  let trailingStopPercent = props.formValues.trailingStopPercent
+  let trailingStopPrice = null
+  if (props.tradeSideLc === 'shorts') {
+    trailingStopPrice = (trailingStopBasis + (trailingStopPercent * trailingStopBasis) / 100).toFixed(2)
+  } else {
+    trailingStopPrice = (trailingStopBasis - (trailingStopPercent * trailingStopBasis) / 100).toFixed(2)
+  }
   return (
     <>
       <span className={'edit-symbol'}> {props.symbol} - Make Your Changes</span>
@@ -162,11 +172,18 @@ function EditDialog(props) {
             <br />
           </span>
         ) : null}
-          <span>
-            <label htmlFor='etfDescription'>Desc</label>
-            <input className={'etfDescription'} type='text' name='etfDescription' placeholder="Optional: Describe this security" value={props.formValues.etfDescription} onChange={props.handleInputChange} />
-            <br />
-          </span>
+        <span>
+          <label htmlFor='etfDescription'>Desc</label>
+          <input
+            className={'etfDescription'}
+            type='text'
+            name='etfDescription'
+            placeholder='Optional: Describe this security'
+            value={props.formValues.etfDescription}
+            onChange={props.handleInputChange}
+          />
+          <br />
+        </span>
         <br />
         <label htmlFor='instruction'>Order</label>
         <input className={'instruction-' + props.tradeSideLc} type='text' name='instruction' value={props.formValues.instruction} onChange={props.handleInputChange} />
@@ -182,6 +199,15 @@ function EditDialog(props) {
         <input className={'session-' + props.tradeSideLc} type='text' name='session' value={props.formValues.session} onChange={props.handleInputChange} />
         <label htmlFor='duration'>Duration</label>
         <input className={'duration-' + props.tradeSideLc} type='text' name='duration' value={props.formValues.duration} onChange={props.handleInputChange} />
+        {props.listGroup === 'positions' ? (
+          <>
+            <br />
+            <label htmlFor='trailingStopPercent'>Stop Loss %</label>
+            <input className={'trailingstop-percent'} type='text' name='trailingStopPercent' value={props.formValues.trailingStopPercent} onChange={props.handleInputChange} />
+            <label htmlFor='trailingStopPrice'>Stop Price</label>
+            <input className={'trailingstop-price'} readOnly type='text' name='trailingStopPrice' value={trailingStopPrice} />
+          </>
+        ) : null}
         <br />
         <br />
         {/* ================================================ */}
