@@ -127,6 +127,7 @@ class ChartDashboard extends Component {
 
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
 
+    // The calculated trailing stop price is optionally show in the dashboard for development
     this.trailingStopPercent = this.props.cellObject.trailingStopPercent ? this.props.cellObject.trailingStopPercent : 5
     this.trailingStopPrice = null
     if (this.tradeSide === 'Shorts') {
@@ -135,19 +136,7 @@ class ChartDashboard extends Component {
       this.trailingStopPrice = (this.trailingStopBasis - (this.trailingStopPercent * this.trailingStopBasis) / 100).toFixed(2)
     }
 
-    this.stopGap = this.peekPrice - this.trailingStopBasis
-    // this.stopGap = 0.055 * this.trailingStopBasis // a way to test exits
-    this.percentTrailingStopGap = ((100 * this.stopGap) / this.trailingStopBasis).toFixed(1)
-    if (
-      (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
-      (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
-    ) {
-      this.rgbaBackground = '255,107,107,0.3' // show alert for trailing stop loss
-    } else {
-      this.rgbaBackground = defaultRgbaBackground
-    }
-
-    // If weekly bars, determine the status of the buy/sell alert signals
+    // If weekly bars, determine the status of the long term SMA40 buy/sell alert signals
     const weekly = this.props.cellObject.weeklyBars
     this.lastSma40 = weekly ? getLastSma40Price(this.symbol) : null
     if (weekly && this.tradeSide !== 'Shorts') {
@@ -162,6 +151,17 @@ class ChartDashboard extends Component {
       }
     } else {
       this.rgbaBackground = defaultRgbaBackground
+    }
+
+    // A stop loss alert overrides any long term SMA40 signal
+    this.stopGap = this.peekPrice - this.trailingStopBasis
+    // this.stopGap = 0.055 * this.trailingStopBasis // a way to test exits
+    this.percentTrailingStopGap = ((100 * this.stopGap) / this.trailingStopBasis).toFixed(1)
+    if (
+      (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
+      (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
+    ) {
+      this.rgbaBackground = '255,107,107,0.6' // show alert for trailing stop loss
     }
 
     // console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)
