@@ -1,5 +1,6 @@
 // redux/index.js
 
+import React from 'react'
 import { combineReducers } from 'redux'
 import buysReducer from './reducerBuys'
 import sellsReducer from './reducerSells'
@@ -9,8 +10,8 @@ import trendbuysReducer from './reducerTrendBuys'
 import trendlongsReducer from './reducerTrendLongs'
 import resultsReducer from './reducerResults'
 import modalReducer from './reducerModal'
-// import {format} from 'date-fns/format'
-// var format = require('date-fns/format')
+
+export const AuthenticatedContext = React.createContext(false)
 
 const RESET_DEFAULT_STATE = 'RESET_DEFAULT_STATE'
 const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE'

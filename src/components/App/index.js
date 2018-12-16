@@ -11,6 +11,7 @@ import fire from '../../fire'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import * as Sentry from '@sentry/browser'
+import { AuthenticatedContext } from '../../redux'
 
 class App extends Component {
   constructor(props) {
@@ -19,8 +20,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // Sentry.init({ dsn: 'https://e5464524db8f4d1791a5637c098e78e4@sentry.io/1300553' })
-
     const RELEASE = '0.1.*'
     if (process.env.NODE_ENV === 'production') {
       Sentry.init({
@@ -93,7 +92,9 @@ class App extends Component {
 
     return (
       <ErrorBoundary>
-        <Root store={store} authenticated={authenticated} /> {/* shows Navbar */}
+        <AuthenticatedContext.Provider value={authenticated}>
+          <Root store={store} authenticated={authenticated} /> {/* shows Navbar */}
+        </AuthenticatedContext.Provider>
       </ErrorBoundary>
     )
   }

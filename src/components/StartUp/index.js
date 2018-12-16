@@ -14,7 +14,7 @@ import Welcome from '../../components/Welcome'
 class StartUp extends Component {
   constructor(props) {
     super(props)
-    this.reference = null // identifies the RTDB index for the app's state
+    this.reference = null // identifies the Firebase RTDB index for the app's state
     this.state = {}
   }
 
