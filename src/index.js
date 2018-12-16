@@ -26,6 +26,7 @@ import getOS from './lib/getOS.js'
 
 // The getOS tests for an iOS or an Android OS and sets an global flag showing which is running.
 // The flag is used to trigger any required programming hacks to work around OS problems.
+// This flag is not used at 12/16/2018
 getOS()
 
 // The canapprun() tests for CSS Grid Layout feature, as it is required for the app's views.

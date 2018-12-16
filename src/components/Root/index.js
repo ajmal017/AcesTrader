@@ -30,9 +30,6 @@ import PortalModal from '../../components/PortalModal/'
 import PrivateRoute from '../../PrivateRoute'
 import NotFound from '../../components/NotFound'
 
-// import defaultState from '../../json/defaultState.json'
-// <Provider store={store ? store : { getState: () => defaultState, subscribe: () => {} }}>
-
 const Root = ({ store, authenticated }) => (
   <Provider store={store}>
     <div>
@@ -41,27 +38,27 @@ const Root = ({ store, authenticated }) => (
         <div>
           <Route component={Appnav} />
           <Switch>
-            <PrivateRoute exact path="/" component={Home} authenticated={authenticated} />
-            <Route exact path="/Home" component={Home} />
-            <PrivateRoute exact path="/positionlongs" component={PositionLongs} authenticated={authenticated} />
-            <PrivateRoute exact path="/positionshorts" component={PositionShorts} authenticated={authenticated} />
-            <PrivateRoute exact path="/positiontrendlongs" component={PositionTrendLongs} authenticated={authenticated} />
-            <PrivateRoute exact path="/prospectbuys" component={ProspectBuys} authenticated={authenticated} />
-            <PrivateRoute exact path="/prospectsells" component={ProspectSells} authenticated={authenticated} />
-            <PrivateRoute exact path="/prospecttrendbuys" component={ProspectTrendBuys} authenticated={authenticated} />
-            <PrivateRoute exact path="/results" component={Results} authenticated={authenticated} />
-            <PrivateRoute exact path="/peek" component={Peek} authenticated={authenticated} />
-            <PrivateRoute exact path="/managebuyprospects" component={ManageBuyProspects} authenticated={authenticated} />
-            <PrivateRoute exact path="/managesellprospects" component={ManageSellProspects} authenticated={authenticated} />
-            <PrivateRoute exact path="/managetrendbuyprospects" component={ManageTrendBuyProspects} authenticated={authenticated} />
-            <PrivateRoute exact path="/eraseLists" component={EraseLists} authenticated={authenticated} />
-            <PrivateRoute exact path="/charts" component={Charts} authenticated={authenticated} />
-            <PrivateRoute exact path="/signout" component={SignOut} authenticated={authenticated} />
-            <PrivateRoute exact path="/welcome" component={Welcome} authenticated={authenticated} />
-            <Route exact path="/welcomeguest" component={WelcomeGuest} />
-            <Route exact path="/signup" component={SignUp} />
-            <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/startup" component={StartUp} />
+            <PrivateRoute exact path='/' component={Home} authenticated={authenticated} />
+            <Route exact path='/Home' component={Home} />
+            <PrivateRoute exact path='/positionlongs' component={PositionLongs} authenticated={authenticated} />
+            <PrivateRoute exact path='/positionshorts' component={PositionShorts} authenticated={authenticated} />
+            <PrivateRoute exact path='/positiontrendlongs' component={PositionTrendLongs} authenticated={authenticated} />
+            <PrivateRoute exact path='/prospectbuys' component={ProspectBuys} authenticated={authenticated} />
+            <PrivateRoute exact path='/prospectsells' component={ProspectSells} authenticated={authenticated} />
+            <PrivateRoute exact path='/prospecttrendbuys' component={ProspectTrendBuys} authenticated={authenticated} />
+            <PrivateRoute exact path='/results' component={Results} authenticated={authenticated} />
+            <PrivateRoute exact path='/peek' component={Peek} authenticated={authenticated} />
+            <PrivateRoute exact path='/managebuyprospects' component={ManageBuyProspects} authenticated={authenticated} />
+            <PrivateRoute exact path='/managesellprospects' component={ManageSellProspects} authenticated={authenticated} />
+            <PrivateRoute exact path='/managetrendbuyprospects' component={ManageTrendBuyProspects} authenticated={authenticated} />
+            <PrivateRoute exact path='/eraseLists' component={EraseLists} authenticated={authenticated} />
+            <PrivateRoute exact path='/charts' component={Charts} authenticated={authenticated} />
+            <PrivateRoute exact path='/signout' component={SignOut} authenticated={authenticated} />
+            <PrivateRoute exact path='/welcome' component={Welcome} authenticated={authenticated} />
+            <Route exact path='/welcomeguest' component={WelcomeGuest} />
+            <Route exact path='/signup' component={SignUp} />
+            <Route exact path='/signin' component={SignIn} />
+            <Route exact path='/startup' component={StartUp} />
             <Route component={NotFound} />{' '}
           </Switch>
         </div>
@@ -76,25 +73,3 @@ Root.propTypes = {
 }
 
 export default Root
-
-// {/* <Route exact path="/" component={Home} /> */}
-
-// <Route exact path="/home" component={Home} />
-// <Route exact path="/positionlongs" component={PositionLongs} />
-// <Route exact path="/positionshorts" component={PositionShorts} />
-// <Route exact path="/positiontrendlongs" component={PositionTrendLongs} />
-// <Route exact path="/prospectbuys" component={ProspectBuys} />
-// <Route exact path="/prospectsells" component={ProspectSells} />
-// <Route exact path="/prospecttrendbuys" component={ProspectTrendBuys} />
-// <Route exact path="/results" component={Results} />
-// <Route exact path="/peek" component={Peek} />
-// <Route exact path="/managebuyprospects" component={ManageBuyProspects} />
-// <Route exact path="/managesellprospects" component={ManageSellProspects} />
-// <Route exact path="/managetrendbuyprospects" component={ManageTrendBuyProspects} />
-// <Route exact path="/eraseLists" component={EraseLists} />
-// <Route exact path="/charts" component={Charts} />
-// <Route exact path="/signout" component={SignOut} />
-// <Route exact path="/welcome" component={Welcome} />
-
-// {/* <Route exact path="/signup" component={SignUp} /> */}
-// {/* <Route exact path="/signin" component={SignIn} /> */}
