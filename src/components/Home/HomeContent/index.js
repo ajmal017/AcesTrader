@@ -1,9 +1,10 @@
 import React from 'react'
 import './styles.css'
+import ProspectSells from '../../ProspectSells/index'
 
 const HomeContent = function() {
   return (
-    <div className="home-content">
+    <div className='home-content'>
       <h4>ACESTRADER</h4>
       <p>
         <i>
@@ -27,7 +28,7 @@ const HomeContent = function() {
       <p>
         For ETF trend trading, ETFs that follow diversified assets are used. Trending ETFs are traded by rebalancing monthly, buying when the ETF is priced above the 40-week moving
         average and selling when priced below the 40-week moving average. For a discussion of trading by trend following see{' '}
-        <a href="https://extradash.com/en/strategies/models/5/faber-tactical-asset-allocation/" target="_blank" rel=" noopener noreferrer">
+        <a href='https://extradash.com/en/strategies/models/5/faber-tactical-asset-allocation/' target='_blank' rel=' noopener noreferrer'>
           Faber-Tactical-Asset-Allocation.
         </a>{' '}
         An example list of ETFs tracking diversified asset classes is this: <br />
@@ -83,21 +84,27 @@ const HomeContent = function() {
 
       <h4>TRADER ACTIONS</h4>
       <p>
-        The user has available trading options on the dashboard. These include placing an order to establish a position, either long or short depending on the ETF's grouping, or
-        exiting the current position. The options also include removing the ETF from the prospects list. Note that orders are not placed automatically by the program, they are
-        manually placed by the user.
+        The user has available trading options on the dashboard. These include placing an order to establish a position, either long or short depending on the security's grouping,
+        or exiting any current position. The options also include removing the security from the prospects list. Note that orders are not placed automatically by the program, they
+        are manually placed by the user clicking a button. The program tries to make the order procedure as frictionless as possible.
       </p>
 
       <h4>PLACING ORDERS</h4>
       <p>
-        Orders to enter or exit a position are placed by manual operation from the user. The program tries to make this manual procedure as frictionless as possible.{' '}
-        <b>
-          <i>
-            At this time, orders are placed using the default parameters as shown in the dashboard. Work is in progress to enable the user to edit these default parameters. This
-            will allow the user to customize the order before submitting.
-          </i>
-        </b>{' '}
-        Users can always bypass this program and place orders directly using TDAmeritrade's services.
+        Please understand that the program is still in a Beta test state. At this time, orders are placed using the default parameters as shown in the dashboard. Even though you
+        can edit these, the edited values are not yet used. All entries are submitted as market day orders for a quantity costing $5,000. All exit orders are for all shares. Work
+        is in progress to enable the user to edit these default parameters. This will allow the user to customize the order before submitting.
+        <br />
+        <br />
+        <i>
+          Note: The connection to TDAmeritrade's online trading interface is not done yet. Clicking the BUY button only simulates a trade: the security record is removed from the
+          Prospects list and placed in the Positions list. The fill price is obtained from the IEX feed. But you can use the dashboard's edit button to edit the filled price,
+          quantity, and execution date to modify the simulation's data.
+        </i>
+        {/* <i>This work is not done yet and editing of any field is now allowed without validation. So don't mess up your edits.</i> */}
+        {/* Users can always bypass this program and place orders directly using TDAmeritrade's services. */}
+        <br />
+        <br />
       </p>
 
       <h4>USING THE PROGRAM</h4>
@@ -107,16 +114,23 @@ const HomeContent = function() {
         menu. Be aware that the daily charts will not show the correct end-of-day price until after midnight, due to the after-market trading that occurs.
       </p>
       <p>
-        But you can click the More/Peek menu any time to see a color coded list showing a snapshot of the day's action including the last price for all your securities. After you
-        click here, these current prices are carried over to the dashboard display of your charts to show the last price when you peeked and the difference from the price when you
+        You can click the More/Peek menu any time to see a color coded list showing a snapshot of the day's action including the last price for all your securities. After you click
+        here, these current prices are carried over to the dashboard display of your charts to show the last price when you peeked and the difference from the price when you
         watched or when you entered a position. This information is also color coded according to the price difference.
+      </p>
+
+      <p>
+        The program has some built in trading signals. In the Prospects list, any security using a weekly chart will have a orange BUY button when the closing price is above the 40
+        week SMA. In the Positions list, any security using a weekly chart will have a orange EXIT button when the closing price is below the 40 week SMA. Also for the Positions
+        list, all the securities have a default 5% trailing stop loss signal. At a price beyond the trailing stop's calculated price, the EXIT button will be colored red. The
+        trailing stop's percent value for any security can be changed by clicking the dashboard's edit icon. The calculated stop loss price is displayed in the dashboard.
       </p>
       <h4>USING THE GUEST MODE</h4>
       <p>
         The program as designed can be used for live brokerage trading by only one person, using the assigned TDAmeritrade logon user name and password. However a Guest mode is
-        provided as a guest sign in option for simulated paper trading. This mode has no interaction with TDAmeritrade. Price data for charts is obtained from the IEX stock
-        exchange. Trades are simulated using the IEX price data for execution prices. These prices are obtained at the time of the order, and they are the last price from the
-        ticker feed. So after trading hours they are stale, but still good enough for the guest mode simulated trading.
+        provided as a guest sign in option for simulated trading. This mode has no interaction with TDAmeritrade. Price data for charts is obtained from the IEX stock exchange.
+        Trades are simulated using the IEX price data for execution prices. These prices are obtained at the time of the order, and they are the last price from the ticker feed. So
+        after trading hours they are stale, but still good enough for the guest mode simulated trading.
       </p>
       <p>
         There's another limitation to the Guest mode. There is no access to the cloud storage. The data for your lists are saved in the local storage of your browser. If you create
