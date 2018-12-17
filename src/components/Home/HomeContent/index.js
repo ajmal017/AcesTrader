@@ -96,11 +96,15 @@ const HomeContent = function() {
         is in progress to enable the user to edit these default parameters. This will allow the user to customize the order before submitting.
         <br />
         <br />
-        <i>
-          Note: The connection to TDAmeritrade's online trading interface is not done yet. Clicking the BUY button only simulates a trade: the security record is removed from the
-          Prospects list and placed in the Positions list. The fill price is obtained from the IEX feed. But you can use the dashboard's edit button to edit the filled price,
-          quantity, and execution date to modify the simulation's data.
-        </i>
+        Note: The connection to TDAmeritrade's online trading interface is not done yet. Order executions are filled when entered using the last price from IEX. IEX is a stock
+        exchange based in the United States:
+        <a href='https://en.wikipedia.org/wiki/IEX' target='_blank' rel='noopener noreferrer'>
+          &nbsp;See information here.
+        </a>
+        &nbsp; Clicking the BUY button only simulates an execution: the security record is removed from the Prospects list and placed in the Positions list. Also clicking the EXIT
+        button only simulates the trade: the security record is removed from the Positions list and placed in the Trades list. The fill price for both orders is obtained from the
+        IEX feed. But you can use the dashboard's edit button to edit the filled price, quantity, and execution date to modify the simulation data.
+        {/* Trades are simulated using the IEX price data for execution prices. */}
         {/* <i>This work is not done yet and editing of any field is now allowed without validation. So don't mess up your edits.</i> */}
         {/* Users can always bypass this program and place orders directly using TDAmeritrade's services. */}
         <br />

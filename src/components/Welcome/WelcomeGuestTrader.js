@@ -11,8 +11,6 @@ const WelcomeGuestTrader = () => {
         You have full access to the program's functions, but there are exceptions as explained below. Click the AcesTrader menu title for more information about the program's
         functions.
       </p>
-
-      <br />
       <p>
         This guest mode has no interaction with any brokerage firm. Order executions are simulated using the IEX price data at the time of your order for fill prices. This means
         orders entered after the IEX close and before the next opening are filled using the last price and not the next opening price. The executed prices are not what would have
@@ -23,9 +21,8 @@ const WelcomeGuestTrader = () => {
         Simulated trading is done using price data from the IEX stock exchange. Price data for charts is obtained from IEX data feeds. Order executions are filled when entered
         using the last price from IEX. IEX is a stock exchange based in the United States:
         <a href='https://en.wikipedia.org/wiki/IEX' target='_blank' rel='noopener noreferrer'>
-          &nbsp;See information here
+          &nbsp;See information here.
         </a>
-        .
       </p>
 
       {/* <p>
