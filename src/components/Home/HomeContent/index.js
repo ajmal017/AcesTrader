@@ -8,8 +8,8 @@ const HomeContent = function() {
       <h4>ACESTRADER</h4>
       <p>
         <i>
-          The AcesTrader program is hobby project by a retired coder, created as an experiment in an easily managed system for end-of-day trading of stocks and ETFs using the API
-          interface of TDAmeritrade's services. The program is still in development and is currently in a Beta state.
+          The AcesTrader program is a project by a retired coder, created as an easily managed system for end-of-day trading of stocks and ETFs using the API interface of
+          TDAmeritrade's services. The program is still in development and is currently in a Beta state.
         </i>
       </p>
       <br />
