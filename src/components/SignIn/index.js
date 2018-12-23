@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import SignInView from './SignInView'
 import fire from '../../fire'
-import { putReference, referencePapertrader, referenceDebugtrader, referenceLocaltrader } from '../../lib/dbReference'
+import { putReference, referenceDebugtrader, referenceLocaltrader } from '../../lib/dbReference'
 
 class SignInContainer extends Component {
   //
@@ -15,12 +15,14 @@ class SignInContainer extends Component {
     this.handleDemoMode = this.handleDemoMode.bind(this)
     this.handleDemoInfo = this.handleDemoInfo.bind(this)
     this.state = {
-      reference: referenceDebugtrader,
+      // reference: referenceDebugtrader,
     }
   }
   componentDidMount() {
     if (process.env.NODE_ENV === 'development') {
-      this.setState({ reference: referencePapertrader, email: 'b@g.com', password: '079007' }) //change default user's role
+      // this.setState({ reference: referenceDebugtrader, email: 'b@g.com', password: '079007' }) //change default user's role
+      // Set the default sign in parameters for debug testing
+      this.setState({ reference: referenceDebugtrader, email: 'b@g.com', password: '079007' }) //change default user's role
     }
   }
 

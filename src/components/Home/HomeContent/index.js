@@ -1,6 +1,5 @@
 import React from 'react'
 import './styles.css'
-import ProspectSells from '../../ProspectSells/index'
 
 const HomeContent = function() {
   return (
