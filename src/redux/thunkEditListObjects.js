@@ -116,6 +116,9 @@ export const addWatchPriceAndIssueType = (tradeSide) => {
       let DataObject = getSymbolDataObject(newObject.symbol)
       newObject['issueType'] = DataObject.issueType
 
+      // Fill the description dashboard parameter
+      newObject['etfDescription'] = DataObject.companyName
+
       dispatch(replaceProspectObject(newObject))
     }
     resetWatchedPrices()
