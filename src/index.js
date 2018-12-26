@@ -15,6 +15,7 @@ import './styles/dialog-polyfill.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './components/App'
+import * as serviceWorker from './serviceWorker'
 
 // Import the utility code which tests if the screen size
 // and grid support are both OK to run the app,
@@ -40,3 +41,8 @@ getOS()
 if (canapprun() && pinverified()) {
   ReactDOM.render(<App />, document.getElementById('root'))
 }
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.unregister()
