@@ -134,34 +134,31 @@ class ChartDashboard extends Component {
     // If weekly bars, determine the status of the long term SMA40 buy/sell alert signals
     const weekly = this.props.cellObject.weeklyBars
     this.lastSma40 = weekly ? getLastSma40Price(this.symbol) : null
-    // if (weekly && this.tradeSide !== 'Shorts') {
-    //   // Note that this test skips the weekly charts of shorts
-    //   if (this.lastSma40 && this.props.iexData > 0) {
-    //     // iexData > 0 means data is available in Chartcell, triggering new props to ChartDashboard to render
-    //     if (this.listGroup === 'prospects') {
-    //       this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading buy OR default background
-    //     }
-    //     if (this.listGroup === 'positions') {
-    //       this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading sell OR default background
-    //     }
-    //   }
-    // } else {
-    //   this.rgbaBackground = defaultRgbaBackground
-    // }
+
+    // Calculate any trending action signal for prospects and positions
 
     if (weekly) {
-      // Note that a trailing stop loss alert overrides any weekly long term SMA40 test result
       if (this.lastSma40 && this.props.iexData > 0) {
         // iexData > 0 means data is available in Chartcell, triggering new props to ChartDashboard to render
-        if (this.listGroup === 'prospects') {
-          this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading buy OR default no-action background
-        }
-        if (this.listGroup === 'positions') {
-          this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading sell OR default no-action background
+        if (this.tradeSide !== 'Shorts') {
+          if (this.listGroup === 'prospects') {
+            this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading buy OR default background
+          }
+          if (this.listGroup === 'positions') {
+            this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading sell OR default background
+          }
+        } else {
+          if (this.listGroup === 'prospects') {
+            this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading buy OR default background
+          }
+          if (this.listGroup === 'positions') {
+            this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading sell OR default background
+          }
         }
       }
     }
 
+    // Calculate any trailing stop loss action signal for positions
     // Note that a trailing stop loss alert overrides any long term SMA40 test result
 
     this.stopGap = this.peekPrice - this.trailingStopBasis
