@@ -110,12 +110,6 @@ class ChartDashboard extends Component {
     this.percentGain = this.peekDate !== undefined ? ((100 * (this.peekPrice - startPrice)) / startPrice).toFixed(1) : 'pending'
     this.positionValue = this.peekDate !== undefined ? this.numberWithCommas((this.filledQuantity * this.peekPrice).toFixed(0)) : 'pending'
     this.rgbColor = null
-    // Reverse colors for shorts **Abandoned idea**
-    // if (this.tradeSide === 'Shorts') {
-    //   this.rgbColor = this.percentGain > 0 ? '255,107,107' : '0,255,0'
-    // } else {
-    //   this.rgbColor = this.percentGain > 0 ? '0,255,0' : '255,107,107'
-    // }
     this.rgbColor = this.percentGain > 0 ? '0,255,0' : '255,107,107'
     this.rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
     this.rgbaValue = this.rgbColor + ',' + this.rgbOpacity
@@ -127,8 +121,9 @@ class ChartDashboard extends Component {
 
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
 
-    // The calculated trailing stop price is optionally show in the dashboard for development
-    this.trailingStopPercent = this.props.cellObject.trailingStopPercent ? this.props.cellObject.trailingStopPercent : 5
+    const defaultTrailingStopPercent = 5
+    this.trailingStopPercent = this.props.cellObject.trailingStopPercent ? this.props.cellObject.trailingStopPercent : defaultTrailingStopPercent
+    // The calculated trailing stop price is optionally shown in the dashboard for development
     this.trailingStopPrice = null
     if (this.tradeSide === 'Shorts') {
       this.trailingStopPrice = (this.trailingStopBasis + (this.trailingStopPercent * this.trailingStopBasis) / 100).toFixed(2)
@@ -139,21 +134,36 @@ class ChartDashboard extends Component {
     // If weekly bars, determine the status of the long term SMA40 buy/sell alert signals
     const weekly = this.props.cellObject.weeklyBars
     this.lastSma40 = weekly ? getLastSma40Price(this.symbol) : null
-    if (weekly && this.tradeSide !== 'Shorts') {
+    // if (weekly && this.tradeSide !== 'Shorts') {
+    //   // Note that this test skips the weekly charts of shorts
+    //   if (this.lastSma40 && this.props.iexData > 0) {
+    //     // iexData > 0 means data is available in Chartcell, triggering new props to ChartDashboard to render
+    //     if (this.listGroup === 'prospects') {
+    //       this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading buy OR default background
+    //     }
+    //     if (this.listGroup === 'positions') {
+    //       this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading sell OR default background
+    //     }
+    //   }
+    // } else {
+    //   this.rgbaBackground = defaultRgbaBackground
+    // }
+
+    if (weekly) {
+      // Note that a trailing stop loss alert overrides any weekly long term SMA40 test result
       if (this.lastSma40 && this.props.iexData > 0) {
         // iexData > 0 means data is available in Chartcell, triggering new props to ChartDashboard to render
         if (this.listGroup === 'prospects') {
-          this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '250,196,0,0.3' : defaultRgbaBackground // alert for trading buy OR default background
+          this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading buy OR default no-action background
         }
         if (this.listGroup === 'positions') {
-          this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '250,196,0,0.3' : defaultRgbaBackground // alert for trading sell OR default background
+          this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading sell OR default no-action background
         }
       }
-    } else {
-      this.rgbaBackground = defaultRgbaBackground
     }
 
-    // A stop loss alert overrides any long term SMA40 signal
+    // Note that a trailing stop loss alert overrides any long term SMA40 test result
+
     this.stopGap = this.peekPrice - this.trailingStopBasis
     // this.stopGap = 0.055 * this.trailingStopBasis // a way to test exits
     this.percentTrailingStopGap = ((100 * this.stopGap) / this.trailingStopBasis).toFixed(1)
@@ -161,7 +171,7 @@ class ChartDashboard extends Component {
       (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
       (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
     ) {
-      this.rgbaBackground = '255,107,107,0.6' // show alert for trailing stop loss
+      this.rgbaBackground = '255, 219, 77,0.8' // show alert for trailing stop loss
     }
 
     // console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)
