@@ -100,7 +100,7 @@ SignInView.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleDemoMode: PropTypes.func.isRequired,
   handleDemoInfo: PropTypes.func.isRequired,
-  reference: PropTypes.string.isRequired,
+  reference: PropTypes.string,
   email: PropTypes.string,
   password: PropTypes.string,
 }
