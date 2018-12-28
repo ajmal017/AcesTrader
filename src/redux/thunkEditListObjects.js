@@ -116,7 +116,7 @@ export const addWatchPriceAndIssueType = (tradeSide) => {
       newObject['issueType'] = DataObject.issueType
 
       // Fill the description dashboard parameter
-      newObject['etfDescription'] = DataObject.companyName
+      newObject['symbolDescription'] = DataObject.companyName
 
       dispatch(replaceProspectObject(newObject))
     }
@@ -161,7 +161,7 @@ export const editListObjectPrarmeters = (hash, parameterData) => {
         key === 'weeklyBars' ||
         key === 'macdChart' ||
         key === 'trailingStopPercent' ||
-        key === 'etfDescription'
+        key === 'symbolDescription'
       ) {
         newObject[key] = parameterData[key]
       } else {

@@ -57,6 +57,23 @@ var dataCache = {
     // dictionary of key/value pairs
     // key=symbol, value=array of objects [{date,ma-value}, ...]
   },
+  last20Closes: {
+    // dictionary of key/value pairs
+    // key=symbol, value=array of the last 20 close prices
+  },
+}
+
+export const putLast20Closes = (symbol, data) => {
+  dataCache.last20Closes[symbol] = data.slice()
+}
+
+export const getLast20Closes = (symbol) => {
+  if (dataCache.last20Closes[symbol]) {
+    let last20Closes = dataCache.last20Closes[symbol].slice()
+    return last20Closes
+  } else {
+    return null
+  }
 }
 
 export const putSma40Data = (symbol, data) => {
