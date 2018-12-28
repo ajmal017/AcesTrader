@@ -99,6 +99,7 @@ class ChartDashboard extends Component {
     this.quantityType = this.props.cellObject.dashboard.quantityType
     this.quantity = this.props.cellObject.dashboard.quantity
     this.buttonLabel = this.props.cellObject.dashboard.buttonLabel
+    this.trailingStopPercent = this.props.cellObject.dashboard.trailingStopPercent || 5
 
     this.instructionRaw = this.props.cellObject.dashboard.instruction
     this.instructionTest = this.tradeSide === 'Shorts' ? true : false
@@ -121,8 +122,7 @@ class ChartDashboard extends Component {
 
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
 
-    const defaultTrailingStopPercent = 5
-    this.trailingStopPercent = this.props.cellObject.trailingStopPercent ? this.props.cellObject.trailingStopPercent : defaultTrailingStopPercent
+    this.trailingStopPercent = this.props.cellObject.trailingStopPercent ? this.props.cellObject.trailingStopPercent : this.trailingStopPercent
     // The calculated trailing stop price is optionally shown in the dashboard for development
     this.trailingStopPrice = null
     if (this.tradeSide === 'Shorts') {

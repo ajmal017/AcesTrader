@@ -1,8 +1,9 @@
 {
-    "sma1":5,
-    "sma2":20,
-    "sma3":50,
-    "sma4":200,
-    "stopPrice":null,
-    "limitPrice":null
+  "sma1": 5,
+  "sma2": 20,
+  "sma3": 50,
+  "sma4": 200,
+  "stopPrice": null,
+  "limitPrice": null,
+  "trailingStopPercent": 5
 }

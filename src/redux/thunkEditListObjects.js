@@ -36,7 +36,6 @@ export const addExitPrice = (hash) => {
 }
 
 //Add Quantity by calculation using the entered price
-//Add trailingStopPercent from app's default value
 export const addEnterPrice = (hash) => {
   return (dispatch, getState) => {
     let ourState = getState() //to  search the 3 positions lists
@@ -54,7 +53,7 @@ export const addEnterPrice = (hash) => {
         if (isNaN(data2)) {
           newObject['enteredPrice'] = 'Not Available'
         } else {
-          newObject['trailingStopBasis'] = data2 //this initial trailing basis will be adjusted using subsquent peek prices
+          newObject['trailingStopBasis'] = data2 //this initial trailing stop basis will be adjusted using subsquent price information
           newObject['enteredPrice'] = data2 //the filled price for this order
           if (foundObject.quantityType === 'DOLLARS') {
             //calculate the filled quantity
@@ -65,7 +64,7 @@ export const addEnterPrice = (hash) => {
           }
         }
         newObject['filledquantity'] = null //removes wrongly labeled property if it still exists
-        newObject['trailingStopPercent'] = 5 //this is the current default app value
+        // *this is now part of the JSON default dashboard file* newObject['trailingStopPercent'] = 5 //this is the current default app value
         dispatch(replacePositionObject(newObject))
       })
       .catch(function(error) {
@@ -133,6 +132,7 @@ function replaceProspectObject(theObject) {
   }
 }
 
+// Update the list object with parameterData from an edited modal dialog
 export const editListObjectPrarmeters = (hash, parameterData) => {
   return (dispatch, getState) => {
     let ourState = getState() //to  search the list for the target object
