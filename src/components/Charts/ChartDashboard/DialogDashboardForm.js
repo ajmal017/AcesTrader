@@ -15,7 +15,7 @@ class DialogDashboardForm extends Component {
     this.listGroup = props.listGroup
     this.tradeSideLc = props.tradeSideLc
     this.trailingStopBasis = props.trailingStopBasis
-    this.etfDescription = props.etfDescription
+    this.symbolDescription = props.symbolDescription
     this.exitCallback = props.exitCallback
     this.state = props.formValues
   }
@@ -77,7 +77,7 @@ class DialogDashboardForm extends Component {
           listGroup={this.props.listGroup}
           tradeSideLc={this.props.tradeSideLc}
           trailingStopBasis={this.props.trailingStopBasis}
-          etfDescription={this.props.etfDescription}
+          symbolDescription={this.props.symbolDescription}
           exitCallback={this.props.exitCallback}
           formValues={this.state}
         />
@@ -173,13 +173,13 @@ function EditDialog(props) {
           </span>
         ) : null}
         <span>
-          <label htmlFor='etfDescription'>Desc</label>
+          <label htmlFor='symbolDescription'>Desc</label>
           <input
-            className={'etfDescription'}
+            className={'symbolDescription'}
             type='text'
-            name='etfDescription'
+            name='symbolDescription'
             placeholder='Optional: Describe this security'
-            value={props.formValues.etfDescription}
+            value={props.formValues.symbolDescription}
             onChange={props.handleInputChange}
           />
           <br />

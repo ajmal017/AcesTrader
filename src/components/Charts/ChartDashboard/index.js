@@ -81,7 +81,7 @@ class ChartDashboard extends Component {
     this.hash = this.props.cellObject.hash
     this.symbol = this.props.cellObject.symbol
     this.listGroup = this.props.cellObject.listGroup
-    this.etfDescription = this.props.cellObject.etfDescription
+    this.symbolDescription = this.props.cellObject.symbolDescription
     this.trailingStopBasis = this.props.cellObject.trailingStopBasis
     this.peekDate = this.props.cellObject.peekDate
     this.peekPrice = this.props.cellObject.peekPrice
@@ -179,7 +179,7 @@ class ChartDashboard extends Component {
       entered: this.entered,
       enteredPrice: this.enteredPrice,
       filledQuantity: this.filledQuantity,
-      etfDescription: this.etfDescription,
+      symbolDescription: this.symbolDescription,
       session: this.session,
       instruction: this.instruction,
       quantity: this.quantity,
@@ -238,7 +238,7 @@ class ChartDashboard extends Component {
                   </span>
                 ) : null}
               </div>
-              <div>{this.etfDescription !== undefined ? <span className='etfDescription'>{this.etfDescription}</span> : null}</div>
+              <div>{this.symbolDescription !== undefined ? <span className='symbolDescription'>{this.symbolDescription}</span> : null}</div>
             </div>
             <label htmlFor='instruction'>Order</label>
             <input className={'instruction-' + this.tradeSideLc} readOnly type='text' name='instruction' value={this.instruction} />

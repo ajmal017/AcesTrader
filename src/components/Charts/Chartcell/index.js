@@ -25,7 +25,7 @@ import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
 import ChartDashboard from '../ChartDashboard'
 import DialogChartCellForm from './DialogChartCellForm'
-import { putPriceData, getPriceData, putSma40Data, setPricesWeekly, arePricesWeekly } from '../../../lib/chartDataCache'
+import { putPriceData, getPriceData, putSma40Data, setPricesWeekly, arePricesWeekly, putLast20Closes } from '../../../lib/chartDataCache'
 import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import './styles.css'
@@ -106,8 +106,11 @@ class Chartcell extends Component {
               addSmaPrice(priceData[kk].close, priceData[kk].date)
             }
             let smaArray = getSmaArray()
-            putSma40Data(symbol, smaArray) //cache the sma40 data for subsequent use
+            putSma40Data(symbol, smaArray) //cache the sma40 data for subsequent use for weekly chart alerts
           }
+          let last20Prices = priceData.slice(-20)
+          let last20Closes = last20Prices.map((obj) => obj.close)
+          putLast20Closes(symbol, last20Closes) //cache the Last20ClosePrices data for subsequent use for trailingStopBasis adjustment
           self.setState({ iexData: self.state.iexData + 1, noprices: false, hide: false }) //triggers render using the cached data
         }
       })
