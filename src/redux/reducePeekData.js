@@ -5,6 +5,7 @@ import defaultLongEntry from '../json/defaultLongEntry.json'
 import defaultLongExit from '../json/defaultLongExit.json'
 import defaultShortEntry from '../json/defaultShortEntry.json'
 import defaultShortExit from '../json/defaultShortExit.json'
+import { getLast20Closes } from '../lib/chartDataCache'
 
 var cloneDeep = require('lodash.clonedeep')
 
@@ -89,11 +90,26 @@ export default function(state, peekdataobject, theDate) {
       }
     }
 
-    // adjust the trailingStopBasis
+    //BCM
+
+    const startDate = new Date(this.entered)
+    const endDate = new Date(this.peekDate)
+    const timeDiff = endDate - startDate
+    this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
+
+    // adjust the trailingStopBasis if the closing price is further to the gain side
+    let last20Closes = getLast20Closes(symbol)
+
     if (obj.dashboard.tradeSide === 'Shorts') {
       initializeTrailingStopBasis(obj) // if needed
-      if (obj.trailingStopBasis > lastPrice) {
-        obj.trailingStopBasis = lastPrice
+      let highestClose = 0
+      for (let kk = 0; kk < last20Closes; kk++) {
+        if (highestClose < last20Closes[kk]) {
+          highestClose = last20Closes[kk]
+        }
+        if (obj.trailingStopBasis < lastPrice) {
+          obj.trailingStopBasis = lastPrice
+        }
       }
     } else if (obj.dashboard.tradeSide === 'Longs' || obj.dashboard.tradeSide === 'Trend Longs') {
       initializeTrailingStopBasis(obj) // if needed

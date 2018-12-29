@@ -70,7 +70,7 @@ class Chartcell extends Component {
   handleDispatchOfDialogEdit(parameterData) {
     // This is a callback function passed to the DialogChartCellForm component.
     // Because of a problem with the react stockchart component, the DialogChartCellForm
-    // wes created to separate its DOM, with the <dialog> element, from this DOM.
+    // was created to separate its DOM with the <dialog> element, from this DOM.
     // The document.body.appendChild() procedure caused the D3 operations
     // in the charting code to fail when the append was done from this DOM.
     this.props.dispatch(editListObjectPrarmeters(this.hash, parameterData)) // renders updated chart
@@ -97,9 +97,16 @@ class Chartcell extends Component {
           //Memory leak reported by VSCode, seems to cause many weird code mistakes when running
           self.setState({ iexData: self.state.iexData + 1, noprices: true, hide: false })
         } else {
+          //BCM
+          // cache the Last20ClosePrices of the daily data
+          // for subsequent use in trailingStopBasis adjustment
+          let last20Prices = data.slice(-20)
+          let last20Closes = last20Prices.map((obj) => obj.close)
+          putLast20Closes(symbol, last20Closes)
+
           let priceData = weeklyBars ? self.convertToWeeklyBars(data) : data
           putPriceData(symbol, priceData) //cache the price data for subsequent rendering
-          setPricesWeekly(symbol, weeklyBars) // record type of the price data
+          setPricesWeekly(symbol, weeklyBars) // set boolean flag: symbol's price data is weekly if true, else daily
           if (weeklyBars) {
             initSma(40, priceData.length)
             for (let kk = 0; kk < priceData.length; kk++) {
@@ -108,9 +115,6 @@ class Chartcell extends Component {
             let smaArray = getSmaArray()
             putSma40Data(symbol, smaArray) //cache the sma40 data for subsequent use for weekly chart alerts
           }
-          let last20Prices = priceData.slice(-20)
-          let last20Closes = last20Prices.map((obj) => obj.close)
-          putLast20Closes(symbol, last20Closes) //cache the Last20ClosePrices data for subsequent use for trailingStopBasis adjustment
           self.setState({ iexData: self.state.iexData + 1, noprices: false, hide: false }) //triggers render using the cached data
         }
       })
@@ -303,7 +307,7 @@ class Chartcell extends Component {
     const chartId = 'chart-' + cell_id
 
     // A re-render will happen without life cycle calls when a list item is deleted,
-    // so we make sure we have the corrent data for the new current symbol
+    // so we make sure we have the correct data for the new current symbol
     this.data = getPriceData(this.symbol)
 
     return (

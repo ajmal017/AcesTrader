@@ -28,14 +28,15 @@ export const resetDataCache = () => {
   dataCache.ema50 = {}
   dataCache.sma40 = {}
   dataCache.sma200 = {}
+  dataCache.last20Closes = {}
 }
 
 var dataCache = {
   // keyed by data category
 
   pricesWeekly: {
-    // dictionary of key/value pairs
-    // key=symbol, value=boolean true=weekly bars, false=daily bars
+    // object with one key/value pair
+    // key=symbol, value=boolean: true=weekly bars, false=daily bars
   },
   prices: {
     // dictionary of key/value pairs
