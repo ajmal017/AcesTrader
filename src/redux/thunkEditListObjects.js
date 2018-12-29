@@ -173,12 +173,12 @@ export const editListObjectPrarmeters = (hash, parameterData) => {
 }
 
 //BCM
-// Update the list object with an adjusted trailingStopBasis
-export const adjustTrailingStopBasis = (hash, last20Closes) => {
-  return (dispatch, getState) => {
-    let ourState = getState() //to  search the list for the target object
-  }
-}
+// // Update the list object with an adjusted trailingStopBasis
+// export const adjustTrailingStopBasis = (hash, last20Closes) => {
+//   return (dispatch, getState) => {
+//     let ourState = getState() //to  search the list for the target object
+//   }
+// }
 
 function replaceEditedObject(theObject) {
   return {
