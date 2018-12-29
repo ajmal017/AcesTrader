@@ -17,13 +17,13 @@ class ChartsView extends Component {
     // newly available prices are then used to update dashboard and tally
     // data via a reducer action that is passed to all the state slices.
     // After that the peekPricesObject is emptied, until the next Peek click.
-    // Also at this time the reducers will test the close price for the last 20 days
-    // and compare to the trailingStopBasis price to see if an adjustment is needed.
     let peekPricesObject = getPeekPrices()
     let peekPricesArray = Object.keys(peekPricesObject)
     //BCM
     if (peekPricesArray.length > 0) {
       this.props.dispatch(updateDashboardPeekData(peekPricesObject)) //reducers update each list object
+      // Also at this time the reducers will test the daily close price for past days
+      // and compare to the trailingStopBasis price to see if an adjustment is needed.
     }
     resetPeekPrices()
   }

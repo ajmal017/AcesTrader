@@ -95,27 +95,41 @@ export default function(state, peekdataobject, theDate) {
     const startDate = new Date(this.entered)
     const endDate = new Date(this.peekDate)
     const timeDiff = endDate - startDate
-    this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
+    let daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
 
     // adjust the trailingStopBasis if the closing price is further to the gain side
     let last20Closes = getLast20Closes(symbol)
+    if (last20Closes.length > 0) {
+      if (daysHere < 20) {
+        last20Closes = getLast20Closes(symbol).slice(-daysHere)
+      } //restrict testing to just the relavent days
 
-    if (obj.dashboard.tradeSide === 'Shorts') {
-      initializeTrailingStopBasis(obj) // if needed
-      let highestClose = 0
-      for (let kk = 0; kk < last20Closes; kk++) {
-        if (highestClose < last20Closes[kk]) {
-          highestClose = last20Closes[kk]
+      if (obj.dashboard.tradeSide === 'Shorts') {
+        // initializeTrailingStopBasis(obj) // if needed
+        let lowestClose = 9999999
+        for (let kk = 0; kk < last20Closes.length; kk++) {
+          if (lowestClose > last20Closes[kk]) {
+            lowestClose = last20Closes[kk]
+          }
+          if (obj.trailingStopBasis > lowestClose) {
+            obj.trailingStopBasis = lowestClose
+          }
         }
-        if (obj.trailingStopBasis < lastPrice) {
-          obj.trailingStopBasis = lastPrice
+      } else if (obj.dashboard.tradeSide === 'Longs' || obj.dashboard.tradeSide === 'Trend Longs') {
+        // initializeTrailingStopBasis(obj) // if needed
+        let highestClose = 0
+        for (let kk = 0; kk < last20Closes.length; kk++) {
+          if (highestClose < last20Closes[kk]) {
+            highestClose = last20Closes[kk]
+          }
+          if (obj.trailingStopBasis < highestClose) {
+            obj.trailingStopBasis = highestClose
+          }
         }
       }
-    } else if (obj.dashboard.tradeSide === 'Longs' || obj.dashboard.tradeSide === 'Trend Longs') {
-      initializeTrailingStopBasis(obj) // if needed
-      if (obj.trailingStopBasis < lastPrice) {
-        obj.trailingStopBasis = lastPrice
-      }
+    }
+    if (obj.trailingStopBasis === undefined && !isNaN(obj.enteredPrice)) {
+      obj.trailingStopBasis = obj.enteredPrice
     }
     return obj // add to the newState array with updated properties
   })
