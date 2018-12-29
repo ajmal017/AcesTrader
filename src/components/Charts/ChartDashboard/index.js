@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import DialogDashboardForm from './DialogDashboardForm'
 import { getLastSma40Price } from '../../../lib/chartDataCache'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
+import { getLast20Closes } from '../../../lib/chartDataCache'
 import './styles.css'
 import './stylesTextWidths.css'
 
@@ -36,6 +37,11 @@ class ChartDashboard extends Component {
 
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+  //BCM
+  componentDidMount() {
+    const last20Closes = getLast20Closes(this.props.cellObject.symbol)
+  }
 
   handleEditDialogOpen(event) {
     event.preventDefault()
@@ -137,40 +143,44 @@ class ChartDashboard extends Component {
 
     // Calculate any trending action signal for prospects and positions
 
-    if (weekly) {
-      if (this.lastSma40 && this.props.iexData > 0) {
-        // iexData > 0 means data is available in Chartcell, triggering new props to ChartDashboard to render
-        if (this.tradeSide !== 'Shorts') {
-          if (this.listGroup === 'prospects') {
-            this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading buy OR default background
-          }
-          if (this.listGroup === 'positions') {
-            this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading sell OR default background
-          }
-        } else {
-          if (this.listGroup === 'prospects') {
-            this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading buy OR default background
-          }
-          if (this.listGroup === 'positions') {
-            this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading sell OR default background
+    if (this.peekDate === undefined || this.props.iexData === 0) {
+      // If iexData > 0 it means data was available in Chartcell, giving new props to ChartDashboard to render
+      this.rgbaBackground = defaultRgbaBackground // not able to test for any alert now
+    } else {
+      if (weekly) {
+        if (this.lastSma40) {
+          // Flag any trend following alerts
+          if (this.tradeSide !== 'Shorts') {
+            if (this.listGroup === 'prospects') {
+              this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading buy OR default background
+            }
+            if (this.listGroup === 'positions') {
+              this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading sell OR default background
+            }
+          } else if (this.tradeSide === 'Shorts') {
+            if (this.listGroup === 'prospects') {
+              this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading buy OR default background
+            }
+            if (this.listGroup === 'positions') {
+              this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading sell OR default background
+            }
           }
         }
       }
+
+      // Calculate any trailing stop loss action alert for positions
+      // Note that a trailing stop loss alert overrides any trend following SMA40 test result
+
+      this.stopGap = this.peekPrice - this.trailingStopBasis
+      // this.stopGap = 0.055 * this.trailingStopBasis // a way to test exit alerts
+      this.percentTrailingStopGap = ((100 * this.stopGap) / this.trailingStopBasis).toFixed(1)
+      if (
+        (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
+        (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
+      ) {
+        this.rgbaBackground = '255, 219, 77,0.8' // show alert for trailing stop loss
+      }
     }
-
-    // Calculate any trailing stop loss action signal for positions
-    // Note that a trailing stop loss alert overrides any long term SMA40 test result
-
-    this.stopGap = this.peekPrice - this.trailingStopBasis
-    // this.stopGap = 0.055 * this.trailingStopBasis // a way to test exits
-    this.percentTrailingStopGap = ((100 * this.stopGap) / this.trailingStopBasis).toFixed(1)
-    if (
-      (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
-      (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
-    ) {
-      this.rgbaBackground = '255, 219, 77,0.8' // show alert for trailing stop loss
-    }
-
     // console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)
 
     this.dialogDashboardFormValues = {
