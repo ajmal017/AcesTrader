@@ -57,6 +57,8 @@ class ChartsView extends Component {
 // can be a list of Buys, ShortSales TrendBuys, Longs, Shorts, or TrendLongs
 ChartsView.propTypes = {
   chartArray: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
 }
 
 //Note: this used only to get access to "this.props.dispatch", not for state access
