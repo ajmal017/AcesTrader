@@ -20,7 +20,7 @@ import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
 import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
 import getChartData from '../../../lib/apiGetChartData'
-// import getChartLastBar from '../../../lib/apigetChartLastBar'
+// import getChartLastBar from '../../../lib/apiGetChartLastBar'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
 import ChartDashboard from '../ChartDashboard'
@@ -101,7 +101,9 @@ class Chartcell extends Component {
           // cache the Last20ClosePrices of the daily data
           // for subsequent use in trailingStopBasis adjustment
           let last20Prices = data.slice(-20)
-          let last20Closes = last20Prices.map((obj) => obj.close)
+          let last20Closes = last20Prices.map((obj) => {
+            return { close: obj.close, date: obj.date }
+          })
           putLast20Closes(symbol, last20Closes)
 
           let priceData = weeklyBars ? self.convertToWeeklyBars(data) : data

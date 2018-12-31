@@ -1,4 +1,4 @@
-// apigetChartLastBar.js
+// apiGetChartLastBar.js
 
 import axios from 'axios'
 import { getReference, referenceLocaltrader } from './dbReference'
