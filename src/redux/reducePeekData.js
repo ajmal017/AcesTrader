@@ -88,14 +88,8 @@ export default function(state, peekPricesObject, theDate) {
       updated = true
     }
 
-    //BCM
-    // adjust the trailingStopBasis if the closing price is further to the gain side
+    // Adjust the trailingStopBasis if the closing price is further to the gain side
     const last20Closes = getLast20Closes(symbol)
-
-    // let tester1 = Object.keys(peekPricesObject).length > 0 ? peekPricesObject[symbol] : null
-    // let tester2 = last20Closes ? +new Date(last20Closes[19].date) : last20Closes
-    // console.log(`reducePeekData, ${symbol} peekPricesObject=${tester1}, last20Closes=${tester2}`)
-
     if (last20Closes && last20Closes.length > 0) {
       const highestLowestCloses = getHighestLowestCloses(last20Closes, obj.entered) // returns {highest: price, lowest: price}
       if (obj.dashboard.tradeSide === 'Shorts' && obj.trailingStopBasis > highestLowestCloses.lowest) {
@@ -106,40 +100,6 @@ export default function(state, peekPricesObject, theDate) {
         updated = true
       }
     }
-
-    // const endDate = new Date(theDate)
-    // const startDate = new Date(obj.entered)
-    // const timeDiff = endDate - startDate
-    // let daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
-    // if (daysHere < 20) {
-    //   last20Closes = getLast20Closes(symbol).slice(-daysHere)
-    // } //restrict testing to just the relevant days
-
-    // if (obj.dashboard.tradeSide === 'Shorts') {
-    //   let lowestClose = 9999999
-    //   for (let kk = 0; kk < last20Closes.length; kk++) {
-    //     if (lowestClose > last20Closes[kk]) {
-    //       lowestClose = last20Closes[kk]
-    //     }
-    //   }
-    //   if (obj.trailingStopBasis > lowestClose) {
-    //     obj.trailingStopBasis = lowestClose
-    //     updated = true
-    //   }
-    // } else if (obj.dashboard.tradeSide === 'Longs' || obj.dashboard.tradeSide === 'Trend Longs') {
-    //   let highestClose = 0
-    //   for (let kk = 0; kk < last20Closes.length; kk++) {
-    //     if (highestClose < last20Closes[kk]) {
-    //       highestClose = last20Closes[kk]
-    //     }
-    //     if (obj.trailingStopBasis < highestClose) {
-    //       obj.trailingStopBasis = highestClose
-    //       updated = true
-    //     }
-    //   }
-    // }
-    // }
-
     if (obj.trailingStopBasis === undefined && !isNaN(obj.enteredPrice)) {
       obj.trailingStopBasis = obj.enteredPrice
       updated = true

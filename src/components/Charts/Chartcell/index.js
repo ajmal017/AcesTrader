@@ -97,9 +97,8 @@ class Chartcell extends Component {
           //Memory leak reported by VSCode, seems to cause many weird code mistakes when running
           self.setState({ iexData: self.state.iexData + 1, noprices: true, hide: false })
         } else {
-          //BCM
-          // cache the Last20ClosePrices of the daily data
-          // for subsequent use in trailingStopBasis adjustment
+          // Cache the last 20 close prices and dates from the daily data
+          // for subsequent use in trailingStopBasis adjustments
           let last20Prices = data.slice(-20)
           let last20Closes = last20Prices.map((obj) => {
             return { close: obj.close, date: obj.date }
