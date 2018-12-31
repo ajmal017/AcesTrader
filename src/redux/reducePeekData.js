@@ -90,14 +90,14 @@ export default function(state, peekPricesObject, theDate) {
 
     //BCM
     // adjust the trailingStopBasis if the closing price is further to the gain side
-    const last20Closes = getLast20Closes(this.symbol)
+    const last20Closes = getLast20Closes(symbol)
 
     // let tester1 = Object.keys(peekPricesObject).length > 0 ? peekPricesObject[symbol] : null
     // let tester2 = last20Closes ? +new Date(last20Closes[19].date) : last20Closes
     // console.log(`reducePeekData, ${symbol} peekPricesObject=${tester1}, last20Closes=${tester2}`)
 
     if (last20Closes && last20Closes.length > 0) {
-      const highestLowestCloses = getHighestLowestCloses(last20Closes, this.entered) // returns {highest: price, lowest: price}
+      const highestLowestCloses = getHighestLowestCloses(last20Closes, obj.entered) // returns {highest: price, lowest: price}
       if (obj.dashboard.tradeSide === 'Shorts' && obj.trailingStopBasis > highestLowestCloses.lowest) {
         obj.trailingStopBasis = highestLowestCloses.lowest
         updated = true
