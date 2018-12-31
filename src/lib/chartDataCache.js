@@ -60,17 +60,17 @@ var dataCache = {
   },
   last20Closes: {
     // dictionary of key/value pairs
-    // key=symbol, value=array of the last 20 close prices
+    // key=symbol, value=array of the last 20 close objects [{close,date}...]
   },
 }
 
 export const putLast20Closes = (symbol, data) => {
-  dataCache.last20Closes[symbol] = data.slice()
+  dataCache.last20Closes[symbol] = cloneDeep(data)
 }
 
 export const getLast20Closes = (symbol) => {
   if (dataCache.last20Closes[symbol]) {
-    let last20Closes = dataCache.last20Closes[symbol].slice()
+    let last20Closes = cloneDeep(dataCache.last20Closes[symbol])
     return last20Closes
   } else {
     return null

@@ -18,7 +18,7 @@ const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE'
 const UPDATE_DASHBOARD_PEEK_DATA = 'UPDATE_DASHBOARD_PEEK_DATA'
 
 // this action type is handled in all the reducers except results & modalReducer
-export const updateDashboardPeekData = (peekdataobject) => {
+export const updateDashboardPeekData = (peekPricesObject) => {
   let date = new Date()
   let theDate = date.toLocaleString('en-US').toLowerCase()
   // Extract the parts we want from a local string like: "11/21/2018, 4:49:28 pm"
@@ -28,7 +28,7 @@ export const updateDashboardPeekData = (peekdataobject) => {
 
   return {
     type: UPDATE_DASHBOARD_PEEK_DATA,
-    peekdataobject: peekdataobject,
+    peekdataobject: peekPricesObject,
     theDate: theDate,
   }
 }
