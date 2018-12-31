@@ -133,19 +133,15 @@ class ChartDashboard extends Component {
       this.trailingStopPrice = (this.trailingStopBasis - (this.trailingStopPercent * this.trailingStopBasis) / 100).toFixed(2)
     }
 
-    //BCM
-    // // If weekly bars, determine the status of the long term SMA40 buy/sell alert signals
-    // const weekly = this.props.cellObject.weeklyBars
-    // this.lastSma40 = weekly ? getLastSma40Price(this.symbol) : null
-
-    // Calculate any trending action signal for prospects and positions
     if (this.peekDate === undefined || this.props.iexData === 0) {
-      // When iexData > 0 it means data was available in Chartcell, giving new props to ChartDashboard to render
-      this.rgbaBackground = defaultRgbaBackground // not able to test for any alert now
+      this.rgbaBackground = defaultRgbaBackground // chart data not available yet, not able to test for any alert now
     } else {
+      // When iexData > 0, it means chart data is available in Chartcell,
+      // peoviding new props for ChartDashboard to render
       const weekly = this.props.cellObject.weeklyBars
       if (weekly) {
-        // If weekly bars, determine the status of the long term SMA40 buy/sell alert signals
+        // Calculate action signal for trend following prospects and positions using weekly bar charts
+        // Determine the status of the long term SMA40 buy/sell alert signals
         const lastSma40 = getLastSma40Price(this.symbol)
         if (lastSma40) {
           // Flag any trend following alerts
@@ -167,20 +163,18 @@ class ChartDashboard extends Component {
         }
       }
 
-      //BCM
+      // Adjust the trailingStopBasis if the closing price is further to the gain side
+      // Changing this.trailingStopBasis here now is for immediate effect
+      // Permanent change will be done in reducePeekData.js the next time ChartView is rendered.
       const last20Closes = getLast20Closes(this.symbol)
       if (last20Closes && last20Closes.length > 0) {
         const highestLowestCloses = getHighestLowestCloses(last20Closes, this.entered) // returns {highest: price, lowest: price}
-        // Change this.trailingStopBasis here now for immediate effect
-        // Permanent change will be done in reducePeekData.js the next time ChartView is rendered.
         if (this.tradeSide === 'Shorts' && this.trailingStopBasis > highestLowestCloses.lowest) {
           this.trailingStopBasis = highestLowestCloses.lowest
         } else if (this.tradeSide !== 'Shorts' && this.trailingStopBasis < highestLowestCloses.highest) {
           this.trailingStopBasis = highestLowestCloses.highest
         }
       }
-      //BCM
-      //refactor reducePeekData.js to call getHighestLowestCloses(last20Closes, this.entered)
 
       // Calculate any trailing stop loss action alert for positions
       // Note that a trailing stop loss alert overrides any trend following SMA40 test result

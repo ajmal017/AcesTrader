@@ -10,7 +10,7 @@ import './styles.css'
 
 class ChartsView extends Component {
   componentDidMount() {
-    // throw new Error('A test error has occured in Buggy ChartsView component!') // this only for testing Sentry
+    // throw new Error('A test error has occured in ChartsView component!') // this only for testing Sentry
     window.scrollTo(0, 0)
     // Each time More/Peek is clicked, the peekPricesObject is created.
     // Then when Prospects , Positions or Trades is opened, the
@@ -24,14 +24,6 @@ class ChartsView extends Component {
     this.props.dispatch(updateDashboardPeekData(peekPricesObject)) //reducers update each list object
     resetPeekPrices()
   }
-
-  //BCM
-  // componentDidUpdate() {
-  //   let peekPricesObject = null
-  //   this.props.dispatch(updateDashboardPeekData(peekPricesObject)) //reducers update each list object
-  //   // At this time the reducers will test the daily close price for past days
-  //   // and compare to the trailingStopBasis price to see if an adjustment is needed.
-  // }
 
   render() {
     // Create an array of Chartcells, one for each chart's graph & dashboard
