@@ -38,7 +38,11 @@ var dataCache = {
     // object with one key/value pair
     // key=symbol, value=boolean: true=weekly bars, false=daily bars
   },
-  prices: {
+  dailyPrices: {
+    // dictionary of key/value pairs
+    // key=symbol, value=array of objects [{date,open,high,low,close,volume}, ...]
+  },
+  weeklyPrices: {
     // dictionary of key/value pairs
     // key=symbol, value=array of objects [{date,open,high,low,close,volume}, ...]
   },
@@ -98,13 +102,22 @@ export const getLastSma40Price = (symbol) => {
   }
 }
 
-export const putPriceData = (symbol, data) => {
-  dataCache.prices[symbol] = cloneDeep(data)
+export const putDailyPriceData = (symbol, data) => {
+  dataCache.dailyPrices[symbol] = cloneDeep(data)
 }
-export const getPriceData = (symbol) => {
-  let priceData = cloneDeep(dataCache.prices[symbol])
-  return priceData
+export const getDailyPriceData = (symbol) => {
+  let dailyPriceData = cloneDeep(dataCache.dailyPrices[symbol])
+  return dailyPriceData
 }
+export const putWeeklyPriceData = (symbol, data) => {
+  dataCache.weeklyPrices[symbol] = cloneDeep(data)
+}
+export const getWeeklyPriceData = (symbol) => {
+  let weeklyPriceData = cloneDeep(dataCache.weeklyPrices[symbol])
+  return weeklyPriceData
+}
+
+// Note the below is just a boolean switch
 export const setPricesWeekly = (symbol, isWeekly) => {
   dataCache.pricesWeekly[symbol] = isWeekly
 }

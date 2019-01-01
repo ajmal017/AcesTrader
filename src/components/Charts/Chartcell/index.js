@@ -25,7 +25,7 @@ import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
 import ChartDashboard from '../ChartDashboard'
 import DialogChartCellForm from './DialogChartCellForm'
-import { putPriceData, getPriceData, putSma40Data, setPricesWeekly, arePricesWeekly, putLast20Closes } from '../../../lib/chartDataCache'
+import { putDailyPriceData, getDailyPriceData, putWeeklyPriceData, getWeeklyPriceData, putSma40Data, putLast20Closes } from '../../../lib/chartDataCache'
 import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import './styles.css'
@@ -55,18 +55,20 @@ class Chartcell extends Component {
 
   componentDidMount() {
     let recoveredData
-    if (this.weeklyBars === arePricesWeekly()) {
-      // Are cached bars the required version? (true=true or false=false)
-      // try to recover cached price data to avoid another http request
-      recoveredData = getPriceData(this.symbol)
+    if (this.weeklyBars) {
+      recoveredData = getWeeklyPriceData(this.symbol)
+    } else {
+      recoveredData = getDailyPriceData(this.symbol)
     }
-    console.log(`Chartcell: componentDidMount 1, recoveredData=${recoveredData}`) //BCM
     if (recoveredData) {
+      console.log(`Chartcell: componentDidMount 1, recoveredData=found, weekly=${this.weeklyBars}`) //BCM
       // another http request for chart data not needed
       this.data = recoveredData
       //BCM this.setState({ iexData: this.state.iexData + 1, hide: false }) //new data is available in cache
+      this.setState({ iexData: this.state.iexData + 1, hide: false }) //new data is available in cache
     } else {
-      // cached bars are not the required version, or not yet cached
+      console.log(`Chartcell: componentDidMount 2, recoveredData=NOT found, weekly=${this.weeklyBars}`) //BCM
+      // required bars are not yet cached
       this.loadChartData(this.weeklyBars)
     }
   }
@@ -101,6 +103,7 @@ class Chartcell extends Component {
           //Memory leak reported by VSCode, seems to cause many weird code mistakes when running
           self.setState({ iexData: self.state.iexData + 1, noprices: true, hide: false })
         } else {
+          putDailyPriceData(symbol, data) //cache the daily price data for subsequent rendering
           // Cache the last 20 close prices and dates from the daily data
           // for subsequent use in trailingStopBasis adjustments
           let last20Prices = data.slice(-20)
@@ -109,17 +112,14 @@ class Chartcell extends Component {
           })
           putLast20Closes(symbol, last20Closes)
 
-          let priceData = weeklyBars ? self.convertToWeeklyBars(data) : data
-          putPriceData(symbol, priceData) //cache the price data for subsequent rendering
-          setPricesWeekly(symbol, weeklyBars) // set boolean flag: symbol's price data is weekly if true, else daily
-          if (weeklyBars) {
-            initSma(40, priceData.length)
-            for (let kk = 0; kk < priceData.length; kk++) {
-              addSmaPrice(priceData[kk].close, priceData[kk].date)
-            }
-            let smaArray = getSmaArray()
-            putSma40Data(symbol, smaArray) //cache the sma40 data for subsequent use for weekly chart alerts
+          let weeklyPriceData = self.convertToWeeklyBars(data)
+          putWeeklyPriceData(symbol, weeklyPriceData) //cache the weeky price data for subsequent rendering
+          initSma(40, weeklyPriceData.length)
+          for (let kk = 0; kk < weeklyPriceData.length; kk++) {
+            addSmaPrice(weeklyPriceData[kk].close, weeklyPriceData[kk].date)
           }
+          let smaArray = getSmaArray()
+          putSma40Data(symbol, smaArray) //cache the sma40 data for subsequent use for weekly chart alerts
           self.setState({ iexData: self.state.iexData + 1, noprices: false, hide: false }) //triggers render using the cached data
         }
       })
@@ -313,7 +313,7 @@ class Chartcell extends Component {
 
     // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the correct data for the new current symbol
-    this.data = getPriceData(this.symbol)
+    this.data = this.weeklyBars ? getWeeklyPriceData(this.symbol) : getDailyPriceData(this.symbol)
 
     return (
       <div id={'chart-main' + this.hash}>
