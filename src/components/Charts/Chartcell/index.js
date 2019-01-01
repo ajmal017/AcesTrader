@@ -47,7 +47,7 @@ class Chartcell extends Component {
     this.data = null
     this.dispatch = this.props.dispatch
     this.state = {
-      iexData: 0, // count of switches between daily and weekly bars to trigger dashboard render
+      iexData: 0, // count of switches between daily and weekly bars to trigger dashboard render when changed
       hide: false,
       noprices: false,
     }
@@ -56,13 +56,17 @@ class Chartcell extends Component {
   componentDidMount() {
     let recoveredData
     if (this.weeklyBars === arePricesWeekly()) {
+      // Are cached bars the required version? (true=true or false=false)
       // try to recover cached price data to avoid another http request
       recoveredData = getPriceData(this.symbol)
     }
+    console.log(`Chartcell: componentDidMount 1, recoveredData=${recoveredData}`) //BCM
     if (recoveredData) {
+      // another http request for chart data not needed
       this.data = recoveredData
-      this.setState({ iexData: this.state.iexData + 1, hide: false }) //data is available in cache
+      //BCM this.setState({ iexData: this.state.iexData + 1, hide: false }) //new data is available in cache
     } else {
+      // cached bars are not the required version, or not yet cached
       this.loadChartData(this.weeklyBars)
     }
   }
