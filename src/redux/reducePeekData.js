@@ -88,6 +88,8 @@ export default function(state, peekPricesObject, theDate) {
       updated = true
     }
 
+    console.log('reducePeekData') //BCM
+
     // Adjust the trailingStopBasis if the closing price is further to the gain side
     const last20Closes = getLast20Closes(symbol)
     if (last20Closes && last20Closes.length > 0) {
