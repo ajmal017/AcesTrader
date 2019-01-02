@@ -47,7 +47,7 @@ class Chartcell extends Component {
     this.data = null
     this.dispatch = this.props.dispatch
     this.state = {
-      iexData: 0, // count of switches between daily and weekly bars to trigger dashboard render when changed
+      iexData: 0, // switch to trigger dashboard render when chart data is available
       hide: false,
       noprices: false,
     }
@@ -64,8 +64,8 @@ class Chartcell extends Component {
       console.log(`Chartcell: componentDidMount 1, recoveredData=found, weekly=${this.weeklyBars}`) //BCM
       // another http request for chart data not needed
       this.data = recoveredData
+      this.setState({ iexData: 2, hide: false }) //new data is available in cache
       //BCM this.setState({ iexData: this.state.iexData + 1, hide: false }) //new data is available in cache
-      this.setState({ iexData: this.state.iexData + 1, hide: false }) //new data is available in cache
     } else {
       console.log(`Chartcell: componentDidMount 2, recoveredData=NOT found, weekly=${this.weeklyBars}`) //BCM
       // required bars are not yet cached
@@ -101,7 +101,7 @@ class Chartcell extends Component {
         if (data.length < 2) {
           //CandleStickChartWithMA bug seen with new issue "TRTY" when only 0 or 1 day's data available
           //Memory leak reported by VSCode, seems to cause many weird code mistakes when running
-          self.setState({ iexData: self.state.iexData + 1, noprices: true, hide: false })
+          self.setState({ iexData: 3, noprices: true, hide: false })
         } else {
           putDailyPriceData(symbol, data) //cache the daily price data for subsequent rendering
           // Cache the last 20 close prices and dates from the daily data
@@ -120,12 +120,12 @@ class Chartcell extends Component {
           }
           let smaArray = getSmaArray()
           putSma40Data(symbol, smaArray) //cache the sma40 data for subsequent use for weekly chart alerts
-          self.setState({ iexData: self.state.iexData + 1, noprices: false, hide: false }) //triggers render using the cached data
+          self.setState({ iexData: 1, noprices: false, hide: false }) //triggers render using the cached data
         }
       })
       .catch(function(error) {
         console.log('getChartData axios error:', error.message)
-        // self.setState({ iexData: self.state.iexData+1, noprices: true, hide: false })
+        // self.setState({ iexData: 4, noprices: true, hide: false })
         alert('getChartData axios error: ' + error.message) //rude interruption to user
         debugger // pause for developer
       })
@@ -197,7 +197,7 @@ class Chartcell extends Component {
   //         // let lastBar = { close: barClose, date: '', high: barHigh, low: barLow, open: barOpen, volume: barVolume }
   //       } else {
   //         // putPriceData(symbol, data) //cache the price data for subsequent rendering
-  //         // self.setState({ iexData: self.state.iexData+1, hide: false }) //triggers render using the cached data
+  //         // self.setState({ iexData: 5, hide: false }) //triggers render using the cached data
   //       }
   //     })
   //     .catch(function(error) {

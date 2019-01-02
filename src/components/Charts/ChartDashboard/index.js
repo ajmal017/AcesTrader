@@ -137,7 +137,7 @@ class ChartDashboard extends Component {
     if (this.peekDate === undefined || this.props.iexData === 0) {
       this.rgbaBackground = defaultRgbaBackground // chart data not available yet, not able to test for any alert now
     } else {
-      console.log('ChartDashboard: with iexData') //BCM
+      console.log('ChartDashboard: with iexData=' + iexData) //BCM
       // When iexData > 0, it means chart data is available in Chartcell,
       // peoviding new props for ChartDashboard to render
       const weekly = this.props.cellObject.weeklyBars
