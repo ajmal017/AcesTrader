@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import SignInView from './SignInView'
 import fire from '../../fire'
-import { putReference, referenceDebugtrader, referenceLocaltrader } from '../../lib/dbReference'
+import { putReference, referenceLocaltrader } from '../../lib/dbReference'
 
 class SignInContainer extends Component {
   //
@@ -22,7 +22,8 @@ class SignInContainer extends Component {
     if (process.env.NODE_ENV === 'development') {
       // this.setState({ reference: referenceDebugtrader, email: 'b@g.com', password: '079007' }) //change default user's role
       // Set the default sign in parameters for debug testing
-      this.setState({ reference: referenceDebugtrader, email: 'b@g.com', password: '079007' }) //change default user's role
+      this.setState({ email: 'b@g.com', password: '079007' }) //change default user's role
+      //this.setState({ reference: referencePapertrader, email: 'b@g.com', password: '079007' }) //change default user's role
     }
   }
 
@@ -33,13 +34,17 @@ class SignInContainer extends Component {
   handleSubmit = async (event) => {
     event.preventDefault()
     const { reference } = this.state
-    const { email, password } = event.target.elements
-    putReference(reference) // user's role selected when form is submitted
-    try {
-      await fire.auth().signInWithEmailAndPassword(email.value, password.value)
-      this.props.history.push('/startUp')
-    } catch (error) {
-      alert(error)
+    if (!reference) {
+      alert('Select A Trading Role')
+    } else {
+      const { email, password } = event.target.elements
+      putReference(reference) // user's role selected when form is submitted
+      try {
+        await fire.auth().signInWithEmailAndPassword(email.value, password.value)
+        this.props.history.push('/startUp')
+      } catch (error) {
+        alert(error)
+      }
     }
   }
 

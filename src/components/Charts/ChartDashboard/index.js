@@ -182,7 +182,7 @@ class ChartDashboard extends Component {
       // Note that a trailing stop loss alert overrides any trend following SMA40 test result
       this.stopGap = this.peekPrice - this.trailingStopBasis
       // this.stopGap = 0.055 * this.trailingStopBasis // a way to test exit alerts
-      this.percentTrailingStopGap = ((100 * this.stopGap) / this.trailingStopBasis).toFixed(1)
+      this.percentTrailingStopGap = (100 * this.stopGap) / this.trailingStopBasis //.toFixed(1)
       if (
         (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
         (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
