@@ -7,7 +7,7 @@ import './styles.css'
 class Appnav extends React.Component {
   static contextType = AuthenticatedContext
   render() {
-    let authenticated = this.context
+    let currentUser = this.context
     return (
       <div>
         <Navbar className='navbar-fixed' inverse collapseOnSelect>
@@ -67,9 +67,13 @@ class Appnav extends React.Component {
                 <LinkContainer to='/peek'>
                   <NavItem eventKey={7.2}>Peek</NavItem>
                 </LinkContainer>
-                <LinkContainer to='/welcomerealtrader'>
-                  <NavItem eventKey={7.4}>Change Account</NavItem>
-                </LinkContainer>
+
+                {currentUser && currentUser.email !== 'demouser@xmail.com' ? (
+                  <LinkContainer to='/welcomerealtrader'>
+                    <NavItem eventKey={7.4}>Change Account</NavItem>
+                  </LinkContainer>
+                ) : null}
+
                 <MenuItem divider />
                 <LinkContainer to='/home'>
                   <MenuItem eventKey={7.6}>AcesTrader Home</MenuItem>
@@ -81,7 +85,7 @@ class Appnav extends React.Component {
                 {/* {getResetStateMenu()} */}
               </NavDropdown>
               <LinkContainer to='/signout'>
-                <NavItem eventKey={9}>{authenticated ? 'SignOut' : 'SignIn'}</NavItem>
+                <NavItem eventKey={9}>{currentUser ? 'SignOut' : 'SignIn'}</NavItem>
               </LinkContainer>
             </Nav>
           </Navbar.Collapse>

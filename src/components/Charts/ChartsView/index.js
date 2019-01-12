@@ -21,10 +21,8 @@ class ChartsView extends Component {
     // Also at this time the reducers will test the daily close price for past days
     // and compare to the trailingStopBasis price to see if an adjustment is needed.
     let peekPricesObject = getPeekPrices()
-    console.log('ChartsView: componentDidMount 1') //BCM
     this.props.dispatch(updateDashboardPeekData(peekPricesObject)) //reducers update each list object's changed peek price and trailingStopBasis
     resetPeekPrices()
-    console.log('ChartsView: componentDidMount 2') //BCM
   }
 
   render() {

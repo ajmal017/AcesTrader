@@ -61,12 +61,10 @@ class Chartcell extends Component {
       recoveredData = getDailyPriceData(this.symbol)
     }
     if (recoveredData) {
-      console.log(`Chartcell: componentDidMount 1, recoveredData=found, iexData=${this.state.iexData}`) //BCM
       // another http request for chart data not needed
       this.data = recoveredData
       this.setState({ iexData: 2, hide: false }) //new data is available in cache
     } else {
-      console.log(`Chartcell: componentDidMount 2, recoveredData=NOT found, iexData=${this.state.iexData}`) //BCM
       // required bars are not yet cached
       this.loadChartData(this.weeklyBars)
     }
