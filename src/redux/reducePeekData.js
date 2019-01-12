@@ -82,7 +82,7 @@ export default function(state, peekPricesObject, theDate) {
     // The peekPricesObject holding those symbol/price pairs is queried with the symbol to get the price at the tilme of the peek.
     // // let peekPricesArray = Object.keys(peekPricesObject)
     if (peekPricesObject && Object.keys(peekPricesObject).length > 0) {
-      console.log('reducePeekData with lastPrice') //BCM
+      // console.log('reducePeekData with lastPrice')
       let lastPrice = peekPricesObject[symbol]
       obj['peekDate'] = theDate
       obj['peekPrice'] = lastPrice
@@ -92,7 +92,7 @@ export default function(state, peekPricesObject, theDate) {
     // Adjust the trailingStopBasis if the closing price is further to the gain side
     const last20Closes = getLast20Closes(symbol)
     if (last20Closes && last20Closes.length > 0) {
-      console.log('reducePeekData with last20Closes') //BCM
+      // console.log('reducePeekData with last20Closes')
       const highestLowestCloses = getHighestLowestCloses(last20Closes, obj.entered) // returns {highest: price, lowest: price}
       if (obj.dashboard.tradeSide === 'Shorts' && obj.trailingStopBasis > highestLowestCloses.lowest) {
         obj.trailingStopBasis = highestLowestCloses.lowest

@@ -40,7 +40,6 @@ class SignInContainer extends Component {
   // handle the help icon click: show the guest information page
   handleDemoInfo = (event) => {
     event.preventDefault()
-    // putReference(referenceLocaltrader) //BCM
     this.props.history.push('/welcomeguest')
   }
 

@@ -79,7 +79,7 @@ class App extends Component {
   }
 
   render() {
-    const { loading, store, authenticated } = this.state
+    const { loading, store, authenticated, currentUser } = this.state
 
     if (loading) {
       const divStyle = { marginTop: 80, marginLeft: 50 }
@@ -92,7 +92,7 @@ class App extends Component {
 
     return (
       <ErrorBoundary>
-        <AuthenticatedContext.Provider value={authenticated}>
+        <AuthenticatedContext.Provider value={currentUser}>
           <Root store={store} authenticated={authenticated} /> {/* shows Navbar */}
         </AuthenticatedContext.Provider>
       </ErrorBoundary>
