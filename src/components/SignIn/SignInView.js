@@ -5,7 +5,7 @@ import { referenceRealtrader, referencePapertrader, referenceDebugtrader } from 
 import information from '../../images/help_icon.png'
 import './styles.css'
 
-const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDemoInfo, reference, email, password }) => {
+const SignInView = ({ onSubmit, onSignUp, handleDemoMode, handleDemoInfo, reference, email, password }) => {
   const handleDemoInfoClick = function(e) {
     // alert('handleInfoClick')
     handleDemoInfo(e)
@@ -13,7 +13,7 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
 
   return (
     <div>
-      0.1.89
+      0.1.90
       <span className={'header'}>
         <h1>Sign In</h1>
       </span>
@@ -31,7 +31,8 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
                 <input name='password' type='password' className={'inputWrapper'} value={password} />
               </label>
             </div>
-            <div className='radio-row'>
+
+            {/* <div className='radio-row'>
               <div className='radio-item'>
                 <input
                   type='radio'
@@ -69,7 +70,8 @@ const SignInView = ({ onSubmit, onSignUp, handleChange, handleDemoMode, handleDe
               ) : (
                 <div />
               )}
-            </div>
+            </div> */}
+
             <span className={'buttonsWrapper'}>
               <button type='submit' className={'buttonSignin'}>
                 Sign In

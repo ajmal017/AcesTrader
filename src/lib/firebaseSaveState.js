@@ -6,8 +6,8 @@ import { saveLocalState } from './localStorage'
 
 const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
-// note: reference can be "realtrader", "papertrader", "debugtrader", "localtrader", or "tempignore"
-// these are three separate stores in the clould and one store in localstorage, plus a temporary ignore switch.
+// note: reference can be "realtrader", "papertrader", "debugtrader", "localtrader", "ameritrade", "schwab", or "paper"
+// these are separate stores in the clould and one store in localstorage
 export function firebaseSaveState() {
   return ({ getState }) => (next) => (action) => {
     if (/^QUERY_/.test(action.type) || /^NOTIFICATION/.test(action.type)) {
