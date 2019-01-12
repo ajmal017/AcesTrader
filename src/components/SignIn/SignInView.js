@@ -1,7 +1,6 @@
 // SignInView.js
 import React from 'react'
 import PropTypes from 'prop-types'
-import { referenceRealtrader, referencePapertrader, referenceDebugtrader } from '../../lib/dbReference'
 import information from '../../images/help_icon.png'
 import './styles.css'
 
