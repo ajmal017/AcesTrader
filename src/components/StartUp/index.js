@@ -20,6 +20,7 @@ class StartUp extends Component {
 
   componentDidMount() {
     window.scrollTo(0, 0)
+    document.title = 'AcesTrader ' + this.reference[0].toUpperCase() + this.reference.substr(1)
     this.setState({ stateRetrieved: 'pending' })
     // == Restore the user's app state now ===
     this.loadDataForStore() //start async operation
@@ -119,7 +120,12 @@ class StartUp extends Component {
       )
     }
 
-    return <Welcome />
+    return (
+      // <DocumentTitle title={`AcesTrader ${this.reference}`}>
+      // <DocumentTitle title='AcesTrader'>
+      <Welcome />
+      // </DocumentTitle>
+    )
   }
 }
 

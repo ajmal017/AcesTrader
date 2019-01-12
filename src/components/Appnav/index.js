@@ -67,13 +67,16 @@ class Appnav extends React.Component {
                 <LinkContainer to='/peek'>
                   <NavItem eventKey={7.2}>Peek</NavItem>
                 </LinkContainer>
+                <LinkContainer to='/welcomerealtrader'>
+                  <NavItem eventKey={7.4}>Change Account</NavItem>
+                </LinkContainer>
                 <MenuItem divider />
                 <LinkContainer to='/home'>
-                  <MenuItem eventKey={8.3}>AcesTrader</MenuItem>
+                  <MenuItem eventKey={7.6}>AcesTrader Home</MenuItem>
                 </LinkContainer>
                 <MenuItem divider />
                 <LinkContainer to='/welcomeguest'>
-                  <NavItem eventKey={7.4}>Guest Mode</NavItem>
+                  <NavItem eventKey={7.8}>Guest Mode Info</NavItem>
                 </LinkContainer>
                 {/* {getResetStateMenu()} */}
               </NavDropdown>
