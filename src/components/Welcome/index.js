@@ -5,7 +5,6 @@ import { getReference, referenceLocaltrader } from '../../lib/dbReference'
 import HomeJumbotron from '../../components/Home/HomeJumbotron'
 import WelcomeGuestTrader from './WelcomeGuestTrader'
 import WelcomeRealTrader from './WelcomeRealTrader'
-import WelcomeTrader from './WelcomeTrader'
 import HomeFootnote from '../../components/Home/HomeFootnote'
 import './styles.css'
 
