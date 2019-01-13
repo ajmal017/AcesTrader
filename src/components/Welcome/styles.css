@@ -2,7 +2,10 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr 30px;
-  grid-template-areas: 'header' 'content' 'footer';
+  grid-template-areas:
+    'header'
+    'content'
+    'footer';
 }
 .welcome-header {
   grid-area: header;
