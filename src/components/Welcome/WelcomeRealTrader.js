@@ -38,7 +38,7 @@ class WelcomeRealTrader extends Component {
       'header'
       'content'
       'footer';
-      `
+    `
     const Header = styled.h2`
       grid-area: header;
       margin-top: 100px;
@@ -51,7 +51,6 @@ class WelcomeRealTrader extends Component {
       padding-left: 14%;
       background-color: #ecf0f1;     
     `
-
     const Footer = styled.section`
       grid-area: footer;
       display: flex;
@@ -60,18 +59,15 @@ class WelcomeRealTrader extends Component {
       margin-top: 52px;
       font-size: 22px;
     `
-
     const RadioRow = styled.section`
       display: flex;
       flex-flow: row wrap;
       justify-content: center;
-      // justify-content: space-evenly;
       align-items: center;
       margin-top: 4px;
       margin-bottom: 16px;
     `
     const RadioItem = styled.section`
-      // margin-left: 20px;
       margin-right: 20px;
       height: 30px;
     `
@@ -80,14 +76,6 @@ class WelcomeRealTrader extends Component {
       height: 17px;
       margin-top: 52px;
     `
-    // const RadioLabel = styled.label`
-    //   display: inline-block;
-    //   max-width: 100%;
-    //   // margin-top: -18px;
-    //   padding-bottom: 52px;
-    //   // font-weight: bold;
-    // `
-
     const ButtonStart = styled.button`
       font-size: 22px;
       padding: 5px 10px 5px 10px;
