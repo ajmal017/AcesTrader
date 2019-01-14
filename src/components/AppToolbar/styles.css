@@ -19,10 +19,10 @@ div.scrollmenu {
 /* color the full width tool bar */
 div.scrollmenu.ameritrade,
 div.scrollmenu.schwab,
-div.scrollmenu.paper,
 div.scrollmenu.realtrader {
   background-color: rgb(61, 59, 59);
 }
+div.scrollmenu.paper,
 div.scrollmenu.papertrader {
   background-color: rgb(1, 160, 1);
 }
@@ -42,10 +42,10 @@ div.scrollmenu button {
 /* match button colors to the background */
 div.scrollmenu.ameritrade button,
 div.scrollmenu.schwab button,
-div.scrollmenu.paper button,
 div.scrollmenu.realtrader button {
   background-color: rgb(61, 59, 59);
 }
+div.scrollmenu.paper button,
 div.scrollmenu.papertrader button {
   background-color: rgb(1, 160, 1);
 }
