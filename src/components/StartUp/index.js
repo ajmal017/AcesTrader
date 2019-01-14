@@ -99,7 +99,7 @@ class StartUp extends Component {
     if (stateRetrieved === 'pending') {
       return (
         <div style={divStyle}>
-          <h4>{`Loading Your Saved Data. Please Wait...`}</h4>
+          <h4>{'Loading Your Saved Data. Please Wait...'}</h4>
         </div>
       )
     }
@@ -107,7 +107,7 @@ class StartUp extends Component {
     if (stateRetrieved === 'timeout') {
       return (
         <div style={divStyle}>
-          <h4>{`Timed Out Waiting To Retrieve Your Lists Data. Please Reload App And Try Again...`}</h4>
+          <h4>{'Timed Out Waiting To Retrieve Your Lists Data. Please Reload App And Try Again...'}</h4>
         </div>
       )
     }
@@ -115,7 +115,7 @@ class StartUp extends Component {
     if (stateRetrieved === 'error') {
       return (
         <div style={divStyle}>
-          <h4>{`Error While Retrieving Your Lists Data. Please Reload App And Try Again...`}</h4>
+          <h4>{'Error While Retrieving Your Lists Data. Please Reload App And Try Again...'}</h4>
         </div>
       )
     }
