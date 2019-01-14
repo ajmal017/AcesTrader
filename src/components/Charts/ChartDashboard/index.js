@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import DialogDashboardForm from './DialogDashboardForm'
 import { getLastSma40Price } from '../../../lib/chartDataCache'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
@@ -108,6 +109,7 @@ class ChartDashboard extends Component {
     this.instruction = this.instructionTest ? 'COVER' : this.instructionRaw
 
     const defaultRgbaBackground = '206,212,218,0.3'
+    const alertRgbaBackground = '255, 219, 77,0.8'
     const startPrice = this.listGroup === 'positions' ? this.enteredPrice : this.watchedPrice
     this.dollarGain = this.peekDate !== undefined ? (this.peekPrice - startPrice).toFixed(2) : 'pending'
     this.percentGain = this.peekDate !== undefined ? ((100 * (this.peekPrice - startPrice)) / startPrice).toFixed(1) : 'pending'
@@ -147,20 +149,22 @@ class ChartDashboard extends Component {
           // Flag any trend following alerts
           if (this.tradeSide !== 'Shorts') {
             if (this.listGroup === 'prospects') {
-              this.rgbaBackground = this.peekPrice > lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading buy OR default background
+              this.rgbaBackground = this.peekPrice > lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading buy OR default background
             }
             if (this.listGroup === 'positions') {
-              this.rgbaBackground = this.peekPrice < lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading sell OR default background
+              this.rgbaBackground = this.peekPrice < lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading sell OR default background
             }
           } else if (this.tradeSide === 'Shorts') {
             if (this.listGroup === 'prospects') {
-              this.rgbaBackground = this.peekPrice < lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading buy OR default background
+              this.rgbaBackground = this.peekPrice < lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading buy OR default background
             }
             if (this.listGroup === 'positions') {
-              this.rgbaBackground = this.peekPrice > lastSma40.smaValue ? '255, 219, 77,0.8' : defaultRgbaBackground // alert for trading sell OR default background
+              this.rgbaBackground = this.peekPrice > lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading sell OR default background
             }
           }
         }
+      } else {
+        this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
       }
 
       // Adjust the trailingStopBasis if the closing price is further to the gain side
@@ -185,10 +189,19 @@ class ChartDashboard extends Component {
         (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
         (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
       ) {
-        this.rgbaBackground = '255, 219, 77,0.8' // show alert for trailing stop loss
+        this.rgbaBackground = alertRgbaBackground // show alert for trailing stop loss
       }
     }
     // console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)
+
+    const ActionButton = styled.button`
+      font-size: 16px;
+      background: rgba(${this.rgbaBackground}); //rgbaBackground is calculated above for weekly bar charts
+      :hover {
+        background: #c7c4dd;
+        // background: #ced4da;
+      }
+    `
 
     this.dialogDashboardFormValues = {
       watched: this.watched,
@@ -286,9 +299,10 @@ class ChartDashboard extends Component {
             {/* {process.env.NODE_ENV === 'development' ? <div className={'trailingStopBasis-absolute'}>{this.trailingStopBasis}</div> : ''} */}
             {/* {this.lastSma40 && process.env.NODE_ENV === 'development' ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.smaValue.toFixed(2)}</div> : ''} */}
             <div>
-              <button className={'entry-order-button'} onClick={this.handleOrderEntry} style={{ background: `rgba(${this.rgbaBackground})` }}>
+              {/* <button className={'entry-order-button'} onClick={this.handleOrderEntry} style={{ background: `rgba(${this.rgbaBackground})` }}> */}
+              <ActionButton onClick={this.handleOrderEntry}>
                 {this.buttonLabel} {this.symbol}
-              </button>
+              </ActionButton>
             </div>
             <button onClick={this.handleEditDialogOpen} className={'dashboard-button-pencil-image-absolute'}>
               <img
