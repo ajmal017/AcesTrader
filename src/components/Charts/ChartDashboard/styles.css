@@ -73,16 +73,14 @@ label {
   font-weight: 600;
 }
 
-.entry-order-button {
+/* Dashboard order entry button is now an ActionButton styled component in the JSX  */
+/* .entry-order-button {
   font-size: 16px;
-  /* background is overriden by an inline style attribute in the jsx */
-  /* background: #e9ecef; */
+  background: #e9ecef;
 }
-
 .entry-order-button:hover {
   background: #c7c4dd;
-  /* background: #ced4da; */
-}
+} */
 
 .delete-prospect-button {
   margin-left: 30px;
