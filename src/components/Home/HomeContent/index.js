@@ -19,13 +19,13 @@ const HomeContent = function() {
         symbols in each.
       </p>
       <p>
-        For ETF end-of-day trading, lists of ETFs can be obtained from the monthly lists of "Buy on the Dip Prospects" and "Sell on the Pop Prospects" published in "The Daily ETF
+        For end-of-day trading, lists of ETFs can be obtained from the monthly lists of "Buy on the Dip Prospects" and "Sell on the Pop Prospects" published in "The Daily ETF
         Roundup" by ETFdb.com. Each Buy on the Dip prospect is deemed to be in an uptrend, and each Sell on the Pop prospect is deemed to be in a downtrend. The long term trend is
         indicated by the 50-day moving average being above or below its 200-day moving average.{' '}
       </p>
 
       <p>
-        For ETF trend trading, ETFs that follow diversified assets are used. Trending ETFs are traded by rebalancing monthly, buying when the ETF is priced above the 40-week moving
+        For trend trading, ETFs that follow diversified assets are used. Trending ETFs are traded by rebalancing monthly, buying when the ETF is priced above the 40-week moving
         average and selling when priced below the 40-week moving average. For a discussion of trading by trend following see{' '}
         <a href='https://extradash.com/en/strategies/models/5/faber-tactical-asset-allocation/' target='_blank' rel=' noopener noreferrer'>
           Faber-Tactical-Asset-Allocation.
@@ -85,7 +85,7 @@ const HomeContent = function() {
       <p>
         The user has available trading options on the dashboard. These include placing an order to establish a position, either long or short depending on the security's grouping,
         or exiting any current position. The options also include removing the security from the prospects list. Note that orders are not placed automatically by the program, they
-        are manually placed by the user clicking a button. The program tries to make the order procedure as frictionless as possible.
+        are only placed by the user clicking a button. In this way the program tries to make the order entry procedure as frictionless as possible.
       </p>
 
       <h4>PLACING ORDERS</h4>
@@ -95,14 +95,14 @@ const HomeContent = function() {
         is in progress to enable the user to edit these default parameters. This will allow the user to customize the order before submitting.
         <br />
         <br />
-        Note: The connection to TDAmeritrade's online trading interface is not done yet. Order executions are filled when entered using the last price from IEX. IEX is a stock
+        Note: The connection to TDAmeritrade's online trading interface is not done yet. Order executions are simulated when entered using the last price from IEX. IEX is a stock
         exchange based in the United States:
         <a href='https://en.wikipedia.org/wiki/IEX' target='_blank' rel='noopener noreferrer'>
-          &nbsp;See information here.
+          &nbsp;see information here.
         </a>
-        &nbsp; Clicking the BUY button only simulates an execution: the security record is removed from the Prospects list and placed in the Positions list. Also clicking the EXIT
-        button only simulates the trade: the security record is removed from the Positions list and placed in the Trades list. The fill price for both orders is obtained from the
-        IEX feed. But you can use the dashboard's edit button to edit the filled price, quantity, and execution date to modify the simulation data.
+        &nbsp; Clicking the BUY button only simulates an execution. The security record is removed from the Prospects list and placed in the Positions list. Also clicking the EXIT
+        button only simulates closing the position. The security record is removed from the Positions list and placed in the Trades list. The fill price for both orders is obtained
+        from the IEX feed. But you can use the dashboard's edit button to edit the filled price, quantity, and execution date to modify the simulation data in the Trades list.
         {/* Trades are simulated using the IEX price data for execution prices. */}
         {/* <i>This work is not done yet and editing of any field is now allowed without validation. So don't mess up your edits.</i> */}
         {/* Users can always bypass this program and place orders directly using TDAmeritrade's services. */}
@@ -125,7 +125,7 @@ const HomeContent = function() {
       <p>
         The program has some built in trading signals. In the Prospects list, any security using a weekly chart will have a orange BUY button when the closing price is above the 40
         week SMA. In the Positions list, any security using a weekly chart will have a orange EXIT button when the closing price is below the 40 week SMA. Also for the Positions
-        list, all the securities have a default 5% trailing stop loss signal. At a price beyond the trailing stop's calculated price, the EXIT button will be colored red. The
+        list, all the securities have a default 5% trailing stop loss signal. At a price beyond the trailing stop's calculated price, the EXIT button will be colored orange. The
         trailing stop's percent value for any security can be changed by clicking the dashboard's edit icon. The calculated stop loss price is displayed in the dashboard.
       </p>
       <h4>USING THE GUEST MODE</h4>
@@ -137,8 +137,8 @@ const HomeContent = function() {
       </p>
       <p>
         There's another limitation to the Guest mode. There is no access to the cloud storage. The data for your lists are saved in the local storage of your browser. If you create
-        your lists on your desktop computer, you won't be able to see the same data using the program on your iPad. So make your lists in the browser on the device you will use for
-        the demo. On the other hand, this can be used to create different trading portfolios by using a different browser/device combination for each one. Each will have a separate
+        your lists on your desktop computer, you won't be able to see the same data using the program on your iPad. So make your lists in the browser on the device you will use as
+        a guest. On the other hand, this can be used to create different trading portfolios by using a different browser/device combination for each one. Each will have a separate
         database in a separate local storage.
       </p>
     </div>
