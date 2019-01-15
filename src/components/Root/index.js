@@ -57,10 +57,10 @@ const Root = ({ store, authenticated }) => (
             <PrivateRoute exact path='/signout' component={SignOut} authenticated={authenticated} />
             <PrivateRoute exact path='/welcome' component={Welcome} authenticated={authenticated} />
             <PrivateRoute exact path='/welcomerealtrader' component={WelcomeRealTrader} authenticated={authenticated} />
+            <PrivateRoute exact path='/startup' component={StartUp} authenticated={authenticated} />
             <Route exact path='/welcomeguest' component={WelcomeGuest} />
             <Route exact path='/signup' component={SignUp} />
             <Route exact path='/signin' component={SignIn} />
-            <Route exact path='/startup' component={StartUp} />
             <Route component={NotFound} />{' '}
           </Switch>
         </div>

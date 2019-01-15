@@ -1,10 +1,18 @@
 // WelcomeGuestTrader.js
 
 import React from 'react'
+import styled from 'styled-components'
 
 const WelcomeGuestTrader = () => {
+  const Content = styled.section`
+    grid-area: content;
+    padding-right: 14%;
+    padding-left: 14%;
+    background-color: #ecf0f1;
+  `
+
   return (
-    <div>
+    <Content>
       <h2>Guest Mode - Simulated Trading</h2>
       <br />
       <p>
@@ -36,7 +44,7 @@ const WelcomeGuestTrader = () => {
         desktop computer, you won't be able to see the same data using the program on your iPad or iPhone. So make your lists in the browser and device you will use for your paper
         money trading sessions. You can of course, use another browser or device to persue a second trading strategy, without affecting the other.
       </p>
-    </div>
+    </Content>
   )
 }
 export default WelcomeGuestTrader

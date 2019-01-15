@@ -1,26 +1,34 @@
 // WelcomeTrader.js
 
 import React from 'react'
-import { AuthenticatedContext } from '../../redux'
-import HomeJumbotron from '../Home/HomeJumbotron'
-import HomeFootnote from '../Home/HomeFootnote'
-import './styles.css'
+import styled from 'styled-components'
+import { getReference } from '../../lib/dbReference'
+// import './styles.css'
 
-const WelcomeTrader = (reference) => {
-  let contextType = AuthenticatedContext
-  // let currentUser = context
-
+const WelcomeTrader = () => {
+  let reference = getReference() //indicates user's role
   let cappedReference = reference.charAt(0).toUpperCase() + reference.slice(1)
-  let spacedReference = cappedReference.replace('trader', ' Trader')
+  let spacedReference
+  if (cappedReference.indexOf('trader') > -1) {
+    spacedReference = cappedReference.replace('trader', ' Trader')
+  } else {
+    spacedReference = cappedReference + ' Trader'
+  }
+  spacedReference.trim()
+
+  const Greeting = styled.section`
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    margin-bottom: 16px;
+  `
 
   return (
-    <div>
-      <HomeJumbotron />
-      <div className={'welcome-content'}>
-        <h1>Welcome {spacedReference}</h1>
-      </div>
-      <HomeFootnote />
-    </div>
+    <Greeting>
+      <h1>Welcome {spacedReference}</h1>
+    </Greeting>
   )
 }
 export default WelcomeTrader

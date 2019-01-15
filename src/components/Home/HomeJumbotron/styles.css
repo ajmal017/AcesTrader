@@ -21,7 +21,7 @@
 /*Additional rules for Bootstrap over-rides*/
 
 .home-row0 {
-  height: 256px;
+  /* height: 256px; */
   margin-top: -4px;
   margin-bottom: 0px;
   padding-top: 50px;
