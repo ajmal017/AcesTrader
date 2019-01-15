@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import HomeJumbotron from '../../components/Home/HomeJumbotron'
 import WelcomeGuestTrader from './WelcomeGuestTrader'
 import HomeFootnote from '../../components/Home/HomeFootnote'
-import './styles.css'
+// import './styles.css'
 
 class WelcomeGuest extends Component {
   componentDidMount() {
@@ -17,7 +17,8 @@ class WelcomeGuest extends Component {
         <div>
           <HomeJumbotron />
         </div>
-        <div className={'welcome-content'}> {WelcomeGuestTrader()} </div>
+        {/* <div className={'welcome-content'}> {WelcomeGuestTrader()} </div> */}
+        <div> {WelcomeGuestTrader()} </div>
         <div>
           <HomeFootnote />
         </div>

@@ -1,9 +1,17 @@
 import React from 'react'
-import './styles.css'
+import styled from 'styled-components'
+// import './styles.css'
 
 const HomeContent = function() {
+  const Content = styled.section`
+    grid-area: content;
+    padding-right: 14%;
+    padding-left: 14%;
+    background-color: #ecf0f1;
+  `
   return (
-    <div className='home-content'>
+    // <Content className='home-content'>
+    <Content>
       <h4>ACESTRADER</h4>
       <p>
         <i>
@@ -141,7 +149,7 @@ const HomeContent = function() {
         a guest. On the other hand, this can be used to create different trading portfolios by using a different browser/device combination for each one. Each will have a separate
         database in a separate local storage.
       </p>
-    </div>
+    </Content>
   )
 }
 export default HomeContent
