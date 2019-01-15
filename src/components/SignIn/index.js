@@ -62,15 +62,13 @@ class SignInContainer extends Component {
   }
 
   render() {
-    const { reference, email, password } = this.state
+    const { email, password } = this.state
     return (
       <SignInView
         onSubmit={this.handleSubmit}
         onSignUp={this.handleSignUp}
-        handleChange={this.handleChange}
         handleDemoMode={this.handleDemoMode}
         handleDemoInfo={this.handleDemoInfo}
-        reference={reference}
         email={email}
         password={password}
       />

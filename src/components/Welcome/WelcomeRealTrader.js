@@ -20,10 +20,10 @@ class WelcomeRealTrader extends Component {
 
   handleChange = (event) => {
     putReference(event.target.value)
-    this.setState({ reference: event.target.value }) //change Database selection
+    this.setState({ reference: event.target.value }) //change account selection
   }
 
-  handleStart = async (event) => {
+  handleStart = (event) => {
     event.preventDefault()
     putReference(this.state.reference) // this is the selected database reference
     this.props.history.push('/startUp')
@@ -49,7 +49,7 @@ class WelcomeRealTrader extends Component {
       grid-area: content;
       padding-right: 14%;
       padding-left: 14%;
-      background-color: #ecf0f1;     
+      background-color: #ecf0f1;
     `
     const Footer = styled.section`
       grid-area: footer;
@@ -142,9 +142,7 @@ class WelcomeRealTrader extends Component {
           )}
         </Content>
         <Footer>
-          <ButtonStart onClick={this.handleStart}>
-            Start
-          </ButtonStart>
+          <ButtonStart onClick={this.handleStart}>Start</ButtonStart>
         </Footer>
       </Wrapper>
     )
