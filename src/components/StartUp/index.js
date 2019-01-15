@@ -2,8 +2,8 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Home from '../Home'
-import WelcomeTrader from '../Welcome/WelcomeTrader'
+// import Home from '../Home'
+// import WelcomeTrader from '../Welcome/WelcomeTrader'
 import { getReference, referenceLocaltrader } from '../../lib/dbReference'
 // import { islocalStorageWorking } from '../../lib/localStorage'
 import { loadLocalState } from '../../lib/localStorage'
@@ -21,6 +21,7 @@ class StartUp extends Component {
   }
 
   componentDidMount() {
+    console.log('StartUp - DidMount') //BCM
     window.scrollTo(0, 0)
     document.title = 'AcesTrader ' + this.reference[0].toUpperCase() + this.reference.substr(1)
     this.reference = getReference() //indicates which persisted data to use for app's state based on user's role
@@ -30,6 +31,8 @@ class StartUp extends Component {
   }
 
   loadDataForStore = () => {
+    console.log('StartUp - loadDataForStore Start') //BCM
+
     // this.testlocalStorage() // test if disabled or full, needs to be enabled in /lib/localStorage
     resetDataCache() // clear all previously cached chart price data for fresh start
     resetPeekPrices() //clear old peek symbol prices
@@ -66,6 +69,7 @@ class StartUp extends Component {
                 // the saved state was recovered and can be used to set the app's state
                 self.props.dispatch(resetPersistedState(persistedState))
               }
+              console.log('StartUp - loadDataForStore Finish') //BCM
               self.setState({ stateRetrieved: 'ready' }) // causes app to render
             } else {
               self.setState({ stateRetrieved: 'error' }) // causes app to render an unsuccessful messsage
@@ -122,6 +126,7 @@ class StartUp extends Component {
       )
     }
 
+    console.log('StartUp - return <Welcome />') //BCM
     // return WelcomeTrader(this.reference)
     return <Welcome />
   }
