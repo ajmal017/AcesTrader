@@ -26,7 +26,7 @@ class Welcome extends Component {
         <div className={'welcome-header'}>
           <HomeJumbotron />
         </div>
-        <div className={'welcome-content'}>{this.reference === referenceLocaltrader ? WelcomeGuestTrader() : WelcomeRealTrader}</div>
+        <div className={'welcome-content'}>{this.reference === referenceLocaltrader ? <WelcomeGuestTrader /> : <WelcomeRealTrader />}</div>
         <div className={'welcome-footer'}>
           <HomeFootnote />
         </div>

@@ -2,14 +2,14 @@
 
 import React, { Component } from 'react'
 import { applyMiddleware, createStore } from 'redux'
-import { firebaseSaveState } from '../../lib/firebaseSaveState'
 import thunk from 'redux-thunk'
+import { firebaseSaveState } from '../../lib/firebaseSaveState'
 import rootReducer from '../../redux'
 import ErrorBoundary from '../../components/ErrorBoundary/'
 import Root from '../../components/Root'
 import fire from '../../fire'
 import firebase from 'firebase/app'
-import 'firebase/auth'
+// import 'firebase/auth'
 import * as Sentry from '@sentry/browser'
 import { AuthenticatedContext } from '../../redux'
 

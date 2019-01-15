@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Home from '../Home'
+import WelcomeTrader from '../Welcome/WelcomeTrader'
 import { getReference, referenceLocaltrader } from '../../lib/dbReference'
 // import { islocalStorageWorking } from '../../lib/localStorage'
 import { loadLocalState } from '../../lib/localStorage'
@@ -94,7 +96,7 @@ class StartUp extends Component {
   render() {
     const { stateRetrieved } = this.state
     const divStyle = { marginTop: 80, marginLeft: 50 }
-    this.reference = getReference() //indicates user's role
+    this.reference = getReference() //indicates user's account choice
 
     if (stateRetrieved === 'pending') {
       return (
@@ -120,12 +122,8 @@ class StartUp extends Component {
       )
     }
 
-    return (
-      // <DocumentTitle title={`AcesTrader ${this.reference}`}>
-      // <DocumentTitle title='AcesTrader'>
-      <Welcome />
-      // </DocumentTitle>
-    )
+    // return WelcomeTrader(this.reference)
+    return <Welcome />
   }
 }
 
