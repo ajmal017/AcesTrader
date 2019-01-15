@@ -12,6 +12,7 @@ const HomeContent = function() {
   return (
     // <Content className='home-content'>
     <Content>
+      <br />
       <h4>ACESTRADER</h4>
       <p>
         <i>
@@ -19,7 +20,6 @@ const HomeContent = function() {
           TDAmeritrade's services. The program is still in development and is currently in a Beta state.
         </i>
       </p>
-      <br />
       <h4>TRADE PROSPECTS</h4>
       <p>
         Two types of trading are envisioned: end-of-day trading and trend following. Three lists of prospective trade entries are available. For end-of-day trading there are a
@@ -114,8 +114,6 @@ const HomeContent = function() {
         {/* Trades are simulated using the IEX price data for execution prices. */}
         {/* <i>This work is not done yet and editing of any field is now allowed without validation. So don't mess up your edits.</i> */}
         {/* Users can always bypass this program and place orders directly using TDAmeritrade's services. */}
-        <br />
-        <br />
       </p>
 
       <h4>USING THE PROGRAM</h4>
