@@ -101,6 +101,7 @@ class TradeCell extends Component {
     this.listGroup = tradeObject.listGroup
     const symbol = tradeObject.symbol
     const entered = tradeObject.entered
+    this.symbolDescription = tradeObject.symbolDescription
     const exited = tradeObject.exited
     this.tradeSide = tradeObject.dashboard.tradeSide
     const enteredPrice = tradeObject.enteredPrice
@@ -148,6 +149,11 @@ class TradeCell extends Component {
               &times;
             </button>
           </div>
+          {this.symbolDescription !== undefined ? (
+            <div>
+              <span className='symbolDescription'>{this.symbolDescription}</span>{' '}
+            </div>
+          ) : null}
           <TradeStatusLine hash={this.hash} tradeSide={this.tradeSide} tradeDollarGain={this.tradeDollarGain} tradePercentGain={this.tradePercentGain} />
           {/* <span id={'gaininfo'}>
             {tradeDollarGain < 0 ? 'Loss' : 'Gain'} &nbsp;&nbsp;&nbsp; ${this.numberWithCommas(tradeDollarGain)}

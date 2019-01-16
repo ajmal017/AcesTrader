@@ -28,6 +28,7 @@ export const removeResultFromList = (hash) => {
     hash: hash,
   }
 }
+// NOTE: These objects are all lost from state after removing them here
 export const removeAllResultsFromList = () => {
   return {
     type: REMOVE_ALL_RESULTS,
