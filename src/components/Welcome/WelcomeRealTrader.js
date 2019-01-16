@@ -14,13 +14,13 @@ class WelcomeRealTrader extends Component {
     this.state = getReference() ? { reference: getReference() } : {}
   }
 
-  componentDidMount() {
-    this.setState({ reference: getReference() })
-  }
+  // componentDidMount() {
+  //   this.setState({ reference: getReference() })
+  // }
 
   handleChange = (event) => {
     putReference(event.target.value)
-    this.setState({ reference: event.target.value }) //change account selection
+    this.setState({ reference: event.target.value }) //change account selection in view
   }
 
   handleStart = (event) => {
