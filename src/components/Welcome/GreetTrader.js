@@ -1,11 +1,10 @@
-// WelcomeTrader.js
-
+// Welcome/GreetTrader.js
 import React from 'react'
 import styled from 'styled-components'
 import { getReference } from '../../lib/dbReference'
 // import './styles.css'
 
-const WelcomeTrader = () => {
+const GreetTrader = () => {
   let reference = getReference() //indicates user's role
   let cappedReference = reference.charAt(0).toUpperCase() + reference.slice(1)
   let spacedReference
@@ -27,8 +26,8 @@ const WelcomeTrader = () => {
 
   return (
     <Greeting>
-      <h1>Welcome {spacedReference}</h1>
+      <h1>Greetings {spacedReference}</h1>
     </Greeting>
   )
 }
-export default WelcomeTrader
+export default GreetTrader

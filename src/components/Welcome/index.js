@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { getReference, referenceLocaltrader } from '../../lib/dbReference'
 import HomeJumbotron from '../../components/Home/HomeJumbotron'
 import WelcomeGuestTrader from './WelcomeGuestTrader'
-import WelcomeTrader from './WelcomeTrader'
+import GreetTrader from './GreetTrader'
 // import HomeFootnote from '../../components/Home/HomeFootnote'
 import './styles.css'
 
@@ -26,7 +26,7 @@ class Welcome extends Component {
         <div className={'welcome-header'}>
           <HomeJumbotron />
         </div>
-        <div>{this.reference === referenceLocaltrader ? <WelcomeGuestTrader /> : <WelcomeTrader />}</div>
+        <div>{this.reference === referenceLocaltrader ? <WelcomeGuestTrader /> : <GreetTrader />}</div>
         {/* <div className={'welcome-footer'}>
           <HomeFootnote />
         </div> */}
