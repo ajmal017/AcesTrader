@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import SignInView from './SignInView'
 import fire from '../../fire'
-import { getReference, putReference, referenceLocaltrader, paper } from '../../lib/dbReference'
+import { getReference, putReference, referenceLocaltrader } from '../../lib/dbReference'
 
 class SignInContainer extends Component {
   constructor(props) {
