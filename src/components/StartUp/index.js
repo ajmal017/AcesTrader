@@ -124,12 +124,13 @@ class StartUp extends Component {
     if (stateRetrieved === 'ready') {
       const titleArray = document.title.split(' ') //use to test current status before the change below
       document.title = 'AcesTrader ' + this.reference[0].toUpperCase() + this.reference.substr(1)
-      if (titleArray.length === 1) {
+      if (titleArray.length === 1 && this.reference !== referenceLocaltrader) {
         // This is the initial StartUp with the default dbReference selection,
         // the WelcomeRealTrader view has not been shown yet, so do it now
         // console.log('StartUp return <WelcomeRealTrader />') //BCM
         return <WelcomeRealTrader />
       } else {
+        // Either this was a call from a GuestUser or else
         // This was a call to StartUp from the WelcomeRealTrader view, so confirm the user's selection
         // console.log('StartUp return <Welcome />') //BCM
         return <Welcome />
