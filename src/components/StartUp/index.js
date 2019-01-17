@@ -10,18 +10,21 @@ import { resetPeekPrices } from '../../lib/appLastPeekPrice'
 import { resetDataCache } from '../../lib/chartDataCache'
 import fire from '../../fire'
 import Welcome from '../../components/Welcome'
+import WelcomeRealTrader from '../../components/Welcome/WelcomeRealTrader.js'
 
 class StartUp extends Component {
   constructor(props) {
     super(props)
     this.reference = null // identifies the Firebase RTDB index for the app's state
+    console.log('StartUp constructor') //BCM
     this.state = { stateRetrieved: 'pending' }
   }
 
   componentDidMount() {
     window.scrollTo(0, 0)
-    document.title = 'AcesTrader ' + this.reference[0].toUpperCase() + this.reference.substr(1)
+    // document.title = 'AcesTrader ' + this.reference[0].toUpperCase() + this.reference.substr(1)
     this.reference = getReference() //indicates which persisted data to use for app's state based on user's role
+    console.log(`StartUp componentDidMount, reference=${this.reference}`) //BCM
     this.loadDataForStore() //start async operation to restore the user's app state
   }
 
@@ -119,7 +122,18 @@ class StartUp extends Component {
     }
 
     if (stateRetrieved === 'ready') {
-      return <Welcome />
+      const titleArray = document.title.split(' ') //use to test current status before the change below
+      document.title = 'AcesTrader ' + this.reference[0].toUpperCase() + this.reference.substr(1)
+      if (titleArray.length === 1) {
+        // This is the initial StartUp with the default dbReference selection,
+        // the WelcomeRealTrader view has not been shown yet, so do it now
+        // console.log('StartUp return <WelcomeRealTrader />') //BCM
+        return <WelcomeRealTrader />
+      } else {
+        // This was a call to StartUp from the WelcomeRealTrader view, so confirm the user's selection
+        // console.log('StartUp return <Welcome />') //BCM
+        return <Welcome />
+      }
     }
   }
 }

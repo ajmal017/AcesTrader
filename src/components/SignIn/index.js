@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import SignInView from './SignInView'
 import fire from '../../fire'
-import { putReference, referenceLocaltrader, paper } from '../../lib/dbReference'
+import { getReference, putReference, referenceLocaltrader, paper } from '../../lib/dbReference'
 
 class SignInContainer extends Component {
   constructor(props) {
@@ -12,10 +12,12 @@ class SignInContainer extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleDemoMode = this.handleDemoMode.bind(this)
     this.handleDemoInfo = this.handleDemoInfo.bind(this)
+    console.log(`SignIn: constructor getReference=${getReference()}`) //BCM
     this.state = {}
   }
   componentDidMount() {
     document.title = 'AcesTrader'
+    console.log(`SignIn: componentDidMount getReference=${getReference()}`) //BCM
     if (process.env.NODE_ENV === 'development') {
       // this.setState({ reference: referenceDebugtrader, email: 'b@g.com', password: '079007' }) //change default user's role
       // Set the default sign in parameters for debug testing
@@ -26,12 +28,12 @@ class SignInContainer extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault()
-    // putReference(referenceRealtrader) // this is not known yet
     const { email, password } = event.target.elements
     try {
       await fire.auth().signInWithEmailAndPassword(email.value, password.value)
-      putReference(paper) // the default radio button for account selection
-      this.props.history.push('/WelcomeRealTrader')
+      // putReference(null) // the default radio button for account selection
+      // this.props.history.push('/WelcomeRealTrader') //BCM
+      this.props.history.push('/StartUp')
     } catch (error) {
       alert(error)
     }
