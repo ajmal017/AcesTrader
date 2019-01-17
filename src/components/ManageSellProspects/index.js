@@ -1,6 +1,7 @@
 // ManageSellProspects/index.jsimport React, { Component } from 'react'
 
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import ManageProspects from '../ManageProspects'
 
 class ManageSellProspects extends Component {
@@ -23,10 +24,9 @@ class ManageSellProspects extends Component {
       <ManageProspects
         tradeSide={'Short Sales'}
         handleClick={this.handleClick}
-        mockSymbols="EFA AGG BIV BND BNDX DRIP EWG EWW FAZ FEZ GDX GOVT HYG IEF JNK JNUG LQD MUB NUGT PFF SDOW SJNK SVXY TLT UGAZ VCSH XLP XLU"
+        mockSymbols='EFA AGG BIV BND BNDX DRIP EWG EWW FAZ FEZ GDX GOVT HYG IEF JNK JNUG LQD MUB NUGT PFF SDOW SJNK SVXY TLT UGAZ VCSH XLP XLU'
       />
     )
   }
 }
-
-export default ManageSellProspects
+export default withRouter(ManageSellProspects)

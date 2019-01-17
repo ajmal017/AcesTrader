@@ -67,10 +67,10 @@ class App extends Component {
         .signOut()
         .then(
           function() {
-            // console.log('Signed Out')
+            console.log('Signed Out') //BCM
           },
           function(error) {
-            // console.error('Sign Out Error', error)
+            // console.error('Sign Out Error', error) //BCM
           }
         )
       this.setState({ loading: true, store: theStore }) //wait for an onAuthStateChanged event to change this.state.loading
@@ -80,6 +80,8 @@ class App extends Component {
 
   render() {
     const { loading, store, authenticated, currentUser } = this.state
+
+    console.log(`App: loading=${loading} currentUser=${currentUser}`) //BCM
 
     if (loading) {
       const divStyle = { marginTop: 80, marginLeft: 50 }

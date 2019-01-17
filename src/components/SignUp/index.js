@@ -1,6 +1,7 @@
 // SignUp/index.js
 
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import fire from '../../fire'
 import SignUpView from './SignUpView'
 
@@ -20,5 +21,4 @@ class SignUpContainer extends Component {
     return <SignUpView onSubmit={this.handleSignUp} />
   }
 }
-
-export default SignUpContainer
+export default withRouter(SignUpContainer)
