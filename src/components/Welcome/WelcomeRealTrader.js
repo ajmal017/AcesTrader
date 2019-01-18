@@ -23,7 +23,7 @@ class WelcomeRealTrader extends Component {
   handleChange = (event) => {
     event.preventDefault()
     putReference(event.target.value)
-    this.setState({ reference: event.target.value }) //change account selection in view
+    this.setState({ reference: getReference() }) // identifies the Firebase RTDB index for the app's selected state
     this.props.history.push('/startUp')
   }
 
@@ -34,16 +34,27 @@ class WelcomeRealTrader extends Component {
   // }
 
   render() {
+    const SelectedTitle = this.state.reference[0].toUpperCase() + this.state.reference.substr(1)
+
     const Wrapper = styled.section`
       display: grid;
       grid-template-columns: 1fr;
       grid-template-rows: auto; 1fr 30px;
       grid-template-areas:
+      'title'
       'header'
       'content'
       'footer';
     `
-    const Header = styled.h2`
+    const Title = styled.h1`
+      grid-area: title;
+      margin-top: 100px;
+      margin-bottom: 50px;
+      justify-self: center;
+      background-image: url(../../images/dollar-pexels-photo-164661-B.png);
+      background-size: cover;
+    `
+    const Header = styled.h3`
       grid-area: header;
       margin-top: 100px;
       margin-bottom: 50px;
@@ -69,7 +80,7 @@ class WelcomeRealTrader extends Component {
       justify-content: center;
       align-items: center;
       margin-top: 4px;
-      margin-bottom: 56px;
+      margin-bottom: 46px;
     `
     const RadioInput = styled.input`
       width: 37px;
@@ -92,10 +103,17 @@ class WelcomeRealTrader extends Component {
     //   }
     // `
 
+    const HR = styled.hr`
+      grid-area: content;
+      border: 8px solid red;
+    `
+
     putReference(this.state.reference)
     return (
       <Wrapper>
-        <Header>Choose Account To Trade</Header>
+        <Title>{SelectedTitle} Portfolio Loaded</Title>
+        <HR />
+        <Header>Select A Portfolio</Header>
         <Content>
           <RadioRow>
             <RadioInput type='radio' name={ameritrade} value={ameritrade} checked={this.state.reference === ameritrade} onChange={this.handleChange} />

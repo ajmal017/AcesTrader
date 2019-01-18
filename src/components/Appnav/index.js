@@ -70,7 +70,7 @@ class Appnav extends React.Component {
 
                 {currentUser && currentUser.email !== 'demouser@xmail.com' ? (
                   <LinkContainer to='/welcomerealtrader'>
-                    <NavItem eventKey={7.4}>Change Account</NavItem>
+                    <NavItem eventKey={7.4}>Change Porfolio</NavItem>
                   </LinkContainer>
                 ) : null}
 

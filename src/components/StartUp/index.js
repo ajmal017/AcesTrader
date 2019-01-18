@@ -10,6 +10,7 @@ import { resetPeekPrices } from '../../lib/appLastPeekPrice'
 import { resetDataCache } from '../../lib/chartDataCache'
 import fire from '../../fire'
 import Welcome from '../../components/Welcome'
+import WelcomeSwitcher from '../../components/Welcome/WelcomeSwitcher.js'
 import WelcomeRealTrader from '../../components/Welcome/WelcomeRealTrader.js'
 
 class StartUp extends Component {
@@ -22,8 +23,7 @@ class StartUp extends Component {
 
   componentDidMount() {
     window.scrollTo(0, 0)
-    // document.title = 'AcesTrader ' + this.reference[0].toUpperCase() + this.reference.substr(1)
-    this.reference = getReference() //indicates which persisted data to use for app's state based on user's role
+    this.reference = getReference() //indicates which persisted data to use for app's state based on user's portfolio selection
     console.log(`StartUp componentDidMount, reference=${this.reference}`) //BCM
     this.loadDataForStore() //start async operation to restore the user's app state
   }
@@ -45,6 +45,7 @@ class StartUp extends Component {
       }
       this.setState({ stateRetrieved: 'ready' }) // causes app to render
     } else {
+      console.log(`StartUp loadDataForStore1, reference=${this.reference}`) //BCM
       /* AUTHORIZED USER WITH FIREBASE RTDB */
       var myTimeoutVar = setTimeout(this.getDataTimedOut, 6000)
       var self = this
@@ -95,7 +96,7 @@ class StartUp extends Component {
   render() {
     const { stateRetrieved } = this.state
     const divStyle = { marginTop: 80, marginLeft: 50 }
-    this.reference = getReference() //indicates user's account choice
+    this.reference = getReference() //indicates user's portfolio selection
 
     if (stateRetrieved === 'pending') {
       return (
@@ -122,17 +123,20 @@ class StartUp extends Component {
     }
 
     if (stateRetrieved === 'ready') {
+      if (this.reference === referenceLocaltrader) {
+        /* GUEST MODE USER WITH LOCAL STORAGE */
+        return <Welcome />
+      }
       const titleArray = document.title.split(' ') //use to test current status before the change below
       document.title = 'AcesTrader ' + this.reference[0].toUpperCase() + this.reference.substr(1)
-      if (titleArray.length === 1 && this.reference !== referenceLocaltrader) {
+      if (titleArray.length === 1) {
         // This is the initial StartUp with the default dbReference selection,
         // the WelcomeRealTrader view has not been shown yet, so do it now
-        // console.log('StartUp return <WelcomeRealTrader />') //BCM
+        console.log('StartUp 1st return <WelcomeRealTrader> reference=' + this.reference) //BCM
         return <WelcomeRealTrader />
       } else {
-        // Either this was a call from a GuestUser or else
-        // This was a call to StartUp from the WelcomeRealTrader view, so confirm the user's selection
-        // console.log('StartUp return <Welcome />') //BCM
+        // This was a call to StartUp from the WelcomeRealTrader view, remaining in that view so load it again
+        console.log('StartUp 2nd return <Welcome> reference=' + this.reference) //BCM
         return <Welcome />
       }
     }
