@@ -4,6 +4,15 @@ import styled from 'styled-components'
 import { getReference } from '../../lib/dbReference'
 // import './styles.css'
 
+const Greeting = styled.section`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  margin-bottom: 16px;
+`
+
 const GreetTrader = () => {
   let reference = getReference() //indicates user's role
   let cappedReference = reference.charAt(0).toUpperCase() + reference.slice(1)
@@ -14,15 +23,6 @@ const GreetTrader = () => {
     spacedReference = cappedReference + ' Trader'
   }
   spacedReference.trim()
-
-  const Greeting = styled.section`
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;
-    margin-top: 100px;
-    margin-bottom: 16px;
-  `
 
   return (
     <Greeting>
