@@ -4,24 +4,23 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import SignInView from './SignInView'
 import fire from '../../fire'
-import { getReference, putReference, referenceLocaltrader } from '../../lib/dbReference'
+import { getReference, putReference, paper, referenceLocaltrader } from '../../lib/dbReference'
 
-class SignInContainer extends Component {
+class SignIn extends Component {
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleDemoMode = this.handleDemoMode.bind(this)
     this.handleDemoInfo = this.handleDemoInfo.bind(this)
-    console.log(`SignIn: constructor getReference=${getReference()}`) //BCM
+    // console.log(`SignIn: constructor getReference=${getReference()}`) //BCM
     this.state = {}
   }
   componentDidMount() {
     document.title = 'AcesTrader'
-    console.log(`SignIn: componentDidMount getReference=${getReference()}`) //BCM
+    // console.log(`SignIn: componentDidMount getReference=${getReference()}`) //BCM
     if (process.env.NODE_ENV === 'development') {
-      // this.setState({ reference: referenceDebugtrader, email: 'b@g.com', password: '079007' }) //change default user's role
       // Set the default sign in parameters for debug testing
-      this.setState({ email: 'b@g.com', password: '079007' }) //change default user's role
+      this.setState({ email: 'b@g.com', password: '079007' }) //change to use default user's sign in
       //this.setState({ reference: referencePapertrader, email: 'b@g.com', password: '079007' }) //change default user's role
     }
   }
@@ -31,8 +30,7 @@ class SignInContainer extends Component {
     const { email, password } = event.target.elements
     try {
       await fire.auth().signInWithEmailAndPassword(email.value, password.value)
-      // putReference(null) // the default radio button for account selection
-      // this.props.history.push('/WelcomeRealTrader') //BCM
+      putReference(paper) // the default radio button for portfolio selection at sign in
       this.props.history.push('/StartUp')
     } catch (error) {
       alert(error)
@@ -78,4 +76,4 @@ class SignInContainer extends Component {
   }
 }
 
-export default withRouter(SignInContainer)
+export default withRouter(SignIn)
