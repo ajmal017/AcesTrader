@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import './WelcomeRealTrader.css'
 import { putReference, getReference, ameritrade, schwab, paper } from '../../lib/dbReference'
 import { referenceRealtrader, referencePapertrader, referenceDebugtrader } from '../../lib/dbReference'
+import AppLoadData from '../AppLoadData'
 
 const Wrapper = styled.section`
   display: grid;
@@ -93,14 +94,16 @@ const HR = styled.hr`
   border: 8px solid red;
 `
 
+let savedReference = null
+
 class WelcomeRealTrader extends Component {
   //
   constructor(props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
-    // this.handleStart = this.handleStart.bind(this)
     console.log(`WelcomeRealTrader: constructor getReference=${getReference()}`) //BCM
-    this.state = getReference() ? { reference: getReference() } : {}
+    savedReference = getReference() ? getReference() : null
+    this.state = { reference: savedReference, changeReference: false }
   }
 
   componentDidMount() {
@@ -109,69 +112,67 @@ class WelcomeRealTrader extends Component {
 
   handleChange = (event) => {
     event.preventDefault()
+    savedReference = getReference()
     putReference(event.target.value)
-    this.setState({ reference: getReference() }) // identifies the Firebase RTDB index for the app's selected state
-    this.props.history.push('/startUp')
+    console.log(`WelcomeRealTrader: handleChange savedReference=${savedReference} getReference=${getReference()}`) //BCM
+    this.setState({ reference: getReference(), changeReference: true }) //triggers render and identifies the Firebase RTDB index for the app's selected state
+    // this.props.history.push('/startUp')
   }
 
-  // handleStart = (event) => {
-  //   event.preventDefault()
-  //   putReference(this.state.reference) // this is the selected database reference
-  //   this.props.history.push('/startUp')
-  // }
-
   render() {
-    const SelectedTitle = this.state.reference[0].toUpperCase() + this.state.reference.substr(1)
+    const { reference, changeReference } = this.state
+    console.log(`WelcomeRealTrader  render: savedReference=${savedReference} reference=${reference}`) //BCM
+    const SelectedTitle = reference[0].toUpperCase() + reference.substr(1)
+    putReference(reference) //BCM needed??
 
-    putReference(this.state.reference)
-    return (
-      <Wrapper>
-        <Background>
-          <Title>{SelectedTitle} Portfolio Loaded</Title>
-        </Background>
-        <HR />
-        <Header>Select A Portfolio</Header>
-        <Content>
-          <RadioRow>
-            <RadioInput type='radio' name={ameritrade} value={ameritrade} checked={this.state.reference === ameritrade} onChange={this.handleChange} />
-            <RadioLabel>&nbsp;TD Ameritrade</RadioLabel>
-            <RadioInput type='radio' name={schwab} value={schwab} checked={this.state.reference === schwab} onChange={this.handleChange} />
-            <RadioLabel>&nbsp;Schwab</RadioLabel>
-            <RadioInput type='radio' name={paper} value={paper} checked={this.state.reference === paper} onChange={this.handleChange} />
-            <RadioLabel>&nbsp;Paper</RadioLabel>
-          </RadioRow>
-
-          {process.env.NODE_ENV === 'development' ? (
+    if (savedReference !== reference) {
+      console.log('WelcomeRealTrader  return: DOM & AppLoadData') //BCM
+      savedReference = reference // update for use in next instatation
+      return (
+        <>
+          <Wrapper>
+            <Background>
+              <Title>{SelectedTitle} Portfolio Is Loading. Please Wait...</Title>
+            </Background>
+          </Wrapper>
+          <AppLoadData next={'WelcomeRealTrader'} />>
+        </>
+      )
+    } else {
+      console.log('WelcomeRealTrader  return: DOM only') //BCM
+      return (
+        <Wrapper>
+          <Background>
+            <Title>{SelectedTitle} Portfolio Loaded</Title>
+          </Background>
+          <HR />
+          <Header>Select A Portfolio</Header>
+          <Content>
             <RadioRow>
-              <RadioInput type='radio' name={referenceRealtrader} value={referenceRealtrader} checked={this.state.reference === referenceRealtrader} onChange={this.handleChange} />
-              <RadioLabel>&nbsp;Live Trading</RadioLabel>
-              <RadioInput
-                type='radio'
-                name={referencePapertrader}
-                value={referencePapertrader}
-                checked={this.state.reference === referencePapertrader}
-                onChange={this.handleChange}
-              />
-              <RadioLabel>&nbsp;Paper Money Trading</RadioLabel>
-              <RadioInput
-                type='radio'
-                name={referenceDebugtrader}
-                value={referenceDebugtrader}
-                checked={this.state.reference === referenceDebugtrader}
-                onChange={this.handleChange}
-              />
-              <RadioLabel>&nbsp;Simulated Trading</RadioLabel>
+              <RadioInput type='radio' name={ameritrade} value={ameritrade} checked={reference === ameritrade} onChange={this.handleChange} />
+              <RadioLabel>&nbsp;TD Ameritrade</RadioLabel>
+              <RadioInput type='radio' name={schwab} value={schwab} checked={reference === schwab} onChange={this.handleChange} />
+              <RadioLabel>&nbsp;Schwab</RadioLabel>
+              <RadioInput type='radio' name={paper} value={paper} checked={reference === paper} onChange={this.handleChange} />
+              <RadioLabel>&nbsp;Paper</RadioLabel>
             </RadioRow>
-          ) : (
-            <div />
-          )}
-        </Content>
 
-        {/* <Footer>
-          <ButtonStart onClick={this.handleStart}>Start</ButtonStart>
-        </Footer> */}
-      </Wrapper>
-    )
+            {process.env.NODE_ENV === 'development' ? (
+              <RadioRow>
+                <RadioInput type='radio' name={referenceRealtrader} value={referenceRealtrader} checked={reference === referenceRealtrader} onChange={this.handleChange} />
+                <RadioLabel>&nbsp;Live Trading</RadioLabel>
+                <RadioInput type='radio' name={referencePapertrader} value={referencePapertrader} checked={reference === referencePapertrader} onChange={this.handleChange} />
+                <RadioLabel>&nbsp;Paper Money Trading</RadioLabel>
+                <RadioInput type='radio' name={referenceDebugtrader} value={referenceDebugtrader} checked={reference === referenceDebugtrader} onChange={this.handleChange} />
+                <RadioLabel>&nbsp;Simulated Trading</RadioLabel>
+              </RadioRow>
+            ) : (
+              <div />
+            )}
+          </Content>
+        </Wrapper>
+      )
+    }
   }
 }
 export default withRouter(WelcomeRealTrader)
