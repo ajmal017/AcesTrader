@@ -6,14 +6,13 @@ import './styles.css'
 
 const SignInView = ({ onSubmit, onSignUp, handleDemoMode, handleDemoInfo, email, password }) => {
   const handleDemoInfoClick = function(e) {
-    // alert('handleInfoClick')
     handleDemoInfo(e)
   }
 
   return (
     <div>
       <div className={'backgroundDollar'}>
-        0.1.96
+        0.1.97
         <span className={'header'}>
           <span>Sign In</span>
         </span>
