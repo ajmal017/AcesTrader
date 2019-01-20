@@ -6,16 +6,17 @@ import './styles.css'
 
 const SignInView = ({ onSubmit, onSignUp, handleDemoMode, handleDemoInfo, email, password }) => {
   const handleDemoInfoClick = function(e) {
-    // alert('handleInfoClick')
     handleDemoInfo(e)
   }
 
   return (
     <div>
-      0.1.95
-      <span className={'header'}>
-        <h1>Sign In</h1>
-      </span>
+      <div className={'backgroundDollar'}>
+        0.1.97
+        <span className={'header'}>
+          <span>Sign In</span>
+        </span>
+      </div>
       <div className={'formWrapper'}>
         <form onSubmit={onSubmit} id='fields'>
           <div id={'loginWrapper'}>

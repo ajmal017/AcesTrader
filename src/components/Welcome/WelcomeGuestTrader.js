@@ -3,14 +3,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const WelcomeGuestTrader = () => {
-  const Content = styled.section`
-    grid-area: content;
-    padding-right: 14%;
-    padding-left: 14%;
-    background-color: #ecf0f1;
-  `
+const Content = styled.section`
+  grid-area: content;
+  padding-right: 14%;
+  padding-left: 14%;
+  background-color: #ecf0f1;
+`
 
+const WelcomeGuestTrader = () => {
   return (
     <Content>
       <h2>Guest Mode - Simulated Trading</h2>
