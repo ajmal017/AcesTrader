@@ -5,11 +5,6 @@ import { getReference, referenceLocaltrader } from '../../lib/dbReference'
 import AppLoadData from '../AppLoadData'
 
 class StartUp extends Component {
-  constructor(props) {
-    super(props)
-    // console.log('StartUp constructor') //BCM
-  }
-
   render() {
     const divStyle = { marginTop: 80, marginLeft: 50 }
     this.reference = getReference() //indicates user's portfolio selection

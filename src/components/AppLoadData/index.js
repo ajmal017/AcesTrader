@@ -1,6 +1,5 @@
 // AppLoadData/index.js
 
-import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { getReference, referenceLocaltrader } from '../../lib/dbReference'
@@ -87,8 +86,9 @@ const getDataTimedOut = () => {
 //   }
 // }
 
-//Note to self: this provides access to redux's dispatch()
-const mapStateToProps = (state) => ({
-  state: state,
-})
+//Note: this provides access to redux's dispatch()
+//Use a no-op function to avoid triggering a re-render due to a state change.
+//We are not concerned with state, only want to run when called,
+//but we need access to dispatch()
+const mapStateToProps = () => ({})
 export default withRouter(connect(mapStateToProps)(AppLoadData))
