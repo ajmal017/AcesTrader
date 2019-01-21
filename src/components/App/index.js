@@ -81,7 +81,7 @@ class App extends Component {
   render() {
     const { loading, store, authenticated, currentUser } = this.state
 
-    console.log(`App: loading=${loading} currentUser=${currentUser}`) //BCM
+    // console.log(`App: loading=${loading} currentUser=${currentUser}`) //BCM
 
     if (loading) {
       const divStyle = { marginTop: 80, marginLeft: 50 }

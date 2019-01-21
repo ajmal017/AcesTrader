@@ -101,32 +101,32 @@ class WelcomeRealTrader extends Component {
   constructor(props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
-    console.log(`WelcomeRealTrader: constructor getReference=${getReference()}`) //BCM
+    // console.log(`WelcomeRealTrader: constructor getReference=${getReference()}`) //BCM
     savedReference = getReference() ? getReference() : null
-    this.state = { reference: savedReference, changeReference: false }
+    this.state = { reference: savedReference }
   }
 
   componentDidMount() {
-    console.log(`WelcomeRealTrader: componentDidMount getReference=${getReference()}`) //BCM
+    // console.log(`WelcomeRealTrader: componentDidMount getReference=${getReference()}`) //BCM
   }
 
   handleChange = (event) => {
     event.preventDefault()
     savedReference = getReference()
     putReference(event.target.value)
-    console.log(`WelcomeRealTrader: handleChange savedReference=${savedReference} getReference=${getReference()}`) //BCM
-    this.setState({ reference: getReference(), changeReference: true }) //triggers render and identifies the Firebase RTDB index for the app's selected state
+    // console.log(`WelcomeRealTrader: handleChange savedReference=${savedReference} getReference=${getReference()}`) //BCM
+    this.setState({ reference: getReference() }) //triggers render and identifies the Firebase RTDB index for the app's selected state
     // this.props.history.push('/startUp')
   }
 
   render() {
-    const { reference, changeReference } = this.state
-    console.log(`WelcomeRealTrader  render: savedReference=${savedReference} reference=${reference}`) //BCM
+    const { reference } = this.state
+    // console.log(`WelcomeRealTrader  render: savedReference=${savedReference} reference=${reference}`) //BCM
     const SelectedTitle = reference[0].toUpperCase() + reference.substr(1)
     putReference(reference) //BCM needed??
 
     if (savedReference !== reference) {
-      console.log('WelcomeRealTrader  return: DOM & AppLoadData') //BCM
+      // console.log('WelcomeRealTrader  return: DOM & AppLoadData') //BCM
       savedReference = reference // update for use in next instatation
       return (
         <>
@@ -139,7 +139,7 @@ class WelcomeRealTrader extends Component {
         </>
       )
     } else {
-      console.log('WelcomeRealTrader  return: DOM only') //BCM
+      // console.log('WelcomeRealTrader  return: DOM only') //BCM
       return (
         <Wrapper>
           <Background>
