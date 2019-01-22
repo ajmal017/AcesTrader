@@ -57,13 +57,25 @@ const Content = styled.section`
 //   font-size: 22px;
 // `
 
-const RadioRow = styled.section`
+const RadioGroup = styled.section`
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-  margin-top: 4px;
-  margin-bottom: 46px;
+  @media (min-width: 700px) {
+    // flex-flow: row wrap;
+    // align-items: center;
+    justify-content: center;
+    margin-top: 4px;
+    margin-bottom: 46px;
+  }
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
+`
+
+const RadioGroupItem = styled.section`
+  @media (max-width: 700px) {
+    margin-left: 66px;
+    margin-bottom: 46px;
+  }
 `
 
 const RadioInput = styled.input`
@@ -127,7 +139,7 @@ class WelcomeRealTrader extends Component {
 
     if (savedReference !== reference) {
       // console.log('WelcomeRealTrader  return: DOM & AppLoadData') //BCM
-      savedReference = reference // update for use in next instatation
+      savedReference = reference // update this for use in the next render call
       return (
         <>
           <Wrapper>
@@ -148,24 +160,30 @@ class WelcomeRealTrader extends Component {
           <HR />
           <Header>Select A Portfolio</Header>
           <Content>
-            <RadioRow>
-              <RadioInput type='radio' name={ameritrade} value={ameritrade} checked={reference === ameritrade} onChange={this.handleChange} />
-              <RadioLabel>&nbsp;TD Ameritrade</RadioLabel>
-              <RadioInput type='radio' name={schwab} value={schwab} checked={reference === schwab} onChange={this.handleChange} />
-              <RadioLabel>&nbsp;Schwab</RadioLabel>
-              <RadioInput type='radio' name={paper} value={paper} checked={reference === paper} onChange={this.handleChange} />
-              <RadioLabel>&nbsp;Paper</RadioLabel>
-            </RadioRow>
+            <RadioGroup>
+              <RadioGroupItem>
+                <RadioInput type='radio' name={ameritrade} value={ameritrade} checked={reference === ameritrade} onChange={this.handleChange} />
+                <RadioLabel>&nbsp;TD Ameritrade</RadioLabel>
+              </RadioGroupItem>
+              <RadioGroupItem>
+                <RadioInput type='radio' name={schwab} value={schwab} checked={reference === schwab} onChange={this.handleChange} />
+                <RadioLabel>&nbsp;Schwab</RadioLabel>
+              </RadioGroupItem>
+              <RadioGroupItem>
+                <RadioInput type='radio' name={paper} value={paper} checked={reference === paper} onChange={this.handleChange} />
+                <RadioLabel>&nbsp;Paper</RadioLabel>
+              </RadioGroupItem>
+            </RadioGroup>
 
             {process.env.NODE_ENV === 'development' ? (
-              <RadioRow>
+              <RadioGroup>
                 <RadioInput type='radio' name={referenceRealtrader} value={referenceRealtrader} checked={reference === referenceRealtrader} onChange={this.handleChange} />
                 <RadioLabel>&nbsp;Live Trading</RadioLabel>
                 <RadioInput type='radio' name={referencePapertrader} value={referencePapertrader} checked={reference === referencePapertrader} onChange={this.handleChange} />
                 <RadioLabel>&nbsp;Paper Money Trading</RadioLabel>
                 <RadioInput type='radio' name={referenceDebugtrader} value={referenceDebugtrader} checked={reference === referenceDebugtrader} onChange={this.handleChange} />
                 <RadioLabel>&nbsp;Simulated Trading</RadioLabel>
-              </RadioRow>
+              </RadioGroup>
             ) : (
               <div />
             )}
