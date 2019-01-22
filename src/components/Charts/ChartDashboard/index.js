@@ -102,7 +102,7 @@ class ChartDashboard extends Component {
     this.quantityType = this.props.cellObject.dashboard.quantityType
     this.quantity = this.props.cellObject.dashboard.quantity
     this.buttonLabel = this.props.cellObject.dashboard.buttonLabel
-    this.trailingStopPercent = this.props.cellObject.dashboard.trailingStopPercent || 5
+    this.trailingStopPercent = this.props.cellObject.dashboard.trailingStopPercent || 5 //<**** Sets a default trailing stop percentage
 
     this.instructionRaw = this.props.cellObject.dashboard.instruction
     this.instructionTest = this.tradeSide === 'Shorts' ? true : false
@@ -126,20 +126,21 @@ class ChartDashboard extends Component {
 
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
 
-    this.trailingStopPercent = this.props.cellObject.trailingStopPercent ? this.props.cellObject.trailingStopPercent : this.trailingStopPercent
-    // The calculated trailing stop price is optionally shown in the dashboard for development
-    this.trailingStopPrice = null
-    if (this.tradeSide === 'Shorts') {
-      this.trailingStopPrice = (this.trailingStopBasis + (this.trailingStopPercent * this.trailingStopBasis) / 100).toFixed(2)
-    } else {
-      this.trailingStopPrice = (this.trailingStopBasis - (this.trailingStopPercent * this.trailingStopBasis) / 100).toFixed(2)
+    if (this.listGroup === 'positions') {
+      // The calculated trailing stop price is  shown in the dashboard
+      this.trailingStopPrice = null
+      if (this.tradeSide === 'Shorts') {
+        this.trailingStopPrice = (this.trailingStopBasis + (this.trailingStopPercent * this.trailingStopBasis) / 100).toFixed(2)
+      } else {
+        this.trailingStopPrice = (this.trailingStopBasis - (this.trailingStopPercent * this.trailingStopBasis) / 100).toFixed(2)
+      }
     }
 
     if (this.peekDate === undefined || this.props.iexData === 0) {
       this.rgbaBackground = defaultRgbaBackground // chart data not available yet, not able to test for any alert now
     } else {
       // When iexData > 0, it means chart data is available in Chartcell,
-      // peoviding new props for ChartDashboard to render
+      // providing new props for ChartDashboard to calc alerts
       const weekly = this.props.cellObject.weeklyBars
       if (weekly) {
         // Calculate action signal for trend following prospects and positions using weekly bar charts
@@ -167,36 +168,38 @@ class ChartDashboard extends Component {
         this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
       }
 
-      // Adjust the trailingStopBasis if the closing price is further to the gain side
-      // Changing this.trailingStopBasis here now is for immediate effect
-      // Permanent change will be done in reducePeekData.js the next time ChartView is rendered.
-      const last20Closes = getLast20Closes(this.symbol)
-      if (last20Closes && last20Closes.length > 0) {
-        const highestLowestCloses = getHighestLowestCloses(last20Closes, this.entered) // returns {highest: price, lowest: price}
-        if (this.tradeSide === 'Shorts' && this.trailingStopBasis > highestLowestCloses.lowest) {
-          this.trailingStopBasis = highestLowestCloses.lowest
-        } else if (this.tradeSide !== 'Shorts' && this.trailingStopBasis < highestLowestCloses.highest) {
-          this.trailingStopBasis = highestLowestCloses.highest
+      if (this.listGroup === 'positions') {
+        // The trailing stop loss alert is only for positions.
+        // Note that a trailing stop loss alert overrides any trend following SMA40 test result
+        // Adjust the trailingStopBasis if the closing price is further to the gain side
+        // Changing this.trailingStopBasis here now is for immediate effect
+        // Permanent change will be done in reducePeekData.js the next time ChartView is rendered.
+        const last20Closes = getLast20Closes(this.symbol)
+        if (last20Closes && last20Closes.length > 0) {
+          const highestLowestCloses = getHighestLowestCloses(last20Closes, this.entered) // returns {highest: price, lowest: price}
+          if (this.tradeSide === 'Shorts' && this.trailingStopBasis > highestLowestCloses.lowest) {
+            this.trailingStopBasis = highestLowestCloses.lowest
+          } else if (this.tradeSide !== 'Shorts' && this.trailingStopBasis < highestLowestCloses.highest) {
+            this.trailingStopBasis = highestLowestCloses.highest
+          }
         }
-      }
-
-      // Calculate any trailing stop loss action alert for positions
-      // Note that a trailing stop loss alert overrides any trend following SMA40 test result
-      this.stopGap = this.peekPrice - this.trailingStopBasis
-      // this.stopGap = 0.055 * this.trailingStopBasis // a way to test exit alerts
-      this.percentTrailingStopGap = (100 * this.stopGap) / this.trailingStopBasis //.toFixed(1)
-      if (
-        (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
-        (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
-      ) {
-        this.rgbaBackground = alertRgbaBackground // show alert for trailing stop loss
+        // Calculate any trailing stop loss alert
+        this.stopGap = this.peekPrice - this.trailingStopBasis
+        // this.stopGap = 0.055 * this.trailingStopBasis // a way to test exit alerts
+        this.percentTrailingStopGap = (100 * this.stopGap) / this.trailingStopBasis //.toFixed(1)
+        if (
+          (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
+          (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
+        ) {
+          this.rgbaBackground = alertRgbaBackground // show alert for trailing stop loss
+        }
       }
     }
     // console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)
 
     const ActionButton = styled.button`
       font-size: 16px;
-      background: rgba(${this.rgbaBackground}); //rgbaBackground is calculated above for weekly bar charts
+      background: rgba(${this.rgbaBackground}); //rgbaBackground is calculated above for trading alerts
       :hover {
         background: #c7c4dd;
         // background: #ced4da;
