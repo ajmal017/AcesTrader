@@ -102,7 +102,7 @@ class ChartDashboard extends Component {
     this.quantityType = this.props.cellObject.dashboard.quantityType
     this.quantity = this.props.cellObject.dashboard.quantity
     this.buttonLabel = this.props.cellObject.dashboard.buttonLabel
-    this.trailingStopPercent = this.props.cellObject.dashboard.trailingStopPercent || 5 //<**** Sets a default trailing stop percentage
+    this.trailingStopPercent = this.props.cellObject.trailingStopPercent || 5 //<**** Sets a default trailing stop percentage
 
     this.instructionRaw = this.props.cellObject.dashboard.instruction
     this.instructionTest = this.tradeSide === 'Shorts' ? true : false
