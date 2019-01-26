@@ -14,14 +14,14 @@ import './stylesTextWidths.css'
 
 function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, daysHere, positionValue, rgbaValue }) {
   // let thePositionValue = listGroup === 'positions' ? `, Value: ${positionValue}` : null
+  let nd = new Date(peekDate)
+  const displayDate = `${1 + nd.getMonth()}/${nd.getDate()}`
+  const displayGain = percentGain > 0 ? `+${percentGain}` : `${percentGain}`
   return peekDate !== undefined ? (
     <div style={{ backgroundColor: 'rgba(' + rgbaValue + ')' }}>
       <span id={'positions' + hash} className='watched'>
-        Peek {peekDate} @{peekPrice}
-        ,&nbsp;&nbsp;Change:&nbsp;
-        {percentGain}
-        %,&nbsp;&nbsp;
-        {daysHere} days
+        Peek {displayDate} &nbsp;@{peekPrice}
+        &nbsp;&nbsp;{displayGain}% &nbsp;&nbsp;{daysHere} days
         {/* {thePositionValue} */}
       </span>
     </div>
@@ -259,14 +259,14 @@ class ChartDashboard extends Component {
                 {this.listGroup === 'positions' ? (
                   <span className='entered'>
                     Entered {this.entered}
-                    &nbsp;&nbsp; Price {this.enteredPrice}
+                    &nbsp; @{this.enteredPrice}
                   </span>
                 ) : null}
                 {/* </div>
               <div> */}
                 {this.filledQuantity !== undefined ? (
                   <span className='filledquantity'>
-                    Quantity {this.filledQuantity}
+                    Quant {this.filledQuantity}
                     {/* &nbsp;&nbsp; Account {this.account} */}
                   </span>
                 ) : null}
