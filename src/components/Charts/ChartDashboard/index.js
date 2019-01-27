@@ -125,6 +125,7 @@ class ChartDashboard extends Component {
     this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
 
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
+    this.lastSma40 = getLastSma40Price(this.symbol)
 
     if (this.listGroup === 'positions') {
       // The calculated trailing stop price is  shown in the dashboard
@@ -145,22 +146,21 @@ class ChartDashboard extends Component {
       if (weekly) {
         // Calculate action signal for trend following prospects and positions using weekly bar charts
         // Determine the status of the long term SMA40 buy/sell alert signals
-        const lastSma40 = getLastSma40Price(this.symbol)
-        if (lastSma40) {
+        if (this.lastSma40) {
           // Flag any trend following alerts
           if (this.tradeSide !== 'Shorts') {
             if (this.listGroup === 'prospects') {
-              this.rgbaBackground = this.peekPrice > lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading buy OR default background
+              this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading buy OR default background
             }
             if (this.listGroup === 'positions') {
-              this.rgbaBackground = this.peekPrice < lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading sell OR default background
+              this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading sell OR default background
             }
           } else if (this.tradeSide === 'Shorts') {
             if (this.listGroup === 'prospects') {
-              this.rgbaBackground = this.peekPrice < lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading buy OR default background
+              this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading buy OR default background
             }
             if (this.listGroup === 'positions') {
-              this.rgbaBackground = this.peekPrice > lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading sell OR default background
+              this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading sell OR default background
             }
           }
         }
@@ -301,6 +301,8 @@ class ChartDashboard extends Component {
           <div className='dashboard-footer'>
             {/* {process.env.NODE_ENV === 'development' ? <div className={'trailingStopBasis-absolute'}>{this.trailingStopBasis}</div> : ''} */}
             {/* {this.lastSma40 && process.env.NODE_ENV === 'development' ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.smaValue.toFixed(2)}</div> : ''} */}
+            {this.lastSma40 ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.smaValue.toFixed(2)}</div> : <div className={'lastSma40Value-absolute'}>none</div>}
+
             <div>
               {/* <button className={'entry-order-button'} onClick={this.handleOrderEntry} style={{ background: `rgba(${this.rgbaBackground})` }}> */}
               <ActionButton onClick={this.handleOrderEntry}>
