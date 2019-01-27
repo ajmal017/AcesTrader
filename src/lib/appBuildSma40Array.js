@@ -1,6 +1,6 @@
 //appBuildSma40Array.js
 
-import { putSma40Data, putLast20Closes } from './chartDataCache'
+import { putSma40Data } from './chartDataCache'
 import { initSma, addSmaPrice, getSmaArray } from './appMovingAverage'
 
 const buildSma40Array = (symbol, weeklyPriceData) => {

@@ -25,7 +25,7 @@ import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
 import ChartDashboard from '../ChartDashboard'
 import DialogChartCellForm from './DialogChartCellForm'
-import { putDailyPriceData, getDailyPriceData, putWeeklyPriceData, getWeeklyPriceData, putLast20Closes } from '../../../lib/chartDataCache'
+import { putDailyPriceData, getDailyPriceData, putWeeklyPriceData, getWeeklyPriceData } from '../../../lib/chartDataCache'
 import buildSma40Array from '../../../lib/appBuildSma40Array'
 import buildLast20Closes from '../../../lib/appBuildLast20Closes'
 
