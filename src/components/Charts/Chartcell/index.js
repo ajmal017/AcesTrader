@@ -25,8 +25,12 @@ import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
 import ChartDashboard from '../ChartDashboard'
 import DialogChartCellForm from './DialogChartCellForm'
-import { putDailyPriceData, getDailyPriceData, putWeeklyPriceData, getWeeklyPriceData, putSma40Data, putLast20Closes } from '../../../lib/chartDataCache'
-import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
+import { putDailyPriceData, getDailyPriceData, putWeeklyPriceData, getWeeklyPriceData, putLast20Closes } from '../../../lib/chartDataCache'
+import buildSma40Array from '../../../lib/appBuildSma40Array'
+import buildLast20Closes from '../../../lib/appBuildLast20Closes'
+
+// import { putSma40Data, putLast20Closes } from '../../../lib/chartDataCache'
+// import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 // var cloneDeep = require('lodash.clonedeep')
@@ -53,6 +57,15 @@ class Chartcell extends Component {
     }
   }
 
+  handleDispatchOfDialogEdit(parameterData) {
+    // This is a callback function passed to the DialogChartCellForm component.
+    // Because of a problem with the react stockchart component, the DialogChartCellForm
+    // was created to separate its DOM with the <dialog> element, from this DOM.
+    // The document.body.appendChild() procedure caused the D3 operations
+    // in the charting code to fail when the append was done from this DOM.
+    this.props.dispatch(editListObjectPrarmeters(this.hash, parameterData)) // renders updated chart
+  }
+
   componentDidMount() {
     let recoveredData
     if (this.weeklyBars) {
@@ -63,20 +76,16 @@ class Chartcell extends Component {
     if (recoveredData) {
       // another http request for chart data not needed
       this.data = recoveredData
+      // but we need to rebuild the weekly sma40 data
+      buildSma40Array(this.symbol, getWeeklyPriceData(this.symbol))
+      // and we need to rebuild the Last 20 closes
+      buildLast20Closes(this.symbol, getDailyPriceData(this.symbol))
       this.setState({ iexData: 2, hide: false }) //new data is available in cache
     } else {
-      // required bars are not yet cached
+      // required data is not yet cached
+      // this includes the weekly sma40 & last 20 closes
       this.loadChartData(this.weeklyBars)
     }
-  }
-
-  handleDispatchOfDialogEdit(parameterData) {
-    // This is a callback function passed to the DialogChartCellForm component.
-    // Because of a problem with the react stockchart component, the DialogChartCellForm
-    // was created to separate its DOM with the <dialog> element, from this DOM.
-    // The document.body.appendChild() procedure caused the D3 operations
-    // in the charting code to fail when the append was done from this DOM.
-    this.props.dispatch(editListObjectPrarmeters(this.hash, parameterData)) // renders updated chart
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -103,20 +112,13 @@ class Chartcell extends Component {
           putDailyPriceData(symbol, data) //cache the daily price data for subsequent rendering
           // Cache the last 20 close prices and dates from the daily data
           // for subsequent use in trailingStopBasis adjustments
-          let last20Prices = data.slice(-20)
-          let last20Closes = last20Prices.map((obj) => {
-            return { close: obj.close, date: obj.date }
-          })
-          putLast20Closes(symbol, last20Closes)
+          buildLast20Closes(symbol, data)
 
           let weeklyPriceData = self.convertToWeeklyBars(data)
-          putWeeklyPriceData(symbol, weeklyPriceData) //cache the weeky price data for subsequent rendering
-          initSma(40, weeklyPriceData.length)
-          for (let kk = 0; kk < weeklyPriceData.length; kk++) {
-            addSmaPrice(weeklyPriceData[kk].close, weeklyPriceData[kk].date)
-          }
-          let smaArray = getSmaArray()
-          putSma40Data(symbol, smaArray) //cache the sma40 data for subsequent use for weekly chart alerts
+          putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for subsequent rendering
+          // Cache the sma40 values from the weekly prices
+          // for subsequent use in trend trading alerts
+          buildSma40Array(symbol, weeklyPriceData)
           self.setState({ iexData: 1, noprices: false, hide: false }) //triggers render using the cached data
         }
       })

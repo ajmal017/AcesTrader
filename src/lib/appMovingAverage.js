@@ -1,5 +1,7 @@
 // appMovingAverage
 // Provides an API to calculate a simple moving average
+// Uses a ring array with a length of the sma period to calculate each sma value
+// Uses a normal array to hold the sma output values
 
 let smaArray = []
 let ringArray = []
@@ -8,7 +10,7 @@ let ringSize = 0
 let writeIndex = 0
 let smaIndex = 0
 
-// Initialize with the simple moving average size
+// Initialize with the simple moving average period and size
 export const initSma = (smaPeriod, seriesSize) => {
   ringArray = Array.from({ length: smaPeriod })
   ringSize = smaPeriod
@@ -18,7 +20,7 @@ export const initSma = (smaPeriod, seriesSize) => {
   smaIndex = 0
 }
 
-// Add the new price from the input time sequence, calculate the sma
+// Add the new price from the input in time sequence; calculate the sma for each new ring array state
 export const addSmaPrice = (price, date) => {
   ringArray[writeIndex % ringSize] = price // the index wraps around to overwrite older items
   writeIndex++
