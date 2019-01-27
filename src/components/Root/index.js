@@ -68,7 +68,6 @@ const Root = ({ store, authenticated }) => (
     </div>
   </Provider>
 )
-
 Root.propTypes = {
   store: PropTypes.object.isRequired,
   authenticated: PropTypes.bool.isRequired,
