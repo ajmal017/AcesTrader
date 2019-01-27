@@ -88,7 +88,7 @@ const getDataTimedOut = () => {
 
 //Note: this provides access to redux's dispatch()
 //Use a no-op function to avoid triggering a re-render due to a state change.
-//We are not concerned with state, only want to run when called,
+//We are not concerned with state, we only want to run when called,
 //but we need access to dispatch()
 const mapStateToProps = () => ({})
 export default withRouter(connect(mapStateToProps)(AppLoadData))
