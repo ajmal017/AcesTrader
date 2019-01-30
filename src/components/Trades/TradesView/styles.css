@@ -1,3 +1,8 @@
+/* Needed?? See #trades-host */
+#tradescontainer {
+  margin-top: 60px;
+}
+
 #trades-host {
   position: relative;
   overflow: auto;

@@ -9,8 +9,6 @@ import ChartsView from './ChartsView'
 import './styles.css'
 
 const Charts = (props) => {
-  'use-strict'
-
   if (props.chartArray.length > 0) {
     return (
       <div id={'chartscontainer'}>
@@ -20,8 +18,8 @@ const Charts = (props) => {
   } else {
     return (
       <>
-        <h3 className="error"> There are no entries in the {props.originList} list</h3>
-        <h3 className="error"> Use the "Edits" menu to add symbols to watch</h3>
+        <h3 className='error'> There are no entries in the {props.originList} list</h3>
+        <h3 className='error'> Use the "Edits" menu to add symbols to watch</h3>
       </>
     )
   }

@@ -50,7 +50,7 @@ class Appnav extends React.Component {
               </LinkContainer>
             </NavDropdown>
 
-            <LinkContainer to='/results'>
+            <LinkContainer to='/trades'>
               <NavItem eventKey={5}>Trades</NavItem>
             </LinkContainer>
 

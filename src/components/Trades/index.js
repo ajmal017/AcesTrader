@@ -1,28 +1,21 @@
 //Trades/index.js
-// This is the container for the nested Trades components
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import TradesView from './TradesView'
-import './styles.css'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import AppToolbar from '../../components/AppToolbar'
 
-const Trades = (props) => {
-  'use-strict'
-
-  if (props.tradesArray.length > 0) {
-    return (
-      <div id={'tradescontainer'}>
-        <TradesView handleClick={props.handleClick} tradesArray={props.tradesArray} />
-      </div>
-    )
-  } else {
-    return <h3 className="error"> There are no entries in the {props.originList} list</h3>
+class Trades extends Component {
+  render() {
+    return <AppToolbar resultsCharts={true} chartArray={this.props.results} originList={'Trades'} />
   }
 }
 
-Trades.propTypes = {
-  tradesArray: PropTypes.array.isRequired,
-  originList: PropTypes.string.isRequired,
+//Note to self: this triggers a render and passes new props to AppToolbar
+function mapStateToProps(state) {
+  const props = {
+    results: state.results,
+  }
+  return props
 }
 
-export default Trades
+export default connect(mapStateToProps)(Trades)

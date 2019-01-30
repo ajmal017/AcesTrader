@@ -11,6 +11,16 @@ export default class TradesView extends Component {
   }
 
   render() {
+    if (this.props.tradesArray.length === 0) {
+      //  return (
+      //     <div id={'tradescontainer'}>
+      //       <TradesView handleClick={props.handleClick} tradesArray={props.tradesArray} />
+      //     </div>
+      //   )
+      // } else {
+      return <h3 className='error'> There are no entries in the {this.props.originList} list</h3>
+    }
+
     //Create the data for a bar chart to be shown along with the list of trades
     //let resultsDataBarChart = {} // TO DO
 
@@ -22,13 +32,17 @@ export default class TradesView extends Component {
     // Each cell is a TradeList component with one trade list object to render
     return (
       <>
-        <main id='trades-host' className='trades-host'>
-          {cells}
-        </main>
+        <div id='tradescontainer'>
+          {' '}
+          {/* Needed?? */}
+          <div id='trades-host' className='trades-host'>
+            {cells}
+          </div>
+        </div>
 
         <footer className={'footnote'}>
           <span>
-            Copyright &copy; 2018{' '}
+            Copyright &copy; 2018-2019{' '}
             <a href={process.env.PUBLIC_URL + '/bm.html'} target='_blank' rel=' noopener noreferrer'>
               Bruce Martin
             </a>
@@ -45,4 +59,5 @@ export default class TradesView extends Component {
 // This array is a list of trade results
 TradesView.propTypes = {
   tradesArray: PropTypes.array.isRequired,
+  originList: PropTypes.string.isRequired,
 }
