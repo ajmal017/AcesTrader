@@ -12,12 +12,6 @@ export default class TradesView extends Component {
 
   render() {
     if (this.props.tradesArray.length === 0) {
-      //  return (
-      //     <div id={'tradescontainer'}>
-      //       <TradesView handleClick={props.handleClick} tradesArray={props.tradesArray} />
-      //     </div>
-      //   )
-      // } else {
       return <h3 className='error'> There are no entries in the {this.props.originList} list</h3>
     }
 
@@ -33,8 +27,9 @@ export default class TradesView extends Component {
     return (
       <>
         <div id='tradescontainer'>
-          {' '}
-          {/* Needed?? */}
+          <div id='trades-chart'>
+            <p>Trades Bar Chart Here</p>
+          </div>
           <div id='trades-host' className='trades-host'>
             {cells}
           </div>
