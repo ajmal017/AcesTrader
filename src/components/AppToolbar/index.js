@@ -7,7 +7,7 @@ import Scrollchor from 'react-scrollchor' //scroll to anchor in page
 import NotificationSystem from 'react-notification-system'
 import appScrollbarWidth from '../../lib/appScrollbarWidth'
 import Charts from '../Charts' //to hold stock price chart and dashboard control panel
-import Trades from '../Trades' //to hold the results chart and dashboard data display
+import TradesView from '../Trades/TradesView' //to hold the results chart and dashboard data display
 import { getReference } from '../../lib/dbReference'
 import './styles.css'
 var cloneDeep = require('lodash.clonedeep')
@@ -69,15 +69,19 @@ class AppToolbar extends Component {
       // this is chronologically listed, must change to alphabetically listed
       workArray = cloneDeep(chartArray) // prepare for mutation by sort
       workArray.sort(function(a, b) {
-        if(a.symbol < b.symbol) { return -1; }
-        if(a.symbol > b.symbol) { return 1; }
-        return 0;
+        if (a.symbol < b.symbol) {
+          return -1
+        }
+        if (a.symbol > b.symbol) {
+          return 1
+        }
+        return 0
       })
     }
     let menuItems = workArray.map(function(obj, index) {
       return (
         <button key={index.toString()}>
-          <Scrollchor to={obj.hash} disableHistory={true} animate={{ offset: scrollchorOffset, duration: 500 }} className="nav-link">
+          <Scrollchor to={obj.hash} disableHistory={true} animate={{ offset: scrollchorOffset, duration: 500 }} className='nav-link'>
             {obj.symbol}
           </Scrollchor>
         </button>
@@ -86,14 +90,14 @@ class AppToolbar extends Component {
 
     return (
       <div>
-        <NotificationSystem ref="notificationSystem" />
-        <div className="scrollmenucontainer">
+        <NotificationSystem ref='notificationSystem' />
+        <div className='scrollmenucontainer'>
           <div className={'scrollmenu ' + this.state.dbReference}>{menuItems}</div>
         </div>
 
         {/* Render either Results or Charts */}
         {resultsCharts ? (
-          <Trades handleClick={this.handleClick} tradesArray={chartArray} originList={this.props.originList} />
+          <TradesView handleClick={this.handleClick} tradesArray={chartArray} originList={this.props.originList} />
         ) : (
           <Charts handleClick={this.handleClick} chartArray={chartArray} originList={this.props.originList} />
         )}
