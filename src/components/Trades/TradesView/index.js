@@ -29,7 +29,7 @@ export default class TradesView extends Component {
       <>
         <div id='tradescontainer'>
           <div id='tradeschart'>
-            <TradesChart />
+            <TradesChart tradesArray={this.props.tradesArray} />
           </div>
           <div id='trades-host' className='trades-host'>
             {cells}
