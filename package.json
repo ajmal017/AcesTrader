@@ -39,6 +39,7 @@
     "react-scrollchor": "5.0.2",
     "react-sizes": "1.0.0",
     "react-stockcharts": "^0.7.8",
+    "recharts": "^1.4.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.3.0",
     "styled-components": "^4.1.3",
