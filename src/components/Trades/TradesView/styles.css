@@ -5,7 +5,7 @@
   grid-auto-rows: minmax(50px, auto);
   grid-gap: 10px;
   border-bottom: 1px solid #ced4da;
-  margin-top: 44px;
+  margin-top: 48px;
   /*body's padding-top plus this page margin-top moves content below the fixed navbar and toolbar*/
 }
 
