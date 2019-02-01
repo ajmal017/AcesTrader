@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import TradesChart from '../TradesChart'
 import TradeCell from '../TradeCell'
 import './styles.css'
 
@@ -27,8 +28,8 @@ export default class TradesView extends Component {
     return (
       <>
         <div id='tradescontainer'>
-          <div id='trades-chart'>
-            <p>Trades Bar Chart Here</p>
+          <div id='tradeschart'>
+            <TradesChart />
           </div>
           <div id='trades-host' className='trades-host'>
             {cells}

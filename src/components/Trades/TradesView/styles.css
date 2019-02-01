@@ -9,7 +9,7 @@
   /*body's padding-top plus this page margin-top moves content below the fixed navbar and toolbar*/
 }
 
-#trades-chart {
+#tradeschart {
   background-color: #f9f9f9;
   border-radius: 5px;
   padding: 0 8px 10px 40px;
