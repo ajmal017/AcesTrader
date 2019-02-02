@@ -9,6 +9,7 @@ import { getLastSma40Price } from '../../../lib/chartDataCache'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import { getLast20Closes } from '../../../lib/chartDataCache'
 import { getHighestLowestCloses } from '../../../lib/appGetHighestLowestCloses'
+import { AuthenticatedContext } from '../../../redux'
 import './styles.css'
 import './stylesTextWidths.css'
 
@@ -29,6 +30,7 @@ function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, perc
 }
 
 class ChartDashboard extends Component {
+  static contextType = AuthenticatedContext
   constructor(props) {
     super(props)
     this.handleOrderEntry = this.handleOrderEntry.bind(this)
@@ -103,6 +105,7 @@ class ChartDashboard extends Component {
     this.quantity = this.props.cellObject.dashboard.quantity
     this.buttonLabel = this.props.cellObject.dashboard.buttonLabel
     this.trailingStopPercent = this.props.cellObject.trailingStopPercent || 5 //<**** Sets a default trailing stop percentage
+    this.stoplossAlert = false // until triggered by calculations below
 
     this.instructionRaw = this.props.cellObject.dashboard.instruction
     this.instructionTest = this.tradeSide === 'Shorts' ? true : false
@@ -185,14 +188,14 @@ class ChartDashboard extends Component {
         }
         // Calculate any trailing stop loss alert
         this.stopGap = this.peekPrice - this.trailingStopBasis
-        // this.stopGap = 0.055 * this.trailingStopBasis // a way to test exit alerts
         this.percentTrailingStopGap = (100 * this.stopGap) / this.trailingStopBasis //.toFixed(1)
         if (
           (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
           (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
         ) {
-          this.rgbaBackground = alertRgbaBackground // show alert for trailing stop loss
+          this.stoplossAlert = true // show alert for trailing stop loss
         }
+        // this.stoplossAlert = true // ***TEST TO ALWAYS SHOW ALERT FOR TRAILING STOP LOSS***
       }
     }
     // console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)
@@ -266,45 +269,57 @@ class ChartDashboard extends Component {
               <div> */}
                 {this.filledQuantity !== undefined ? (
                   <span className='filledquantity'>
-                    Quant {this.filledQuantity}
+                    Quantity {this.filledQuantity}
                     {/* &nbsp;&nbsp; Account {this.account} */}
                   </span>
                 ) : null}
               </div>
-              <div>{this.symbolDescription !== undefined ? <span className='symbolDescription'>{this.symbolDescription}</span> : null}</div>
+              <div>{this.lastSma40 ? <span className='weeklysma'>Weekly Sma(40): &nbsp;{this.lastSma40.smaValue.toFixed(2)}</span> : null}</div>
             </div>
-            <label htmlFor='instruction'>Order</label>
-            <input className={'instruction-' + this.tradeSideLc} readOnly type='text' name='instruction' value={this.instruction} />
-            <label htmlFor='orderType'>OrderType</label>
-            <input className={'ordertype-' + this.tradeSideLc} readOnly type='text' name='orderType' value={this.orderType} />
-            <br />
-            <label htmlFor='quantity'>Quantity</label>
-            <input className={'quantity-' + this.tradeSideLc} readOnly type='text' name='quantity' value={this.quantity} />
-            <label htmlFor='quantityType'>Type</label>
-            <input className={'quantitytype-' + this.tradeSideLc} readOnly type='text' name='quantityType' value={this.quantityType} />
-            <br />
-            <label htmlFor='session'>Session</label>
-            <input className={'session-' + this.tradeSideLc} readOnly type='text' name='session' value={this.session} />
-            <label htmlFor='duration'>Duration</label>
-            <input className={'duration-' + this.tradeSideLc} readOnly type='text' name='duration' value={this.duration} />
+
+            {/* If current user is not a Guest user, then the content below */}
+            {/* is removed until online access to broker trading API enabled */}
+            {this.context && this.context.email !== 'b@g.com' ? (
+              <>
+                <label htmlFor='instruction'>Order</label>
+                <input className={'instruction-' + this.tradeSideLc} readOnly type='text' name='instruction' value={this.instruction} />
+                <label htmlFor='orderType'>OrderType</label>
+                <input className={'ordertype-' + this.tradeSideLc} readOnly type='text' name='orderType' value={this.orderType} />
+                <br />
+                <label htmlFor='quantity'>Quantity</label>
+                <input className={'quantity-' + this.tradeSideLc} readOnly type='text' name='quantity' value={this.quantity} />
+                <label htmlFor='quantityType'>Type</label>
+                <input className={'quantitytype-' + this.tradeSideLc} readOnly type='text' name='quantityType' value={this.quantityType} />
+                <br />
+                <label htmlFor='session'>Session</label>
+                <input className={'session-' + this.tradeSideLc} readOnly type='text' name='session' value={this.session} />
+                <label htmlFor='duration'>Duration</label>
+                <input className={'duration-' + this.tradeSideLc} readOnly type='text' name='duration' value={this.duration} />
+              </>
+            ) : null}
+            {/* The above content removed until online access to broker trading API enabled */}
+
             {this.listGroup === 'positions' ? (
               <>
-                <br />
+                {/* <br /> */}
                 <label htmlFor='trailingStopPercent'>Stop Loss %</label>
                 <input className={'trailingstop-percent'} readOnly type='text' name='trailingStopPercent' value={this.trailingStopPercent} />
                 <label htmlFor='trailingStopPrice'>Stop Price</label>
                 <input className={'trailingstop-price'} readOnly type='text' name='trailingStopPrice' value={this.trailingStopPrice} />
               </>
             ) : null}
+            {this.stoplossAlert ? <span className={'trailingstop-alert'}>Stop Loss</span> : null}
           </form>
 
+          <div className='dashboard-securityname'>
+            <div>{this.symbolDescription !== undefined ? <span className='symbolDescription'>{this.symbolDescription}</span> : null}</div>
+          </div>
           <div className='dashboard-footer'>
             {/* {process.env.NODE_ENV === 'development' ? <div className={'trailingStopBasis-absolute'}>{this.trailingStopBasis}</div> : ''} */}
             {/* {this.lastSma40 ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.smaValue.toFixed(2)}</div> : <div className={'lastSma40Value-absolute'}>none</div>} */}
-            {this.lastSma40 && process.env.NODE_ENV === 'development' ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.smaValue.toFixed(2)}</div> : ''}
+            {/* {this.lastSma40 && process.env.NODE_ENV === 'development' ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.smaValue.toFixed(2)}</div> : ''} */}
 
             <div>
-              {/* <button className={'entry-order-button'} onClick={this.handleOrderEntry} style={{ background: `rgba(${this.rgbaBackground})` }}> */}
               <ActionButton onClick={this.handleOrderEntry}>
                 {this.buttonLabel} {this.symbol}
               </ActionButton>
