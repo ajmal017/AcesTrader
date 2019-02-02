@@ -2,7 +2,7 @@
 
 import uuidv4 from 'uuid/v4'
 
-export default function(state, theInput, newDashboard, theDate, theEvent, thePrice = null, theQuantity = null, theQuantityType = null, theAccount = null) {
+export default function(state, theInput, newDashboard, theDate, theEvent, thePrice = 'pending', theQuantity = 'pending', theQuantityType = 'pending', theAccount = 'pending') {
   // Parameters:
   // state: The current target array of objects, either Prospects or Positions
   // theInput: A list of prospect symbols or watched objects to merge into this target state slice

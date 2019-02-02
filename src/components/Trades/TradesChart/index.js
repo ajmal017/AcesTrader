@@ -3,7 +3,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import withSizes from 'react-sizes'
-import { BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
+import { BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
 
 // const data = [
 //   { symbol: 'AMZN', Gain: 8.4 },
@@ -40,9 +40,6 @@ import { BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip, Leg
 // ]
 
 class TradesChart extends React.Component {
-  constructor(props) {
-    super(props)
-  }
   render() {
     let data1 = this.props.tradesArray.map((tradeObject) => {
       const tradeSide = tradeObject.dashboard.tradeSide
