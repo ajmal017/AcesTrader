@@ -17,7 +17,7 @@
   /* border: blue solid 1px; */
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 4px 1fr 26px 36px;
+  grid-template-rows: 4px 1fr auto 36px;
   grid-template-areas:
     'actionheader'
     'actionparams'
@@ -38,7 +38,7 @@
 .dashboard-form {
   grid-area: actionparams;
   font-size: 12px;
-  padding: 0 10px 10px 10px;
+  padding: 0 10px 0 10px;
 }
 
 .dashboard-securityname {
@@ -46,7 +46,7 @@
   grid-area: actiondescription;
   display: inline-flex;
   justify-content: center;
-  padding: 0 10px 0 20px;
+  padding: 0 10px 10px 20px;
 }
 
 .dashboard-footer {
