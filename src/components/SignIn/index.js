@@ -20,7 +20,7 @@ class SignIn extends Component {
     // console.log(`SignIn: componentDidMount getReference=${getReference()}`) //BCM
     if (process.env.NODE_ENV === 'development') {
       // Set the default sign in parameters for debug testing
-      this.setState({ email: 'b@g.com', password: '079007' }) //change to use default user's sign in
+      this.setState({ email: 'a@g.com', password: 'bootonaces' }) //change to use default user's sign in
       //this.setState({ reference: referencePapertrader, email: 'b@g.com', password: '079007' }) //change default user's role
     }
   }
