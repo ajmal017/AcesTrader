@@ -16,7 +16,11 @@ import './stylesTextWidths.css'
 function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, daysHere, positionValue, rgbaValue }) {
   // let thePositionValue = listGroup === 'positions' ? `, Value: ${positionValue}` : null
   let nd = new Date(peekDate)
-  const displayDate = `${1 + nd.getMonth()}/${nd.getDate()}`
+  // const displayDate = `${1 + nd.getMonth()}/${nd.getDate()} ${nd.getHours()}:${nd.getMinutes()}`
+  const displayDate = `${1 + nd.getMonth()}/${nd.getDate()} ${nd
+    .toLocaleTimeString()
+    .toLowerCase()
+    .replace(/\:\d\d\s/, ' ')}`
   const displayGain = percentGain > 0 ? `+${percentGain}` : `${percentGain}`
   return peekDate !== undefined ? (
     <div style={{ backgroundColor: 'rgba(' + rgbaValue + ')' }}>
