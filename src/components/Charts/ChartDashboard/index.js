@@ -20,7 +20,7 @@ function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, perc
   const displayDate = `${1 + nd.getMonth()}/${nd.getDate()} ${nd
     .toLocaleTimeString()
     .toLowerCase()
-    .replace(/\:\d\d\s/, ' ')}`
+    .replace(/:\d\d\s/, ' ')}`
   const displayGain = percentGain > 0 ? `+${percentGain}` : `${percentGain}`
   return peekDate !== undefined ? (
     <div style={{ backgroundColor: 'rgba(' + rgbaValue + ')' }}>
