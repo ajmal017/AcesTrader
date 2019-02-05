@@ -12,7 +12,7 @@ const SignInView = ({ onSubmit, onSignUp, handleDemoMode, handleDemoInfo, email,
   return (
     <div>
       <div className={'backgroundDollar'}>
-        0.2.7
+        0.2.8
         <span className={'header'}>
           <span>Sign In</span>
         </span>
