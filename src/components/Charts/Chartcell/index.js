@@ -224,7 +224,7 @@ class Chartcell extends Component {
     const theAccount = 'pending'
     const theCellObject = this.props.cellObject //the target object originating the dispatch action
     //use 'pending' until brokerage api interface is enabled, Guest will see the programmed calculated quantity
-    const filledQuantity = this.context.email === 'b@g.com' ? 'pending' : this.props.cellObject.dashboard.quantity
+    const filledQuantity = this.context.email === 'a@g.com' ? 'pending' : this.props.cellObject.dashboard.quantity
     const enteredQuantityType = this.props.cellObject.dashboard.quantityType
     const theHash = this.props.cellObject.hash //from target object before its removal by dispatch below
 
@@ -232,7 +232,7 @@ class Chartcell extends Component {
       case 'BUYS': {
         this.props.dispatch(addLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
-        if (this.context.email !== 'b@g.com') {
+        if (this.context.email !== 'a@g.com') {
           this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         }
         break
@@ -240,7 +240,7 @@ class Chartcell extends Component {
       case 'SHORT SALES': {
         this.props.dispatch(addShortToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeSellFromList(this.symbol, this.hash))
-        if (this.context.email !== 'b@g.com') {
+        if (this.context.email !== 'a@g.com') {
           this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         }
         break
@@ -248,7 +248,7 @@ class Chartcell extends Component {
       case 'TREND BUYS': {
         this.props.dispatch(addTrendLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
-        if (this.context.email !== 'b@g.com') {
+        if (this.context.email !== 'a@g.com') {
           this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         }
         break
@@ -256,7 +256,7 @@ class Chartcell extends Component {
       case 'LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeLongFromList(this.symbol, this.hash))
-        if (this.context.email !== 'b@g.com') {
+        if (this.context.email !== 'a@g.com') {
           this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         }
         break
@@ -264,7 +264,7 @@ class Chartcell extends Component {
       case 'SHORTS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeShortFromList(this.symbol, this.hash))
-        if (this.context.email !== 'b@g.com') {
+        if (this.context.email !== 'a@g.com') {
           this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         }
         break
@@ -272,7 +272,7 @@ class Chartcell extends Component {
       case 'TREND LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
-        if (this.context.email !== 'b@g.com') {
+        if (this.context.email !== 'a@g.com') {
           this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         }
         break

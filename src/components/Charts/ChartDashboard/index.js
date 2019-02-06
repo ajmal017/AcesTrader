@@ -283,7 +283,7 @@ class ChartDashboard extends Component {
 
             {/* If current user is not a Guest user, then the content below */}
             {/* is removed until online access to broker trading API enabled */}
-            {this.context && this.context.email !== 'b@g.com' ? (
+            {this.context && this.context.email !== 'a@g.com' ? (
               <>
                 <label htmlFor='instruction'>Order</label>
                 <input className={'instruction-' + this.tradeSideLc} readOnly type='text' name='instruction' value={this.instruction} />
