@@ -20,7 +20,7 @@ class StartUp extends Component {
         <div style={divStyle}>
           <h4>{'Loading Your Saved Data. Please Wait...'}</h4>
         </div>
-        <AppLoadData next={this.next} />>
+        <AppLoadData next={this.next} />
       </>
     )
   }
