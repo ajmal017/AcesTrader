@@ -21,7 +21,7 @@ class SignIn extends Component {
     if (process.env.NODE_ENV === 'development') {
       // Set the default sign in parameters for debug testing
       this.setState({ email: 'a@g.com', password: 'bootonaces' }) //change to use default user's sign in
-      //this.setState({ reference: referencePapertrader, email: 'b@g.com', password: '079007' }) //change default user's role
+      //this.setState({ reference: referencePapertrader, email: 'a@g.com', password: '079007' }) //change default user's role
     }
   }
 
