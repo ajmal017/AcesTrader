@@ -36,10 +36,10 @@ class ChartsView extends Component {
 
     return (
       <div id='charts-host'>
-        <main className='charts-host'>{cells}</main>
+        <main className={'charts-host'}>{cells}</main>
         <footer className={'footnote'}>
           <span>
-            Copyright &copy; 2018{' '}
+            Copyright &copy; 2018-2019{' '}
             <a href={process.env.PUBLIC_URL + '/bm.html'} target='_blank' rel=' noopener noreferrer'>
               Bruce Martin
             </a>
