@@ -36,7 +36,7 @@ class ChartsView extends Component {
 
     return (
       <div id='charts-host'>
-        <main className='charts-host'>{cells}</main>
+        <main className={'charts-host'}>{cells}</main>
         <footer className={'footnote'}>
           <span>
             Copyright &copy; 2018-2019{' '}
