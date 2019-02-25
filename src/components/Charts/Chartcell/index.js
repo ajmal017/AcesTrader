@@ -139,7 +139,7 @@ class Chartcell extends Component {
     let weeklyBars = []
     for (let k = 0; k < data.length; k++) {
       obj = data[k].date
-      day = obj.getDay()
+      day = obj.getDay() // gets the day of the week (from 0-6)
       if (day < lastDay) {
         // day's index number is smaller than the prior day, so start of new week
         // close current weekly bar
