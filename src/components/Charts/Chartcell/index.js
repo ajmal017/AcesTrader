@@ -141,18 +141,21 @@ class Chartcell extends Component {
       obj = data[k].date
       day = obj.getDay()
       if (day < lastDay) {
+        // day's index number is smaller than the prior day, so start of new week
         // close current weekly bar
         if (open) {
+          // a price is present
           weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
         }
-        // start new weekly bar
+        // save the first price data for the new weekly bar
         open = data[k].open
         high = data[k].high
         low = data[k].low
         close = data[k].close
         volume = data[k].volume
       } else if (open) {
-        // add to weekly bar
+        // a price is present
+        // save the latest price data for the weekly bar
         high = high > data[k].high ? high : data[k].high
         low = low < data[k].low ? low : data[k].low
         close = data[k].close
@@ -163,7 +166,7 @@ class Chartcell extends Component {
           weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
         }
       }
-      lastDay = day
+      lastDay = day // save this day's week index number
       lastDate = data[k].date
     }
     return weeklyBars
