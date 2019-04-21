@@ -19,7 +19,7 @@ import { removeShortFromList } from '../../../redux/reducerShorts'
 import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
 import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
-import getChartData from '../../../lib/apiGetChartData'
+import { getChartData } from '../../../lib/apiGetChartData'
 // import getChartLastBar from '../../../lib/apiGetChartLastBar'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
@@ -100,10 +100,11 @@ class Chartcell extends Component {
   loadChartData = (weeklyBars = false) => {
     const symbol = this.props.cellObject.symbol
     const range = weeklyBars ? '5y' : '1y'
+    // const range = '1y'
     const self = this
     // console.log(`loadChartData ${symbol}, Range=${weeklyBars ? '5y' : '1y'}`)
     getChartData(symbol, range)
-      .then(function(data) {
+      .then(function (data) {
         //console.log('getChartData axios response: data.length=', data.length)
         if (data.length < 2) {
           //CandleStickChartWithMA bug seen with new issue "TRTY" when only 0 or 1 day's data available
@@ -123,7 +124,7 @@ class Chartcell extends Component {
           self.setState({ iexData: 1, noprices: false, hide: false }) //triggers render using the cached data
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log('getChartData axios error:', error.message)
         // self.setState({ iexData: 4, noprices: true, hide: false })
         alert('getChartData axios error: ' + error.message) //rude interruption to user
@@ -353,29 +354,29 @@ class Chartcell extends Component {
                   <h4>{`Loading Chart ${chart_name}. Please Wait...`}</h4>
                 </div>
               ) : (
-                <ErrorBoundary chart={true}>
-                  {/* Catch the random D3 errors here, but don't abort. Continue on (with possible bad chart?!) */}
-                  {/* Note: this problem has apparently been fixed by changing the stockchart's defaultProps */}
-                  {/* to type:'svg' from type:'hybrid'. I think the errors came from operations on the html canvas. */}
-                  {this.props.cellObject.macdChart ? (
-                    <CandleStickChartWithMACD
-                      chartId={chartId}
-                      data={this.data}
-                      symbol={chart_name}
-                      weekly={this.props.cellObject.weeklyBars ? true : false}
-                      errorCount={this.props.errorCount}
-                    />
-                  ) : (
-                    <CandleStickChartWithMA
-                      chartId={chartId}
-                      data={this.data}
-                      symbol={chart_name}
-                      weekly={this.props.cellObject.weeklyBars ? true : false}
-                      errorCount={this.props.errorCount}
-                    />
+                    <ErrorBoundary chart={true}>
+                      {/* Catch the random D3 errors here, but don't abort. Continue on (with possible bad chart?!) */}
+                      {/* Note: this problem has apparently been fixed by changing the stockchart's defaultProps */}
+                      {/* to type:'svg' from type:'hybrid'. I think the errors came from operations on the html canvas. */}
+                      {this.props.cellObject.macdChart ? (
+                        <CandleStickChartWithMACD
+                          chartId={chartId}
+                          data={this.data}
+                          symbol={chart_name}
+                          weekly={this.props.cellObject.weeklyBars ? true : false}
+                          errorCount={this.props.errorCount}
+                        />
+                      ) : (
+                          <CandleStickChartWithMA
+                            chartId={chartId}
+                            data={this.data}
+                            symbol={chart_name}
+                            weekly={this.props.cellObject.weeklyBars ? true : false}
+                            errorCount={this.props.errorCount}
+                          />
+                        )}
+                    </ErrorBoundary>
                   )}
-                </ErrorBoundary>
-              )}
             </div>
             <div className='dashboard-center'>
               <ChartDashboard handleOrderEntry={this.handleOrderEntry} cellObject={cellObject} iexData={this.state.iexData} />

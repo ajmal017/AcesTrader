@@ -5,7 +5,7 @@ import { getReference, referenceLocaltrader } from './dbReference'
 
 let reference = getReference() //indicates which source to use for app's chart data
 
-const getChartData = (symbol, range) => {
+export const getChartData = (symbol, range) => {
   if (reference === referenceLocaltrader) {
     // Call into the free IEX api
     const IEX_BASE = 'https://api.iextrading.com/1.0/'
@@ -49,7 +49,6 @@ const getChartData = (symbol, range) => {
     return request //let caller handle the promise's .then/.catch completion
   }
 }
-export default getChartData
 
 //     .catch(function(error) {
 //       if (error.response) {
