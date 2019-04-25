@@ -104,8 +104,8 @@ class Chartcell extends Component {
     const symbol = this.props.cellObject.symbol
     const range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data
     const closeOnly = false // New for IEX Cloud data
-    // const useSandbox = false // New for IEX Cloud data
-    const useSandbox = true // Use while testing IEX Cloud data
+    const useSandbox = false // New for IEX Cloud data
+    // const useSandbox = true // Use while testing IEX Cloud data
     const self = this
     // console.log(`getSymbolData ${symbol}, range=${range}, closeOnly=${closeOnly}, useSandbox=${useSandbox}`)
     getSymbolData(symbol, range, closeOnly, useSandbox)
@@ -156,30 +156,28 @@ class Chartcell extends Component {
         // day's index number is smaller than the prior day, so start of new week
         // close current weekly bar if any started
         if (open) {
-          // a saved price is present, this avoids
-          // a false weekly close if the first day of the file is a Monday
+          // saved data is present, this avoids a false weekly close
+          // if the first day of this file is a Monday
           weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
         }
+        // initialize the first price data for the next weekly bar
+        open = data[k].open
+        high = data[k].high
+        low = data[k].low
+        close = data[k].close
+        volume = data[k].volume
+      } else if (open) {
+        // update the price data for the current weekly bar
+        high = high > data[k].high ? high : data[k].high
+        low = low < data[k].low ? low : data[k].low
+        close = data[k].close
+        volume += data[k].volume
       }
       if (k === data.length - 1) {
         // Tests for end of file to close weekly bar now
         // This is the last daily bar, so close current weekly bar
         lastDate = data[k].date
         weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
-      }
-      if (k === 0) {
-        // save the first price data for the first weekly bar
-        open = data[k].open
-        high = data[k].high
-        low = data[k].low
-        close = data[k].close
-        volume = data[k].volume
-      } else {
-        // update the price data for the weekly bar
-        high = high > data[k].high ? high : data[k].high
-        low = low < data[k].low ? low : data[k].low
-        close = data[k].close
-        volume += data[k].volume
       }
       lastDay = day // save this day's week index number
       lastDate = data[k].date

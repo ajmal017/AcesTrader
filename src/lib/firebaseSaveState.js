@@ -2,8 +2,8 @@
 
 import fire from '../fire'
 import { getReference, referenceLocaltrader } from './dbReference'
-import { saveLocalState } from './localStorage'
-import { ACESTRADERSTATE } from '../../../App'
+import { saveLocalState } from './localStateStorage'
+import { ACESTRADERSTATE } from '../components/App'
 
 const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
