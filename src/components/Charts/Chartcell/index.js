@@ -19,13 +19,16 @@ import { removeShortFromList } from '../../../redux/reducerShorts'
 import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
 import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
-import { getChartData } from '../../../lib/apiGetChartData'
+import { getSymbolData } from '../../lib/appGetSymbolData'
+// import { getIEXData } from '../../../lib/apiGetIEXData'
+// import { getChartData } from '../../../lib/apiGetChartData'
 // import getChartLastBar from '../../../lib/apiGetChartLastBar'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
 import ChartDashboard from '../ChartDashboard'
 import DialogChartCellForm from './DialogChartCellForm'
 import { putDailyPriceData, getDailyPriceData, putWeeklyPriceData, getWeeklyPriceData } from '../../../lib/chartDataCache'
+import buildSma200Array from '../../lib/appBuildSma200Array'
 import buildSma40Array from '../../../lib/appBuildSma40Array'
 import buildLast20Closes from '../../../lib/appBuildLast20Closes'
 // import { putSma40Data, putLast20Closes } from '../../../lib/chartDataCache'
@@ -99,28 +102,37 @@ class Chartcell extends Component {
   // dailyBars considered true if weeklyBars===false
   loadChartData = (weeklyBars = false) => {
     const symbol = this.props.cellObject.symbol
-    const range = weeklyBars ? '5y' : '1y'
-    // const range = '1y'
+    const range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data
+    const closeOnly = false // New for IEX Cloud data
+    // const useSandbox = false // New for IEX Cloud data
+    const useSandbox = true // Use while testing IEX Cloud data
     const self = this
-    // console.log(`loadChartData ${symbol}, Range=${weeklyBars ? '5y' : '1y'}`)
-    getChartData(symbol, range)
+    // console.log(`getSymbolData ${symbol}, range=${range}, closeOnly=${closeOnly}, useSandbox=${useSandbox}`)
+    getSymbolData(symbol, range, closeOnly, useSandbox)
       .then(function (data) {
-        //console.log('getChartData axios response: data.length=', data.length)
+        //console.log('getSymbolData axios response: data.length=', data.length)
         if (data.length < 2) {
           //CandleStickChartWithMA bug seen with new issue "TRTY" when only 0 or 1 day's data available
           //Memory leak reported by VSCode, seems to cause many weird code mistakes when running
+          debugger // pause for developer
           self.setState({ iexData: 3, noprices: true, hide: false })
         } else {
           putDailyPriceData(symbol, data) //cache the daily price data for subsequent rendering
+
           // Cache the last 20 close prices and dates from the daily data
           // for subsequent use in trailingStopBasis adjustments
           buildLast20Closes(symbol, data)
+
+          // Cache the sma200 values from the daily prices
+          // for subsequent use in trading alerts
+          buildSma200Array(symbol, data) // this includes saving the result (by symbol) in chartDataCache
 
           let weeklyPriceData = self.convertToWeeklyBars(data)
           putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for subsequent rendering
           // Cache the sma40 values from the weekly prices
           // for subsequent use in trend trading alerts
           buildSma40Array(symbol, weeklyPriceData)
+
           self.setState({ iexData: 1, noprices: false, hide: false }) //triggers render using the cached data
         }
       })
@@ -132,46 +144,69 @@ class Chartcell extends Component {
       })
   }
   convertToWeeklyBars = (data) => {
-    let obj,
-      day,
-      lastDate,
-      lastDay = 2 // initialize to Tuesday to start with 1st Monday
+    // data is daily price series
+    let obj, day, lastDate
     let open, high, low, close, volume
+    let lastDay = 2 // initialize to Tuesday to start with 1st Monday
     let weeklyBars = []
     for (let k = 0; k < data.length; k++) {
       obj = data[k].date
       day = obj.getDay() // gets the day of the week (from 0-6)
       if (day < lastDay) {
         // day's index number is smaller than the prior day, so start of new week
-        // close current weekly bar
+        // close current weekly bar if any started
         if (open) {
-          // a price is present
+          // a saved price is present, this avoids
+          // a false weekly close if the first day of the file is a Monday
           weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
         }
-        // save the first price data for the new weekly bar
+      }
+      if (k === data.length - 1) {
+        // Tests for end of file to close weekly bar now
+        // This is the last daily bar, so close current weekly bar
+        lastDate = data[k].date
+        weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
+      }
+      if (k === 0) {
+        // save the first price data for the first weekly bar
         open = data[k].open
         high = data[k].high
         low = data[k].low
         close = data[k].close
         volume = data[k].volume
-      } else if (open) {
-        // a price is present
-        // save the latest price data for the weekly bar
+      } else {
+        // update the price data for the weekly bar
         high = high > data[k].high ? high : data[k].high
         low = low < data[k].low ? low : data[k].low
         close = data[k].close
         volume += data[k].volume
-        if (k === data.length - 1) {
-          // after the last daily bar, close last weekly bar
-          lastDate = data[k].date
-          weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
-        }
       }
       lastDay = day // save this day's week index number
       lastDate = data[k].date
     }
-    return weeklyBars
+    return weeklyBars //this is for a weekly bar chart of prices
   }
+
+  //   // save the first price data for the new weekly bar
+  //   open = data[k].open
+  //   high = data[k].high
+  //   low = data[k].low
+  //   close = data[k].close
+  //   volume = data[k].volume
+  // } else if (open) {
+  //   // a price is present
+  //   // save the latest price data for the weekly bar
+  //   high = high > data[k].high ? high : data[k].high
+  //   low = low < data[k].low ? low : data[k].low
+  //   close = data[k].close
+  //   volume += data[k].volume
+  //   if (k === data.length - 1) {
+  //     // after the last daily bar, close last weekly bar
+  //     lastDate = data[k].date
+  //     weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
+  //   }
+  // }
+
 
   /**
    * The getLastBar button is a possible future feature which composes a last bar from the last peek data

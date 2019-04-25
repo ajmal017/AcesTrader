@@ -1,0 +1,9 @@
+{
+    "Version": "v1",
+    "SecretToken": "sk_c2c4aa857add4b77bd15fa8bb986d461",
+    "PublishableToken": "pk_840d3a77a0b94a4386d7d9ecceaf058e",
+    "SecretTestToken": "Tsk_d983970930a611e9958142010a80043c",
+    "PublishableTestToken": "Tpk_f29526bc30a611e9958142010a80043c",
+    "BasehtmlCloud": "https://cloud.iexapis.com/",
+    "BasehtmlSandbox": "https://sandbox.iexapis.com/"
+}
