@@ -13,6 +13,8 @@ import firebase from 'firebase/app'
 import * as Sentry from '@sentry/browser'
 import { AuthenticatedContext } from '../../redux'
 
+export const ACESTRADERSTATE = 'at-state'
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -48,10 +50,10 @@ class App extends Component {
     fire
       .auth()
       .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-      .then(function() {
+      .then(function () {
         // Existing and future Auth states are now persisted in the current session only.
       })
-      .catch(function(error) {
+      .catch(function (error) {
         var errorCode = error.code
         var errorMessage = error.message
         alert(errorCode, errorMessage)
@@ -66,10 +68,10 @@ class App extends Component {
         .auth()
         .signOut()
         .then(
-          function() {
+          function () {
             console.log('Signed Out') //BCM
           },
-          function(error) {
+          function (error) {
             // console.error('Sign Out Error', error) //BCM
           }
         )

@@ -3,15 +3,16 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { getReference, referenceLocaltrader } from '../../lib/dbReference'
-// import { islocalStorageWorking } from '../../lib/localStorage'
-import { loadLocalState } from '../../lib/localStorage'
+// import { islocalStorageWorking } from '../../lib/localStateStorage'
+import { loadLocalState } from '../../lib/localStateStorage'
+import { ACESTRADERSTATE } from '../App'
 import { resetDefaultState, resetPersistedState } from '../../redux/index.js'
 import { resetPeekPrices } from '../../lib/appLastPeekPrice'
 import { resetDataCache } from '../../lib/chartDataCache'
 import fire from '../../fire'
 
 const AppLoadData = (props) => {
-  // testlocalStorage() // test if disabled or full; to work it needs to be enabled in /lib/localStorage
+  // testlocalStorage() // test if disabled or full; to work it needs to be enabled in /lib/localStateStorage
   resetDataCache() // clear all previously cached chart price data for fresh start
   resetPeekPrices() //clear old peek symbol prices for fresh start
   let persistedState = null // receives the state loaded from database
@@ -21,7 +22,7 @@ const AppLoadData = (props) => {
 
   if (reference === referenceLocaltrader) {
     /* GUEST MODE USER WITH LOCAL STORAGE */
-    persistedState = loadLocalState() //returns (undefined) if error or no saved state
+    persistedState = loadLocalState(ACESTRADERSTATE) //returns (undefined) if error or no saved state
     if (persistedState === undefined) {
       props.dispatch(resetDefaultState())
     } else {
@@ -39,7 +40,7 @@ const AppLoadData = (props) => {
         .database()
         .ref(reference) // see lib/dbReference.js for possible values
         .once('value')
-        .then(function(snapshot) {
+        .then(function (snapshot) {
           clearTimeout(myTimeoutVar)
           if (snapshot) {
             persistedState = snapshot.val()
