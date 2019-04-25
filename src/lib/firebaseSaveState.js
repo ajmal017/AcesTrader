@@ -3,6 +3,7 @@
 import fire from '../fire'
 import { getReference, referenceLocaltrader } from './dbReference'
 import { saveLocalState } from './localStorage'
+import { ACESTRADERSTATE } from '../../../App'
 
 const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
@@ -31,12 +32,12 @@ export function firebaseSaveState() {
 
     let reference = getReference()
     if (reference === referenceLocaltrader) {
-      saveLocalState(cleanState)
+      saveLocalState(ACESTRADERSTATE, cleanState)
     } else {
       fire
         .database()
         .ref(reference)
-        .set(cleanState, function(error) {
+        .set(cleanState, function (error) {
           if (error) {
             alert("Firebase: The database write failed while saving the changed list's state. Error: " + error) //rude interruption to user
           }
