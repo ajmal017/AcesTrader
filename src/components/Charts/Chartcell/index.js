@@ -51,8 +51,10 @@ class Chartcell extends Component {
     this.loadChartData = this.loadChartData.bind(this)
     // this.getLastBar = this.getLastBar.bind(this)
     this.dialogChartParams = null
-    this.values = null //array of price values from API call
-    this.filteredValues = null //array of price values remaining after filter
+    this.closeOnly = false // New for IEX Cloud data
+    this.useSandbox = false // New for IEX Cloud data
+    this.range = '2y' // New for IEX Cloud data - changed below    // this.values = null //array of price values from API call
+    // this.filteredValues = null //array of price values remaining after filter
     this.data = null
     this.dispatch = this.props.dispatch
     this.state = {
@@ -93,11 +95,13 @@ class Chartcell extends Component {
     // }
 
     // Skip using recovered data from chartDataCache
-    // Price data files are cached in local storage now
+    // Preloaded price data files are cached in local storage now
     this.loadChartData()
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // Note that AcesTrader does not change the value of this.closeOnly or this.useSandbox,
+    // these parameters are use by AcesTester only. Only weeklyBars option is changed.
     if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
       // console.log('componentDidUpdate with changed weeklyBars=' + this.props.cellObject.weeklyBars) // testing
       this.loadChartData() // produce daily or weekly bars depending on the boolean value of weeklyBars
@@ -109,13 +113,10 @@ class Chartcell extends Component {
   loadChartData = () => {
     const symbol = this.props.cellObject.symbol
     const weeklyBars = this.props.cellObject.weeklyBars
-    const range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data
-    const closeOnly = false // New for IEX Cloud data
-    const useSandbox = false // New for IEX Cloud data
-    // const useSandbox = true // Use while testing IEX Cloud data
+    this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data
     const self = this
-    // console.log(`getSymbolData ${symbol}, range=${range}, closeOnly=${closeOnly}, useSandbox=${useSandbox}`)
-    getSymbolData(symbol, range, closeOnly, useSandbox)
+    // console.log(`getSymbolData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
+    getSymbolData(symbol, this.range, this.closeOnly, this.useSandbox)
       .then(function (data) {
         //console.log('getSymbolData axios response: data.length=', data.length)
         if (data.length < 2) {
@@ -126,7 +127,7 @@ class Chartcell extends Component {
         } else {
 
           data = cleanSymbolData(data) // handle case of price data with OHLC zero values (i.e. CCOR)
-          putDailyPriceData(symbol, data) //cache the daily price data for subsequent rendering
+          putDailyPriceData(symbol, data) //cache the daily price data for retrieval before rendering
 
           // Get the last 20 close prices and dates from the daily data
           // for subsequent use in trailingStopBasis adjustments
@@ -138,7 +139,7 @@ class Chartcell extends Component {
           buildSma200Array(symbol, data) // this includes saving the result (by symbol) in chartDataCache
 
           let weeklyPriceData = self.convertToWeeklyBars(data)
-          putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for subsequent rendering
+          putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for retrieval before rendering
           // Cache the sma40 values from the weekly prices
           // for subsequent use in trend trading alerts
           buildSma40Array(symbol, weeklyPriceData)
@@ -194,26 +195,6 @@ class Chartcell extends Component {
     }
     return weeklyBars //this is for a weekly bar chart of prices
   }
-
-  //   // save the first price data for the new weekly bar
-  //   open = data[k].open
-  //   high = data[k].high
-  //   low = data[k].low
-  //   close = data[k].close
-  //   volume = data[k].volume
-  // } else if (open) {
-  //   // a price is present
-  //   // save the latest price data for the weekly bar
-  //   high = high > data[k].high ? high : data[k].high
-  //   low = low < data[k].low ? low : data[k].low
-  //   close = data[k].close
-  //   volume += data[k].volume
-  //   if (k === data.length - 1) {
-  //     // after the last daily bar, close last weekly bar
-  //     lastDate = data[k].date
-  //     weeklyBars.push({ date: lastDate, open: open, high: high, low: low, close: close, volume: volume })
-  //   }
-  // }
 
 
   /**
@@ -353,7 +334,7 @@ class Chartcell extends Component {
       this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
     } else {
       alert('ERROR3 Missing tradeSide in Chartcell')
-      // debugger
+      // debugger // pause for developer
     }
   }
 
@@ -371,10 +352,15 @@ class Chartcell extends Component {
     const wrapperId = 'wrapper-' + cell_id
     const chartId = 'chart-' + cell_id
 
+    // NOTE to self, the next 4 lines to call recoverSymbolData() is not needed, since the daily and weekly
+    // price data are cached for the session duration when loaded from IEX or localStateStorage. The old way works best.
+    // this.range = this.weeklyBars ? '2y' : '1y' // New for IEX Cloud data
+    // const symbolKey = `${this.symbol.toUpperCase()}-${this.range}-${this.closeOnly ? 'CloseOnly' : ''}-${this.useSandbox ? 'Sandbox' : ''}`
+    // this.data = recoverSymbolData(symbolKey)
+
     // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the correct data for the new current symbol
-    this.data = this.loadChartData()
-    // this.data = this.weeklyBars ? getWeeklyPriceData(this.symbol) : getDailyPriceData(this.symbol)
+    this.data = this.weeklyBars ? getWeeklyPriceData(this.symbol) : getDailyPriceData(this.symbol)
 
     return (
       <div id={'chart-main' + this.hash}>
