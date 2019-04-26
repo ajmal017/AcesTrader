@@ -72,37 +72,43 @@ class Chartcell extends Component {
   }
 
   componentDidMount() {
-    let recoveredData
-    if (this.weeklyBars) {
-      recoveredData = getWeeklyPriceData(this.symbol)
-    } else {
-      recoveredData = getDailyPriceData(this.symbol)
-    }
-    if (recoveredData) {
-      // another http request for chart data not needed
-      this.data = recoveredData
-      // but we need to rebuild the weekly sma40 data
-      buildSma40Array(this.symbol, getWeeklyPriceData(this.symbol))
-      // and we need to rebuild the Last 20 closes
-      buildLast20Closes(this.symbol, getDailyPriceData(this.symbol))
-      this.setState({ iexData: 2, hide: false }) //new data is available in cache
-    } else {
-      // required data is not yet cached
-      // this includes the weekly sma40 & last 20 closes
-      this.loadChartData(this.weeklyBars)
-    }
+    // let recoveredData
+    // if (this.weeklyBars) {
+    //   recoveredData = getWeeklyPriceData(this.symbol)
+    // } else {
+    //   recoveredData = getDailyPriceData(this.symbol)
+    // }
+    // if (recoveredData) {
+    //   // another http request for chart data not needed
+    //   this.data = recoveredData
+    //   // but we need to rebuild the weekly sma40 data
+    //   buildSma40Array(this.symbol, getWeeklyPriceData(this.symbol))
+    //   // and we need to rebuild the Last 20 closes
+    //   buildLast20Closes(this.symbol, getDailyPriceData(this.symbol))
+    //   this.setState({ iexData: 2, hide: false }) //new data is available in cache
+    // } else {
+    //   // required data is not yet cached
+    //   // this includes the weekly sma40 & last 20 closes
+    //   this.loadChartData(this.weeklyBars)
+    // }
+
+    // Skip using recovered data from chartDataCache
+    // Price data files are cached in local storage now
+    this.loadChartData()
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
       // console.log('componentDidUpdate with changed weeklyBars=' + this.props.cellObject.weeklyBars) // testing
-      this.loadChartData(this.props.cellObject.weeklyBars) // produce daily or weekly bars depending on the boolean value of weeklyBars
+      this.loadChartData() // produce daily or weekly bars depending on the boolean value of weeklyBars
     }
   }
 
   // dailyBars considered true if weeklyBars===false
-  loadChartData = (weeklyBars = false) => {
+  // loadChartData = (weeklyBars = false) => {
+  loadChartData = () => {
     const symbol = this.props.cellObject.symbol
+    const weeklyBars = this.props.cellObject.weeklyBars
     const range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data
     const closeOnly = false // New for IEX Cloud data
     const useSandbox = false // New for IEX Cloud data
@@ -141,9 +147,9 @@ class Chartcell extends Component {
         }
       })
       .catch(function (error) {
-        console.log('getChartData axios error:', error.message)
+        console.log('getSymbolData axios error:', error.message)
         // self.setState({ iexData: 4, noprices: true, hide: false })
-        alert('getChartData axios error: ' + error.message) //rude interruption to user
+        alert('getSymbolData axios error: ' + error.message) //rude interruption to user
         debugger // pause for developer
       })
   }
@@ -367,7 +373,8 @@ class Chartcell extends Component {
 
     // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the correct data for the new current symbol
-    this.data = this.weeklyBars ? getWeeklyPriceData(this.symbol) : getDailyPriceData(this.symbol)
+    this.data = this.loadChartData()
+    // this.data = this.weeklyBars ? getWeeklyPriceData(this.symbol) : getDailyPriceData(this.symbol)
 
     return (
       <div id={'chart-main' + this.hash}>
