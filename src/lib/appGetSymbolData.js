@@ -11,10 +11,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     const date = new Date() // today's date
 
     // Allow for different versions of the symbol's price file
-    let symbolKey = symbol.toUpperCase()
-    symbolKey += '-' + range
-    symbolKey += closeOnly ? '-CloseOnly' : ''
-    symbolKey += useSandbox ? '-Sandbox' : ''
+    let symbolKey = `${symbol.toUpperCase()}-${range}-${closeOnly ? 'CloseOnly' : ''}-${useSandbox ? 'Sandbox' : ''}`
 
     // localStorage.removeItem(METAKEY) //TEMP ========== use this to reset state ===========
 
