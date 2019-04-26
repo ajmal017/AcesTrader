@@ -16,7 +16,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     symbolKey += closeOnly ? '-CloseOnly' : ''
     symbolKey += useSandbox ? '-Sandbox' : ''
 
-    // localStorage.removeItem(METAKEY) //TEMP - use this to reset state
+    // localStorage.removeItem(METAKEY) //TEMP ========== use this to reset state ===========
 
     let metaData = getCurrentMetaData(date) // get the current symbol price data
     // debugger
