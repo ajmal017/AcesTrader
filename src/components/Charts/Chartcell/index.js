@@ -20,6 +20,7 @@ import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
 import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
 import { getSymbolData } from '../../../lib/appGetSymbolData'
+import { cleanSymbolData } from '../../../lib/appCleanSymbolData'
 // import { getIEXData } from '../../../lib/apiGetIEXData'
 // import { getChartData } from '../../../lib/apiGetChartData'
 // import getChartLastBar from '../../../lib/apiGetChartLastBar'
@@ -117,10 +118,13 @@ class Chartcell extends Component {
           debugger // pause for developer
           self.setState({ iexData: 3, noprices: true, hide: false })
         } else {
+
+          data = cleanSymbolData(data) // handle case of price data with OHLC zero values (i.e. CCOR)
           putDailyPriceData(symbol, data) //cache the daily price data for subsequent rendering
 
-          // Cache the last 20 close prices and dates from the daily data
+          // Get the last 20 close prices and dates from the daily data
           // for subsequent use in trailingStopBasis adjustments
+          // if you missed running the app for a few days
           buildLast20Closes(symbol, data)
 
           // Cache the sma200 values from the daily prices

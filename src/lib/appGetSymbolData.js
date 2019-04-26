@@ -23,7 +23,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     if (metaData[symbolKey]) {
         // symbol price data is available for yesterday's end-of-day prices
         let values = cloneDeep(metaData[symbolKey])
-        // reformate the dates for expected formate after the JSON parsing changes
+        // reformate the dates for expected format after the JSON parsing changes
         let data = values.map((obj) => {
             let date = obj.date
             obj.date = new Date(date)
