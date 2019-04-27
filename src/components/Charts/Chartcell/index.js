@@ -37,7 +37,6 @@ import buildLast20Closes from '../../../lib/appBuildLast20Closes'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import { AuthenticatedContext } from '../../../redux'
 import './styles.css'
-// var cloneDeep = require('lodash.clonedeep')
 
 class Chartcell extends Component {
   static contextType = AuthenticatedContext
@@ -95,13 +94,14 @@ class Chartcell extends Component {
     // }
 
     // Skip using recovered data from chartDataCache
-    // Preloaded price data files are cached in local storage now
+    // Preloaded price data files from IEX are cached in local storage to persist for the day
     this.loadChartData()
   }
 
   componentDidUpdate(prevProps, prevState) {
     // Note that AcesTrader does not change the value of this.closeOnly or this.useSandbox,
-    // these parameters are use by AcesTester only. Only weeklyBars option is changed.
+    // those parameters are only used in the AcesTester app. Only weeklyBars option is changed here.
+
     if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
       // console.log('componentDidUpdate with changed weeklyBars=' + this.props.cellObject.weeklyBars) // testing
       this.loadChartData() // produce daily or weekly bars depending on the boolean value of weeklyBars
@@ -229,8 +229,9 @@ class Chartcell extends Component {
   //       }
   //     })
   //     .catch(function(error) {
-  //       console.log('getChartData axios error:', error.message)
-  //       alert('getChartData axios error: ' + error.message) //rude interruption to user
+  //       console.log('axios error:', error.message)
+  //       alert('axios error: ' + error.message) //rude interruption to user
+  //       debugger // pause for developer
   //     })
   // }
 
@@ -260,7 +261,7 @@ class Chartcell extends Component {
       case 'BUYS': {
         this.props.dispatch(addLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
-        if (this.context.email !== 'a@g.com') {
+        if (false) {
           this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         }
         break
@@ -268,7 +269,7 @@ class Chartcell extends Component {
       case 'SHORT SALES': {
         this.props.dispatch(addShortToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeSellFromList(this.symbol, this.hash))
-        if (this.context.email !== 'a@g.com') {
+        if (false) {
           this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         }
         break
@@ -276,7 +277,7 @@ class Chartcell extends Component {
       case 'TREND BUYS': {
         this.props.dispatch(addTrendLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
-        if (this.context.email !== 'a@g.com') {
+        if (false) {
           this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         }
         break
@@ -284,7 +285,7 @@ class Chartcell extends Component {
       case 'LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeLongFromList(this.symbol, this.hash))
-        if (this.context.email !== 'a@g.com') {
+        if (false) {
           this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         }
         break
@@ -292,7 +293,7 @@ class Chartcell extends Component {
       case 'SHORTS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeShortFromList(this.symbol, this.hash))
-        if (this.context.email !== 'a@g.com') {
+        if (false) {
           this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         }
         break
@@ -300,7 +301,7 @@ class Chartcell extends Component {
       case 'TREND LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
-        if (this.context.email !== 'a@g.com') {
+        if (false) {
           this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         }
         break
