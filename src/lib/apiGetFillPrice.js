@@ -1,5 +1,9 @@
 // apiGetFillPrice.js
 
+//***************************************** */
+// NOTE GetFillPrice is not used until the Ameritrade api is ready
+//***************************************** */
+
 import axios from 'axios'
 import { getReference, referenceLocaltrader } from './dbReference'
 // import { getReference, referenceLocaltrader, referenceRealtrader, referencePapertrader,referenceDebugtrader } from './dbReference'
@@ -8,7 +12,7 @@ let reference = getReference() //indicates which storage to use for app state
 
 const getFillPrice = (symbol) => {
   if (reference === referenceLocaltrader) {
-    // Call into the free IEX api
+    // Call into the IEX api
     const IEX_BASE = 'https://api.iextrading.com/1.0/'
     const request = axios
       .get(`${IEX_BASE}tops/last?symbols=${symbol}`)
@@ -22,7 +26,7 @@ const getFillPrice = (symbol) => {
     return request // //return the promise, let caller handle the promise's .then/.catch completion
   } else {
     // Call into the Ameritrade api as soon as is ready,
-    // but for now call into the free IEX api
+    // but for now call into the IEX api
     const IEX_BASE = 'https://api.iextrading.com/1.0/'
     const request = axios
       .get(`${IEX_BASE}tops/last?symbols=${symbol}`)

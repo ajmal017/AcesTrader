@@ -3,34 +3,33 @@
 import { putWatchedPrice, resetWatchedPrices } from './appWatchedPrice'
 var axios = require('axios')
 
-// Note: we use the free IEX api to test for a valid symbol
-// axios.get(`https://api.iextrading.com/1.0/stock/${symbol}/company`)
+// Note: we use the IEX api to test for a valid symbol
 
-export const verifySymbolLookups = function(symbolList) {
+export const verifySymbolLookups = function (symbolList) {
   let promiseArray = symbolList.map((symbol, i) => {
     return axios({ method: 'get', timeout: 2000, url: `https://api.iextrading.com/1.0/stock/${symbol}/company` })
     // return axios.get(`https://api.iextrading.com/1.0/stock/${symbol}/company`)
   })
   return axios
     .all(promiseArray)
-    .then(function(arr) {
+    .then(function (arr) {
       return {
         arr,
       }
     })
-    .catch(function(error) {
+    .catch(function (error) {
       return {
         error: error,
       }
     })
 }
-export const getSymbolPrices = function(symbolList) {
+export const getSymbolPrices = function (symbolList) {
   let promiseArray = symbolList.map((symbol, i) => {
     return axios({ method: 'get', timeout: 2000, url: `https://api.iextrading.com/1.0/tops/last?symbols=${symbol}` })
   })
   return axios
     .all(promiseArray)
-    .then(function(arr) {
+    .then(function (arr) {
       //need to format data into WatchedPrices storage area
       resetWatchedPrices()
       for (let i = 0; i < arr.length; i++) {
@@ -42,7 +41,7 @@ export const getSymbolPrices = function(symbolList) {
         firstdata: arr[0].data,
       }
     })
-    .catch(function(error) {
+    .catch(function (error) {
       return {
         error: error,
       }

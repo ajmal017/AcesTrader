@@ -14,9 +14,9 @@ import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/redu
 import { addWatchPriceAndIssueType } from '../../redux/thunkEditListObjects'
 import { queryClearProspectsList } from '../../redux/reducerModal'
 import { putSymbolDataObjects } from '../../lib/appSymbolDataObject'
-import getWatchedPrices from '../../lib/appGetWatchedPrices'
+import { getWatchedPrices } from '../../lib/appGetWatchedPrices'
+import { verifySymbolLookups } from '../../lib/appVerifySymbolLookups'
 import './styles.css'
-import * as apiAxiosHelpers from '../../lib/apiAxiosHelpers'
 
 class ManageProspects extends Component {
   constructor(props) {
@@ -141,8 +141,8 @@ class ManageProspects extends Component {
         this.textAreaBox.value = '**No New Symbols In The List, All These Are Already Entered**'
       } else {
         this.textAreaBox.value = 'Verifying Symbols, Please Wait...'
-        apiAxiosHelpers.verifySymbolLookups(verifiedList).then(
-          function(data) {
+        verifySymbolLookups(verifiedList).then(
+          function (data) {
             if (data.error) {
               // Extract symbol from string ".../stock/symbol/company" to use in reporting error
               let result = /.*\/stock\/(\w+).*/.exec(data.error.request.responseURL)
