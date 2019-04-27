@@ -1,7 +1,7 @@
 // apiGetFillPrice.js
 
 //***************************************** */
-// NOTE GetFillPrice is not used until the Ameritrade api is ready
+// IEX_BASE - NOTE GetFillPrice is not used until the Ameritrade api is ready
 //***************************************** */
 
 import axios from 'axios'

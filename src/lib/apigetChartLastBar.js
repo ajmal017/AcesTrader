@@ -1,5 +1,8 @@
 // apiGetChartLastBar.js
 
+// IEX_BASE - NOTE THIS IS UNUSED CURRENTLY 4/27/2019
+// Kept in reserve for possible future use
+
 import axios from 'axios'
 import { getReference, referenceLocaltrader } from './dbReference'
 
