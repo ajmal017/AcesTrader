@@ -109,7 +109,6 @@ class Chartcell extends Component {
   }
 
   // dailyBars considered true if weeklyBars===false
-  // loadChartData = (weeklyBars = false) => {
   loadChartData = () => {
     const symbol = this.props.cellObject.symbol
     const weeklyBars = this.props.cellObject.weeklyBars
@@ -352,12 +351,6 @@ class Chartcell extends Component {
     const cell_id = cellObject.hash
     const wrapperId = 'wrapper-' + cell_id
     const chartId = 'chart-' + cell_id
-
-    // NOTE to self, the next 4 lines to call recoverSymbolData() is not needed, since the daily and weekly
-    // price data are cached for the session duration when loaded from IEX or localStateStorage. The old way works best.
-    // this.range = this.weeklyBars ? '2y' : '1y' // New for IEX Cloud data
-    // const symbolKey = `${this.symbol.toUpperCase()}-${this.range}-${this.closeOnly ? 'CloseOnly' : ''}-${this.useSandbox ? 'Sandbox' : ''}`
-    // this.data = recoverSymbolData(symbolKey)
 
     // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the correct data for the new current symbol
