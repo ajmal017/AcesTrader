@@ -1,6 +1,8 @@
 // Peek/index.js
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import axios from 'axios'
+import iexData from '../../iex.json'
 import { resetPeekPrices, putPeekLastPrice, finishPeekPrices } from '../../lib/appLastPeekPrice'
 import './styles.css'
 
@@ -50,7 +52,6 @@ class Peek extends Component {
     const PORTFOLIOS = DEFAULT_PORTFOLIOS
     // const REFRESH_SECONDS = 10
     const BATCH_SIZE = 100
-    const BASE_URL = 'https://api.iextrading.com/1.0/stock/market/batch'
 
     if (this.state.mounted) {
       let symbols = []
@@ -108,17 +109,24 @@ class Peek extends Component {
         }
         theUpdatedDiv.innerHTML = `Data updated at ${new Date().toLocaleString()}`
       }
-      function updateDataForBatch(symbols, addTitle) {
-        resetPeekPrices() //reset the list of prices for use in Charts dashboards
+
+      async function updateDataForBatch(symbols, addTitle) {
+        // const useSandbox = true // use this when testing logic
+        const useSandbox = false
+        const basehtml = useSandbox ? `${iexData.BasehtmlSandbox}` : `${iexData.BasehtmlCloud}`
+        const version = iexData.Version
+        const token = useSandbox ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
         let filters = ['latestPrice', 'change', 'changePercent', 'marketCap']
         if (addTitle) filters.push('companyName')
-        let url = `${BASE_URL}?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}`
-        fetch(url)
-          .then((response) => response.json())
-          .then((json) => {
-            symbols.forEach((symbol) => {
-              let data = json[symbol]
-              if (typeof data === 'undefined') return
+        try {
+          resetPeekPrices() //reset the list of prices for use in Charts dashboards
+          const request = axios
+            .get(`${basehtml}${version}/stock/market/batch?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}&${token}`)
+          let res = await request
+          let values = res.data
+          for (let symbol in values) {
+            let data = values[symbol]
+            if (typeof data !== 'undefined') {
               let formattedPrice = formatQuote(data.quote.latestPrice)
               let formattedChange = data.quote.change.toLocaleString('en', { minimumFractionDigits: 2 })
               let formattedChangePercent = (data.quote.changePercent * 100).toFixed(1) + '%'
@@ -147,10 +155,17 @@ class Peek extends Component {
                   e.setAttribute('title', data.quote.companyName)
                 })
               }
-            })
-            finishPeekPrices() //this is the complete list of prices for use in Charts dashboards
-          })
+            }
+          }
+          finishPeekPrices() //this is the complete list of prices for use in Charts dashboards
+
+        } catch (error) {
+          console.log('Peek/index.js axios error:' + error.message)
+          // alert('Peek/index.js axios error: ' + error.message) //rude interruption to user
+          debugger // pause for developer
+        }
       }
+
       // function portfoliosFromQueryParams() {
       //   if (!window.location.search) return
       //   let params = new URLSearchParams(window.location.search)
@@ -163,6 +178,7 @@ class Peek extends Component {
       // function symbolUrl(symbol) {
       //   return `https://iextrading.com/apps/stocks/#/${symbol}`
       // }
+
       function formatQuote(value) {
         let options = {
           minimumFractionDigits: 2,
@@ -188,7 +204,7 @@ class Peek extends Component {
       }
     }
     return (
-      <div className='pagebody'>
+      <div className='pagebody' >
         <div className='stocks-container' />
 
         <p className='updated-timestamp' />

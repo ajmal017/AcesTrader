@@ -13,8 +13,6 @@ export const getWatchedPrices = async function (symbols) {
   const token = useSandbox ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
   const filters = ['latestPrice']
   // const filters = ['latestPrice', 'change', 'changePercent', 'marketCap']
-  // console.log(`${basehtml}${version}/stock/${symbol}/chart/${range}?${query}&${token}`)
-  // debugger // pause for developer
   try {
     resetWatchedPrices() //reset the list of prices for use in Charts dashboards
     const request = axios
