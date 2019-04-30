@@ -7,8 +7,8 @@ import { ACESTRADERSTATE } from '../components/App'
 
 const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
-// note: reference can be "realtrader", "papertrader", "debugtrader", "localtrader", "ameritrade", "schwab", or "paper"
-// these are separate stores in the clould and one store in localstorage
+// note: reference can be "ameritrade", "schwab", or "paper"
+// these are separate stores in the clould
 export function firebaseSaveState() {
   return ({ getState }) => (next) => (action) => {
     if (/^QUERY_/.test(action.type) || /^NOTIFICATION/.test(action.type)) {

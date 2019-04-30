@@ -5,7 +5,7 @@ import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import './WelcomeRealTrader.css'
 import { putReference, getReference, ameritrade, schwab, paper } from '../../lib/dbReference'
-import { referenceRealtrader, referencePapertrader, referenceDebugtrader } from '../../lib/dbReference'
+// import { referenceRealtrader, referencePapertrader, referenceDebugtrader } from '../../lib/dbReference'
 import AppLoadData from '../AppLoadData'
 
 const Wrapper = styled.section`
@@ -177,7 +177,7 @@ class WelcomeRealTrader extends Component {
               </RadioGroupItem>
             </RadioGroup>
 
-            {process.env.NODE_ENV === 'development' ? (
+            {/* {process.env.NODE_ENV === 'development' ? (
               <RadioGroup>
                 <RadioGroupItem>
                   <RadioInput type='radio' name={referenceRealtrader} value={referenceRealtrader} checked={reference === referenceRealtrader} onChange={this.handleChange} />
@@ -194,7 +194,7 @@ class WelcomeRealTrader extends Component {
               </RadioGroup>
             ) : (
               <div />
-            )}
+            )} */}
           </Content>
         </Wrapper>
       )
