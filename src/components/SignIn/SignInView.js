@@ -5,7 +5,7 @@ import information from '../../images/help_icon.png'
 import './styles.css'
 
 const SignInView = ({ onSubmit, onSignUp, handleDemoMode, handleDemoInfo, email, password }) => {
-  const handleDemoInfoClick = function(e) {
+  const handleDemoInfoClick = function (e) {
     handleDemoInfo(e)
   }
 
@@ -42,14 +42,15 @@ const SignInView = ({ onSubmit, onSignUp, handleDemoMode, handleDemoInfo, email,
             </span>
           </div>
 
-          <span className={'buttonsWrapper buttonsDemo'}>
+          {/* <span className={'buttonsWrapper buttonsDemo'}>
             <div>
               <button onClick={handleDemoMode} className={'demomode'}>
                 Guest Sign In
               </button>
               <img onClick={handleDemoInfoClick} src={information} className={'guestInfoIcon'} alt='' width={30} height={30} />
             </div>
-          </span>
+          </span> */}
+
         </form>
       </div>
     </div>
