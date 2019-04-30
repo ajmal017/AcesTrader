@@ -157,17 +157,17 @@ class ChartDashboard extends Component {
           // Flag any trend following alerts
           if (this.tradeSide !== 'Shorts') {
             if (this.listGroup === 'prospects') {
-              this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading buy OR default background
+              this.rgbaBackground = this.peekPrice > this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trading buy OR default background
             }
             if (this.listGroup === 'positions') {
-              this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading sell OR default background
+              this.rgbaBackground = this.peekPrice < this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trading sell OR default background
             }
           } else if (this.tradeSide === 'Shorts') {
             if (this.listGroup === 'prospects') {
-              this.rgbaBackground = this.peekPrice < this.lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading buy OR default background
+              this.rgbaBackground = this.peekPrice < this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trading buy OR default background
             }
             if (this.listGroup === 'positions') {
-              this.rgbaBackground = this.peekPrice > this.lastSma40.smaValue ? alertRgbaBackground : defaultRgbaBackground // alert for trading sell OR default background
+              this.rgbaBackground = this.peekPrice > this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trading sell OR default background
             }
           }
         }
@@ -278,7 +278,7 @@ class ChartDashboard extends Component {
                   </span>
                 ) : null}
               </div>
-              <div>{this.lastSma40 ? <span className='weeklysma'>Weekly Sma(40): &nbsp;{this.lastSma40.smaValue.toFixed(2)}</span> : null}</div>
+              <div>{this.lastSma40 ? <span className='weeklysma'>Weekly Sma(40): &nbsp;{this.lastSma40.close.toFixed(2)}</span> : null}</div>
             </div>
 
             {/* If current user is not a Guest user, then the content below */}
@@ -320,8 +320,8 @@ class ChartDashboard extends Component {
           </div>
           <div className='dashboard-footer'>
             {/* {process.env.NODE_ENV === 'development' ? <div className={'trailingStopBasis-absolute'}>{this.trailingStopBasis}</div> : ''} */}
-            {/* {this.lastSma40 ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.smaValue.toFixed(2)}</div> : <div className={'lastSma40Value-absolute'}>none</div>} */}
-            {/* {this.lastSma40 && process.env.NODE_ENV === 'development' ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.smaValue.toFixed(2)}</div> : ''} */}
+            {/* {this.lastSma40 ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.close.toFixed(2)}</div> : <div className={'lastSma40Value-absolute'}>none</div>} */}
+            {/* {this.lastSma40 && process.env.NODE_ENV === 'development' ? <div className={'lastSma40Value-absolute'}>{this.lastSma40.close.toFixed(2)}</div> : ''} */}
 
             <div>
               <ActionButton onClick={this.handleOrderEntry}>

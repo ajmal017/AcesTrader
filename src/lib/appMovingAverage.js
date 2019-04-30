@@ -27,7 +27,7 @@ export const addSmaPrice = (price, date) => {
   if (writeIndex >= ringSize) {
     let smaSum = ringArray.reduce((total, currentValue) => total + currentValue, 0)
     let smaValue = smaSum / ringSize
-    let smaArrayItem = { smaValue: smaValue, date: date }
+    let smaArrayItem = { close: smaValue, date: date } // save this using property name of close for use in MG.data_graphic()
     smaArray[smaIndex] = smaArrayItem
     smaIndex++
   }
