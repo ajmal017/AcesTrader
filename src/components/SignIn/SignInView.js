@@ -1,13 +1,13 @@
 // SignInView.js
 import React from 'react'
 import PropTypes from 'prop-types'
-import information from '../../images/help_icon.png'
+// import information from '../../images/help_icon.png'
 import './styles.css'
 
 const SignInView = ({ onSubmit, onSignUp, handleDemoMode, handleDemoInfo, email, password }) => {
-  const handleDemoInfoClick = function (e) {
-    handleDemoInfo(e)
-  }
+  // const handleDemoInfoClick = function (e) {
+  //   handleDemoInfo(e)
+  // }
 
   return (
     <div>
