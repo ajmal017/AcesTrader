@@ -1,9 +1,7 @@
 // firebaseSaveState.js
 
 import fire from '../fire'
-import { getReference, referenceLocaltrader } from './dbReference'
-import { saveLocalState } from './localStateStorage'
-import { ACESTRADERSTATE } from '../components/App'
+import { getReference } from './dbReference'
 
 const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 
@@ -15,7 +13,8 @@ export function firebaseSaveState() {
       return next(action)
     }
     if (action.type === RESET_PERSISTED_STATE) {
-      // stop here, do not write state back to storage during this operation
+      // STOP HERE, do not write state back to storage during this operation
+      // there are no state changes 
       // we are copying state from persisted storage into app's memory state
       return next(action)
     }
@@ -30,18 +29,20 @@ export function firebaseSaveState() {
     // For example after a modal dialog sequence, because of the callback provided we have:
     // property 'papertrader.modal.handleModalResonse' with contents = function ()
 
+
+    debugger //pause for developer stop here while still testing new data retrieval code //BCM
+
+
     let reference = getReference()
-    if (reference === referenceLocaltrader) {
-      saveLocalState(ACESTRADERSTATE, cleanState)
-    } else {
-      fire
-        .database()
-        .ref(reference)
-        .set(cleanState, function (error) {
-          if (error) {
-            alert("Firebase: The database write failed while saving the changed list's state. Error: " + error) //rude interruption to user
-          }
-        })
-    }
+    fire
+      .database()
+      .ref(reference)
+      .set(cleanState, function (error) {
+        if (error) {
+          console.log("Firebase: The database write failed while saving the changed list's state. Error: " + error)
+          if (process.env.NODE_ENV === 'development') { debugger } //pause for developer
+          alert("Firebase: The database write failed while saving the changed list's state. Error: " + error) //rude interruption to user
+        }
+      })
   }
 }

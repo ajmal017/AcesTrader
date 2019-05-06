@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import { getReference } from '../../lib/dbReference'
-import WelcomeRealTrader from '../../components/Welcome/WelcomeRealTrader.js'
+import WelcomeTrader from '../../components/Welcome/WelcomeTrader.js'
 
 class WelcomeSwitcher extends Component {
   //   constructor(props) {
@@ -17,7 +17,7 @@ class WelcomeSwitcher extends Component {
   render() {
     const reference = getReference() //indicates user's role
     console.log('WelcomeSwitcher, reference= ' + reference) //BCM
-    return <WelcomeRealTrader />
+    return <WelcomeTrader />
   }
 }
 

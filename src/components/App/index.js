@@ -22,7 +22,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const RELEASE = '0.1.*'
+    const RELEASE = '0.2.*'
     if (process.env.NODE_ENV === 'production') {
       Sentry.init({
         dsn: 'https://e5464524db8f4d1791a5637c098e78e4@sentry.io/1300553',

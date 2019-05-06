@@ -5,11 +5,16 @@ import iexData from '../iex.json'
 // import fire from '../fire'
 
 export const getIEXData = async function (symbol, range, closeOnly, useSandbox = false) {
+    // if (process.env.NODE_ENV === 'development') {
+    //   debugger
+    // }
 
-    const basehtml = useSandbox ? `${iexData.BasehtmlSandbox}` : `${iexData.BasehtmlCloud}`
+    // const basehtml = useSandbox ? `${iexData.BasehtmlSandbox}` : `${iexData.BasehtmlCloud}`
+    // const token = useSandbox ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
+    const basehtml = process.env.NODE_ENV === 'development' ? `${iexData.BasehtmlSandbox}` : `${iexData.BasehtmlCloud}`
+    const token = process.env.NODE_ENV === 'development' ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
     const version = iexData.Version
     const query = closeOnly ? 'chartCloseOnly=true' : 'filter=date,open,high,low,close,volume'
-    const token = useSandbox ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
     // console.log(`${basehtml}${version}/stock/${symbol}/chart/${range}?${query}&${token}`)
     // debugger // pause for developer
     try {

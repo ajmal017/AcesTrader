@@ -72,16 +72,10 @@ class Appnav extends React.Component {
               <LinkContainer to='/peek'>
                 <NavItem eventKey={7.2}>Peek</NavItem>
               </LinkContainer>
-
-              {currentUser && currentUser.email !== 'demouser@xmail.com' ? (
-                <>
-                  <MenuItem divider />
-                  <LinkContainer to='/welcomerealtrader'>
-                    <NavItem eventKey={7.4}>Change Porfolio</NavItem>
-                  </LinkContainer>
-                </>
-              ) : null}
-
+              <MenuItem divider />
+              <LinkContainer to='/welcometrader'>
+                <NavItem eventKey={7.4}>Change Porfolio</NavItem>
+              </LinkContainer>
               <MenuItem divider />
               <LinkContainer to='/home'>
                 <MenuItem eventKey={7.6}>AcesTrader Home</MenuItem>

@@ -4,10 +4,7 @@ import PropTypes from 'prop-types'
 // import information from '../../images/help_icon.png'
 import './styles.css'
 
-const SignInView = ({ onSubmit, onSignUp, handleDemoMode, handleDemoInfo, email, password }) => {
-  // const handleDemoInfoClick = function (e) {
-  //   handleDemoInfo(e)
-  // }
+const SignInView = ({ onSubmit, onSignUp, email, password }) => {
 
   return (
     <div>
@@ -42,15 +39,6 @@ const SignInView = ({ onSubmit, onSignUp, handleDemoMode, handleDemoInfo, email,
             </span>
           </div>
 
-          {/* <span className={'buttonsWrapper buttonsDemo'}>
-            <div>
-              <button onClick={handleDemoMode} className={'demomode'}>
-                Guest Sign In
-              </button>
-              <img onClick={handleDemoInfoClick} src={information} className={'guestInfoIcon'} alt='' width={30} height={30} />
-            </div>
-          </span> */}
-
         </form>
       </div>
     </div>
@@ -60,8 +48,6 @@ const SignInView = ({ onSubmit, onSignUp, handleDemoMode, handleDemoInfo, email,
 SignInView.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onSignUp: PropTypes.func.isRequired,
-  handleDemoMode: PropTypes.func.isRequired,
-  handleDemoInfo: PropTypes.func.isRequired,
   email: PropTypes.string,
   password: PropTypes.string,
 }
