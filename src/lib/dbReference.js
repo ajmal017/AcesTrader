@@ -15,7 +15,7 @@ export const BBJoint = 'BBJoint'
 export const LauraIRA = 'LauraIRA'
 export const LauraJoint = 'LauraJoint'
 
-let currentReference = paper // default if not changed at sign in
+let currentReference = null // default if not changed at sign in
 // if (process.env.NODE_ENV === 'development') currentReference = referenceDebugtrader
 
 export const putReference = (reference) => {

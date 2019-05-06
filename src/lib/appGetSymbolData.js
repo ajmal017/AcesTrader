@@ -1,7 +1,7 @@
 // appGetSymbolData.js
 
 import { getIEXData } from '../lib/apiGetIEXData'
-import { loadLocalState, saveLocalState } from '../lib/localStateStorage'
+import { loadLocalState, saveLocalState, removeItem } from '../lib/localStateStorage'
 let cloneDeep = require('lodash.clonedeep')
 
 const METAKEY = "METADATA"
@@ -11,12 +11,12 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     const date = new Date() // today's date
 
     // Allow for different versions of the symbol's price file
-    let symbolKey = `${symbol.toUpperCase()}-${range}-${closeOnly ? 'CloseOnly' : ''}-${useSandbox ? 'Sandbox' : ''}`
+    let symbolKey = `${symbol.toUpperCase()}-${range}${closeOnly ? '-CloseOnly' : ''}${useSandbox ? '-Sandbox' : ''}`
 
-    // localStorage.removeItem(METAKEY) //TEMP ========== use this to reset state ===========
+    // removeLocalState(METAKEY) //<==TEMP ===== use this to reset state ===========
 
     let metaData = getCurrentMetaData(date) // get the current symbol price data
-    // debugger
+    debugger
     if (metaData[symbolKey]) {
         // symbol price data is available for yesterday's end-of-day prices
         let values = cloneDeep(metaData[symbolKey])
@@ -45,7 +45,7 @@ const downloadSymbolData = async function (symbol, range, closeOnly, useSandbox)
     return symbolData
 }
 
-const getCurrentMetaData = function (date) {
+const getCurrentMetaData = async function (date) {
     // This returns a metaData object with today's date
     // and end-of-day price data for the previous trading day
     // for any symbols that were already downloaded today.
@@ -53,7 +53,9 @@ const getCurrentMetaData = function (date) {
     try {
         const theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
         const defaultMetaData = { "date": theDate } // a fresh metaData object with today's date
-        let metaData = loadLocalState(METAKEY) // get existing data if any
+
+        let metaData = await loadLocalState(METAKEY) // get existing data if any
+
         if (!metaData || metaData === undefined) {
             saveLocalState(METAKEY, cloneDeep(defaultMetaData)) // initialize with a fresh value for today
             return defaultMetaData // this is the current metaData, empty of any price data

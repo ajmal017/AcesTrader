@@ -115,9 +115,16 @@ class WelcomeRealTrader extends Component {
   constructor(props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
-    // console.log(`WelcomeRealTrader: constructor getReference=${getReference()}`) //BCM
-    savedReference = getReference() ? getReference() : null
-    this.state = { reference: savedReference }
+    if (props.firstReference) {
+      // simulate a switch of portfolios
+      savedReference = null
+      putReference(props.firstReference)
+      this.state = { reference: props.firstReference }
+    } else {
+      savedReference = getReference() ? getReference() : null
+      this.state = { reference: savedReference }
+    }
+    console.log(`WelcomeRealTrader: constructor savedReference=${savedReference}`) //BCM
   }
 
   componentDidMount() {
@@ -135,12 +142,17 @@ class WelcomeRealTrader extends Component {
 
   render() {
     const { reference } = this.state
-    // console.log(`WelcomeRealTrader  render: savedReference=${savedReference} reference=${reference}`) //BCM
+
+    console.log(`WelcomeRealTrader  render: savedReference=${savedReference},   reference=${reference}`) //BCM
+
     const SelectedTitle = reference[0].toUpperCase() + reference.substr(1)
     putReference(reference) //BCM needed??
 
     if (savedReference !== reference) {
-      // console.log('WelcomeRealTrader  return: DOM & AppLoadData') //BCM
+      // The user portfolio needs to be loaded
+
+      console.log('WelcomeRealTrader,  returns: DOM & AppLoadData') //BCM
+
       savedReference = reference // update this for use in the next render call
       return (
         <>
@@ -153,7 +165,9 @@ class WelcomeRealTrader extends Component {
         </>
       )
     } else {
-      // console.log('WelcomeRealTrader  return: DOM only') //BCM
+
+      console.log('WelcomeRealTrader  return: DOM only') //BCM
+
       return (
         <Wrapper>
           <Background>
