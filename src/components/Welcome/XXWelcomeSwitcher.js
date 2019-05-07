@@ -16,7 +16,7 @@ class WelcomeSwitcher extends Component {
 
   render() {
     const reference = getReference() //indicates user's role
-    console.log('WelcomeSwitcher, reference= ' + reference) //BCM
+    // console.log('WelcomeSwitcher, reference= ' + reference) //BCM
     return <WelcomeTrader />
   }
 }

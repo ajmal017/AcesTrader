@@ -20,7 +20,7 @@ class Welcome extends Component {
 
   render() {
     this.reference = getReference() //indicates user's role
-    console.log('Welcome, reference= ' + this.reference) //BCM
+    // console.log('Welcome, reference= ' + this.reference) //BCM
     return (
       <div className={'welcome-container'}>
         <div className={'welcome-header'}>
