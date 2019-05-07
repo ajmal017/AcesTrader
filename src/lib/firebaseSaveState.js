@@ -29,10 +29,6 @@ export function firebaseSaveState() {
     // For example after a modal dialog sequence, because of the callback provided we have:
     // property 'papertrader.modal.handleModalResonse' with contents = function ()
 
-
-    debugger //pause for developer stop here while still testing new data retrieval code //BCM
-
-
     let reference = getReference()
     fire
       .database()

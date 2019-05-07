@@ -2,7 +2,12 @@
 
 import { set } from 'idb-keyval'
 import { get } from 'idb-keyval'
+import { clear } from 'idb-keyval'
 import { del } from 'idb-keyval'
+
+export async function clearLocalState() {
+  clear()
+}
 
 export async function removeLocalState(key) {
   del(key)
@@ -10,7 +15,7 @@ export async function removeLocalState(key) {
 
 export async function loadLocalState(key) {
   let val = await get(key)
-  debugger
+  // debugger //BCM
   return val
 
   // try {
@@ -29,9 +34,10 @@ export async function loadLocalState(key) {
 }
 
 export async function saveLocalState(key, value) {
-  set(key, value)
-    .then(() => console.log('saveLocalState worked!'))
-    .catch(err => console.log('saveLocalState failed!', err))
+  // debugger //BCM
+  await set(key, value)
+  // .then(() => console.log('saveLocalState worked!'))
+  // .catch(err => console.log('saveLocalState failed!', err))
 
   // try {
   //   await set(key, state)

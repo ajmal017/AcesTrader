@@ -22,8 +22,8 @@ import ManageBuyProspects from '../../components/ManageBuyProspects/'
 import ManageSellProspects from '../../components/ManageSellProspects/'
 import ManageTrendBuyProspects from '../../components/ManageTrendBuyProspects/'
 import Home from '../../components/Home/'
-import Welcome from '../../components/Welcome/'
-import WelcomeGuest from '../../components/Welcome/WelcomeGuest.js'
+// import Welcome from '../../components/Welcome/'
+// import WelcomeGuest from '../../components/Welcome/WelcomeGuest.js'
 import WelcomeTrader from '../../components/Welcome/WelcomeTrader.js'
 import EraseLists from '../../components/EraseLists/'
 import Charts from '../../components/Charts/'
@@ -55,10 +55,10 @@ const Root = ({ store, authenticated }) => (
             <PrivateRoute exact path='/eraseLists' component={EraseLists} authenticated={authenticated} />
             <PrivateRoute exact path='/charts' component={Charts} authenticated={authenticated} />
             <PrivateRoute exact path='/signout' component={SignOut} authenticated={authenticated} />
-            <PrivateRoute exact path='/welcome' component={Welcome} authenticated={authenticated} />
+            {/* <PrivateRoute exact path='/welcome' component={Welcome} authenticated={authenticated} /> */}
             <PrivateRoute exact path='/welcometrader' component={WelcomeTrader} authenticated={authenticated} />
             <PrivateRoute exact path='/startup' component={StartUp} authenticated={authenticated} />
-            <Route exact path='/welcomeguest' component={WelcomeGuest} />
+            {/* <Route exact path='/welcomeguest' component={WelcomeGuest} /> */}
             <Route exact path='/signup' component={SignUp} />
             <Route exact path='/signin' component={SignIn} />
             <Route component={NotFound} />{' '}

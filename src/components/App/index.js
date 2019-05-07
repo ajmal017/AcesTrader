@@ -69,7 +69,7 @@ class App extends Component {
         .signOut()
         .then(
           function () {
-            console.log('Signed Out') //BCM
+            // console.log('Signed Out') //BCM
           },
           function (error) {
             // console.error('Sign Out Error', error) //BCM
