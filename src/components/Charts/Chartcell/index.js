@@ -21,8 +21,6 @@ import { addResultToList } from '../../../redux/reducerResults'
 import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
 import { getSymbolData } from '../../../lib/appGetSymbolData'
 import { cleanSymbolData } from '../../../lib/appCleanSymbolData'
-// import { getIEXData } from '../../../lib/apiGetIEXData'
-// import { getChartData } from '../../../lib/apiGetChartData'
 // import getChartLastBar from '../../../lib/apiGetChartLastBar'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
 import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
@@ -51,7 +49,7 @@ class Chartcell extends Component {
     // this.getLastBar = this.getLastBar.bind(this)
     this.dialogChartParams = null
     this.closeOnly = false // New for IEX Cloud data
-    this.useSandbox = false // New for IEX Cloud data
+    this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // New for IEX Cloud data
     this.range = '2y' // New for IEX Cloud data - changed below    // this.values = null //array of price values from API call
     // this.filteredValues = null //array of price values remaining after filter
     this.data = null

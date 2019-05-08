@@ -9,10 +9,10 @@ export const getIEXData = async function (symbol, range, closeOnly, useSandbox =
     //   debugger
     // }
 
-    // const basehtml = useSandbox ? `${iexData.BasehtmlSandbox}` : `${iexData.BasehtmlCloud}`
-    // const token = useSandbox ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
-    const basehtml = process.env.NODE_ENV === 'development' ? `${iexData.BasehtmlSandbox}` : `${iexData.BasehtmlCloud}`
-    const token = process.env.NODE_ENV === 'development' ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
+    const basehtml = useSandbox ? `${iexData.BasehtmlSandbox}` : `${iexData.BasehtmlCloud}`
+    const token = useSandbox ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
+    // const basehtml = process.env.NODE_ENV === 'development' ? `${iexData.BasehtmlSandbox}` : `${iexData.BasehtmlCloud}`
+    // const token = process.env.NODE_ENV === 'development' ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
     const version = iexData.Version
     const query = closeOnly ? 'chartCloseOnly=true' : 'filter=date,open,high,low,close,volume'
     // console.log(`${basehtml}${version}/stock/${symbol}/chart/${range}?${query}&${token}`)
