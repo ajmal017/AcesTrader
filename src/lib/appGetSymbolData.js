@@ -57,7 +57,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     const priceData = downloadSymbolData(symbol, range, closeOnly, useSandbox)
     symbolData = await priceData
     await saveLocalState(symbolKey, symbolData) // updated value for today
-    // let testing = await loadLocalState(symbolKey) // testing ==== BCM
+    // let testing = await loadLocalState(symbolKey) // test get object back ==== BCM
     // debugger //BCM
     return symbolData
 }
@@ -106,7 +106,7 @@ const setCurrentMetaData = async function (date) {
             // All requests for symbol data will download new end-of-day prices for prior trading day
             clearLocalState() // start fresh today
             await saveLocalState(MetaKey, defaultMetaData) // initialize with a date value for today
-            return // this is the current metaData,  the db is empty of any price data
+            return // this is the current metaData, the db is empty of any price data
         }
         return // the existing db is good and has symbols price data downloaded so far today
     } catch (error) {
