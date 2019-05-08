@@ -148,15 +148,18 @@ class WelcomeTrader extends Component {
             that.setState({ loading: false, reference: reference }) //loading is finished, show the UI.
           } else {
             console.log('Firebase: The App database read returned an unsuccessful messsage')
+            alert('Firebase: The App database read returned an unsuccessful messsage')
             debugger //pause for developer
           }
         })
         .catch((error) => {
           console.log('Firebase: The App/index database read failed while retrieving the state. Error: ' + error)
+          alert('Firebase: The App/index database read failed while retrieving the state. Error: ' + error)
           debugger //pause for developer
         })
     } catch (err) {
       console.log('Firebase: The StartUp/index database read failed while retrieving the state. Error: ' + err.message)
+      alert('Firebase: The StartUp/index database read failed while retrieving the state. Error: ' + err.message)
       debugger //pause for developer
     }
   }
