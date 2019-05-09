@@ -10,9 +10,6 @@ export const verifySymbolLookups = function (symbolList) {
 
     let promiseArray = symbolList.map((symbol, i) => {
         return axios({ method: 'get', timeout: 2000, url: `${basehtml}${version}/stock/${symbol}/company?${token}` })
-        // return axios({ method: 'get', timeout: 2000, url: `https://api.iextrading.com/1.0/stock/${symbol}/company` })
-        // return axios.get(`https://api.iextrading.com/1.0/stock/${symbol}/company`)
-        //       .get(`${basehtml}${version}/stock/${symbol}/company?${token}`)
     })
     return axios
         .all(promiseArray)
