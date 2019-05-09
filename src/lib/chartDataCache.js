@@ -22,6 +22,7 @@ export const resetDataCache = () => {
   dataCache.sma10 = {}
   dataCache.sma40 = {}
   dataCache.sma200 = {}
+  dataCache.smaTrading = {}
   dataCache.last20Closes = {}
   dataCache.tradeMarkers = {}
   dataCache.legendItems = {}
@@ -63,7 +64,7 @@ var dataCache = {
     // dictionary of key/value pairs
     // key=symbol, value=array of MG.data_graphic marker objects [{date,label}...]
   },
-  legendItems:{
+  legendItems: {
     // dictionary of key/value pairs
     // key=symbol, value=array of legend objects [{date,label}...]
   },
@@ -128,6 +129,29 @@ export const getLast20Closes = (symbol) => {
     return null
   }
 }
+
+export const putSmaTradingData = (symbol, data) => {
+  dataCache.smaTrading[symbol] = cloneDeep(data)
+}
+export const getSmaTradingData = (symbol) => {
+  if (dataCache.smaTrading[symbol]) {
+    let smaData = cloneDeep(dataCache.smaTrading[symbol])
+    return smaData
+  } else {
+    return null
+  }
+}
+export const getLastSmaTradingPrice = (symbol) => {
+  if (dataCache.smaTrading[symbol]) {
+    let smaTradingArray = dataCache.smaTrading[symbol]
+    let lastTradingPrice = smaTradingArray[smaTradingArray.length - 1]
+    return lastTradingPrice
+  } else {
+    return null
+  }
+}
+
+
 
 export const putSma200Data = (symbol, data) => {
   dataCache.sma200[symbol] = cloneDeep(data)
