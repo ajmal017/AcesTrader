@@ -1,7 +1,7 @@
 // appGetSymbolData.js
 
 import { getIEXData } from '../lib/apiGetIEXData'
-import { loadLocalState, saveLocalState, clearLocalState } from '../lib/localStateStorage'
+import { loadLocalDatabase, saveLocalDatabase, clearLocalDatabase } from '../lib/localDatabaseStorage'
 let cloneDeep = require('lodash.clonedeep')
 
 export const getSymbolData = async function (symbol, range, closeOnly, useSandbox) {
@@ -12,7 +12,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     const symbolKey = `${symbol.toUpperCase()}-${range}${closeOnly ? '-CloseOnly' : ''}${useSandbox ? '-Sandbox' : ''}`
     const date = new Date() // today's date
 
-    // await clearLocalState() //<==TEMP ===== use this to reset the db content ==========
+    // await clearLocalDatabase() //<==TEMP ===== use this to reset the db content ==========
 
 
     // //******************************** */
@@ -23,16 +23,16 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     // // await set(KEY1, VALUE1)
     // const value1 = await get(KEY1)
     // debugger
-    // // await saveLocalState(KEY2, VALUE2)
-    // const value2 = await loadLocalState(KEY2)
+    // // await saveLocalDatabase(KEY2, VALUE2)
+    // const value2 = await loadLocalDatabase(KEY2)
     // debugger
     // //******************************** */
     // const MetaKey = "MetaKey-DateObject"
     // // const theDay = date.getDay()
     // const theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
     // const defaultMetaData = { "date": theDate } // a fresh metaData object with today's date
-    // await saveLocalState(MetaKey, defaultMetaData)
-    // let metaData = await loadLocalState(MetaKey) // get existing date marker if any
+    // await saveLocalDatabase(MetaKey, defaultMetaData)
+    // let metaData = await loadLocalDatabase(MetaKey) // get existing date marker if any
     // const metaDate = metaData.date
     // debugger
     // //******************************** */
@@ -40,7 +40,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
 
     setCurrentMetaData(date) // confirm the db will return correct symbol price data
 
-    let symbolData = await loadLocalState(symbolKey)
+    let symbolData = await loadLocalDatabase(symbolKey)
     // debugger //BCM
     if (symbolData) {
         // symbol price data is available for yesterday's end-of-day prices
@@ -56,8 +56,8 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     // Download an end-of-day price series for yesterday
     const priceData = downloadSymbolData(symbol, range, closeOnly, useSandbox)
     symbolData = await priceData
-    await saveLocalState(symbolKey, symbolData) // updated value for today
-    // let testing = await loadLocalState(symbolKey) // test get object back ==== BCM
+    await saveLocalDatabase(symbolKey, symbolData) // updated value for today
+    // let testing = await loadLocalDatabase(symbolKey) // test get object back ==== BCM
     // debugger //BCM
     return symbolData
 }
@@ -82,11 +82,11 @@ const setCurrentMetaData = async function (date) {
         const theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
         const defaultMetaData = { "date": theDate } // a fresh metaData object with today's date
 
-        let metaData = await loadLocalState(MetaKey) // get existing date marker if any
+        let metaData = await loadLocalDatabase(MetaKey) // get existing date marker if any
         // debugger //BCM
         if (!metaData || metaData === undefined) {
-            clearLocalState() // start fresh today
-            await saveLocalState(MetaKey, defaultMetaData) // initialize with a date value for today
+            clearLocalDatabase() // start fresh today
+            await saveLocalDatabase(MetaKey, defaultMetaData) // initialize with a date value for today
             return // this is the current metaData,  the db is empty of any price data
         }
         const existingDate = new Date(metaData.date)
@@ -104,8 +104,8 @@ const setCurrentMetaData = async function (date) {
         }
         if (daysOld > 0) {
             // All requests for symbol data will download new end-of-day prices for prior trading day
-            clearLocalState() // start fresh today
-            await saveLocalState(MetaKey, defaultMetaData) // initialize with a date value for today
+            clearLocalDatabase() // start fresh today
+            await saveLocalDatabase(MetaKey, defaultMetaData) // initialize with a date value for today
             return // this is the current metaData, the db is empty of any price data
         }
         return // the existing db is good and has symbols price data downloaded so far today
