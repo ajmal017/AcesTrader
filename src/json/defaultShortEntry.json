@@ -9,5 +9,5 @@
   "buttonLabel": "SELL SHORT",
   "tradeSma": 50,
   "daysInterval": 4,
-  "currentState": "out"
+  "currentState": "OUT"
 }

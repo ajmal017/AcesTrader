@@ -19,6 +19,7 @@ import { removeShortFromList } from '../../../redux/reducerShorts'
 import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
 import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
+import buildSmaTradingArray from '../../../lib/appBuildSmaTradingArray'
 import { getSymbolData } from '../../../lib/appGetSymbolData'
 import { cleanSymbolData } from '../../../lib/appCleanSymbolData'
 // import getChartLastBar from '../../../lib/apiGetChartLastBar'
@@ -130,6 +131,10 @@ class Chartcell extends Component {
 
           data = cleanSymbolData(data) // handle case of price data with OHLC zero values (i.e. CCOR)
           putDailyPriceData(symbol, data) //cache the daily price data for retrieval before rendering
+
+          // Create the crossover trading sma for this symbol and cache it
+          const smaPeriod = self.props.cellObject.dashboard.tradeSma
+          buildSmaTradingArray(symbol, data, smaPeriod)
 
           // Get the last 20 close prices and dates from the daily data
           // for subsequent use in trailingStopBasis adjustments

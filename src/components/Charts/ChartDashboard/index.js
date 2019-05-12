@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import DialogDashboardForm from './DialogDashboardForm'
+import { getLastSmaTradingPrice } from '../../../lib/chartDataCache'
 import { getLastSma40Price } from '../../../lib/chartDataCache'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import { getLast20Closes } from '../../../lib/chartDataCache'
@@ -109,11 +110,11 @@ class ChartDashboard extends Component {
     this.quantity = this.props.cellObject.dashboard.quantity
     this.buttonLabel = this.props.cellObject.dashboard.buttonLabel
     this.trailingStopPercent = this.props.cellObject.trailingStopPercent || 5 //<**** Sets a default trailing stop percentage
-    this.stoplossAlert = false // until triggered by calculations below
 
     this.instructionRaw = this.props.cellObject.dashboard.instruction
     this.instructionTest = this.tradeSide === 'Shorts' ? true : false
     this.instruction = this.instructionTest ? 'COVER' : this.instructionRaw
+    this.stoplossAlert = false // until triggered by calculations below
 
     const defaultRgbaBackground = '206,212,218,0.3'
     const alertRgbaBackground = '255, 219, 77,0.8'
@@ -132,7 +133,6 @@ class ChartDashboard extends Component {
     this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
 
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
-    this.lastSma40 = getLastSma40Price(this.symbol)
 
     if (this.listGroup === 'positions') {
       // The calculated trailing stop price is  shown in the dashboard
@@ -144,11 +144,20 @@ class ChartDashboard extends Component {
       }
     }
 
+    // **NOTE the condition on this.props.iexData which controls processing past this point**
+
     if (this.peekDate === undefined || this.props.iexData === 0) {
       this.rgbaBackground = defaultRgbaBackground // chart data not available yet, not able to test for any alert now
     } else {
       // When iexData > 0, it means chart data is available in Chartcell,
-      // providing new props for ChartDashboard to calc alerts
+      // providing new props for ChartDashboard to calculate alerts and sma displays
+
+      this.lastSma40 = getLastSma40Price(this.symbol)
+      this.lastTradeSma = getLastSmaTradingPrice(this.symbol).toFixed(2)
+      this.tradeSma = this.props.cellObject.dashboard.tradeSma
+      this.daysInterval = this.props.cellObject.dashboard.daysInterval
+      this.currentState = this.props.cellObject.dashboard.currentState
+
       const weekly = this.props.cellObject.weeklyBars
       if (weekly) {
         // Calculate action signal for trend following prospects and positions using weekly bar charts
@@ -227,6 +236,8 @@ class ChartDashboard extends Component {
       orderType: this.orderType,
       duration: this.duration,
       trailingStopPercent: this.trailingStopPercent,
+      smaTrading: this.tradeSma,
+      daysInterval: this.daysInterval,
     }
 
     return (
@@ -313,6 +324,19 @@ class ChartDashboard extends Component {
               </>
             ) : null}
             {this.stoplossAlert ? <span className={'trailingstop-alert'}>Stop Loss</span> : null}
+
+
+            <label htmlFor='tradeSma'>Trading Sma</label>
+            <input className={'tradeSmaPeriod'} readOnly type='text' name='tradeSma' value={this.tradeSma} />
+            <label htmlFor='lastTradeSma'>Last Trading Sma</label>
+            <input className={'lastTradeSmaPrice'} readOnly type='text' name='lastTradeSma' value={this.lastTradeSma} />
+            <br />
+            <label htmlFor='daysInterval'>Fixed Days</label>
+            <input className={'daysIntervalValue'} readOnly type='text' name='daysInterval' value={this.daysInterval} />
+            <label htmlFor='currentState'>Current State</label>
+            <input className={'currentStateText'} readOnly type='text' name='currentState' value={this.currentState} />
+            <br />
+
           </form>
 
           <div className='dashboard-securityname'>

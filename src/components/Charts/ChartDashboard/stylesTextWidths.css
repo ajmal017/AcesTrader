@@ -174,3 +174,15 @@
 .filledquantity-trendlongs {
   width: 40px;
 }
+.tradeSmaPeriod {
+  width: 26px;
+}
+.daysIntervalValue {
+  width: 26px;
+}
+.lastTradeSmaPrice {
+  width: 50px;
+}
+.currentStateText {
+  width: 60px;
+}
