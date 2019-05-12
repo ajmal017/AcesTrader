@@ -50,7 +50,8 @@ class Chartcell extends Component {
     this.dialogChartParams = null
     this.closeOnly = false // New for IEX Cloud data
     this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // New for IEX Cloud data
-    this.range = '2y' // New for IEX Cloud data - changed below    // this.values = null //array of price values from API call
+    this.range = '2y' // New for IEX Cloud data - changed below in loadChartData()    
+    // this.values = null //array of price values from API call
     // this.filteredValues = null //array of price values remaining after filter
     this.data = null
     this.dispatch = this.props.dispatch
@@ -71,6 +72,12 @@ class Chartcell extends Component {
   }
 
   componentDidMount() {
+    // Skip using recovered data from chartDataCache
+    // Preloaded price data files from IEX are cached
+    // in local storage to persist for the day,
+    // and are found in getSymbolData()
+    this.loadChartData()
+
     // let recoveredData
     // if (this.weeklyBars) {
     //   recoveredData = getWeeklyPriceData(this.symbol)
@@ -91,15 +98,13 @@ class Chartcell extends Component {
     //   this.loadChartData(this.weeklyBars)
     // }
 
-    // Skip using recovered data from chartDataCache
-    // Preloaded price data files from IEX are cached in local storage to persist for the day
-    this.loadChartData()
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // Note that AcesTrader does not change the value of this.closeOnly or this.useSandbox,
-    // those parameters are only used in the AcesTester app. Only weeklyBars option is changed here.
-
+    // Note that AcesTrader does not modify the value of this.closeOnly
+    // (or this.useSandbox in production),
+    // those parameters are for the AcesTester app. 
+    // Only the weeklyBars option is changed here.
     if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
       // console.log('componentDidUpdate with changed weeklyBars=' + this.props.cellObject.weeklyBars) // testing
       this.loadChartData() // produce daily or weekly bars depending on the boolean value of weeklyBars
