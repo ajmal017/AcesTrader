@@ -14,15 +14,10 @@ export async function removeLocalDatabase(key) {
 }
 
 export async function loadLocalDatabase(key) {
-  // let val = await get(key)
-  // // debugger //BCM
-  // return val
-
   try {
     let val = await get(key)
     // debugger
     return val
-    // .then(val => console.log(val))
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
       debugger
@@ -36,8 +31,6 @@ export async function loadLocalDatabase(key) {
 export async function saveLocalDatabase(key, value) {
   // debugger //BCM
   await set(key, value)
-  // .then(() => console.log('saveLocalDatabase worked!'))
-  // .catch(err => console.log('saveLocalDatabase failed!', err))
 
   // try {
   //   await set(key, state)
