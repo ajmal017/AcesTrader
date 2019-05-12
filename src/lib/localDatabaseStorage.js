@@ -29,19 +29,14 @@ export async function loadLocalDatabase(key) {
 }
 
 export async function saveLocalDatabase(key, value) {
-  // debugger //BCM
-  await set(key, value)
-
-  // try {
-  //   await set(key, state)
-  //   // .then(() => console.log('It worked!'))
-  //   // .catch(err => console.log('It failed!', err));
-  // } catch (err) {
-  //   if (process.env.NODE_ENV === 'development') {
-  //     debugger
-  //   } else {
-  //     alert('set() failed in saveLocalDatabase')
-  //   }
-  //   return false
-  // }
+  try {
+    await set(key, value)
+  } catch (err) {
+    if (process.env.NODE_ENV === 'development') {
+      debugger
+    } else {
+      alert(`set(${key}, ${value}) failed in saveLocalDatabase, ${err.message}`)
+    }
+    return false
+  }
 }

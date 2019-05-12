@@ -16,17 +16,19 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
 
 
     // //******************************** */
-    // const KEY1 = "testKey1"
-    // const VALUE1 = [{ date: "2019-5-7" }, { close: 111 }]
-    // const KEY2 = "testKey2"
-    // const VALUE2 = [{ date: "2010-5-7" }, { close: 222 }]
+    // // const KEY1 = "testKey1"
+    // // const VALUE1 = [{ date: "2019-5-7" }, { close: 111 }]
     // // await set(KEY1, VALUE1)
-    // const value1 = await get(KEY1)
-    // debugger
-    // // await saveLocalDatabase(KEY2, VALUE2)
+    // // const value1 = await get(KEY1)
+    // // debugger
+    // const KEY2 = "testKey2"
+    // const VALUE2 = [{ date: "2010-5-7", close: 222 }, { date: "2010-9-7", close: 333 }]
+    // await saveLocalDatabase(KEY2, VALUE2)
     // const value2 = await loadLocalDatabase(KEY2)
     // debugger
     // //******************************** */
+
+    // // ******************************** */
     // const MetaKey = "MetaKey-DateObject"
     // // const theDay = date.getDay()
     // const theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
