@@ -6,5 +6,8 @@
   "quantityType": "SHARES",
   "instruction": "COVER",
   "tradeSide": "Shorts",
-  "buttonLabel": "EXIT SHORT"
+  "buttonLabel": "EXIT",
+  "tradeSma": 50,
+  "daysInterval": 4,
+  "currentState": "open"
 }

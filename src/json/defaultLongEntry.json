@@ -6,5 +6,8 @@
   "quantity": 5000,
   "instruction": "BUY",
   "tradeSide": "Buys",
-  "buttonLabel": "BUY"
+  "buttonLabel": "BUY",
+  "tradeSma": 50,
+  "daysInterval": 4,
+  "currentState": "out"
 }

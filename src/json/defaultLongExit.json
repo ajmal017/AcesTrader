@@ -6,5 +6,8 @@
   "quantityType": "SHARES",
   "instruction": "SELL",
   "tradeSide": "Longs",
-  "buttonLabel": "EXIT LONG"
+  "buttonLabel": "EXIT",
+  "tradeSma": 50,
+  "daysInterval": 4,
+  "currentState": "open"
 }

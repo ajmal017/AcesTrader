@@ -5,6 +5,8 @@ import defaultLongEntry from '../json/defaultLongEntry.json'
 import defaultLongExit from '../json/defaultLongExit.json'
 import defaultShortEntry from '../json/defaultShortEntry.json'
 import defaultShortExit from '../json/defaultShortExit.json'
+import defaultTrendEntry from '../json/defaultShortExit.json'
+import defaultTrendExit from '../json/defaultShortExit.json'
 import { getLast20Closes } from '../lib/chartDataCache'
 import { getHighestLowestCloses } from '../lib/appGetHighestLowestCloses'
 
@@ -26,40 +28,44 @@ var cloneDeep = require('lodash.clonedeep')
  * and to adjust the trailingStopBasis price if required.
  */
 
-export default function(state, peekPricesObject, theDate) {
+export default function (state, peekPricesObject, theDate) {
   // Parameters:
   // state: A slice of the state as defined by combineReducers, the current target array of objects
   // theDate: A formatted date and time string
   let updated = false // default result
   let copyState = cloneDeep(state)
   let newState = copyState.map((obj) => {
-    /**
-     * Perform a special operation to update each old format obj with the latest default dashboard
-     * This means that any changes that have been edited in any of the existing ones are lost, and must be repeated.
-     */
-    let newDashboard
-    if (obj.dashboard.tradeSide === 'Swing Buys') {
-      newDashboard = Object.assign({}, defaultDashboard, defaultLongEntry)
-    }
-    if (obj.dashboard.tradeSide === 'Swing Sells') {
-      newDashboard = Object.assign({}, defaultDashboard, defaultShortEntry)
-    }
-    if (obj.dashboard.tradeSide === 'Swing Short Sales') {
-      newDashboard = Object.assign({}, defaultDashboard, defaultShortEntry)
-    }
-    if (obj.dashboard.tradeSide === 'Swing Longs') {
-      newDashboard = Object.assign({}, defaultDashboard, defaultLongExit)
-    }
-    if (obj.dashboard.tradeSide === 'Swing Shorts') {
-      newDashboard = Object.assign({}, defaultDashboard, defaultShortExit)
-    }
-    if (obj.dashboard.tradeSide === 'Swing Short') {
-      newDashboard = Object.assign({}, defaultDashboard, defaultShortExit)
-    }
-    // tradeSide==='Trend Longs' do not get a new dashboard
-    if (newDashboard !== undefined) {
-      obj.dashboard = newDashboard
-      updated = true
+
+    if (obj.dashboard.version !== defaultDashboard.version) {
+      /**
+       * Perform a special operation to update each dashboard with the latest dashboard version.
+       * Changes that have been edited in any of the existing ones are lost, and must be repeated.
+       * Note that any default boards without changes still replace existing ones regardless.
+       */
+      let newDashboard
+      if (obj.dashboard.tradeSide === 'Buys') {
+        newDashboard = Object.assign({}, defaultDashboard, defaultLongEntry)
+      }
+      if (obj.dashboard.tradeSide === 'Longs') {
+        newDashboard = Object.assign({}, defaultDashboard, defaultLongExit)
+      }
+      if (obj.dashboard.tradeSide === 'Short Sales') {
+        newDashboard = Object.assign({}, defaultDashboard, defaultShortEntry)
+      }
+      if (obj.dashboard.tradeSide === 'Shorts') {
+        newDashboard = Object.assign({}, defaultDashboard, defaultShortExit)
+      }
+      if (obj.dashboard.tradeSide === 'Trend Buys') {
+        newDashboard = Object.assign({}, defaultDashboard, defaultTrendEntry)
+      }
+      if (obj.dashboard.tradeSide === 'Trend Longs') {
+        newDashboard = Object.assign({}, defaultDashboard, defaultTrendExit)
+      }
+      // debugger
+      if (newDashboard !== undefined) {
+        obj.dashboard = newDashboard
+        updated = true
+      }
     }
     /**
      * End of the special operation
