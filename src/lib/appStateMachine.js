@@ -1,11 +1,8 @@
 // appStateMachine.js
 
-import { getDailyPriceData } from './chartDataCache'
 import { getDailyPriceChart } from './appGetDailyPriceChart'
-import buildSmaTradingArray from './appBuildSmaTradingArray'
 import { putEquityChart } from './chartDataCache'
 import { getSmaTradingData } from './chartDataCache'
-// import { getSma200Data } from './chartDataCache'
 import { setStaleCharts } from './chartDataCache'
 import { putTradeMarker, putLegendItem } from './chartDataCache'
 
@@ -119,7 +116,7 @@ export const stateMachine = (theState, theSymbol) => {
   // Finished processing the daily position values
   putEquityChart(symbol, positionValues) // rawEquityChart data array for this symbol
   setStaleCharts(false) // update status
-  return positionValues //the finished positionValues array for this symbol
+  return { positionValues: positionValues, nextState: nextState }//the finished positionValues array and the nextState for this symbol
 }
 
 // setNextState is called after the close to determine action at tomorrow's open

@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import DialogDashboardForm from './DialogDashboardForm'
+import { stateMachine } from '../../../lib/appStateMachine'
 import { getLastSmaTradingPrice } from '../../../lib/chartDataCache'
 import { getLastSma40Price } from '../../../lib/chartDataCache'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
@@ -181,6 +182,19 @@ class ChartDashboard extends Component {
           }
         }
       } else {
+        // Daily bar charts get the appStateMachine signals
+        // Prepare the parameters for use by stateMachine()
+        this.testState = {
+          SMA3: this.daysInterval, //fixed days count
+          ET1: false, //enable crossover sell
+          TS1: 4, //crossover sell %
+          ET4: false, //enable crossover buy
+          TS4: 4, //crossover buy %
+          CLOSEONLY: false, //ohlc is available
+        }
+        const { nextState } = stateMachine(this.testState, this.symbol)
+        this.nextState = nextState
+        console.log(`nextState=${nextState}`)
         this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
       }
 
@@ -323,8 +337,8 @@ class ChartDashboard extends Component {
                 <input className={'trailingstop-price'} readOnly type='text' name='trailingStopPrice' value={this.trailingStopPrice} />
               </>
             ) : null}
-            {this.stoplossAlert ? <span className={'trailingstop-alert'}>Stop Loss</span> : null}
 
+            {this.stoplossAlert ? <><br /><br /><span className={'trailingstop-alert'}>Stop Loss</span><br /><br /></> : null}
 
             <label htmlFor='tradeSma'>Trading Sma</label>
             <input className={'tradeSmaPeriod'} readOnly type='text' name='tradeSma' value={this.tradeSma} />
@@ -334,7 +348,8 @@ class ChartDashboard extends Component {
             <label htmlFor='daysInterval'>Fixed Days</label>
             <input className={'daysIntervalValue'} readOnly type='text' name='daysInterval' value={this.daysInterval} />
             <label htmlFor='currentState'>Current State</label>
-            <input className={'currentStateText'} readOnly type='text' name='currentState' value={this.currentState} />
+            {/* <input className={'currentStateText'} readOnly type='text' name='currentState' value={this.currentState} /> */}
+            <input className={'currentStateText'} readOnly type='text' name='currentState' value={this.nextState} />
             <br />
 
           </form>
