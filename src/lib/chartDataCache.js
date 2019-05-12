@@ -145,7 +145,7 @@ export const getLastSmaTradingPrice = (symbol) => {
   if (dataCache.smaTrading[symbol]) {
     let smaTradingArray = dataCache.smaTrading[symbol]
     let lastTradingPrice = smaTradingArray[smaTradingArray.length - 1]
-    return lastTradingPrice
+    return lastTradingPrice.close
   } else {
     return null
   }

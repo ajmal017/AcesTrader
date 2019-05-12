@@ -9,5 +9,5 @@
   "buttonLabel": "EXIT",
   "tradeSma": 50,
   "daysInterval": 4,
-  "currentState": "open"
+  "currentState": "OPEN"
 }
