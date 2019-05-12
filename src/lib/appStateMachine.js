@@ -1,6 +1,8 @@
 // appStateMachine.js
 
+import { getDailyPriceData } from './chartDataCache'
 import { getDailyPriceChart } from './appGetDailyPriceChart'
+import buildSmaTradingArray from './appBuildSmaTradingArray'
 import { putEquityChart } from './chartDataCache'
 import { getSmaTradingData } from './chartDataCache'
 // import { getSma200Data } from './chartDataCache'
@@ -59,6 +61,9 @@ export const stateMachine = (theState, theSymbol) => {
   markers = []
   legends = []
 
+  const smaPeriod = state.SMATRADING
+  const dailyData = getDailyPriceData(symbol) // get daily values for the symbol as downloaded
+  buildSmaTradingArray(symbol, dailyData, smaPeriod)
   const sma = getSmaTradingData(symbol) // get sma for symbol as calculated per the dashboard spec.
   const data = getDailyPriceChart(symbol) // get a dailyPriceChart with starting date to match first SMA data available  for testing the daily trading
 
