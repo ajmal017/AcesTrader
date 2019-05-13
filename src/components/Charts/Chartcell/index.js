@@ -52,8 +52,8 @@ class Chartcell extends Component {
     this.closeOnly = false // New for IEX Cloud data
 
     // ****************************************************
-    this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads. 
-    // this.useSandbox = false // Set to false to test the stateMachine logic with real ohlc values, but usage rates apply
+    // this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads. 
+    this.useSandbox = false // Set to false to test the stateMachine logic with real ohlc values, but usage rates apply
     // ****************************************************
 
     this.data = null
