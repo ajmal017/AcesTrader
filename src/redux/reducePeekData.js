@@ -5,8 +5,8 @@ import defaultLongEntry from '../json/defaultLongEntry.json'
 import defaultLongExit from '../json/defaultLongExit.json'
 import defaultShortEntry from '../json/defaultShortEntry.json'
 import defaultShortExit from '../json/defaultShortExit.json'
-import defaultTrendEntry from '../json/defaultShortExit.json'
-import defaultTrendExit from '../json/defaultShortExit.json'
+import defaultTrendEntry from '../json/defaultTrendEntry.json'
+import defaultTrendExit from '../json/defaultTrendExit.json'
 import { getLast20Closes } from '../lib/chartDataCache'
 import { getHighestLowestCloses } from '../lib/appGetHighestLowestCloses'
 
@@ -61,7 +61,6 @@ export default function (state, peekPricesObject, theDate) {
       if (obj.dashboard.tradeSide === 'Trend Longs') {
         newDashboard = Object.assign({}, defaultDashboard, defaultTrendExit)
       }
-      // debugger
       if (newDashboard !== undefined) {
         obj.dashboard = newDashboard
         updated = true

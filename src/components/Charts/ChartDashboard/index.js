@@ -194,7 +194,7 @@ class ChartDashboard extends Component {
         }
         const { nextState } = stateMachine(this.testState, this.symbol)
         this.nextState = nextState
-        console.log(`nextState=${nextState}`)
+        // console.log(`nextState=${nextState}`) //BCM testing
         this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
       }
 
