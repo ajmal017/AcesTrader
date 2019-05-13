@@ -145,6 +145,27 @@ class ChartDashboard extends Component {
       }
     }
 
+
+    // Long>SMA:           
+    // Cash>SMA:
+    // Long<SMA:
+    // Cash<SMA:
+
+
+    // Action codes
+    const nextStateXlate = {
+      LongSMA: 'LONG',  // Long>SMA and Long<SMA
+      CashSMA: 'CASH',  // Cash>SMA and Cash<SMA
+      LongAboveLater: 'PENDING', //'Buy above ma at interval end',
+      LongAboveNow: 'BUY',        //'Buy above ma now, skipping interval period',
+      LongAboveRevert: 'BUY',     //'Buy above ma now, reverting panic sell',
+      CashBelowLater: 'PENDING', //'Sell below ma at interval end',
+      CashBelowNow: 'SELL',       //'Sell below ma now, skipping interval period',
+      CashBelowRevert: 'SELL',    //'Sell below ma now, reverting urgent buy',
+      LongBelowNow: 'BUY',        //'Urgent Buy below ma cross',
+      CashAboveNow: 'SELL',       //'Urgent Sell above ma cross',
+    }
+
     // **NOTE the condition on this.props.iexData which controls processing past this point**
 
     if (this.peekDate === undefined || this.props.iexData === 0) {
@@ -193,7 +214,8 @@ class ChartDashboard extends Component {
           CLOSEONLY: false, //ohlc is available
         }
         const { nextState } = stateMachine(this.testState, this.symbol)
-        this.nextState = nextState
+        // this.nextState = nextStateXlate[nextState]
+        this.nextState = nextStateXlate[nextState.replace(/\W+/, '')]
         // console.log(`nextState=${nextState}`) //BCM testing
         this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
       }
