@@ -338,7 +338,7 @@ class ChartDashboard extends Component {
               </>
             ) : null}
 
-            {this.stoplossAlert ? <><br /><br /><span className={'trailingstop-alert'}>Stop Loss</span><br /><br /></> : null}
+            {this.stoplossAlert ? <><br /><br /><span className={'trailingstop-alert'}>Stop Loss</span><br /><br /></> : <br />}
 
             <label htmlFor='tradeSma'>Trading Sma</label>
             <input className={'tradeSmaPeriod'} readOnly type='text' name='tradeSma' value={this.tradeSma} />
