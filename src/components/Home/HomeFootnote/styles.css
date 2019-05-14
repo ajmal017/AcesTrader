@@ -4,12 +4,11 @@
   margin-right: 20px;
   padding-top: 10px;
   padding-bottom: 18px;
-  /*background-color: blue;*/
   display: flex;
   justify-content: space-between;
-}
-.duckimagecredit {
-  margin-top: 2px;
-  /*margin-left: 50px;*/
   font-size: 86%;
 }
+/* .duckimagecredit { */
+/* margin-top: 2px; */
+/*margin-left: 50px;*/
+/* } */

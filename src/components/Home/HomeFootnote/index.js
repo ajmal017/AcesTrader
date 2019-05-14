@@ -10,6 +10,7 @@ class HomeFootnote extends Component {
             Bruce Martin
           </a>
         </span>
+        <a href="https://iexcloud.io">Data provided by IEX Cloud</a>
         <span className='duckimagecredit'>
           Duck image by{' '}
           <a href='http://delapouite.com' target='_blank' rel=' noopener noreferrer'>

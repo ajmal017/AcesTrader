@@ -8,7 +8,7 @@ const Content = styled.section`
   background-color: #ecf0f1;
 `
 
-const HomeContent = function() {
+const HomeContent = function () {
   return (
     // <Content className='home-content'>
     <Content>
@@ -134,7 +134,8 @@ const HomeContent = function() {
         list, all the securities have a default 5% trailing stop loss signal. At a price beyond the trailing stop's calculated price, the EXIT button will be colored orange. The
         trailing stop's percent value for any security can be changed by clicking the dashboard's edit icon. The calculated stop loss price is displayed in the dashboard.
       </p>
-      <h4>USING THE GUEST MODE</h4>
+
+      {/* <h4>USING THE GUEST MODE</h4>
       <p>
         The program as designed can be used for live brokerage trading by only one person, using the assigned TDAmeritrade logon user name and password. However a Guest mode is
         provided as a guest sign in option for simulated trading. This mode has no interaction with TDAmeritrade. Price data for charts is obtained from the IEX stock exchange.
@@ -146,7 +147,8 @@ const HomeContent = function() {
         your lists on your desktop computer, you won't be able to see the same data using the program on your iPad. So make your lists in the browser on the device you will use as
         a guest. On the other hand, this can be used to create different trading portfolios by using a different browser/device combination for each one. Each will have a separate
         database in a separate local storage.
-      </p>
+      </p> */}
+
     </Content>
   )
 }
