@@ -124,6 +124,10 @@ class Chartcell extends Component {
     getSymbolData(symbol, this.range, this.closeOnly, this.useSandbox)
       .then(function (data) {
         //console.log('getSymbolData axios response: data.length=', data.length)
+        if (!data || data === undefined || data === null) {
+          debugger // pause for developer
+          self.setState({ iexData: 3, noprices: true, hide: false })
+        }
         if (data.length < 2) {
           //CandleStickChartWithMA bug seen with new issue "TRTY" when only 0 or 1 day's data available
           //Memory leak reported by VSCode, seems to cause many weird code mistakes when running

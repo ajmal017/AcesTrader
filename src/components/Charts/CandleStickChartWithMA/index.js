@@ -14,7 +14,7 @@ import { CrossHairCursor, CurrentCoordinate, MouseCoordinateX, MouseCoordinateY 
 
 import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale'
 import { OHLCTooltip, MovingAverageTooltip } from 'react-stockcharts/lib/tooltip'
-import { ema, sma } from 'react-stockcharts/lib/indicator'
+import { sma } from 'react-stockcharts/lib/indicator'
 // import { ema, wma, sma, tma } from 'react-stockcharts/lib/indicator'
 import { fitWidth } from 'react-stockcharts/lib/helper'
 import { last } from 'react-stockcharts/lib/utils'
@@ -49,21 +49,21 @@ class CandleStickChartWithMA extends React.Component {
       })
       .accessor((d) => d.sma40)
 
-    const ema20 = ema()
+    const sma20 = sma()
       .id(1)
       .options({ windowSize: 20 })
       .merge((d, c) => {
-        d.ema20 = c
+        d.sma20 = c
       })
-      .accessor((d) => d.ema20)
+      .accessor((d) => d.sma20)
 
-    const ema50 = ema()
+    const sma50 = sma()
       .id(2)
       .options({ windowSize: 50 })
       .merge((d, c) => {
-        d.ema50 = c
+        d.sma50 = c
       })
-      .accessor((d) => d.ema50)
+      .accessor((d) => d.sma50)
 
     const sma200 = sma()
       .id(3)
@@ -99,8 +99,8 @@ class CandleStickChartWithMA extends React.Component {
     const volBarHeight = height / 5
     // const { mouseMoveEvent, panEvent, zoomEvent, zoomAnchor } = this.props
 
-    // const calculatedData = tma20(wma20(sma20(ema20(ema50(smaVolume50(initialData))))))
-    const calculatedData = weekly ? sma40(initialData) : sma200(ema20(ema50(initialData)))
+    // const calculatedData = tma20(wma20(sma20(sma50(smaVolume50(initialData)))))
+    const calculatedData = weekly ? sma40(initialData) : sma200(sma20(sma50(initialData)))
 
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor((d) => d.date)
     const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(calculatedData)
@@ -115,8 +115,8 @@ class CandleStickChartWithMA extends React.Component {
     } else {
       maLineSeries = (
         <>
-          <LineSeries yAccessor={ema20.accessor()} stroke={ema20.stroke()} />
-          <LineSeries yAccessor={ema50.accessor()} stroke={ema50.stroke()} />
+          <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} />
+          <LineSeries yAccessor={sma50.accessor()} stroke={sma50.stroke()} />
           <LineSeries yAccessor={sma200.accessor()} stroke={sma200.stroke()} />
         </>
       )
@@ -128,8 +128,8 @@ class CandleStickChartWithMA extends React.Component {
     } else {
       maCurrentCoordinate = (
         <>
-          <CurrentCoordinate yAccessor={ema20.accessor()} fill={ema20.stroke()} />
-          <CurrentCoordinate yAccessor={ema50.accessor()} fill={ema50.stroke()} />
+          <CurrentCoordinate yAccessor={sma20.accessor()} fill={sma20.stroke()} />
+          <CurrentCoordinate yAccessor={sma50.accessor()} fill={sma50.stroke()} />
           <CurrentCoordinate yAccessor={sma200.accessor()} fill={sma200.stroke()} />
         </>
       )
@@ -161,17 +161,17 @@ class CandleStickChartWithMA extends React.Component {
             origin={[-30, 15]}
             options={[
               {
-                yAccessor: ema20.accessor(),
-                type: 'EMA',
-                stroke: ema20.stroke(),
-                windowSize: ema20.options().windowSize,
+                yAccessor: sma20.accessor(),
+                type: 'SMA',
+                stroke: sma20.stroke(),
+                windowSize: sma20.options().windowSize,
                 // echo: 'some echo here',
               },
               {
-                yAccessor: ema50.accessor(),
-                type: 'EMA',
-                stroke: ema50.stroke(),
-                windowSize: ema50.options().windowSize,
+                yAccessor: sma50.accessor(),
+                type: 'SMA',
+                stroke: sma50.stroke(),
+                windowSize: sma50.options().windowSize,
                 // echo: 'some echo here',
               },
               {
@@ -205,7 +205,7 @@ class CandleStickChartWithMA extends React.Component {
         xAccessor={xAccessor}
         displayXAccessor={displayXAccessor}
         xExtents={xExtents}>
-        <Chart id={chartId + '1'} yExtents={[(d) => [d.high, d.low], sma200.accessor(), ema20.accessor(), ema50.accessor()]} padding={{ top: 10, bottom: 20 }}>
+        <Chart id={chartId + '1'} yExtents={[(d) => [d.high, d.low], sma200.accessor(), sma20.accessor(), sma50.accessor()]} padding={{ top: 10, bottom: 20 }}>
           <XAxis axisAt="bottom" orient="bottom" />
           <YAxis axisAt="right" orient="right" ticks={5} />
 
@@ -218,8 +218,8 @@ class CandleStickChartWithMA extends React.Component {
 
           {maLineSeries}
           {/* <LineSeries yAccessor={sma200.accessor()} stroke={sma200.stroke()} /> */}
-          {/* <LineSeries yAccessor={ema20.accessor()} stroke={ema20.stroke()} /> */}
-          {/* <LineSeries yAccessor={ema50.accessor()} stroke={ema50.stroke()} /> */}
+          {/* <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} /> */}
+          {/* <LineSeries yAccessor={sma50.accessor()} stroke={sma50.stroke()} /> */}
 
           {/* <CurrentCoordinate yAccessor={sma20.accessor()} fill={sma20.stroke()} /> */}
           {/* <CurrentCoordinate yAccessor={wma20.accessor()} fill={wma20.stroke()} /> */}
@@ -227,8 +227,8 @@ class CandleStickChartWithMA extends React.Component {
 
           {maCurrentCoordinate}
           {/* <CurrentCoordinate yAccessor={sma200.accessor()} fill={sma200.stroke()} /> */}
-          {/* <CurrentCoordinate yAccessor={ema20.accessor()} fill={ema20.stroke()} /> */}
-          {/* <CurrentCoordinate yAccessor={ema50.accessor()} fill={ema50.stroke()} /> */}
+          {/* <CurrentCoordinate yAccessor={sma20.accessor()} fill={sma20.stroke()} /> */}
+          {/* <CurrentCoordinate yAccessor={sma50.accessor()} fill={sma50.stroke()} /> */}
 
           <OHLCTooltip origin={[-36, 0]} />
           {maTooltip}
@@ -258,17 +258,17 @@ class CandleStickChartWithMA extends React.Component {
               //   echo: 'some echo here',
               // },
               {
-                yAccessor: ema20.accessor(),
-                type: 'EMA',
-                stroke: ema20.stroke(),
-                windowSize: ema20.options().windowSize,
+                yAccessor: sma20.accessor(),
+                type: 'SMA',
+                stroke: sma20.stroke(),
+                windowSize: sma20.options().windowSize,
                 // echo: 'some echo here',
               },
               {
-                yAccessor: ema50.accessor(),
-                type: 'EMA',
-                stroke: ema50.stroke(),
-                windowSize: ema50.options().windowSize,
+                yAccessor: sma50.accessor(),
+                type: 'SMA',
+                stroke: sma50.stroke(),
+                windowSize: sma50.options().windowSize,
                 // echo: 'some echo here',
               },
               {
