@@ -17,10 +17,10 @@ export const resetDataCache = () => {
   dataCache.dailyPrices = {}
   dataCache.weeklyPrices = {}
   dataCache.monthlyPrices = {}
-  dataCache.ema20 = {}
-  dataCache.ema50 = {}
   dataCache.sma10 = {}
+  dataCache.ema20 = {}
   dataCache.sma40 = {}
+  dataCache.ema50 = {}
   dataCache.sma200 = {}
   dataCache.smaTrading = {}
   dataCache.last20Closes = {}
@@ -44,7 +44,11 @@ var dataCache = {
     // dictionary of key/value pairs
     // key=symbol, value=array of objects [{date,open,high,low,close,volume}, ...]
   },
-  sma200: {
+  sma10: {
+    // dictionary of key/value pairs
+    // key=symbol, value=array of objects [{date,sma-value}, ...]
+  },
+  sma20: {
     // dictionary of key/value pairs
     // key=symbol, value=array of objects [{date,sma-value}, ...]
   },
@@ -52,7 +56,15 @@ var dataCache = {
     // dictionary of key/value pairs
     // key=symbol, value=array of objects [{date,sma-value}, ...]
   },
-  sma10: {
+  sma50: {
+    // dictionary of key/value pairs
+    // key=symbol, value=array of objects [{date,sma-value}, ...]
+  },
+  sma200: {
+    // dictionary of key/value pairs
+    // key=symbol, value=array of objects [{date,sma-value}, ...]
+  },
+  smaTrading: {
     // dictionary of key/value pairs
     // key=symbol, value=array of objects [{date,sma-value}, ...]
   },

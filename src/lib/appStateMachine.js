@@ -260,7 +260,7 @@ const doCurrentAction = (state, date, yesterday, open, close, nextState) => {
           positionValue = Math.trunc(positionSize * close) // today's positionValue is based on the close price
           TrailingSellStops(state, close, basis) //set the trailing sell stop basis
           currentState = LongAbove
-          let intervalCode = state.SMA === 'M' ? 'L1' : 'L2'
+          let intervalCode = state.SMA === 'M' ? 'L1' : 'L2'  // deprecated 'L2' is for Weekly interval 
           tradeMarker(symbol, date, intervalCode) // sma cross Long at fixed interval
         }
       }

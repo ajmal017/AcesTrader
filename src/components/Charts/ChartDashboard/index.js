@@ -154,8 +154,10 @@ class ChartDashboard extends Component {
 
     // Action codes
     const nextStateXlate = {
-      LongSMA: 'LONG',  // Long>SMA and Long<SMA
-      CashSMA: 'CASH',  // Cash>SMA and Cash<SMA
+      'Long>SMA': 'LONG',  // Long>SMA and Long<SMA
+      'Long<SMA': 'LONG',  // Long>SMA and Long<SMA
+      'Cash>SMA': 'CASH',  // Cash>SMA and Cash<SMA
+      'Cash<SMA': 'CASH',  // Cash>SMA and Cash<SMA
       LongAboveLater: 'PENDING', //'Buy above ma at interval end',
       LongAboveNow: 'BUY',        //'Buy above ma now, skipping interval period',
       LongAboveRevert: 'BUY',     //'Buy above ma now, reverting panic sell',
@@ -164,11 +166,20 @@ class ChartDashboard extends Component {
       CashBelowRevert: 'SELL',    //'Sell below ma now, reverting urgent buy',
       LongBelowNow: 'BUY',        //'Urgent Buy below ma cross',
       CashAboveNow: 'SELL',       //'Urgent Sell above ma cross',
+      'Buy above ma at interval end': 'PENDING',
+      'Buy above ma now, skipping interval period': 'BUY',
+      'Buy above ma now, reverting panic sell': 'BUY',
+      'Sell below ma at interval end': 'PENDING',
+      'Sell below ma now, skipping interval period': 'SELL',
+      'Sell below ma now, reverting urgent buy': 'SELL',
+      'Urgent Buy below ma cross': 'BUY',
+      'Urgent Sell above ma cross': 'SELL',
     }
 
     // **NOTE the condition on this.props.iexData which controls processing past this point**
 
-    if (this.peekDate === undefined || this.props.iexData === 0) {
+    // if (this.peekDate === undefined || this.props.iexData === 0) {
+    if (this.props.iexData === 0) {
       this.rgbaBackground = defaultRgbaBackground // chart data not available yet, not able to test for any alert now
     } else {
       // When iexData > 0, it means chart data is available in Chartcell,
@@ -202,23 +213,22 @@ class ChartDashboard extends Component {
             }
           }
         }
-      } else {
-        // Daily bar charts get the appStateMachine signals
-        // Prepare the parameters for use by stateMachine()
-        this.testState = {
-          SMA3: this.daysInterval, //fixed days count
-          ET1: false, //enable crossover sell
-          TS1: 4, //crossover sell %
-          ET4: false, //enable crossover buy
-          TS4: 4, //crossover buy %
-          CLOSEONLY: false, //ohlc is available
-        }
-        const { nextState } = stateMachine(this.testState, this.symbol)
-        // this.nextState = nextStateXlate[nextState]
-        this.nextState = nextStateXlate[nextState.replace(/\W+/, '')]
-        // console.log(`nextState=${nextState}`) //BCM testing
-        this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
       }
+      // All charts get the appStateMachine signals
+      // Prepare the parameters for use by stateMachine()
+      this.testState = {
+        SMA3: this.daysInterval, //fixed days count
+        ET1: false, //enable crossover sell
+        TS1: 4, //crossover sell %
+        ET4: false, //enable crossover buy
+        TS4: 4, //crossover buy %
+        CLOSEONLY: false, //ohlc is available
+      }
+      const { nextState } = stateMachine(this.testState, this.symbol)
+      this.nextState = nextStateXlate[nextState]
+      // console.log(`nextState=${nextState}`) //BCM testing
+      this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
+
 
       if (this.listGroup === 'positions') {
         // The trailing stop loss alert is only for positions.
@@ -364,12 +374,12 @@ class ChartDashboard extends Component {
 
             <label htmlFor='tradeSma'>Trading Sma</label>
             <input className={'tradeSmaPeriod'} readOnly type='text' name='tradeSma' value={this.tradeSma} />
-            <label htmlFor='lastTradeSma'>Last Trading Sma</label>
+            <label htmlFor='lastTradeSma'>Last T Sma</label>
             <input className={'lastTradeSmaPrice'} readOnly type='text' name='lastTradeSma' value={this.lastTradeSma} />
             <br />
             <label htmlFor='daysInterval'>Fixed Days</label>
             <input className={'daysIntervalValue'} readOnly type='text' name='daysInterval' value={this.daysInterval} />
-            <label htmlFor='currentState'>Current State</label>
+            <label htmlFor='currentState'>State</label>
             {/* <input className={'currentStateText'} readOnly type='text' name='currentState' value={this.currentState} /> */}
             <input className={'currentStateText'} readOnly type='text' name='currentState' value={this.nextState} />
             <br />
