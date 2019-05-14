@@ -80,6 +80,9 @@ const HomeContent = function () {
         Each chart has an associated dashboard with parameters initialized for the default order. The dashboard has an Edit button (pencil) to change some order parameters. A
         button allows the user to enter an order.
       </p>
+      <p>
+        The end-of-day chart for the prior trading day is available from IEX after 4am ET Tue-Sat.
+      </p>
 
       {/* <h4>TRADER ALERTS</h4>
       <p>
