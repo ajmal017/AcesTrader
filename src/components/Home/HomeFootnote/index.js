@@ -10,16 +10,16 @@ class HomeFootnote extends Component {
             Bruce Martin
           </a>
         </span>
-        <a href="https://iexcloud.io">Data provided by IEX Cloud</a>
+        <a href='https://iexcloud.io' target='_blank' rel=' noopener noreferrer'>Data by IEX Cloud</a>
         <span className='duckimagecredit'>
           Duck image by{' '}
           <a href='http://delapouite.com' target='_blank' rel=' noopener noreferrer'>
             Delapouite
-          </a>{' '}
-          under{' '}
+          </a>
+          {/* under{' '}
           <a href='http://creativecommons.org/licenses/by/3.0/' target='_blank' rel='noopener noreferrer'>
             CC BY 3.0
-          </a>
+          </a> */}
         </span>
       </div>
     )
