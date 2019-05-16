@@ -145,13 +145,6 @@ class ChartDashboard extends Component {
       }
     }
 
-
-    // Long>SMA:           
-    // Cash>SMA:
-    // Long<SMA:
-    // Cash<SMA:
-
-
     // Action codes
     const nextStateXlate = {
       'Long>SMA': 'LONG',  // Long>SMA and Long<SMA
@@ -199,17 +192,17 @@ class ChartDashboard extends Component {
           // Flag any trend following alerts
           if (this.tradeSide !== 'Shorts') {
             if (this.listGroup === 'prospects') {
-              this.rgbaBackground = this.peekPrice > this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trading buy OR default background
+              this.rgbaBackground = this.peekPrice > this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trending buy OR default background
             }
             if (this.listGroup === 'positions') {
-              this.rgbaBackground = this.peekPrice < this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trading sell OR default background
+              this.rgbaBackground = this.peekPrice < this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trending sell OR default background
             }
           } else if (this.tradeSide === 'Shorts') {
             if (this.listGroup === 'prospects') {
-              this.rgbaBackground = this.peekPrice < this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trading buy OR default background
+              this.rgbaBackground = this.peekPrice < this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trending buy OR default background
             }
             if (this.listGroup === 'positions') {
-              this.rgbaBackground = this.peekPrice > this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trading sell OR default background
+              this.rgbaBackground = this.peekPrice > this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trending sell OR default background
             }
           }
         }
@@ -226,6 +219,14 @@ class ChartDashboard extends Component {
       }
       const { nextState } = stateMachine(this.testState, this.symbol)
       this.nextState = nextStateXlate[nextState]
+
+      if (this.peekPrice && this.nextState === 'PENDING' && this.peekPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
+        this.nextState = 'LONG' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
+      }
+      if (this.peekPrice && this.nextState === 'PENDING' && this.peekPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
+        this.nextState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
+      }
+
       // console.log(`nextState=${nextState}`) //BCM testing
       this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
 
