@@ -111,8 +111,12 @@ class Peek extends Component {
       }
 
       async function updateDataForBatch(symbols, addTitle) {
-        // const useSandbox = true // use this when testing logic
-        const useSandbox = false
+
+        // ******BCMBCM**********************************************
+        // const useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test with, but free downloads. 
+        const useSandbox = false // Set to false to test with real ohlc values, but usage rates apply
+        // ****************************************************
+
         const basehtml = useSandbox ? `${iexData.BasehtmlSandbox}` : `${iexData.BasehtmlCloud}`
         const version = iexData.Version
         const token = useSandbox ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
