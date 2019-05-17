@@ -40,7 +40,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     // //******************************** */
 
 
-    setCurrentMetaData(date) // confirm the db will return correct symbol price data
+    setCurrentMetaData(date) // confirm the local db will return correct symbol price data
 
     let symbolData = await loadLocalDatabase(symbolKey) // get price series from the cache
     if (symbolData) {
@@ -78,7 +78,7 @@ const downloadSymbolData = async function (symbol, range, closeOnly, useSandbox)
 
 const setCurrentMetaData = async function (date) {
     // This tests the db marker object's date against today's date
-    // to ensure that the db will only return correct
+    // to ensure that the db will return the correct
     // end-of-day price data for the previous trading day
     // for any symbols that were already downloaded.
     // This reduces IEX costs by not repeating downloads unnecessarily.
@@ -86,7 +86,7 @@ const setCurrentMetaData = async function (date) {
         const MetaKey = "MetaKey-DateObject"
         const theDay = date.getDay()
         const theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
-        const defaultMetaData = { "date": theDate } // a fresh metaData object with today's date
+        const defaultMetaData = { "date": theDate } // prepare a fresh metaData object with today's date
 
         let metaData = await loadLocalDatabase(MetaKey) // get existing date marker if any
         // debugger //BCM
@@ -95,7 +95,7 @@ const setCurrentMetaData = async function (date) {
             await saveLocalDatabase(MetaKey, defaultMetaData) // initialize with a date value for today
             return // this is the current metaData,  the db is empty of any price data
         }
-        const existingDate = new Date(metaData.date)
+        const existingDate = new Date(metaData.date) // the current db date marker
         const timeDiff = new Date(theDate) - existingDate
         const daysOld = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
         if (daysOld === 1 && theDay === 0) {
@@ -109,12 +109,13 @@ const setCurrentMetaData = async function (date) {
             return // no change
         }
         if (daysOld > 0) {
-            // All requests for symbol data will download new end-of-day prices for prior trading day
+            // The current db price data is stale, so start fresh now
             clearLocalDatabase() // start fresh today
             await saveLocalDatabase(MetaKey, defaultMetaData) // initialize with a date value for today
+            // All requests for symbol data will download new end-of-day prices for prior trading day
             return // this is the current metaData, the db is empty of any price data
         }
-        return // the existing db is good and has symbols price data downloaded so far today
+        return // the existing db is good and has symbols price data downloaded so far today for prior trading day
     } catch (error) {
         console.log('setCurrentMetaData error:', error.message)
         // alert('setCurrentMetaData error: ' + error.message) //rude interruption to user
