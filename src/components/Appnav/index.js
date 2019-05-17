@@ -77,12 +77,12 @@ class Appnav extends React.Component {
                 <NavItem eventKey={7.4}>Change Porfolio</NavItem>
               </LinkContainer>
               <MenuItem divider />
-              <LinkContainer to='/home'>
-                <MenuItem eventKey={7.6}>AcesTrader Home</MenuItem>
+              <LinkContainer to='/addendofdaybars'>
+                <NavItem eventKey={7.8}>Add End Of Day Bars</NavItem>
               </LinkContainer>
               <MenuItem divider />
-              <LinkContainer to='/welcomeguest'>
-                <NavItem eventKey={7.8}>Guest Mode Info</NavItem>
+              <LinkContainer to='/home'>
+                <MenuItem eventKey={7.6}>AcesTrader Home</MenuItem>
               </LinkContainer>
               {/* {getResetStateMenu()} */}
             </NavDropdown>
