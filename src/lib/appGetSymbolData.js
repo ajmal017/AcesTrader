@@ -44,9 +44,6 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
 
     let symbolData = await loadLocalDatabase(symbolKey) // get price series from the cache
     if (symbolData) {
-
-        // symbolData = await constructTodayBar(symbolData) // under construction
-
         // symbol price data is available for yesterday's end-of-day prices
         // this data may have a constructed daily bar for today's prices (under development)
         let values = cloneDeep(symbolData)
@@ -65,8 +62,6 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     // debugger //BCM
     return symbolData
 }
-
-// const constructTodayBar = async function (symbolData) {}
 
 const downloadSymbolData = async function (symbol, range, closeOnly, useSandbox) {
     // get the symbol price series data from the IEX cloud
