@@ -18,7 +18,7 @@ import PositionShorts from '../../components/PositionShorts/'
 import PositionTrendLongs from '../../components/PositionTrendLongs/'
 import Trades from '../../components/Trades/'
 import Peek from '../../components/Peek/'
-import AddEndOfDayBars from '../../components/AddEndOfDayBars/'
+import AddPseudoBar from '../../components/AddPseudoBar/'
 import ManageBuyProspects from '../../components/ManageBuyProspects/'
 import ManageSellProspects from '../../components/ManageSellProspects/'
 import ManageTrendBuyProspects from '../../components/ManageTrendBuyProspects/'
@@ -50,7 +50,7 @@ const Root = ({ store, authenticated }) => (
             <PrivateRoute exact path='/prospecttrendbuys' component={ProspectTrendBuys} authenticated={authenticated} />
             <PrivateRoute exact path='/trades' component={Trades} authenticated={authenticated} />
             <PrivateRoute exact path='/peek' component={Peek} authenticated={authenticated} />
-            <PrivateRoute exact path='/addendofdaybars' component={AddEndOfDayBars} authenticated={authenticated} />
+            <PrivateRoute exact path='/addpseudobar' component={AddPseudoBar} authenticated={authenticated} />
             <PrivateRoute exact path='/managebuyprospects' component={ManageBuyProspects} authenticated={authenticated} />
             <PrivateRoute exact path='/managesellprospects' component={ManageSellProspects} authenticated={authenticated} />
             <PrivateRoute exact path='/managetrendbuyprospects' component={ManageTrendBuyProspects} authenticated={authenticated} />
