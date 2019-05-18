@@ -77,8 +77,8 @@ class Appnav extends React.Component {
                 <NavItem eventKey={7.4}>Change Porfolio</NavItem>
               </LinkContainer>
               <MenuItem divider />
-              <LinkContainer to='/addendofdaybars'>
-                <NavItem eventKey={7.8}>Add End Of Day Bars</NavItem>
+              <LinkContainer to='/addpseudobar'>
+                <NavItem eventKey={7.8}>Add Pseudo Bar</NavItem>
               </LinkContainer>
               <MenuItem divider />
               <LinkContainer to='/home'>

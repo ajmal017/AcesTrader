@@ -1,4 +1,4 @@
-// AddEndOfDayBars/index.js
+// AddPseudoBar/index.js
 
 import React, { Component } from 'react'
 import { useState, useEffect } from 'react'
@@ -7,8 +7,8 @@ import iexData from '../../iex.json'
 import { getSymbolData } from '../../lib/appGetSymbolData'
 import WelcomeTrader from '../Welcome/WelcomeTrader'
 
-const AddEndOfDayBars = () => {
-    alert("AddEndOfDayBars")
+const AddPseudoBar = () => {
+    alert("AddPseudoBar")
 
     // Use the useEffect hook to perform this side effect
     useEffect(() => {
@@ -17,9 +17,9 @@ const AddEndOfDayBars = () => {
     })
 
 
-    return <WelcomeTrader />
+    return <WelcomeTrader /> // return to start screen
 }
 
 
 
-export default AddEndOfDayBars
+export default AddPseudoBar
