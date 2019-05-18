@@ -39,7 +39,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     // //******************************** */
 
 
-    setTheLocalDatabase(date) // configure the local db to return latest symbol price data
+    setTheLocalDatabase(date) // ensure the local DB will contain last trading day symbol price data
 
     let symbolData = await loadLocalDatabase(symbolKey) // get price series from the cache
     if (symbolData) {
