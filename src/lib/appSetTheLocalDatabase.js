@@ -22,7 +22,7 @@ export const setTheLocalDatabase = async function (date) {
             await saveLocalDatabase(MetaKey, defaultMetaData) // initialize with a date value for today
             return -1 // this is the new metaData,  the DB is empty of any price data
         }
-        const existingDate = new Date(metaData.date) // the current db date marker
+        const existingDate = new Date(metaData.date) // the current DB date marker
         const timeDiff = new Date(theDate) - existingDate
         const daysOld = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
         if (daysOld === 1 && theDay === 0) {

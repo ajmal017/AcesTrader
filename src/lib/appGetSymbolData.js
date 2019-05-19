@@ -11,7 +11,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     const symbolKey = `${symbol.toUpperCase()}-${range}${closeOnly ? '-CloseOnly' : ''}${useSandbox ? '-Sandbox' : ''}`
     const date = new Date() // today's date
 
-    // await clearLocalDatabase() //<==TEMP ===== use this to reset the db content ==========
+    // await clearLocalDatabase() //<==TEMP ===== use this to reset the DB content ==========
 
 
     // //******************************** */
@@ -46,7 +46,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
         // symbol price data is available for yesterday's end-of-day prices
         // this data may have a constructed daily bar for today's prices (under development)
         let values = cloneDeep(symbolData)
-        // reformate the dates for expected format after the JSON parsing changes
+        // formate the dates for expected charting format
         let data = values.map((obj) => {
             let date = obj.date
             obj.date = new Date(date)
