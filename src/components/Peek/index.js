@@ -114,12 +114,12 @@ class Peek extends Component {
 
         // ******BCMBCM**********************************************
         // const useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test with, but free downloads. 
-        const useSandbox = false // Set to false to test with real ohlc values, but usage rates apply
+        const useSandbox = false // Set to false to use real ohlc values, but usage rates apply
         // ****************************************************
 
         const basehtml = useSandbox ? `${iexData.BasehtmlSandbox}` : `${iexData.BasehtmlCloud}`
-        const version = iexData.Version
         const token = useSandbox ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
+        const version = iexData.Version
         let filters = ['latestPrice', 'change', 'changePercent', 'marketCap']
         if (addTitle) filters.push('companyName')
         try {

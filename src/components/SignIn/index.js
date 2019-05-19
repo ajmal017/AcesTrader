@@ -23,7 +23,6 @@ class SignIn extends Component {
   handleSubmit = async (event) => {
     event.preventDefault()
     const { email, password } = event.target.elements
-    // putReference(paper) // the default radio button for portfolio selection at sign in
     try {
       // const user = await fire.auth().signInWithEmailAndPassword(email.value, password.value)
       await fire.auth().signInWithEmailAndPassword(email.value, password.value)
@@ -33,7 +32,6 @@ class SignIn extends Component {
       debugger //pause for developer
     }
   }
-
 
   handleSignUp = (event) => {
     event.preventDefault()
