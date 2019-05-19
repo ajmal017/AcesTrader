@@ -21,14 +21,14 @@ const AddPseudoBar = () => {
 
     const buildPseudoBars = async () => {
         const { loading, error } = dataReady
-        // if (theDay === 6 || theDay === 0) {
-        //     // Today is Saturday or Sunday, all price series have correct last trading day bar
-        //     setDataReady({ loading: false, error: 'Today is a weekend, all price series have correct last day trading bar' })
-        // } else if (theHour < 10) {
-        //     // The market is just open, we only append pseudo bars after 10
-        //     setDataReady({ loading: false, error: 'Too early, delayed quotes are used to build pseudo bars after 10am' })
+        if (theDay === 6 || theDay === 0) {
+            // Today is Saturday or Sunday, all price series have correct last trading day bar
+            setDataReady({ loading: false, error: 'Today is a weekend, all price series have correct last day trading bar' })
+        } else if (theHour < 10) {
+            // The market is just open, we only append pseudo bars after 10
+            setDataReady({ loading: false, error: 'Too early, delayed quotes are used to build pseudo bars after 10am' })
 
-        if (false) { // <***** BCM ************* temp to replace tests above
+        // if (false) { // <***** BCM ************* temp to replace tests above
 
         } else if (loading) {
             const daysOld = await setTheLocalDatabase(date) //the local DB contains last trading day symbol price data, returns the DB daysOld number
@@ -40,12 +40,8 @@ const AddPseudoBar = () => {
             })
             let symbols = extractedSymbols.filter((element, index) => extractedSymbols.indexOf(element) === index) // remove dups
             await makePseudoBars(symbols)
-
-
-            // keys.forEach((symbolKey) => { appendPseudoBar(symbolKey) }) // add pseudo end-of-day bar to each symbol's price series
-            // appendPseudoBar(keys[0]) // test logic with first symbol only
+            symbolKeys.forEach((symbolKey) => { appendPseudoBar(symbolKey) }) // add pseudo end-of-day bar to each symbol's price series
             // debugger
-
             setDataReady({ loading: false, error: false })
         }
     }
@@ -53,12 +49,12 @@ const AddPseudoBar = () => {
     const makePseudoBars = async (symbols) => {
         const BATCH_SIZE = 100
         let numberOfBatches = Math.ceil(symbols.length / BATCH_SIZE)
-        debugger
+        // debugger
         for (let i = 0; i < numberOfBatches; i++) {
             let symbolsBatch = symbols.slice(i * BATCH_SIZE, (i + 1) * BATCH_SIZE)
-            await makeBatchOfPseudoBars(symbolsBatch)
+            await makeBatchOfPseudoBars(symbolsBatch) // the pseudo bars are cached in allPseudoBars
         }
-        debugger
+        // debugger
     }
 
     let allPseudoBars = {} // keyed by symbols
@@ -72,7 +68,7 @@ const AddPseudoBar = () => {
                 .get(`${basehtml}${version}/stock/market/batch?types=delayed-quote&symbols=${symbols.join(',')}&${token}`)
             let res = await request
             let valueKeys = Object.keys(res.data)
-            debugger
+            // debugger
             for (let i = 0; i < valueKeys.length; i++) {
                 let quoteData = res.data[valueKeys[i]]['delayed-quote']
                 // debugger
@@ -92,19 +88,12 @@ const AddPseudoBar = () => {
         }
     }
 
-
     const appendPseudoBar = async (symbolKey) => {
         const result = /(.*)(-.*)/.exec(symbolKey) // extract the symbol from the symbolKey
         const symbol = result[1]
         const symbolData = await loadLocalDatabase(symbolKey) // get price series from the cache
         const currentLastBar = symbolData[symbolData.length - 1]
-        const quoteData = await downloadSymbolQuote(symbol)
-        const fakeOpen = Math.round((quoteData.high + quoteData.low) / 2)
-        const fakeClose = quoteData.delayedPrice
-        const fakeHigh = quoteData.high
-        const fakeLow = quoteData.low
-        const fakeDate = quoteData.processedTime
-        const pseudoBar = { pseudoBar: true, open: fakeOpen, close: fakeClose, high: fakeHigh, low: fakeLow, date: fakeDate, volume: 10000 }
+        const pseudoBar = allPseudoBars[symbol]
         if (currentLastBar.pseudoBar) {
             symbolData.pop()
         }
