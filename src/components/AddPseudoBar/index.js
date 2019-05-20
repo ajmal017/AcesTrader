@@ -110,17 +110,6 @@ const AddPseudoBar = () => {
         // debugger
     }
 
-    const downloadSymbolQuote = async function (symbol) {
-        // get the symbol delayed quote from the IEX cloud
-        const basehtml = `${iexData.BasehtmlCloud}`
-        const token = `token=${iexData.PublishableToken}`
-        const version = iexData.Version
-        const request = axios
-            .get(`${basehtml}${version}/stock/${symbol}/delayed-quote?${token}`)
-        let res = await request
-        return res.data
-    }
-
     const handleClick = (event) => {
         event.preventDefault()
         setDataReady({ loading: false, error: false })
