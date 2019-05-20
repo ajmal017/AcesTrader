@@ -1,6 +1,6 @@
 // AddPseudoBar/index.js
 
-import React, { Component } from 'react'
+import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import iexData from '../../iex.json'
@@ -20,7 +20,7 @@ const AddPseudoBar = () => {
     }, [theMinute]) // allows a retry after the minute changes
 
     const buildPseudoBars = async () => {
-        const { loading, error } = dataReady
+        const { loading } = dataReady
         if (theDay === 6 || theDay === 0) {
             // Today is Saturday or Sunday, all price series have correct last trading day bar
             setDataReady({ loading: false, error: 'Today is a weekend, all price series have correct last day trading bar' })
@@ -28,10 +28,11 @@ const AddPseudoBar = () => {
             // The market is just open, we only append pseudo bars after 10
             setDataReady({ loading: false, error: 'Too early, delayed quotes are used to build pseudo bars after 10am' })
 
-        // if (false) { // <***** BCM ************* temp to replace tests above
+            // if (false) { // <***** BCM ************* temp to replace tests above
 
         } else if (loading) {
-            const daysOld = await setTheLocalDatabase(date) //the local DB contains last trading day symbol price data, returns the DB daysOld number
+            // const daysOld = await setTheLocalDatabase(date) //the local DB contains last trading day symbol price data, returns the DB daysOld number
+            await setTheLocalDatabase(date) //the local DB contains last trading day symbol price data
             const allKeys = await getLocalDatabaseKeys() // get the keys of objects from the cache
             const symbolKeys = allKeys.filter((key) => { return (key !== 'MetaKey-DateObject') })
             const extractedSymbols = symbolKeys.map((symbolKey) => {
@@ -41,7 +42,6 @@ const AddPseudoBar = () => {
             let symbols = extractedSymbols.filter((element, index) => extractedSymbols.indexOf(element) === index) // remove dups
             await makePseudoBars(symbols)
             symbolKeys.forEach((symbolKey) => { appendPseudoBar(symbolKey) }) // add pseudo end-of-day bar to each symbol's price series
-            // debugger
             setDataReady({ loading: false, error: false })
         }
     }
@@ -91,9 +91,16 @@ const AddPseudoBar = () => {
     const appendPseudoBar = async (symbolKey) => {
         const result = /(.*)(-.*)/.exec(symbolKey) // extract the symbol from the symbolKey
         const symbol = result[1]
-        const symbolData = await loadLocalDatabase(symbolKey) // get price series from the cache
-        const currentLastBar = symbolData[symbolData.length - 1]
         const pseudoBar = allPseudoBars[symbol]
+        const symbolData = await loadLocalDatabase(symbolKey) // get price series from the cache
+        let currentLastBar = symbolData[symbolData.length - 1]
+
+        // Hack by BCM to workaround bug discovered 5/20/19, Monday after weekend of testing
+        if (currentLastBar === undefined) {
+            symbolData.pop() // undefined array element result of testing AddPseudoBar?
+            currentLastBar = symbolData[symbolData.length - 1] // get the new last bar
+        }
+
         if (currentLastBar.pseudoBar) {
             symbolData.pop()
         }
