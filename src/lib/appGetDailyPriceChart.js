@@ -2,11 +2,10 @@
 
 import { getDailyPriceData } from './chartDataCache'
 import { getSmaTradingData } from './chartDataCache'
-// import { getSma200Data } from './chartDataCache'
 
 export const getDailyPriceChart = (symbol) => {
   const dailyData = getDailyPriceData(symbol) // get daily values for the symbol
-  const sma = getSmaTradingData(symbol) // getSma200Data(symbol)
+  const sma = getSmaTradingData(symbol) // get the active sma data
   const firstSmaDate = sma[0].date
   const testDate1 = `${firstSmaDate.getFullYear()}${firstSmaDate.getMonth() + 1}${firstSmaDate.getDate()}`
   // find the data array index with the same date as the first sma object

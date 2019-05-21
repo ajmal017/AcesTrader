@@ -11,6 +11,7 @@ import { getLastSma40Price } from '../../../lib/chartDataCache'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import { getLast20Closes } from '../../../lib/chartDataCache'
 import { getHighestLowestCloses } from '../../../lib/appGetHighestLowestCloses'
+import { getDailyPriceDataLastBar } from '../../../lib/chartDataCache'
 import { AuthenticatedContext } from '../../../redux'
 import './styles.css'
 import './stylesTextWidths.css'
@@ -218,13 +219,24 @@ class ChartDashboard extends Component {
         TS4: 4, //crossover buy %
         CLOSEONLY: false, //ohlc is available
       }
-      const { nextState } = stateMachine(this.testState, this.symbol)
-      this.nextState = nextStateXlate[nextState]
-
-      if (this.peekPrice && this.nextState === 'PENDING' && this.peekPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
+      const { nextState } = stateMachine(this.testState, this.symbol) //get the last state
+      this.nextState = nextStateXlate[nextState] //get appropriate text for dashboard display
+      this.lastBar = getDailyPriceDataLastBar(this.symbol)
+      if (this.peekDate === undefined) {
+        this.lastPrice = this.lastBar.close
+      } else {
+        const peekDate = new Date(this.peekDate)
+        const barDate = new Date(this.lastBar.date)
+        if (peekDate < barDate) { //peekDate is stale
+          this.lastPrice = this.lastBar.close
+        } else {
+          this.lastPrice = this.peekPrice
+        }
+      }
+      if (this.nextState === 'PENDING' && this.lastPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
         this.nextState = 'LONG' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
       }
-      if (this.peekPrice && this.nextState === 'PENDING' && this.peekPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
+      if (this.nextState === 'PENDING' && this.lastPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
         this.nextState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
       }
 

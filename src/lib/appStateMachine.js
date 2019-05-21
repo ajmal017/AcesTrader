@@ -95,7 +95,7 @@ export const stateMachine = (theState, theSymbol) => {
       // if (testDate2 === '2015 6 5') {
       //   debugger
       // }
-      // if (testDate2 === '2019 5 16') {
+      // if (testDate2 === '2019 5 20') {
       //   debugger
       // }
 

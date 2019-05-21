@@ -235,6 +235,13 @@ export const getDailyPriceData = (symbol) => {
   let dailyPriceData = cloneDeep(dataCache.dailyPrices[symbol])
   return dailyPriceData
 }
+export const getDailyPriceDataLastBar = (symbol) => {
+  let dailyPriceData = dataCache.dailyPrices[symbol]
+  let dailyPriceDataLastBar = dailyPriceData[dailyPriceData.length - 1]
+  return dailyPriceDataLastBar
+}
+
+
 export const putWeeklyPriceData = (symbol, data) => {
   dataCache.weeklyPrices[symbol] = cloneDeep(data)
 }
