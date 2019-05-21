@@ -210,6 +210,7 @@ class ChartDashboard extends Component {
       // All charts get the appStateMachine signals
       // Prepare the parameters for use by stateMachine()
       this.testState = {
+        SMA: 'D', //use fixed days interval
         SMA3: this.daysInterval, //fixed days count
         ET1: false, //enable crossover sell
         TS1: 4, //crossover sell %
