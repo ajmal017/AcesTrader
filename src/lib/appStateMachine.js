@@ -65,7 +65,7 @@ export const stateMachine = (theState, theSymbol) => {
     // run as Buy & Hold, no trading done, portfolio value is equal to a position of one share
     putEquityChart(symbol, data) // rawEquityChart data array
     setStaleCharts(false)
-    return data
+    return { positionValues: data, nextState: null }//data is the finished positionValues array
   }
 
   // record the daily positionValue at the close and get a trading signal based on the close
