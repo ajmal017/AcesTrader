@@ -15,6 +15,10 @@ const AddPseudoBar = () => {
     const theHour = date.getHours() //returns the hours of a date as a number (0-23)
     const theMinute = date.getMinutes() //returns the minutes of a date as a number (0-59)
 
+
+    // useEffect has a missing dependency: 'buildPseudoBars'. 
+    // Either include it or remove the dependency array  react-hooks/exhaustive-deps
+    // eslint-disable-next-line
     useEffect(() => {
         buildPseudoBars()
     }, [theMinute]) // allows a retry after the minute changes
