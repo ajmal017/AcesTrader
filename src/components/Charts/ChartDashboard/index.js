@@ -136,6 +136,10 @@ class ChartDashboard extends Component {
 
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
 
+    // if (this.symbol === 'SHOP') {
+    //   debugger //BCM
+    // }
+
     if (this.listGroup === 'positions') {
       // The calculated trailing stop price is  shown in the dashboard
       this.trailingStopPrice = null
@@ -218,6 +222,7 @@ class ChartDashboard extends Component {
         ET4: false, //enable crossover buy
         TS4: 4, //crossover buy %
         CLOSEONLY: false, //ohlc is available
+        USESANDBOX: this.props.useSandbox, //ohlc values are random garbage if this is true
       }
       const { nextState } = stateMachine(this.testState, this.symbol) //get the last state
       this.nextState = nextStateXlate[nextState] //get appropriate text for dashboard display
@@ -261,7 +266,7 @@ class ChartDashboard extends Component {
         }
         // Calculate any trailing stop loss alert
         this.stopGap = this.peekPrice - this.trailingStopBasis
-        this.percentTrailingStopGap = (100 * this.stopGap) / this.trailingStopBasis //.toFixed(1)
+        this.percentTrailingStopGap = (100 * this.stopGap) / this.trailingStopBasis    //.toFixed(1)
         if (
           (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
           (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
@@ -429,6 +434,7 @@ ChartDashboard.propTypes = {
   handleOrderEntry: PropTypes.func.isRequired,
   cellObject: PropTypes.object.isRequired,
   iexData: PropTypes.number.isRequired,
+  useSandbox: PropTypes.bool
 }
 
 //Note: this used only to get access to "this.props.dispatch", not for state access

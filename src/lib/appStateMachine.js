@@ -38,6 +38,7 @@ const startValue = 10000 // all symbol positions are funded the same
 let state
 let symbol
 let closeOnly
+// let useSandbox
 let sellStopBasis
 let buyStopBasis
 let currentState
@@ -52,7 +53,8 @@ let legends = []
 export const stateMachine = (theState, theSymbol) => {
   state = theState // make state available to all functions
   symbol = theSymbol // make symbol available to all functions
-  closeOnly = theState.CLOSEONLY // make closeOnly available to all functions
+  closeOnly = theState.CLOSEONLY // make closeOnly value available to all functions
+  // useSandbox = theState.USESANDBOX // make useSandbox value available to all functions
   let positionValues = [] // start new array [{ date: date, value: positionValue }...]
   putTradeMarker(symbol, []) // clear this cache
   markers = []

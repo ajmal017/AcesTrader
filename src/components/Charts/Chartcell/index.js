@@ -31,6 +31,7 @@ import { putDailyPriceData, getDailyPriceData, putWeeklyPriceData, getWeeklyPric
 import buildSma200Array from '../../../lib/appBuildSma200Array'
 import buildSma40Array from '../../../lib/appBuildSma40Array'
 import buildLast20Closes from '../../../lib/appBuildLast20Closes'
+import { setSandboxStatus } from '../../../lib/appUseSandboxStatus'
 // import { putSma40Data, putLast20Closes } from '../../../lib/chartDataCache'
 // import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
@@ -54,6 +55,7 @@ class Chartcell extends Component {
     // ******BCMBCM**********************************************
     this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads. 
     this.useSandbox = false // Override to false to test with real ohlc values, but usage rates apply
+    setSandboxStatus(this.useSandbox) // set for reference in other modules such as reducePeekData.js
     // ****************************************************
 
     this.data = null
@@ -105,8 +107,7 @@ class Chartcell extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // Note that AcesTrader does not modify the value of this.closeOnly
-    // (or this.useSandbox in production),
-    // those parameters are for the AcesTester app. 
+    // (or this.useSandbox in production).
     // Only the weeklyBars option is changed here.
     if (prevProps.cellObject.weeklyBars !== this.props.cellObject.weeklyBars) {
       // console.log('componentDidUpdate with changed weeklyBars=' + this.props.cellObject.weeklyBars) // testing
@@ -417,7 +418,7 @@ class Chartcell extends Component {
                   )}
             </div>
             <div className='dashboard-center'>
-              <ChartDashboard handleOrderEntry={this.handleOrderEntry} cellObject={cellObject} iexData={this.state.iexData} />
+              <ChartDashboard handleOrderEntry={this.handleOrderEntry} cellObject={cellObject} iexData={this.state.iexData} useSandbox={this.useSandbox} />
             </div>
           </div>
         </div>
