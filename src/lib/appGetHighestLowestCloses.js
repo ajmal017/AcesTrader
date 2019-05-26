@@ -1,6 +1,7 @@
 // appGetHighestLowestCloses.js
 
 export const getHighestLowestCloses = (last20Closes, entered) => {
+
   let theHighestLowest = { highest: null, lowest: null }
 
   if (!last20Closes || last20Closes.length === 0) {
@@ -13,7 +14,7 @@ export const getHighestLowestCloses = (last20Closes, entered) => {
       let timeDiff = new Date(last20Closes[kk].date) - enteredDate
       let daysDiff = Math.round(timeDiff / (1000 * 3600 * 24))
       if (daysDiff > 0) {
-        // the close date is after the enter date
+        // this close date is after the enter date so test from this date onward
         if (lowestClose > last20Closes[kk].close) {
           lowestClose = last20Closes[kk].close
         }
@@ -22,6 +23,12 @@ export const getHighestLowestCloses = (last20Closes, entered) => {
         }
       }
     }
+    if (highestClose === 0) { // this is unchanged
+      // the last close date is the enter date so just use those values
+      lowestClose = last20Closes[last20Closes.length - 1].close
+      highestClose = last20Closes[last20Closes.length - 1].close
+    }
+
     theHighestLowest.highest = highestClose
     theHighestLowest.lowest = lowestClose
     return theHighestLowest //found results

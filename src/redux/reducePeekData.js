@@ -9,6 +9,7 @@ import defaultTrendEntry from '../json/defaultTrendEntry.json'
 import defaultTrendExit from '../json/defaultTrendExit.json'
 import { getLast20Closes } from '../lib/chartDataCache'
 import { getHighestLowestCloses } from '../lib/appGetHighestLowestCloses'
+import { getSandboxStatus } from '../lib/appUseSandboxStatus'
 
 var cloneDeep = require('lodash.clonedeep')
 
@@ -82,6 +83,8 @@ export default function (state, peekPricesObject, theDate) {
      */
 
     let symbol = obj.symbol
+    let listGroup = obj.listGroup
+    let useSandbox = getSandboxStatus()
 
     // After a peek, the peekPricesObject is loaded with a key/value pair for every symbol in the app's state.
     // The peekPricesObject holding those symbol/price pairs is queried with the symbol to get the price at the tilme of the peek.
@@ -94,22 +97,59 @@ export default function (state, peekPricesObject, theDate) {
       updated = true
     }
 
-    // Adjust the trailingStopBasis if the closing price is further to the gain side
-    const last20Closes = getLast20Closes(symbol)
-    if (last20Closes && last20Closes.length > 0) {
-      // console.log('reducePeekData with last20Closes')
-      const highestLowestCloses = getHighestLowestCloses(last20Closes, obj.entered) // returns {highest: price, lowest: price}
-      if (obj.dashboard.tradeSide === 'Shorts' && obj.trailingStopBasis > highestLowestCloses.lowest) {
-        obj.trailingStopBasis = highestLowestCloses.lowest
-        updated = true
-      } else if (obj.dashboard.tradeSide !== 'Shorts' && obj.trailingStopBasis < highestLowestCloses.highest) {
-        obj.trailingStopBasis = highestLowestCloses.highest
+    // //************SPECIAL CASE START**************************** */
+    // //SUPER SPECIAL CASE TO OVERWRITE ALL EXISTING TAILING STOP BASIS VALUES TO RECOVER FROM 
+    // //BAD UPDATES USING IEX SANDBOX DATA BY MISTAKE BY THE DEVELOPER. THIS IS ACTIVE ONLY ONCE.
+    // if (listGroup === 'positions') {
+    //   const last20Closes = getLast20Closes(symbol) //use the last 20 values to handle case of user absent from running app for two weeks
+    //   const highestLowestCloses = getHighestLowestCloses(last20Closes, obj.entered) // returns {highest: price, lowest: price}
+    //   if (last20Closes && last20Closes.length > 0) {
+    //     if (obj.dashboard.tradeSide === 'Shorts') {
+    //       obj.trailingStopBasis = highestLowestCloses.lowest
+    //       updated = true
+    //     } else if (obj.dashboard.tradeSide !== 'Shorts') {
+    //       obj.trailingStopBasis = highestLowestCloses.highest
+    //       updated = true
+    //     }
+    //     console.log(`Reset basis for ${symbol}`)
+    //   } else {
+    //     console.log(`last20Closes=null for ${symbol}, useSandbox=${useSandbox}`)
+    //     // debugger
+    //   }
+    //   // if (symbol === 'SHOP') {
+    //   //   debugger //BCM
+    //   //   obj.trailingStopBasis = 0 // force a zero value to test effect of calling peek to update in dashboard
+    //   //   updated = true
+    //   // }
+    // }
+    // //***********SPECIAL CASE END***************************** */
+
+    if (listGroup === 'prospects') {
+      // initialize trailingStopBasis to prepare for use in a future open order
+      obj['trailingStopBasis'] = undefined
+      updated = true
+    }
+    if (listGroup === 'positions' && !useSandbox) {
+      // Does not change trailingStopBasis values if using IEX sandbox random values
+      if (obj.trailingStopBasis !== undefined) {
+        // Adjust the trailingStopBasis if the closing price is further to the gain side
+        const last20Closes = getLast20Closes(symbol) //use the last 20 values to handle case of user absent from running app for two weeks
+        if (last20Closes && last20Closes.length > 0) {
+          // console.log('reducePeekData with last20Closes')
+          const highestLowestCloses = getHighestLowestCloses(last20Closes, obj.entered) // returns {highest: price, lowest: price}
+          if (obj.dashboard.tradeSide === 'Shorts' && obj.trailingStopBasis > highestLowestCloses.lowest) {
+            obj.trailingStopBasis = highestLowestCloses.lowest
+            updated = true
+          } else if (obj.dashboard.tradeSide !== 'Shorts' && obj.trailingStopBasis < highestLowestCloses.highest) {
+            obj.trailingStopBasis = highestLowestCloses.highest
+            updated = true
+          }
+        }
+      }
+      if (obj.trailingStopBasis === undefined && !isNaN(obj.enteredPrice)) {
+        obj.trailingStopBasis = obj.enteredPrice
         updated = true
       }
-    }
-    if (obj.trailingStopBasis === undefined && !isNaN(obj.enteredPrice)) {
-      obj.trailingStopBasis = obj.enteredPrice
-      updated = true
     }
     return obj // add to the newState array with updated properties
   })
