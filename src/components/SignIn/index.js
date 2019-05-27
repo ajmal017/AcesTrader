@@ -16,7 +16,7 @@ class SignIn extends Component {
     document.title = 'AcesTrader'
     if (process.env.NODE_ENV === 'development') {
       // Set the default sign in parameters for development testing
-      this.setState({ signedin: false, email: 'a@g.com', password: 'bootonaces' }) //change to use default user's sign in
+      this.setState({ signedin: false, email: 'z@g.com', password: 'yzshop' }) //change to use default user's sign in
     }
   }
 
