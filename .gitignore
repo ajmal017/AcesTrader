@@ -5,12 +5,16 @@
 
 # dependencies
 /node_modules
+/.pnp
+.pnp.js
 
 # testing
 /coverage
 
 # production
 /build
+/src/fire.js
+/src/iex.json
 
 # misc
 .DS_Store
@@ -26,9 +30,14 @@ firebase-debug.log
 
 # secrets
 .env
+.iex
+
 
 # other
 .vs
 .idea
 .chrome
 .firebase
+.firebaserc
+firebase.json
+typings.json
