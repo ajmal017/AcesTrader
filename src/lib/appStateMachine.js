@@ -97,7 +97,7 @@ export const stateMachine = (theState, theSymbol) => {
       // if (testDate2 === '2015 6 5') {
       //   debugger
       // }
-      // if (testDate2 === '2019 5 20') {
+      // if (testDate2 === '2019 5 30' && symbol === 'AMZN') {
       //   debugger
       // }
 
@@ -118,16 +118,33 @@ export const stateMachine = (theState, theSymbol) => {
   // Finished processing the daily position values
   putEquityChart(symbol, positionValues) // rawEquityChart data array for this symbol
   setStaleCharts(false) // update status
-  return { positionValues: positionValues, nextState: nextState }//the finished positionValues array and the nextState for this symbol
+
+  // Note: When appStateMachine is used in AcesTrader, we need to know if the next
+  // action will be a Buy or Sell at the next day's open. Since we are in real time and
+  // not testing historical price charts, we can create dummy data for tomorrow and call
+  // doCurrentAction to see if a Buy or Sell is triggered. This result is passed back to caller
+  // in AcesTrader to set the state flag in the symbol's dashboard. 
+  // Any caller from AcesTester ignores the second property in the returned object.
+
+  const date = data[data.length - 1].date
+  const open = data[data.length - 1].open
+  const close = data[data.length - 1].close
+  const fakeYesterday = date.getDay() // a fake yesterday date for this use of doCurrentAction() at this exit.
+  const fakeToday = fakeYesterday + 1 // a fake today date for this use of doCurrentAction() at this exit.
+  doCurrentAction(state, fakeToday, fakeYesterday, open, close, nextState) // this sets the currentState of the asset for the next day
+
+  return { positionValues: positionValues, currentState: currentState }//the finished positionValues array and the currentState for this symbol
 }
 
 // setNextState is called after the close to determine action at tomorrow's open
 // The nextState is the state to be obtained via a trade at the open of the next day
 // The nextState is set by a sequence of tests, each overriding any prior one
 // They are arranged so that the most urgent is the winner
+
 const setNextState = (state, ma, close, currentState) => {
   let stopSignal //records any stop activated by the close price
   // nextState = currentState //default is to make no change at the open
+  const initialDayCount = state.SMA3 - 1 // Since the counter is zero based, subtract one from the specified value to get the expected countdown result
 
   switch (currentState) {
     case CashBelowLater: //waiting for dayCounter=0, still long position
@@ -151,7 +168,7 @@ const setNextState = (state, ma, close, currentState) => {
       }
       if (close < ma) {
         nextState = CashBelowLater // CashBelowLater waits for dayCounter=0  and then the long is cashed out at open
-        dayCounter = dayCounter === 0 ? state.SMA3 : dayCounter-- // initialize the first time close is below ma, else decrement to zero
+        dayCounter = dayCounter === 0 ? initialDayCount : dayCounter-- // initialize the first time close is below ma, else decrement to zero
       }
       if (close < ma && stopSignal === ts1 && state.ET1) {
         nextState = CashBelowNow // skip interval wait period
@@ -184,7 +201,7 @@ const setNextState = (state, ma, close, currentState) => {
       }
       if (close > ma) {
         nextState = LongAboveLater // LongAboveLater waits for dayCounter=0  and then goes long at open
-        dayCounter = dayCounter === 0 ? state.SMA3 : dayCounter-- // initialize the first time close is above ma, else decrement to zero
+        dayCounter = dayCounter === 0 ? initialDayCount : dayCounter-- // initialize the first time close is above ma, else decrement to zero
       }
       if (close > ma && stopSignal === ts4 && state.ET4) {
         nextState = LongAboveNow // skip interval wait period
@@ -231,6 +248,7 @@ const setNextState = (state, ma, close, currentState) => {
 
 // doCurrentAction changes the position's size value to effect any trade at the open based on the nextState code value
 // But note that the position's equity value is based on the close price
+
 const doCurrentAction = (state, date, yesterday, open, close, nextState) => {
   let toDay
   let basis = closeOnly ? close : open // modified 4/18/2018 to accommodate IEX pricing options

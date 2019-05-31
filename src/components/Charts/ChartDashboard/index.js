@@ -151,7 +151,7 @@ class ChartDashboard extends Component {
     }
 
     // Action codes
-    const nextStateXlate = {
+    const stateXlate = {
       'Long>SMA': 'LONG',  // Long>SMA and Long<SMA
       'Long<SMA': 'LONG',  // Long>SMA and Long<SMA
       'Cash>SMA': 'CASH',  // Cash>SMA and Cash<SMA
@@ -224,8 +224,8 @@ class ChartDashboard extends Component {
         CLOSEONLY: false, //ohlc is available
         USESANDBOX: this.props.useSandbox, //ohlc values are random garbage if this is true
       }
-      const { nextState } = stateMachine(this.testState, this.symbol) //get the last state
-      this.nextState = nextStateXlate[nextState] //get appropriate text for dashboard display
+      const { currentState } = stateMachine(this.testState, this.symbol) //get the last state
+      this.currentState = stateXlate[currentState] //get appropriate text for dashboard display
       this.lastBar = getDailyPriceDataLastBar(this.symbol)
       if (this.peekDate === undefined) {
         this.lastPrice = this.lastBar.close
@@ -238,14 +238,14 @@ class ChartDashboard extends Component {
           this.lastPrice = this.peekPrice
         }
       }
-      if (this.nextState === 'PENDING' && this.lastPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
-        this.nextState = 'LONG' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
+      if (this.currentState === 'PENDING' && this.lastPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
+        this.currentState = 'LONG' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
       }
-      if (this.nextState === 'PENDING' && this.lastPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
-        this.nextState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
+      if (this.currentState === 'PENDING' && this.lastPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
+        this.currentState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
       }
 
-      // console.log(`nextState=${nextState}`) //BCM testing
+      // console.log(`currentState=${currentState}`) //BCM testing
       this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
 
 
@@ -381,7 +381,7 @@ class ChartDashboard extends Component {
 
             {this.listGroup === 'positions' ? (
               <>
-                {/* <br /> */}
+                <br />
                 <label htmlFor='trailingStopPercent'>Stop Loss %</label>
                 <input className={'trailingstop-percent'} readOnly type='text' name='trailingStopPercent' value={this.trailingStopPercent} />
                 <label htmlFor='trailingStopPrice'>Stop Price</label>
@@ -400,7 +400,7 @@ class ChartDashboard extends Component {
             <input className={'daysIntervalValue'} readOnly type='text' name='daysInterval' value={this.daysInterval} />
             <label htmlFor='currentState'>State</label>
             {/* <input className={'currentStateText'} readOnly type='text' name='currentState' value={this.currentState} /> */}
-            <input className={'currentStateText'} readOnly type='text' name='currentState' value={this.nextState} />
+            <input className={'currentStateText'} readOnly type='text' name='currentState' value={this.currentState} />
             <br />
 
           </form>
