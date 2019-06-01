@@ -8,6 +8,6 @@
   "tradeSide": "Buys",
   "buttonLabel": "BUY",
   "tradeSma": 50,
-  "daysInterval": 4,
+  "daysInterval": 5,
   "currentState": "OUT"
 }

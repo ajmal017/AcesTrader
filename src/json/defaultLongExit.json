@@ -8,6 +8,6 @@
   "tradeSide": "Longs",
   "buttonLabel": "EXIT",
   "tradeSma": 50,
-  "daysInterval": 4,
+  "daysInterval": 5,
   "currentState": "OPEN"
 }
