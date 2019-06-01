@@ -38,7 +38,6 @@ const startValue = 10000 // all symbol positions are funded the same
 let state
 let symbol
 let closeOnly
-// let useSandbox
 let sellStopBasis
 let buyStopBasis
 let currentState
@@ -54,7 +53,6 @@ export const stateMachine = (theState, theSymbol) => {
   state = theState // make state available to all functions
   symbol = theSymbol // make symbol available to all functions
   closeOnly = theState.CLOSEONLY // make closeOnly value available to all functions
-  // useSandbox = theState.USESANDBOX // make useSandbox value available to all functions
   let positionValues = [] // start new array [{ date: date, value: positionValue }...]
   putTradeMarker(symbol, []) // clear this cache
   markers = []
@@ -124,15 +122,18 @@ export const stateMachine = (theState, theSymbol) => {
   // action will be a Buy or Sell at the next day's open. Since we are in real time and
   // not testing historical price charts, we can create dummy data for tomorrow and call
   // doCurrentAction to see if a Buy or Sell is triggered. This result is passed back to 
-  // the caller in AcesTrader to set the State property in the symbol's dashboard. 
+  // the caller in AcesTrader to set the State property in the symbol's dashboard.
+  // The only result from this call to doCurrentAction() that is important is the value of
+  //  'currentState', 
   // Any caller from AcesTester ignores the second property in the returned object.
 
   const date = data[data.length - 1].date
   const open = data[data.length - 1].open
   const close = data[data.length - 1].close
   const fakeYesterday = date.getDay() // a fake yesterday date for this use of doCurrentAction() at this exit.
-  const fakeToday = fakeYesterday + 1 // a fake today date for this use of doCurrentAction() at this exit.
-  doCurrentAction(state, fakeToday, fakeYesterday, open, close, nextState) // this sets the currentState of the asset for the next day
+  const fakeTodayDate = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000)
+
+  doCurrentAction(state, fakeTodayDate, fakeYesterday, open, close, nextState) // this sets the currentState of the asset for the next day
 
   return { positionValues: positionValues, currentState: currentState } //the finished positionValues array and the currentState for this symbol
 }
