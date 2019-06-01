@@ -113,7 +113,8 @@ export const stateMachine = (theState, theSymbol) => {
 
     // get the NextState based on today's close and the currentState
     setNextState(state, ma, close, currentState)
-  }
+
+  } //<--loop back for the next bar
 
   // Finished processing the daily position values
   putEquityChart(symbol, positionValues) // rawEquityChart data array for this symbol
@@ -122,8 +123,8 @@ export const stateMachine = (theState, theSymbol) => {
   // Note: When appStateMachine is used in AcesTrader, we need to know if the next
   // action will be a Buy or Sell at the next day's open. Since we are in real time and
   // not testing historical price charts, we can create dummy data for tomorrow and call
-  // doCurrentAction to see if a Buy or Sell is triggered. This result is passed back to caller
-  // in AcesTrader to set the state flag in the symbol's dashboard. 
+  // doCurrentAction to see if a Buy or Sell is triggered. This result is passed back to 
+  // the caller in AcesTrader to set the State property in the symbol's dashboard. 
   // Any caller from AcesTester ignores the second property in the returned object.
 
   const date = data[data.length - 1].date
@@ -133,7 +134,7 @@ export const stateMachine = (theState, theSymbol) => {
   const fakeToday = fakeYesterday + 1 // a fake today date for this use of doCurrentAction() at this exit.
   doCurrentAction(state, fakeToday, fakeYesterday, open, close, nextState) // this sets the currentState of the asset for the next day
 
-  return { positionValues: positionValues, currentState: currentState }//the finished positionValues array and the currentState for this symbol
+  return { positionValues: positionValues, currentState: currentState } //the finished positionValues array and the currentState for this symbol
 }
 
 // setNextState is called after the close to determine action at tomorrow's open
