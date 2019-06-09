@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import './WelcomeTrader.css'
+import { setSandboxStatus, getSandboxStatus } from '../../lib/appUseSandboxStatus'
 import { resetDefaultState, resetPersistedState } from '../../redux/index.js'
 import { putReference, getReference, ameritrade, schwab, paper } from '../../lib/dbReference'
 import { resetPeekPrices } from '../../lib/appLastPeekPrice'
@@ -50,7 +51,7 @@ const Content = styled.section`
   padding-left: 14%;
   background-color: #ecf0f1;
 `
-const RadioGroup = styled.section`
+const ControlGroup = styled.section`
   display: flex;
   @media (min-width: 700px) {
     // flex-flow: row wrap;
@@ -89,13 +90,27 @@ const HR = styled.hr`
   border: 8px solid red;
 `
 
-// let savedReference = null
+const LabelActionHeader = styled.label`
+    margin-top: 20px;
+    margin-left: 20px;
+    font-weight: 500;
+  `
+const InputActionHeader = styled.input`
+    // margin-left: 15px;
+    // margin-top: 8px;
+    padding: 1px 0;
+    height: 20px;
+    width: 24px;
+  `
+const ActionDescHeader = styled.span`
+    margin-left: 10px;
+    margin-bottom: 8px;
+  `
 
 class WelcomeTrader extends Component {
   //
   constructor(props) {
     super(props)
-    // savedReference = getReference() ? getReference() : null
     this.firstReference = props.firstReference
     this.dispatch = props.dispatch
     this.state = {}
@@ -105,11 +120,14 @@ class WelcomeTrader extends Component {
   componentDidMount() {
     // console.log(`WelcomeTrader: componentDidMount, getReference=${getReference()}, props.firstReference=${props.firstReference}`) //BCM
     if (this.firstReference) {
-      // load a portfolio now, only for first-time mounting
+      this.sandboxChecked = process.env.NODE_ENV === 'development' ? true : false // by default development gets junk ohlc values to test the app, but free downloads (default is changeable by user) 
+      setSandboxStatus(this.sandboxChecked) // set for reference in other modules such as Chartcell and reducePeekData.js
+      this.setState({ loading: true, reference: this.firstReference, useSandbox: getSandboxStatus() })
+      // load a portfolio from persistant state now, only for first-time mounting
       this.loadPortfolio(this.firstReference)
     } else {
       // no need to load an initial protfolio, just show the UI using the existing protfolio
-      this.setState({ loading: false, reference: getReference() })
+      this.setState({ loading: false, reference: getReference(), useSandbox: getSandboxStatus() })
     }
   }
 
@@ -119,9 +137,17 @@ class WelcomeTrader extends Component {
     this.loadPortfolio(event.target.value)
   }
 
+  toggleChange = (e) => {
+    e.preventDefault()
+    this.theName = e.target.name
+    this.isChecked = e.target.checked
+    setSandboxStatus(e.target.checked) // set for reference in other modules such as reducePeekData.js
+    this.setState({ [this.theName]: this.isChecked })
+  }
+
+
   loadPortfolio = (reference) => {
     try {
-      this.setState({ loading: true, reference: reference })
       resetDataCache() // clear all previously cached chart price data for fresh start
       resetPeekPrices() //clear old peek symbol prices for fresh start
       let persistedState = null // receives the state loaded from database
@@ -165,7 +191,7 @@ class WelcomeTrader extends Component {
   }
 
   render() {
-    const { loading, reference } = this.state
+    const { loading, reference, useSandbox } = this.state
 
     if (!reference) return null //let componentDidMount decide on rendering
 
@@ -192,7 +218,7 @@ class WelcomeTrader extends Component {
           <HR />
           <Header>Select A Portfolio</Header>
           <Content>
-            <RadioGroup>
+            <ControlGroup>
               <RadioGroupItem>
                 <RadioInput type='radio' name={schwab} value={schwab} checked={reference === schwab} onChange={this.handleChange} />
                 <RadioLabel>&nbsp;Schwab</RadioLabel>
@@ -205,7 +231,16 @@ class WelcomeTrader extends Component {
                 <RadioInput type='radio' name={paper} value={paper} checked={reference === paper} onChange={this.handleChange} />
                 <RadioLabel>&nbsp;Paper</RadioLabel>
               </RadioGroupItem>
-            </RadioGroup>
+            </ControlGroup>
+
+            <ControlGroup>
+              <LabelActionHeader>
+                <InputActionHeader type='checkbox' name='useSandbox' checked={useSandbox} onChange={this.toggleChange} />
+                <ActionDescHeader>Use Sandbox</ActionDescHeader>
+              </LabelActionHeader>
+            </ControlGroup>
+
+
           </Content>
         </Wrapper>
       )

@@ -31,7 +31,7 @@ import { putDailyPriceData, getDailyPriceData, putWeeklyPriceData, getWeeklyPric
 import buildSma200Array from '../../../lib/appBuildSma200Array'
 import buildSma40Array from '../../../lib/appBuildSma40Array'
 import buildLast20Closes from '../../../lib/appBuildLast20Closes'
-import { setSandboxStatus } from '../../../lib/appUseSandboxStatus'
+import { getSandboxStatus } from '../../../lib/appUseSandboxStatus'
 // import { putSma40Data, putLast20Closes } from '../../../lib/chartDataCache'
 // import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
@@ -52,12 +52,13 @@ class Chartcell extends Component {
     this.dialogChartParams = null
     this.closeOnly = false // New for IEX Cloud data
 
-    // ******BCMBCM**********************************************
-    this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads. 
-    this.useSandbox = false // Override to false to test with real ohlc values, but usage rates apply
-    setSandboxStatus(this.useSandbox) // set for reference in other modules such as reducePeekData.js
-    // ****************************************************
+    // // ******BCMBCM**********************************************
+    // this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads. 
+    // // this.useSandbox = false // Override to false to test with real ohlc values, but usage rates apply
+    // // ******BCMBCM**********************************************
+    // setSandboxStatus(this.useSandbox) // set for reference in other modules such as reducePeekData.js
 
+    this.useSandbox = getSandboxStatus()
     this.data = null
     this.dispatch = this.props.dispatch
     this.state = {
