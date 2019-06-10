@@ -1,7 +1,7 @@
 // AddPseudoBar/index.js
 
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 import iexData from '../../iex.json'
 import { setTheLocalDatabase } from '../../lib/appSetTheLocalDatabase'
@@ -13,7 +13,7 @@ const AddPseudoBar = () => {
     const date = new Date() // today's date
     const theDay = date.getDay() //returns the week day of a date as a number (0-6)
     const theHour = date.getHours() //returns the hours of a date as a number (0-23)
-    const theMinute = date.getMinutes() //returns the minutes of a date as a number (0-59)
+    // const theMinute = date.getMinutes() //returns the minutes of a date as a number (0-59)
 
 
     // // useEffect has a missing dependency: 'buildPseudoBars'. 
