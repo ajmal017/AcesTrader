@@ -16,12 +16,13 @@ const AddPseudoBar = () => {
     const theMinute = date.getMinutes() //returns the minutes of a date as a number (0-59)
 
 
-    // useEffect has a missing dependency: 'buildPseudoBars'. 
-    // Either include it or remove the dependency array  react-hooks/exhaustive-deps
-    // eslint-disable-next-line
-    useEffect(() => {
-        buildPseudoBars()
-    }, [theMinute]) // allows a retry after the minute changes
+    // // useEffect has a missing dependency: 'buildPseudoBars'. 
+    // // Either include it or remove the dependency array  react-hooks/exhaustive-deps
+    // // eslint-disable-next-line
+    // useEffect(() => {
+    //     buildPseudoBars()
+    // }, [theMinute]) // allows a retry after the minute changes
+
 
     const buildPseudoBars = async () => {
         const { loading } = dataReady
@@ -49,6 +50,8 @@ const AddPseudoBar = () => {
             setDataReady({ loading: false, error: false })
         }
     }
+
+    buildPseudoBars()
 
     const makePseudoBars = async (symbols) => {
         const BATCH_SIZE = 100
