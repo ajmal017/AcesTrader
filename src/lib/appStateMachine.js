@@ -91,10 +91,10 @@ export const stateMachine = (theState, theSymbol) => {
         currentState = CashBelow
       }
     } else {
-      let testDate2 = `${date.getFullYear()} ${date.getMonth() + 1} ${date.getDate()}`
-      if (testDate2 === '2019 6 5') {
-        debugger
-      }
+      // let testDate2 = `${date.getFullYear()} ${date.getMonth() + 1} ${date.getDate()}`
+      // if (testDate2 === '2019 6 5') {
+      //   debugger
+      // }
       // if (testDate2 === '2019 5 30' && symbol === 'AMZN') {
       //   debugger
       // }
