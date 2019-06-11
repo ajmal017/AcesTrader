@@ -25,8 +25,9 @@ function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, perc
     .toLowerCase()
     .replace(/:\d\d\s/, '')}`
   const displayGain = percentGain > 0 ? `+${percentGain}` : `${percentGain}`
+  const backgroundColor = rgbaValue ? 'rgba(' + rgbaValue + ')' : 'transparent'
   return peekDate !== undefined ? (
-    <div style={{ backgroundColor: 'rgba(' + rgbaValue + ')' }}>
+    <div style={{ backgroundColor: backgroundColor }}>
       <span id={'positions' + hash} className='watched'>
         Peek {displayDate} &nbsp;@{peekPrice}
         &nbsp;&nbsp;{displayGain}% &nbsp;&nbsp;{daysHere} days
@@ -127,7 +128,11 @@ class ChartDashboard extends Component {
     this.rgbColor = null
     this.rgbColor = this.percentGain > 0 ? '0,255,0' : '255,107,107'
     this.rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
+    if (this.listGroup === 'positions') {
     this.rgbaValue = this.rgbColor + ',' + this.rgbOpacity
+    } else {
+      this.rgbaValue = null // do not show red/green background color for prospects
+    }
 
     const startDate = this.listGroup === 'positions' ? new Date(this.entered) : new Date(this.watched)
     const endDate = new Date(this.peekDate)
