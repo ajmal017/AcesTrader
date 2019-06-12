@@ -127,24 +127,17 @@ class ChartDashboard extends Component {
     this.positionValue = this.peekDate !== undefined ? this.numberWithCommas((this.filledQuantity * this.peekPrice).toFixed(0)) : 'pending'
     this.rgbColor = null
     this.rgbColor = this.percentGain > 0 ? '0,255,0' : '255,107,107'
-    this.rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.8)
+    this.rgbOpacity = Math.min(Math.abs(this.percentGain / 100) * 20, 0.28)
     if (this.listGroup === 'positions') {
-    this.rgbaValue = this.rgbColor + ',' + this.rgbOpacity
+      this.rgbaValue = this.rgbColor + ',' + this.rgbOpacity
     } else {
       this.rgbaValue = null // do not show red/green background color for prospects
     }
-
     const startDate = this.listGroup === 'positions' ? new Date(this.entered) : new Date(this.watched)
     const endDate = new Date(this.peekDate)
     const timeDiff = endDate - startDate
     this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
-
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
-
-    // if (this.symbol === 'SHOP') {
-    //   debugger //BCM
-    // }
-
     if (this.listGroup === 'positions') {
       // The calculated trailing stop price is  shown in the dashboard
       this.trailingStopPrice = null
