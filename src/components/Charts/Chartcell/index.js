@@ -78,31 +78,12 @@ class Chartcell extends Component {
   }
 
   componentDidMount() {
-    // Skip using recovered data from chartDataCache
     // Preloaded price data files from IEX are cached
     // in local storage to persist for the day,
     // and are found in getSymbolData()
     this.loadChartData()
 
-    // let recoveredData
-    // if (this.weeklyBars) {
-    //   recoveredData = getWeeklyPriceData(this.symbol)
-    // } else {
-    //   recoveredData = getDailyPriceData(this.symbol)
-    // }
-    // if (recoveredData) {
-    //   // another http request for chart data not needed
-    //   this.data = recoveredData
-    //   // but we need to rebuild the weekly sma40 data
-    //   buildSma40Array(this.symbol, getWeeklyPriceData(this.symbol))
-    //   // and we need to rebuild the Last 20 closes
-    //   buildLast20Closes(this.symbol, getDailyPriceData(this.symbol))
-    //   this.setState({ iexData: 2, hide: false }) //new data is available in cache
-    // } else {
-    //   // required data is not yet cached
-    //   // this includes the weekly sma40 & last 20 closes
-    //   this.loadChartData(this.weeklyBars)
-    // }
+
 
   }
 
