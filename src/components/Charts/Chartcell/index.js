@@ -51,6 +51,7 @@ class Chartcell extends Component {
     // this.getLastBar = this.getLastBar.bind(this)
     this.dialogChartParams = null
     this.closeOnly = false // New for IEX Cloud data
+    this.dailyChartOnly = false // set default value
 
     // // ******BCMBCM**********************************************
     // this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads. 
@@ -124,17 +125,16 @@ class Chartcell extends Component {
           // Create the crossover trading sma for this symbol and cache it
           let smaPeriod = self.props.cellObject.dashboard.tradeSma
 
-          let dailyChartOnly = false // set default value
-          if (data.lenght < smaPeriod) {
+          if (data.length < smaPeriod) {
             // Assumed to be a newly list security, so prepare change smaPeriod so
             // that it can be charted without using any of the trading analysis.
             smaPeriod = data.length
-            dailyChartOnly = true
+            self.dailyChartOnly = true
           }
           buildSmaTradingArray(symbol, data, smaPeriod)
 
-          if (data.lenght < 20) {
-            dailyChartOnly = true
+          if (data.length < 20) {
+            self.dailyChartOnly = true
           } else {
             // Get the last 20 close prices and dates from the daily data
             // for subsequent use in trailingStopBasis adjustments
@@ -142,15 +142,15 @@ class Chartcell extends Component {
             buildLast20Closes(symbol, data)
           }
 
-          if (data.lenght < 200) {
-            dailyChartOnly = true
+          if (data.length < 200) {
+            self.dailyChartOnly = true
           } else {
             // Cache the sma200 values from the daily prices
             // for subsequent use in trading alerts
             buildSma200Array(symbol, data) // this includes saving the result (by symbol) in chartDataCache
           }
 
-          if (!dailyChartOnly) {
+          if (!self.dailyChartOnly) {
             let weeklyPriceData = self.convertToWeeklyBars(data)
             putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for retrieval before rendering
             // Cache the sma40 values from the weekly prices

@@ -17,7 +17,6 @@ export async function removeLocalDatabase(key) {
 export async function loadLocalDatabase(key) {
   try {
     let val = await get(key)
-    // debugger //BCM
     return val
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
@@ -26,7 +25,6 @@ export async function loadLocalDatabase(key) {
       alert('get() failed in loadLocalDatabase')
       debugger
     }
-    // debugger //BCM
     return false //not found
   }
 }

@@ -41,7 +41,6 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     setTheLocalDatabase(date) // ensure the local DB will contain last trading day symbol price data
     try {
         let symbolData = await loadLocalDatabase(symbolKey) // get price series from the cache
-        debugger //BCM
         if (symbolData) {
             // symbol price data is available for yesterday's end-of-day prices
             // this data may have a constructed daily bar for today's prices (under development)
@@ -62,7 +61,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     try {
         let symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
         await saveLocalDatabase(symbolKey, symbolData) // added data for today
-        // let testing = await loadLocalDatabase(symbolKey) // test get object back ==== BCM
+        // let testing = await loadLocalDatabase(symbolKey) //BCM testing getting same object back
         // debugger //BCM
         return symbolData
     } catch (err) {

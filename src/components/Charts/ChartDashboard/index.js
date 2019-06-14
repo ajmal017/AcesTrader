@@ -200,8 +200,13 @@ class ChartDashboard extends Component {
 
 
       if (this.dailyChartOnly) {
-        // A recent listing with short array of daily prices, so trading data will not be processed
+        // A recent listing with a short array of daily prices, so trading data will not be processed
         this.currentState = 'ChartOnly'
+        this.daysInterval = ' '
+        this.lastTradeSma = ' '
+        this.tradeSma = ' '
+        this.trailingStopPercent = ' '
+        this.trailingStopPrice = ' '
       } else {
         this.lastSma40 = getLastSma40Price(this.symbol)
         this.daysInterval = this.props.cellObject.dashboard.daysInterval
