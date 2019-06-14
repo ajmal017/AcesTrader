@@ -106,7 +106,7 @@ class Chartcell extends Component {
     // console.log(`getSymbolData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
     getSymbolData(symbol, this.range, this.closeOnly, this.useSandbox)
       .then(function (data) {
-        //console.log('getSymbolData axios response: data.length=', data.length)
+
         if (!data || data === undefined || data === null) {
           debugger // pause for developer
           self.setState({ iexData: 3, noprices: true, hide: false })
@@ -122,24 +122,41 @@ class Chartcell extends Component {
           putDailyPriceData(symbol, data) //cache the daily price data for retrieval before rendering
 
           // Create the crossover trading sma for this symbol and cache it
-          const smaPeriod = self.props.cellObject.dashboard.tradeSma
+          let smaPeriod = self.props.cellObject.dashboard.tradeSma
+
+          let dailyChartOnly = false // set default value
+          if (data.lenght < smaPeriod) {
+            // Assumed to be a newly list security, so prepare change smaPeriod so
+            // that it can be charted without using any of the trading analysis.
+            smaPeriod = data.length
+            dailyChartOnly = true
+          }
           buildSmaTradingArray(symbol, data, smaPeriod)
 
-          // Get the last 20 close prices and dates from the daily data
-          // for subsequent use in trailingStopBasis adjustments
-          // if you missed running the app for a few days
-          buildLast20Closes(symbol, data)
+          if (data.lenght < 20) {
+            dailyChartOnly = true
+          } else {
+            // Get the last 20 close prices and dates from the daily data
+            // for subsequent use in trailingStopBasis adjustments
+            // if you missed running the app for a few days
+            buildLast20Closes(symbol, data)
+          }
 
-          // Cache the sma200 values from the daily prices
-          // for subsequent use in trading alerts
-          buildSma200Array(symbol, data) // this includes saving the result (by symbol) in chartDataCache
+          if (data.lenght < 200) {
+            dailyChartOnly = true
+          } else {
+            // Cache the sma200 values from the daily prices
+            // for subsequent use in trading alerts
+            buildSma200Array(symbol, data) // this includes saving the result (by symbol) in chartDataCache
+          }
 
-          let weeklyPriceData = self.convertToWeeklyBars(data)
-          putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for retrieval before rendering
-          // Cache the sma40 values from the weekly prices
-          // for subsequent use in trend trading alerts
-          buildSma40Array(symbol, weeklyPriceData)
-
+          if (!dailyChartOnly) {
+            let weeklyPriceData = self.convertToWeeklyBars(data)
+            putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for retrieval before rendering
+            // Cache the sma40 values from the weekly prices
+            // for subsequent use in trend trading alerts
+            buildSma40Array(symbol, weeklyPriceData)
+          }
           self.setState({ iexData: 1, noprices: false, hide: false }) //triggers render using the cached data
         }
       })
@@ -384,7 +401,7 @@ class Chartcell extends Component {
                           chartId={chartId}
                           data={this.data}
                           symbol={chart_name}
-                          weekly={this.props.cellObject.weeklyBars ? true : false}
+                          weekly={this.dailyChartOnly ? false : this.props.cellObject.weeklyBars ? true : false}
                           errorCount={this.props.errorCount}
                         />
                       ) : (
@@ -392,7 +409,7 @@ class Chartcell extends Component {
                             chartId={chartId}
                             data={this.data}
                             symbol={chart_name}
-                            weekly={this.props.cellObject.weeklyBars ? true : false}
+                            weekly={this.dailyChartOnly ? false : this.props.cellObject.weeklyBars ? true : false}
                             errorCount={this.props.errorCount}
                           />
                         )}
@@ -400,7 +417,7 @@ class Chartcell extends Component {
                   )}
             </div>
             <div className='dashboard-center'>
-              <ChartDashboard handleOrderEntry={this.handleOrderEntry} cellObject={cellObject} iexData={this.state.iexData} useSandbox={this.useSandbox} />
+              <ChartDashboard handleOrderEntry={this.handleOrderEntry} cellObject={cellObject} iexData={this.state.iexData} useSandbox={this.useSandbox} dailyChartOnly={this.dailyChartOnly} />
             </div>
           </div>
         </div>

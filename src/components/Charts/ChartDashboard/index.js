@@ -91,6 +91,7 @@ class ChartDashboard extends Component {
 
   render() {
     //handle new props with changed state of cellObjects
+    this.dailyChartOnly = this.props.dailyChartOnly // special condition to handle new listing with short array of daily prices
     this.hash = this.props.cellObject.hash
     this.symbol = this.props.cellObject.symbol
     this.listGroup = this.props.cellObject.listGroup
@@ -148,6 +149,7 @@ class ChartDashboard extends Component {
       }
     }
 
+
     // Action codes
     const stateXlate = {
       'Long>SMA': 'LONG',  // Long>SMA and Long<SMA
@@ -174,56 +176,15 @@ class ChartDashboard extends Component {
 
     // **NOTE the condition on this.props.iexData which controls processing past this point**
 
-    // if (this.peekDate === undefined || this.props.iexData === 0) {
     if (this.props.iexData === 0) {
       this.rgbaBackground = defaultRgbaBackground // chart data not available yet, not able to test for any alert now
     } else {
       // When iexData > 0, it means chart data is available in Chartcell,
       // providing new props for ChartDashboard to calculate alerts and sma displays
 
-      this.lastSma40 = getLastSma40Price(this.symbol)
       this.lastTradeSma = getLastSmaTradingPrice(this.symbol).toFixed(2)
       this.tradeSma = this.props.cellObject.dashboard.tradeSma
-      this.daysInterval = this.props.cellObject.dashboard.daysInterval
-      this.currentState = this.props.cellObject.dashboard.currentState
 
-      const weekly = this.props.cellObject.weeklyBars
-      if (weekly) {
-        // Calculate action signal for trend following prospects and positions using weekly bar charts
-        // Determine the status of the long term SMA40 buy/sell alert signals
-        if (this.lastSma40) {
-          // Flag any trend following alerts
-          if (this.tradeSide !== 'Shorts') {
-            if (this.listGroup === 'prospects') {
-              this.rgbaBackground = this.peekPrice > this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trending buy OR default background
-            }
-            if (this.listGroup === 'positions') {
-              this.rgbaBackground = this.peekPrice < this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trending sell OR default background
-            }
-          } else if (this.tradeSide === 'Shorts') {
-            if (this.listGroup === 'prospects') {
-              this.rgbaBackground = this.peekPrice < this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trending buy OR default background
-            }
-            if (this.listGroup === 'positions') {
-              this.rgbaBackground = this.peekPrice > this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trending sell OR default background
-            }
-          }
-        }
-      }
-      // All charts get the appStateMachine signals
-      // Prepare the parameters for use by stateMachine()
-      this.testState = {
-        SMA: 'D', //use fixed days interval
-        SMA3: this.daysInterval, //fixed days count
-        ET1: false, //enable crossover sell
-        TS1: 4, //crossover sell %
-        ET4: false, //enable crossover buy
-        TS4: 4, //crossover buy %
-        CLOSEONLY: false, //ohlc is available
-        USESANDBOX: this.props.useSandbox, //ohlc values are random garbage if this is true
-      }
-      const { currentState } = stateMachine(this.testState, this.symbol) //get the last state
-      this.currentState = stateXlate[currentState] //get appropriate text for dashboard display
       this.lastBar = getDailyPriceDataLastBar(this.symbol)
       if (this.peekDate === undefined) {
         this.lastPrice = this.lastBar.close
@@ -236,42 +197,91 @@ class ChartDashboard extends Component {
           this.lastPrice = this.peekPrice
         }
       }
-      if (this.currentState === 'PENDING' && this.lastPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
-        this.currentState = 'LONG' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
-      }
-      if (this.currentState === 'PENDING' && this.lastPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
-        this.currentState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
-      }
-
-      // console.log(`currentState=${currentState}`) //BCM testing
-      this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
 
 
-      if (this.listGroup === 'positions') {
-        // The trailing stop loss alert is only for positions.
-        // Note that a trailing stop loss alert overrides any trend following SMA40 test result
-        // Adjust the trailingStopBasis if the closing price is further to the gain side
-        // Changing this.trailingStopBasis here now is for immediate effect
-        // Permanent change will be done in reducePeekData.js the next time ChartView is rendered.
-        const last20Closes = getLast20Closes(this.symbol)
-        if (last20Closes && last20Closes.length > 0) {
-          const highestLowestCloses = getHighestLowestCloses(last20Closes, this.entered) // returns {highest: price, lowest: price}
-          if (this.tradeSide === 'Shorts' && this.trailingStopBasis > highestLowestCloses.lowest) {
-            this.trailingStopBasis = highestLowestCloses.lowest
-          } else if (this.tradeSide !== 'Shorts' && this.trailingStopBasis < highestLowestCloses.highest) {
-            this.trailingStopBasis = highestLowestCloses.highest
+      if (this.dailyChartOnly) {
+        // A recent listing with short array of daily prices, so trading data will not be processed
+        this.currentState = 'ChartOnly'
+      } else {
+        this.lastSma40 = getLastSma40Price(this.symbol)
+        this.daysInterval = this.props.cellObject.dashboard.daysInterval
+        this.currentState = this.props.cellObject.dashboard.currentState
+
+        const weekly = this.props.cellObject.weeklyBars
+        if (weekly) {
+          // Calculate action signal for trend following prospects and positions using weekly bar charts
+          // Determine the status of the long term SMA40 buy/sell alert signals
+          if (this.lastSma40) {
+            // Flag any trend following alerts
+            if (this.tradeSide !== 'Shorts') {
+              if (this.listGroup === 'prospects') {
+                this.rgbaBackground = this.peekPrice > this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trending buy OR default background
+              }
+              if (this.listGroup === 'positions') {
+                this.rgbaBackground = this.peekPrice < this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trending sell OR default background
+              }
+            } else if (this.tradeSide === 'Shorts') {
+              if (this.listGroup === 'prospects') {
+                this.rgbaBackground = this.peekPrice < this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trending buy OR default background
+              }
+              if (this.listGroup === 'positions') {
+                this.rgbaBackground = this.peekPrice > this.lastSma40.close ? alertRgbaBackground : defaultRgbaBackground // alert for trending sell OR default background
+              }
+            }
           }
         }
-        // Calculate any trailing stop loss alert
-        this.stopGap = this.peekPrice - this.trailingStopBasis
-        this.percentTrailingStopGap = (100 * this.stopGap) / this.trailingStopBasis    //.toFixed(1)
-        if (
-          (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
-          (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
-        ) {
-          this.stoplossAlert = true // show alert for trailing stop loss
+        // All charts get the appStateMachine signals
+        // Prepare the parameters for use by stateMachine()
+        this.testState = {
+          SMA: 'D', //use fixed days interval
+          SMA3: this.daysInterval, //fixed days count
+          ET1: false, //enable crossover sell
+          TS1: 4, //crossover sell %
+          ET4: false, //enable crossover buy
+          TS4: 4, //crossover buy %
+          CLOSEONLY: false, //ohlc is available
+          USESANDBOX: this.props.useSandbox, //ohlc values are random garbage if this is true
         }
-        // this.stoplossAlert = true // ***TEST TO ALWAYS SHOW ALERT FOR TRAILING STOP LOSS***
+        const { currentState } = stateMachine(this.testState, this.symbol) //get the last state
+        this.currentState = stateXlate[currentState] //get appropriate text for dashboard display
+
+        if (this.currentState === 'PENDING' && this.lastPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
+          this.currentState = 'LONG' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
+        }
+        if (this.currentState === 'PENDING' && this.lastPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
+          this.currentState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
+        }
+
+        // console.log(`currentState=${currentState}`) //BCM testing
+        this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
+
+
+        if (this.listGroup === 'positions') {
+          // The trailing stop loss alert is only for positions.
+          // Note that a trailing stop loss alert overrides any trend following SMA40 test result
+          // Adjust the trailingStopBasis if the closing price is further to the gain side
+          // Changing this.trailingStopBasis here now is for immediate effect
+          // Permanent change will be done in reducePeekData.js the next time ChartView is rendered.
+          const last20Closes = getLast20Closes(this.symbol)
+          if (last20Closes && last20Closes.length > 0) {
+            const highestLowestCloses = getHighestLowestCloses(last20Closes, this.entered) // returns {highest: price, lowest: price}
+            if (this.tradeSide === 'Shorts' && this.trailingStopBasis > highestLowestCloses.lowest) {
+              this.trailingStopBasis = highestLowestCloses.lowest
+            } else if (this.tradeSide !== 'Shorts' && this.trailingStopBasis < highestLowestCloses.highest) {
+              this.trailingStopBasis = highestLowestCloses.highest
+            }
+          }
+          // Calculate any trailing stop loss alert
+          this.stopGap = this.peekPrice - this.trailingStopBasis
+          this.percentTrailingStopGap = (100 * this.stopGap) / this.trailingStopBasis    //.toFixed(1)
+          if (
+            (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
+            (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
+          ) {
+            this.stoplossAlert = true // show alert for trailing stop loss
+          }
+          // this.stoplossAlert = true // ***TEST TO ALWAYS SHOW ALERT FOR TRAILING STOP LOSS***
+        }
       }
     }
     // console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)

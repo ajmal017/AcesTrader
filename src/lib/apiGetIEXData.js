@@ -24,7 +24,7 @@ export const getIEXData = async function (symbol, range, closeOnly, useSandbox =
         return data
     } catch (error) {
         console.log('getIEXData axios error:', error.message)
-        // alert('getIEXData axios error: ' + error.message) //rude interruption to user
+        alert('getIEXData axios error: ' + error.message) //rude interruption to user
         debugger // pause for developer
     }
 }
