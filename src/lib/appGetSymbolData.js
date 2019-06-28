@@ -2,6 +2,7 @@
 
 import { getIEXData } from '../lib/apiGetIEXData'
 import { loadLocalDatabase, saveLocalDatabase } from '../lib/localDatabaseStorage'
+// import { clearLocalDatabase } from '../lib/localDatabaseStorage'
 import { setTheLocalDatabase } from '../lib/appSetTheLocalDatabase'
 let cloneDeep = require('lodash.clonedeep')
 
@@ -12,6 +13,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     const date = new Date() // today's date
 
     // await clearLocalDatabase() //<==TEMP ===== use this to reset the DB content ==========
+    // debugger
 
     // //******************************** */
     // // const KEY1 = "testKey1"
