@@ -40,8 +40,6 @@ const mouseEdgeAppearance = {
 
 class CandleStickChartWithMACD extends React.Component {
   render() {
-    const { type, data: initialData, width, ratio, chartId, height, symbol, weekly } = this.props
-
     const sma40 = sma()
       .id(0)
       .options({ windowSize: 40 })
@@ -50,13 +48,13 @@ class CandleStickChartWithMACD extends React.Component {
       })
       .accessor((d) => d.sma40)
 
-    const sma20 = sma()
-      .id(1)
-      .options({ windowSize: 20 })
-      .merge((d, c) => {
-        d.sma20 = c
-      })
-      .accessor((d) => d.sma20)
+    // const sma20 = sma()
+    //   .id(1)
+    //   .options({ windowSize: 20 })
+    //   .merge((d, c) => {
+    //     d.sma20 = c
+    //   })
+    //   .accessor((d) => d.sma20)
 
     const sma50 = sma()
       .id(2)
@@ -112,8 +110,11 @@ class CandleStickChartWithMACD extends React.Component {
     //   })
     //   .accessor((d) => d.smaVolume50)
 
+    const { type, data: initialData, width, ratio, chartId, height, symbol, weekly } = this.props
+
     // const calculatedData = smaVolume50(macdCalculator(ema12(ema26(initialData))))
-    const calculatedData = weekly ? sma40(macdCalculator(ema12(ema26(initialData)))) : sma200(sma20(sma50(macdCalculator(ema12(ema26(initialData))))))
+    // const calculatedData = weekly ? sma40(macdCalculator(ema12(ema26(initialData)))) : sma200(sma20(sma50(macdCalculator(ema12(ema26(initialData))))))
+    const calculatedData = weekly ? sma40(macdCalculator(ema12(ema26(initialData)))) : sma200(sma50(macdCalculator(ema12(ema26(initialData)))))
 
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor((d) => d.date)
     const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(calculatedData)
@@ -146,7 +147,7 @@ class CandleStickChartWithMACD extends React.Component {
     } else {
       maLineSeries = (
         <>
-          <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} />
+          {/* <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} /> */}
           <LineSeries yAccessor={sma50.accessor()} stroke={sma50.stroke()} />
           <LineSeries yAccessor={sma200.accessor()} stroke={sma200.stroke()} />
           {/* <LineSeries yAccessor={ema26.accessor()} stroke={ema26.stroke()} /> */}
@@ -161,7 +162,7 @@ class CandleStickChartWithMACD extends React.Component {
     } else {
       maCurrentCoordinate = (
         <>
-          <CurrentCoordinate yAccessor={sma20.accessor()} fill={sma20.stroke()} />
+          {/* <CurrentCoordinate yAccessor={sma20.accessor()} fill={sma20.stroke()} /> */}
           <CurrentCoordinate yAccessor={sma50.accessor()} fill={sma50.stroke()} />
           <CurrentCoordinate yAccessor={sma200.accessor()} fill={sma200.stroke()} />
           {/* <CurrentCoordinate yAccessor={ema26.accessor()} fill={ema26.stroke()} /> */}
@@ -195,13 +196,13 @@ class CandleStickChartWithMACD extends React.Component {
             onClick={(e) => console.log(e)}
             origin={[-30, 15]}
             options={[
-              {
-                yAccessor: sma20.accessor(),
-                type: 'SMA',
-                stroke: sma20.stroke(),
-                windowSize: sma20.options().windowSize,
-                // echo: 'some echo here',
-              },
+              // {
+              //   yAccessor: sma20.accessor(),
+              //   type: 'SMA',
+              //   stroke: sma20.stroke(),
+              //   windowSize: sma20.options().windowSize,
+              //   // echo: 'some echo here',
+              // },
               {
                 yAccessor: sma50.accessor(),
                 type: 'SMA',
@@ -236,7 +237,8 @@ class CandleStickChartWithMACD extends React.Component {
         xAccessor={xAccessor}
         displayXAccessor={displayXAccessor}
         xExtents={xExtents}>
-        <Chart id={chartId + '1'} height={barChartHeight} yExtents={[(d) => [d.high, d.low], ema26.accessor(), ema12.accessor()]} padding={{ top: 10, bottom: 20 }}>
+        {/* <Chart id={chartId + '1'} height={barChartHeight} yExtents={[(d) => [d.high, d.low], ema26.accessor(), ema12.accessor()]} padding={{ top: 10, bottom: 20 }}> */}
+        <Chart id={chartId + '1'} height={barChartHeight} yExtents={[(d) => [d.high, d.low], sma200.accessor(), sma50.accessor()]} padding={{ top: 10, bottom: 20 }}>
           <XAxis axisAt="bottom" orient="bottom" showTicks={false} outerTickSize={0} />
           <YAxis axisAt="right" orient="right" ticks={5} />
 
@@ -245,17 +247,20 @@ class CandleStickChartWithMACD extends React.Component {
           <CandlestickSeries />
 
           {maLineSeries}
+
           {/* <LineSeries yAccessor={sma40.accessor()} stroke={sma40.stroke()} /> */}
           {/* <LineSeries yAccessor={ema26.accessor()} stroke={ema26.stroke()} /> */}
           {/* <LineSeries yAccessor={ema12.accessor()} stroke={ema12.stroke()} /> */}
 
           {maCurrentCoordinate}
+
           {/* <CurrentCoordinate yAccessor={sma40.accessor()} fill={sma40.stroke()} /> */}
           {/* <CurrentCoordinate yAccessor={ema26.accessor()} fill={ema26.stroke()} /> */}
           {/* <CurrentCoordinate yAccessor={ema12.accessor()} fill={ema12.stroke()} /> */}
 
           <OHLCTooltip origin={[-36, 0]} />
           {maTooltip}
+
           {/* <MovingAverageTooltip
             onClick={(e) => console.log(e)}
             origin={[-30, 15]}
@@ -280,6 +285,7 @@ class CandleStickChartWithMACD extends React.Component {
               // },
             ]}
           /> */}
+
         </Chart>
         {/* <Chart id={chartId + '2'} height={volumeChartHeight} yExtents={[(d) => d.volume, smaVolume50.accessor()]} origin={(w, h) => [0, h - volumeChartHeight * 3.22]}> */}
         <Chart id={chartId + '2'} height={volumeChartHeight} yExtents={[(d) => d.volume]} origin={(w, h) => [0, h - volumeChartHeight * 3.22]}>
