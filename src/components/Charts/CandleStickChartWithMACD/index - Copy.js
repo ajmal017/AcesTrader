@@ -48,6 +48,14 @@ class CandleStickChartWithMACD extends React.Component {
       })
       .accessor((d) => d.sma40)
 
+    // const sma20 = sma()
+    //   .id(1)
+    //   .options({ windowSize: 20 })
+    //   .merge((d, c) => {
+    //     d.sma20 = c
+    //   })
+    //   .accessor((d) => d.sma20)
+
     const sma50 = sma()
       .id(2)
       .options({ windowSize: 50 })
@@ -91,18 +99,22 @@ class CandleStickChartWithMACD extends React.Component {
       })
       .accessor((d) => d.macd)
 
-    const { type, data: initialData, width, ratio, chartId, height, symbol, weekly, validShortSma, validLongSma } = this.props
+    // const smaVolume50 = sma()
+    //   .id(3)
+    //   .options({
+    //     windowSize: 50,
+    //     sourcePath: 'volume',
+    //   })
+    //   .merge((d, c) => {
+    //     d.smaVolume50 = c
+    //   })
+    //   .accessor((d) => d.smaVolume50)
 
-    let calculatedData
-    if (validLongSma && weekly) {
-      calculatedData = sma40(macdCalculator(ema12(ema26(initialData))))
-    } else if (validLongSma && !weekly) {
-      calculatedData = sma200(sma50(macdCalculator(ema12(ema26(initialData)))))
-    } else if (validShortSma && !weekly) {
-      calculatedData = sma50(macdCalculator(ema12(ema26(initialData))))
-    } else {
-      calculatedData = initialData
-    }
+    const { type, data: initialData, width, ratio, chartId, height, symbol, weekly, dailyBarsOnly } = this.props
+
+    // const calculatedData = smaVolume50(macdCalculator(ema12(ema26(initialData))))
+    // const calculatedData = weekly ? sma40(macdCalculator(ema12(ema26(initialData)))) : sma200(sma20(sma50(macdCalculator(ema12(ema26(initialData))))))
+    const calculatedData = weekly ? sma40(macdCalculator(ema12(ema26(initialData)))) : sma200(sma50(macdCalculator(ema12(ema26(initialData)))))
 
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor((d) => d.date)
     const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(calculatedData)
@@ -130,12 +142,12 @@ class CandleStickChartWithMACD extends React.Component {
     // /> */}
 
     let maLineSeries
-    // This draws the available MA lines
     if (weekly) {
       maLineSeries = <LineSeries yAccessor={sma40.accessor()} stroke={sma40.stroke()} />
     } else {
       maLineSeries = (
         <>
+          {/* <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} /> */}
           <LineSeries yAccessor={sma50.accessor()} stroke={sma50.stroke()} />
           <LineSeries yAccessor={sma200.accessor()} stroke={sma200.stroke()} />
           {/* <LineSeries yAccessor={ema26.accessor()} stroke={ema26.stroke()} /> */}
@@ -150,6 +162,7 @@ class CandleStickChartWithMACD extends React.Component {
     } else {
       maCurrentCoordinate = (
         <>
+          {/* <CurrentCoordinate yAccessor={sma20.accessor()} fill={sma20.stroke()} /> */}
           <CurrentCoordinate yAccessor={sma50.accessor()} fill={sma50.stroke()} />
           <CurrentCoordinate yAccessor={sma200.accessor()} fill={sma200.stroke()} />
           {/* <CurrentCoordinate yAccessor={ema26.accessor()} fill={ema26.stroke()} /> */}
@@ -159,7 +172,7 @@ class CandleStickChartWithMACD extends React.Component {
     }
 
     let maTooltip
-    if (validLongSma && weekly) {
+    if (weekly) {
       maTooltip = (
         <>
           <MovingAverageTooltip
@@ -176,13 +189,20 @@ class CandleStickChartWithMACD extends React.Component {
           />
         </>
       )
-    } else if (validLongSma && !weekly) {
+    } else {
       maTooltip = (
         <>
           <MovingAverageTooltip
             onClick={(e) => console.log(e)}
             origin={[-30, 15]}
             options={[
+              // {
+              //   yAccessor: sma20.accessor(),
+              //   type: 'SMA',
+              //   stroke: sma20.stroke(),
+              //   windowSize: sma20.options().windowSize,
+              //   // echo: 'some echo here',
+              // },
               {
                 yAccessor: sma50.accessor(),
                 type: 'SMA',
@@ -195,24 +215,6 @@ class CandleStickChartWithMACD extends React.Component {
                 type: 'SMA',
                 stroke: sma200.stroke(),
                 windowSize: sma200.options().windowSize,
-                // echo: 'some echo here',
-              },
-            ]}
-          />
-        </>
-      )
-    } else if (validShortSma && !weekly) {
-      maTooltip = (
-        <>
-          <MovingAverageTooltip
-            onClick={(e) => console.log(e)}
-            origin={[-30, 15]}
-            options={[
-              {
-                yAccessor: sma50.accessor(),
-                type: 'SMA',
-                stroke: sma50.stroke(),
-                windowSize: sma50.options().windowSize,
                 // echo: 'some echo here',
               },
             ]}

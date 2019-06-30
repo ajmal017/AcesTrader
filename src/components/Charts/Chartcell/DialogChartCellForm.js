@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import dialogPolyfill from 'dialog-polyfill'
+import { getChartFlags } from '../../../lib/chartDataCache'
 import './stylesDialogChartCellForm.css'
 
 class DialogChartCellForm extends Component {
@@ -35,7 +36,7 @@ class DialogChartCellForm extends Component {
         this.props.handleDispatchOfDialogEdit(parameterData)
       }
     })
-    this.DialogChartCellFormParams.addEventListener('cancel', function(event) {
+    this.DialogChartCellFormParams.addEventListener('cancel', function (event) {
       event.preventDefault() // disables using the Esc button to close
     })
   }
@@ -50,8 +51,10 @@ class DialogChartCellForm extends Component {
 
   render() {
     const cellObject = this.props.cellObject
-    this.tradeSide = cellObject.dashboard.tradeSide
+    this.weeklyBarCount = this.props.weeklyBarCount
     this.symbol = cellObject.symbol
+    const chartFlags = getChartFlags(this.symbol) //  { validShortSma: x, validLongSma: y, weeklyBarCount: z }
+    this.tradeSide = cellObject.dashboard.tradeSide
     const chart_name = cellObject.symbol
     this.hash = cellObject.hash
     let tradeDesc = null
@@ -77,12 +80,19 @@ class DialogChartCellForm extends Component {
           <br />
           <form method='dialog'>
             <div className='chart-radio-grid'>
-              <input className='buttonDaily' type='radio' value='daily' name='seriesBars' onChange={this.handleRadioChange} checked={this.state.weeklyBars !== true} />
-              <span className='labelDaily'>Daily Bars</span>
+
+              {this.weeklyBarCount > 2 ? (
+                <>
+                  <input className='buttonDaily' type='radio' value='daily' name='seriesBars' onChange={this.handleRadioChange} checked={this.state.weeklyBars !== true} />
+                  <span className='labelDaily'>Daily Bars</span>
+                  <input className='buttonWeekly' type='radio' value='weekly' name='seriesBars' onChange={this.handleRadioChange} checked={this.state.weeklyBars === true} />
+                  <span className='labelWeekly'>Weekly Bars</span>
+                </>) :
+                <span>Weekly chart too small.</span>
+              }
+
               <input className='buttonMA' type='radio' value='ma' name='indicators' onChange={this.handleRadioChange} checked={this.state.macdChart !== true} />
               <span className='labelMA'>With MA</span>
-              <input className='buttonWeekly' type='radio' value='weekly' name='seriesBars' onChange={this.handleRadioChange} checked={this.state.weeklyBars === true} />
-              <span className='labelWeekly'>Weekly Bars</span>
               <input className='buttonMACD' type='radio' value='macd' name='indicators' onChange={this.handleRadioChange} checked={this.state.macdChart === true} />
               <span className='labelMACD'>With MACD</span>
             </div>
@@ -104,11 +114,6 @@ class DialogChartCellForm extends Component {
           <span className='cell-title'>{chart_name}</span>
           <span className='chart-series-label'>{this.props.cellObject.weeklyBars ? 'Weekly Bars' : 'Daily Bars'}</span>
           <span className='chart-indicator-label'>{this.props.cellObject.macdChart ? 'With MACD' : 'With MA'}</span>
-
-          {/* The getLastBar button is a possible future feature which composes a last bar from the last peek data */}
-          {/* <button onClick={this.getLastBar} className="cell-getlast-button" type="button" aria-label="getlast">
-              Get Last
-            </button> */}
 
           <button onClick={this.handleEditChartParamsDialog} className={'chart-edit-button'}>
             <img

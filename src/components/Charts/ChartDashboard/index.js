@@ -12,6 +12,7 @@ import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import { getLast20Closes } from '../../../lib/chartDataCache'
 import { getHighestLowestCloses } from '../../../lib/appGetHighestLowestCloses'
 import { getDailyPriceDataLastBar } from '../../../lib/chartDataCache'
+import { getChartFlags } from '../../../lib/chartDataCache'
 import { AuthenticatedContext } from '../../../redux'
 import './styles.css'
 import './stylesTextWidths.css'
@@ -91,9 +92,11 @@ class ChartDashboard extends Component {
 
   render() {
     //handle new props with changed state of cellObjects
-    this.dailyChartOnly = this.props.dailyChartOnly // special condition to handle new listing with short array of daily prices
-    this.hash = this.props.cellObject.hash
     this.symbol = this.props.cellObject.symbol
+    this.validShortSma = this.props.validShortSma // special test to handle listing with short array of daily prices
+    this.validLongSma = this.props.validLongSma // special test to handle listing with short array of daily prices
+    this.weekly = this.props.cellObject.weeklyBars
+    this.hash = this.props.cellObject.hash
     this.listGroup = this.props.cellObject.listGroup
     this.symbolDescription = this.props.cellObject.symbolDescription
     this.trailingStopBasis = this.props.cellObject.trailingStopBasis
@@ -182,7 +185,9 @@ class ChartDashboard extends Component {
       // When iexData > 0, it means chart data is available in Chartcell,
       // providing new props for ChartDashboard to calculate alerts and sma displays
 
-      this.lastTradeSma = getLastSmaTradingPrice(this.symbol).toFixed(2)
+      // const chartFlags = getChartFlags(this.symbol) //  { validShortSma: x, validLongSma: y, weeklyBarCount: z }
+
+      this.lastTradeSma = this.validShortSma ? getLastSmaTradingPrice(this.symbol).toFixed(2) : ' '
       this.tradeSma = this.props.cellObject.dashboard.tradeSma
 
       this.lastBar = getDailyPriceDataLastBar(this.symbol)
@@ -198,24 +203,24 @@ class ChartDashboard extends Component {
         }
       }
 
-
-      if (this.dailyChartOnly) {
-        // A recent listing with a short array of daily prices, so trading data will not be processed
+      if (!this.validShortSma || (this.weekly && !this.validLongSma)) {
+        // This is a listing with a short array of daily prices, so trading strategy data will not be processed
+        // But trailing sell stops can still be calculated and shown
         this.currentState = 'ChartOnly'
         this.daysInterval = ' '
         this.lastTradeSma = ' '
         this.tradeSma = ' '
-        this.trailingStopPercent = ' '
-        this.trailingStopPrice = ' '
+        // this.trailingStopPercent = ' '
+        // this.trailingStopPrice = ' '
+
       } else {
-        this.lastSma40 = getLastSma40Price(this.symbol)
         this.daysInterval = this.props.cellObject.dashboard.daysInterval
         this.currentState = this.props.cellObject.dashboard.currentState
 
-        const weekly = this.props.cellObject.weeklyBars
-        if (weekly) {
+        if (this.weekly && this.validLongSma) {
           // Calculate action signal for trend following prospects and positions using weekly bar charts
           // Determine the status of the long term SMA40 buy/sell alert signals
+          this.lastSma40 = getLastSma40Price(this.symbol)
           if (this.lastSma40) {
             // Flag any trend following alerts
             if (this.tradeSide !== 'Shorts') {
@@ -235,31 +240,33 @@ class ChartDashboard extends Component {
             }
           }
         }
-        // All charts get the appStateMachine signals
-        // Prepare the parameters for use by stateMachine()
-        this.testState = {
-          SMA: 'D', //use fixed days interval
-          SMA3: this.daysInterval, //fixed days count
-          ET1: false, //enable crossover sell
-          TS1: 4, //crossover sell %
-          ET4: false, //enable crossover buy
-          TS4: 4, //crossover buy %
-          CLOSEONLY: false, //ohlc is available
-          USESANDBOX: this.props.useSandbox, //ohlc values are random garbage if this is true
-        }
-        const { currentState } = stateMachine(this.testState, this.symbol) //get the last state
-        this.currentState = stateXlate[currentState] //get appropriate text for dashboard display
 
-        if (this.currentState === 'PENDING' && this.lastPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
-          this.currentState = 'LONG' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
-        }
-        if (this.currentState === 'PENDING' && this.lastPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
-          this.currentState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
-        }
+        if (this.validShortSma) {
+          // Both daily and weekly charts get the appStateMachine trading strategy signals using the daily price array 
+          // Prepare the parameters for use by stateMachine()
+          this.testState = {
+            SMA: 'D', //use fixed days interval
+            SMA3: this.daysInterval, //fixed days count
+            ET1: false, //enable crossover sell
+            TS1: 4, //crossover sell %
+            ET4: false, //enable crossover buy
+            TS4: 4, //crossover buy %
+            CLOSEONLY: false, // OHLC is available
+            USESANDBOX: this.props.useSandbox, // OHLC values are random garbage if this is true
+          }
+          const { currentState } = stateMachine(this.testState, this.symbol) //get the last state
+          this.currentState = stateXlate[currentState] //get appropriate text for dashboard display
 
-        // console.log(`currentState=${currentState}`) //BCM testing
-        this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
+          if (this.currentState === 'PENDING' && this.lastPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
+            this.currentState = 'LONG' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
+          }
+          if (this.currentState === 'PENDING' && this.lastPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
+            this.currentState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
+          }
 
+          // console.log(`currentState=${currentState}`) //BCM testing
+          this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
+        }
 
         if (this.listGroup === 'positions') {
           // The trailing stop loss alert is only for positions.
@@ -285,8 +292,9 @@ class ChartDashboard extends Component {
           ) {
             this.stoplossAlert = true // show alert for trailing stop loss
           }
-          // this.stoplossAlert = true // ***TEST TO ALWAYS SHOW ALERT FOR TRAILING STOP LOSS***
+          // this.stoplossAlert = true // ***TESTING THE ALERT FOR TRAILING STOP LOSS***
         }
+
       }
     }
     // console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)

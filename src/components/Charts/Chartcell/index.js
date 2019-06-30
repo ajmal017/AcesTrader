@@ -32,7 +32,7 @@ import buildSma200Array from '../../../lib/appBuildSma200Array'
 import buildSma40Array from '../../../lib/appBuildSma40Array'
 import buildLast20Closes from '../../../lib/appBuildLast20Closes'
 import { getSandboxStatus } from '../../../lib/appUseSandboxStatus'
-// import { putSma40Data, putLast20Closes } from '../../../lib/chartDataCache'
+import { putChartFlags, getChartFlags } from '../../../lib/chartDataCache'
 // import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import { AuthenticatedContext } from '../../../redux'
@@ -50,14 +50,18 @@ class Chartcell extends Component {
     this.loadChartData = this.loadChartData.bind(this)
     // this.getLastBar = this.getLastBar.bind(this)
     this.dialogChartParams = null
-    this.closeOnly = false // New for IEX Cloud data
-    this.dailyChartOnly = false // set default value
+    this.closeOnly = false // New option for IEX Cloud data format
+    this.chartFlags = { validShortSma: true, validLongSma: true, weeklyBarCount: 10 } // default values
+    this.validShortSma = true // ShortSma usually at 50 days. Assume enough chart data exists
+    this.validLongSma = true // LongSma usually at 200 days. Assume enough chart data exists
+    this.weeklyBarCount = 10 // There's a CandleStickChart bug for short length bars. Assume enough chart data exists
 
-    // // ******BCMBCM**********************************************
+    // // ******BCM BCM**********************************************
     // this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads. 
     // // this.useSandbox = false // Override to false to test with real ohlc values, but usage rates apply
-    // // ******BCMBCM**********************************************
+    // // ******BCM BCM**********************************************
     // setSandboxStatus(this.useSandbox) // set for reference in other modules such as reducePeekData.js
+    // // ******BCM BCM**********************************************
 
     this.useSandbox = getSandboxStatus()
     this.data = null
@@ -83,9 +87,6 @@ class Chartcell extends Component {
     // in local storage to persist for the day,
     // and are found in getSymbolData()
     this.loadChartData()
-
-
-
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -101,8 +102,10 @@ class Chartcell extends Component {
   // dailyBars considered true if weeklyBars===false
   loadChartData = () => {
     const symbol = this.props.cellObject.symbol
-    const weeklyBars = this.props.cellObject.weeklyBars
-    this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data
+    // const weeklyBars = this.props.cellObject.weeklyBars
+    // this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
+    // Note: the 1yr range caused problems in creating some charts. Cause not determined.
+    this.range = '2y'
     const self = this
     // console.log(`getSymbolData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
     getSymbolData(symbol, this.range, this.closeOnly, this.useSandbox)
@@ -112,9 +115,10 @@ class Chartcell extends Component {
           debugger // pause for developer
           self.setState({ iexData: 3, noprices: true, hide: false })
         }
+
         if (data.length < 2) {
-          //CandleStickChartWithMA bug seen with new issue "TRTY" when only 0 or 1 day's data available
-          //Memory leak reported by VSCode, seems to cause many weird code mistakes when running
+          //a CandleStickChartWithMA bug seen with new issue "TRTY" when only 1 day's data available
+          //a Memory leak reported by VSCode, seems to cause many weird code mistakes when running
           debugger // pause for developer
           self.setState({ iexData: 3, noprices: true, hide: false })
         } else {
@@ -122,41 +126,48 @@ class Chartcell extends Component {
           data = cleanSymbolData(data) // handle case of price data with OHLC zero values (i.e. CCOR)
           putDailyPriceData(symbol, data) //cache the daily price data for retrieval before rendering
 
-          // Create the crossover trading sma for this symbol and cache it
-          let smaPeriod = self.props.cellObject.dashboard.tradeSma
+          // Get the short term crossover trading sma period as defined by user
+          let shortSmaPeriod = self.props.cellObject.dashboard.tradeSma
 
-          if (data.length < smaPeriod) {
-            // Assumed to be a newly list security, so prepare change smaPeriod so
-            // that it can be charted without using any of the trading analysis.
-            smaPeriod = data.length
-            self.dailyChartOnly = true
-          }
-          buildSmaTradingArray(symbol, data, smaPeriod)
-
-          if (data.length < 20) {
-            self.dailyChartOnly = true
+          // Create the short term crossover trading sma for this symbol and cache it
+          if (data.length > shortSmaPeriod) {
+            buildSmaTradingArray(symbol, data, shortSmaPeriod)
           } else {
+            // Assumed to be a newly listed security, without enough days
+            // for the SmaTradingArray to be built.
+            self.validShortSma = false
+          }
+
+          const weeklyPriceData = self.convertToWeeklyBars(data)
+          putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for retrieval before rendering
+          self.weeklyBarCount = weeklyPriceData.length // prevents user from requesting weekly chart if insufficient bars
+
+          if (data.length > 200) {
+            // Cache the sma200 values from the daily prices for subsequent use in trading alerts
+            buildSma200Array(symbol, data) // this includes saving the result (by symbol) in chartDataCache
+            // Cache the sma40 values from the weekly prices for subsequent use in trend trading alerts
+            buildSma40Array(symbol, weeklyPriceData) // this includes saving the result (by symbol) in chartDataCache
+          } else {
+            self.validLongSma = false
+          }
+
+          if (data.length > 20) {
             // Get the last 20 close prices and dates from the daily data
             // for subsequent use in trailingStopBasis adjustments
             // if you missed running the app for a few days
             buildLast20Closes(symbol, data)
           }
 
-          if (data.length < 200) {
-            self.dailyChartOnly = true
-          } else {
-            // Cache the sma200 values from the daily prices
-            // for subsequent use in trading alerts
-            buildSma200Array(symbol, data) // this includes saving the result (by symbol) in chartDataCache
-          }
+          putChartFlags(symbol, { validShortSma: self.validShortSma, validLongSma: self.validLongSma, weeklyBarCount: self.weeklyBarCount })
 
-          if (!self.dailyChartOnly) {
-            let weeklyPriceData = self.convertToWeeklyBars(data)
-            putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for retrieval before rendering
-            // Cache the sma40 values from the weekly prices
-            // for subsequent use in trend trading alerts
-            buildSma40Array(symbol, weeklyPriceData)
-          }
+          // if (!self.dailyBarsOnly) {
+          //   let weeklyPriceData = self.convertToWeeklyBars(data)
+          //   putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for retrieval before rendering
+          //   // Cache the sma40 values from the weekly prices
+          //   // for subsequent use in trend trading alerts
+          //   buildSma40Array(symbol, weeklyPriceData)
+          // }
+
           self.setState({ iexData: 1, noprices: false, hide: false }) //triggers render using the cached data
         }
       })
@@ -191,6 +202,7 @@ class Chartcell extends Component {
         close = data[k].close
         volume = data[k].volume
       } else if (open) {
+        // saved data is present, weekly bar is being built
         // update the price data for the current weekly bar
         high = high > data[k].high ? high : data[k].high
         low = low < data[k].low ? low : data[k].low
@@ -208,45 +220,6 @@ class Chartcell extends Component {
     }
     return weeklyBars //this is for a weekly bar chart of prices
   }
-
-
-  /**
-   * The getLastBar button is a possible future feature which composes a last bar from the last peek data
-   */
-  // getLastBar = () => {
-  //   const symbol = this.props.cellObject.symbol
-  //   const range = 'dynamic'
-  //   const self = this
-  //   // console.log('getChartLastBar ' + symbol)
-  //   getChartLastBar(symbol, range)
-  //     .then(function(data) {
-  //       if (data.length) {
-  //         let barClose = null
-  //         let barHigh = 0
-  //         let barLow = 10000000
-  //         let barVolume = 0
-  //         data.forEach((obj) => {
-  //           if (obj.high > 3) {
-  //             barClose = obj.close
-  //             barHigh = obj.high > barHigh ? obj.high : barHigh
-  //             barLow = obj.low < barLow ? obj.low : barLow
-  //             barVolume = +obj.volume
-  //           }
-  //         })
-  //         let barOpen = +((barHigh + barLow) / 2).toFixed(2)
-  //         // TODO Use this bar in Chart
-  //         // let lastBar = { close: barClose, date: '', high: barHigh, low: barLow, open: barOpen, volume: barVolume }
-  //       } else {
-  //         // putPriceData(symbol, data) //cache the price data for subsequent rendering
-  //         // self.setState({ iexData: 5, hide: false }) //triggers render using the cached data
-  //       }
-  //     })
-  //     .catch(function(error) {
-  //       console.log('axios error:', error.message)
-  //       alert('axios error: ' + error.message) //rude interruption to user
-  //       debugger // pause for developer
-  //     })
-  // }
 
   handleOrderEntry() {
     // fade-out this object before dispatching redux action,
@@ -367,15 +340,19 @@ class Chartcell extends Component {
     const chartId = 'chart-' + cell_id
 
     // A re-render will happen without life cycle calls when a list item is deleted,
-    // so we make sure we have the correct data for the new current symbol
+    // so we make sure we have the correct data for the current symbol
     this.data = this.weeklyBars ? getWeeklyPriceData(this.symbol) : getDailyPriceData(this.symbol)
+    const chartFlags = getChartFlags(this.symbol) //  { validShortSma: x, validLongSma: y, weeklyBarCount: z }
+    this.weeklyBarCount = chartFlags ? chartFlags.weeklyBarCount : this.weeklyBarCount // the initial render is before chart data available
+    this.validShortSma = chartFlags ? chartFlags.validShortSma : this.validShortSma // the initial render is before chart data available
+    this.validLongSma = chartFlags ? chartFlags.validLongSma : this.validLongSma // the initial render is before chart data available
 
     return (
       <div id={'chart-main' + this.hash}>
         <div id={wrapperId} className={`chart-cell-wrapper  ${this.state.hide ? 'fadeout' : ''}`}>
           {/* the Chartcell's cell_id value is used by the "Scrollable" menu in the Apptoolbar */}
           <div id={cell_id} className='chart-cell'>
-            <DialogChartCellForm cellObject={this.props.cellObject} handleDispatchOfDialogEdit={this.handleDispatchOfDialogEdit} />
+            <DialogChartCellForm cellObject={this.props.cellObject} weeklyBarCount={this.weeklyBarCount} handleDispatchOfDialogEdit={this.handleDispatchOfDialogEdit} />
             <div className='form-header'>
               <button onClick={this.handleDelete} className='cell-delete-button' type='button' aria-label='delete'>
                 &times;
@@ -396,20 +373,29 @@ class Chartcell extends Component {
                       {/* Catch the random D3 errors here, but don't abort. Continue on (with possible bad chart?!) */}
                       {/* Note: this problem has apparently been fixed by changing the stockchart's defaultProps */}
                       {/* to type:'svg' from type:'hybrid'. I think the errors came from operations on the html canvas. */}
+
+                      {/* NOTE 2nd CandleStickChartWithMA is temp'ly changed to CandleStickChartWithMACD for testing */}
+
                       {this.props.cellObject.macdChart ? (
                         <CandleStickChartWithMACD
                           chartId={chartId}
                           data={this.data}
                           symbol={chart_name}
-                          weekly={this.dailyChartOnly ? false : this.props.cellObject.weeklyBars ? true : false}
+                          // {/* dailyBarsOnly={this.dailyBarsOnly} */}
+                          validShortSma={this.validShortSma}
+                          validLongSma={this.validLongSma}
+                          weekly={!this.validShortSma ? false : this.props.cellObject.weeklyBars ? true : false}
                           errorCount={this.props.errorCount}
                         />
                       ) : (
-                          <CandleStickChartWithMA
+                          <CandleStickChartWithMACD
                             chartId={chartId}
                             data={this.data}
                             symbol={chart_name}
-                            weekly={this.dailyChartOnly ? false : this.props.cellObject.weeklyBars ? true : false}
+                            // {/* dailyBarsOnly={this.dailyBarsOnly} */}
+                            validShortSma={this.validShortSma}
+                            validLongSma={this.validLongSma}
+                            weekly={!this.validShortSma ? false : this.props.cellObject.weeklyBars ? true : false}
                             errorCount={this.props.errorCount}
                           />
                         )}
@@ -417,7 +403,7 @@ class Chartcell extends Component {
                   )}
             </div>
             <div className='dashboard-center'>
-              <ChartDashboard handleOrderEntry={this.handleOrderEntry} cellObject={cellObject} iexData={this.state.iexData} useSandbox={this.useSandbox} dailyChartOnly={this.dailyChartOnly} />
+              <ChartDashboard handleOrderEntry={this.handleOrderEntry} cellObject={cellObject} iexData={this.state.iexData} useSandbox={this.useSandbox} validShortSma={this.validShortSma} validLongSma={this.validLongSma} />
             </div>
           </div>
         </div>

@@ -31,58 +31,67 @@ const mouseEdgeAppearance = {
 
 class CandleStickChartWithMA extends React.Component {
   render() {
+    const sma40 = sma()
+      .id(0)
+      .options({ windowSize: 40 })
+      .merge((d, c) => {
+        d.sma40 = c
+      })
+      .accessor((d) => d.sma40)
+
+    // const sma20 = sma()
+    //   .id(1)
+    //   .options({ windowSize: 20 })
+    //   .merge((d, c) => {
+    //     d.sma20 = c
+    //   })
+    //   .accessor((d) => d.sma20)
+
+    const sma50 = sma()
+      .id(2)
+      .options({ windowSize: 50 })
+      .merge((d, c) => {
+        d.sma50 = c
+      })
+      .accessor((d) => d.sma50)
+
+    const sma200 = sma()
+      .id(3)
+      .options({ windowSize: 200 })
+      .merge((d, c) => {
+        d.sma200 = c
+      })
+      .accessor((d) => d.sma200)
+
+    //   const sma20 = sma()
+    //   .options({ windowSize: 20 })
+    //   .merge((d, c) => {
+    //     d.sma20 = c
+    //   })
+    //   .accessor((d) => d.sma20)
+
+    // const wma20 = wma()
+    //   .options({ windowSize: 20 })
+    //   .merge((d, c) => {
+    //     d.wma20 = c
+    //   })
+    //   .accessor((d) => d.wma20)
+
+    // const tma20 = tma()
+    //   .options({ windowSize: 20 })
+    //   .merge((d, c) => {
+    //     d.tma20 = c
+    //   })
+    //   .accessor((d) => d.tma20)
 
     const { type, data: initialData, width, ratio, chartId, height, symbol, weekly, validShortSma, validLongSma } = this.props
-    let sma40
-    let sma200
-    let sma50
-    let calculatedData
-
-    if (validLongSma) {
-      if (weekly) {
-        sma40 = sma()
-          .id(0)
-          .options({ windowSize: 40 })
-          .merge((d, c) => {
-            d.sma40 = c
-          })
-          .accessor((d) => d.sma40)
-      } else {
-        sma200 = sma()
-          .id(3)
-          .options({ windowSize: 200 })
-          .merge((d, c) => {
-            d.sma200 = c
-          })
-          .accessor((d) => d.sma200)
-      }
-    }
-
-    if (validShortSma && !weekly) {
-      sma50 = sma()
-        .id(2)
-        .options({ windowSize: 50 })
-        .merge((d, c) => {
-          d.sma50 = c
-        })
-        .accessor((d) => d.sma50)
-    }
-
-
-    if (validLongSma && weekly) {
-      calculatedData = sma40(initialData)
-    } else if (validLongSma && !weekly) {
-      calculatedData = sma200(sma50(initialData))
-    } else if (validShortSma && !weekly) {
-      calculatedData = sma50(initialData)
-    }
-    // const calculatedData = weekly ? sma40(initialData) : sma200(sma50(initialData))
-
-
     const { clamp } = this.props
     const volBarHeight = height / 5
     // const { mouseMoveEvent, panEvent, zoomEvent, zoomAnchor } = this.props
 
+    // const calculatedData = tma20(wma20(sma20(sma50(smaVolume50(initialData)))))
+    // const calculatedData = weekly ? sma40(initialData) : sma200(sma20(sma50(initialData)))
+    const calculatedData = weekly ? sma40(initialData) : sma200(sma50(initialData))
 
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor((d) => d.date)
     const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(calculatedData)
@@ -97,6 +106,7 @@ class CandleStickChartWithMA extends React.Component {
     } else {
       maLineSeries = (
         <>
+          {/* <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} /> */}
           <LineSeries yAccessor={sma50.accessor()} stroke={sma50.stroke()} />
           <LineSeries yAccessor={sma200.accessor()} stroke={sma200.stroke()} />
         </>
@@ -104,21 +114,20 @@ class CandleStickChartWithMA extends React.Component {
     }
 
     let maCurrentCoordinate
-    if (validLongSma && weekly) {
+    if (weekly) {
       maCurrentCoordinate = <CurrentCoordinate yAccessor={sma40.accessor()} fill={sma40.stroke()} />
-    } else if (validLongSma && !weekly) {
+    } else {
       maCurrentCoordinate = (
         <>
+          {/* <CurrentCoordinate yAccessor={sma20.accessor()} fill={sma20.stroke()} /> */}
           <CurrentCoordinate yAccessor={sma50.accessor()} fill={sma50.stroke()} />
           <CurrentCoordinate yAccessor={sma200.accessor()} fill={sma200.stroke()} />
         </>
       )
-    } else if (validShortSma && !weekly) {
-      maCurrentCoordinate = <CurrentCoordinate yAccessor={sma50.accessor()} fill={sma50.stroke()} />
     }
 
     let maTooltip
-    if (validLongSma && weekly) {
+    if (weekly) {
       maTooltip = (
         <>
           <MovingAverageTooltip
@@ -135,13 +144,20 @@ class CandleStickChartWithMA extends React.Component {
           />
         </>
       )
-    } else if (validLongSma && !weekly) {
+    } else {
       maTooltip = (
         <>
           <MovingAverageTooltip
             onClick={(e) => console.log(e)}
             origin={[-30, 15]}
             options={[
+              // {
+              //   yAccessor: sma20.accessor(),
+              //   type: 'SMA',
+              //   stroke: sma20.stroke(),
+              //   windowSize: sma20.options().windowSize,
+              //   // echo: 'some echo here',
+              // },
               {
                 yAccessor: sma50.accessor(),
                 type: 'SMA',
@@ -154,24 +170,6 @@ class CandleStickChartWithMA extends React.Component {
                 type: 'SMA',
                 stroke: sma200.stroke(),
                 windowSize: sma200.options().windowSize,
-                // echo: 'some echo here',
-              },
-            ]}
-          />
-        </>
-      )
-    } else if (validShortSma && !weekly) {
-      maTooltip = (
-        <>
-          <MovingAverageTooltip
-            onClick={(e) => console.log(e)}
-            origin={[-30, 15]}
-            options={[
-              {
-                yAccessor: sma50.accessor(),
-                type: 'SMA',
-                stroke: sma50.stroke(),
-                windowSize: sma50.options().windowSize,
                 // echo: 'some echo here',
               },
             ]}
@@ -198,18 +196,93 @@ class CandleStickChartWithMA extends React.Component {
         xAccessor={xAccessor}
         displayXAccessor={displayXAccessor}
         xExtents={xExtents}>
-
-
-        {/* <Chart id={chartId + '1'} yExtents={[(d) => [d.high, d.low], sma200.accessor(), sma50.accessor()]} padding={{ top: 10, bottom: 20 }}> */}
-        <Chart id={chartId + '1'} yExtents={[(d) => [d.high, d.low]]} padding={{ top: 10, bottom: 20 }}>
+        {/* <Chart id={chartId + '1'} yExtents={[(d) => [d.high, d.low], sma200.accessor(), sma20.accessor(), sma50.accessor()]} padding={{ top: 10, bottom: 20 }}> */}
+        <Chart id={chartId + '1'} yExtents={[(d) => [d.high, d.low], sma200.accessor(), sma50.accessor()]} padding={{ top: 10, bottom: 20 }}>
           <XAxis axisAt="bottom" orient="bottom" />
           <YAxis axisAt="right" orient="right" ticks={5} />
+
           <MouseCoordinateY at="right" orient="right" displayFormat={format('.2f')} {...mouseEdgeAppearance} />
+
           <CandlestickSeries />
+
+          {/* <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} /> */}
+          {/* <LineSeries yAccessor={wma20.accessor()} stroke={wma20.stroke()} /> */}
+          {/* <LineSeries yAccessor={tma20.accessor()} stroke={tma20.stroke()} /> */}
+
           {maLineSeries}
+
+          {/* <LineSeries yAccessor={sma200.accessor()} stroke={sma200.stroke()} /> */}
+          {/* <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} /> */}
+          {/* <LineSeries yAccessor={sma50.accessor()} stroke={sma50.stroke()} /> */}
+
+          {/* <CurrentCoordinate yAccessor={sma20.accessor()} fill={sma20.stroke()} /> */}
+          {/* <CurrentCoordinate yAccessor={wma20.accessor()} fill={wma20.stroke()} /> */}
+          {/* <CurrentCoordinate yAccessor={tma20.accessor()} fill={tma20.stroke()} /> */}
+
           {maCurrentCoordinate}
+
+          {/* <CurrentCoordinate yAccessor={sma200.accessor()} fill={sma200.stroke()} /> */}
+          {/* <CurrentCoordinate yAccessor={sma20.accessor()} fill={sma20.stroke()} /> */}
+          {/* <CurrentCoordinate yAccessor={sma50.accessor()} fill={sma50.stroke()} /> */}
+
           <OHLCTooltip origin={[-36, 0]} />
           {maTooltip}
+
+          {/* <MovingAverageTooltip
+            onClick={(e) => console.log(e)}
+            origin={[-30, 15]}
+            options={[
+              // {
+              //   yAccessor: sma20.accessor(),
+              //   type: 'SMA',
+              //   stroke: sma20.stroke(),
+              //   windowSize: sma20.options().windowSize,
+              //   echo: 'some echo here',
+              // },
+              // {
+              //   yAccessor: wma20.accessor(),
+              //   type: 'WMA',
+              //   stroke: wma20.stroke(),
+              //   windowSize: wma20.options().windowSize,
+              //   echo: 'some echo here',
+              // },
+              // {
+              //   yAccessor: tma20.accessor(),
+              //   type: 'TMA',
+              //   stroke: tma20.stroke(),
+              //   windowSize: tma20.options().windowSize,
+              //   echo: 'some echo here',
+              // },
+              {
+                yAccessor: sma20.accessor(),
+                type: 'SMA',
+                stroke: sma20.stroke(),
+                windowSize: sma20.options().windowSize,
+                // echo: 'some echo here',
+              },
+              {
+                yAccessor: sma50.accessor(),
+                type: 'SMA',
+                stroke: sma50.stroke(),
+                windowSize: sma50.options().windowSize,
+                // echo: 'some echo here',
+              },
+              {
+                yAccessor: sma200.accessor(),
+                type: 'SMA',
+                stroke: sma200.stroke(),
+                windowSize: sma200.options().windowSize,
+                // echo: 'some echo here',
+              },
+              {
+                yAccessor: sma40.accessor(),
+                type: 'SMA',
+                stroke: sma40.stroke(),
+                windowSize: sma40.options().windowSize,
+              },
+            ]}
+          /> */}
+
         </Chart>
 
         {/* <Chart id={chartId + '2'} yExtents={[(d) => d.volume, smaVolume50.accessor()]} height={volBarHeight} origin={(w, h) => [0, h - volBarHeight]}> */}
