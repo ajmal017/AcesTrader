@@ -30,7 +30,7 @@ const SignInView = ({ onSubmit, onSignUp, email, password }) => {
             </div>
 
             <span className={'buttonsWrapper'}>
-              <button type='submit' className={'buttonSignin'}>
+              <button type='submit' className={process.env.NODE_ENV === 'development' ? 'buttonSigninDev' : 'buttonSignin'}>
                 Sign In
               </button>
               {/* <button className={'buttonSignup'} onClick={onSignUp}>
