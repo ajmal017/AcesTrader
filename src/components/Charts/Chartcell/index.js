@@ -55,6 +55,7 @@ class Chartcell extends Component {
     this.validShortSma = true // ShortSma usually at 50 days. Assume enough chart data exists
     this.validLongSma = true // LongSma usually at 200 days. Assume enough chart data exists
     this.weeklyBarCount = 10 // There's a CandleStickChart bug for short length bars. Assume enough chart data exists
+    this.MINIMUMWEEKLYBARS = 3 // NOTE this magic number is defined in 2 locations, keep in sync
 
     // // ******BCM BCM**********************************************
     // this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads. 
@@ -142,6 +143,7 @@ class Chartcell extends Component {
           putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for retrieval before rendering
           self.weeklyBarCount = weeklyPriceData.length // prevents user from requesting weekly chart if insufficient bars
 
+
           if (data.length > 200) {
             // Cache the sma200 values from the daily prices for subsequent use in trading alerts
             buildSma200Array(symbol, data) // this includes saving the result (by symbol) in chartDataCache
@@ -159,14 +161,6 @@ class Chartcell extends Component {
           }
 
           putChartFlags(symbol, { validShortSma: self.validShortSma, validLongSma: self.validLongSma, weeklyBarCount: self.weeklyBarCount })
-
-          // if (!self.dailyBarsOnly) {
-          //   let weeklyPriceData = self.convertToWeeklyBars(data)
-          //   putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for retrieval before rendering
-          //   // Cache the sma40 values from the weekly prices
-          //   // for subsequent use in trend trading alerts
-          //   buildSma40Array(symbol, weeklyPriceData)
-          // }
 
           self.setState({ iexData: 1, noprices: false, hide: false }) //triggers render using the cached data
         }
@@ -327,7 +321,7 @@ class Chartcell extends Component {
 
   render() {
     const cellObject = this.props.cellObject
-    this.weeklyBars = cellObject.weeklyBars
+    // this.weeklyBars = cellObject.weeklyBars
     this.tradeSide = cellObject.dashboard.tradeSide
     this.symbol = cellObject.symbol
     this.hash = cellObject.hash
@@ -341,11 +335,14 @@ class Chartcell extends Component {
 
     // A re-render will happen without life cycle calls when a list item is deleted,
     // so we make sure we have the correct data for the current symbol
-    this.data = this.weeklyBars ? getWeeklyPriceData(this.symbol) : getDailyPriceData(this.symbol)
     const chartFlags = getChartFlags(this.symbol) //  { validShortSma: x, validLongSma: y, weeklyBarCount: z }
     this.weeklyBarCount = chartFlags ? chartFlags.weeklyBarCount : this.weeklyBarCount // the initial render is before chart data available
     this.validShortSma = chartFlags ? chartFlags.validShortSma : this.validShortSma // the initial render is before chart data available
     this.validLongSma = chartFlags ? chartFlags.validLongSma : this.validLongSma // the initial render is before chart data available
+
+    // Override weekly specification for insufficient bars which cause bug in CandleStickCharts
+    this.weeklyBars = this.weeklyBarCount >= this.MINIMUMWEEKLYBARS ? cellObject.weeklyBars : false
+    this.data = this.weeklyBars ? getWeeklyPriceData(this.symbol) : getDailyPriceData(this.symbol)
 
     return (
       <div id={'chart-main' + this.hash}>

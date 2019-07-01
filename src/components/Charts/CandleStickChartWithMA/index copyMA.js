@@ -39,14 +39,6 @@ class CandleStickChartWithMA extends React.Component {
       })
       .accessor((d) => d.sma40)
 
-    // const sma20 = sma()
-    //   .id(1)
-    //   .options({ windowSize: 20 })
-    //   .merge((d, c) => {
-    //     d.sma20 = c
-    //   })
-    //   .accessor((d) => d.sma20)
-
     const sma50 = sma()
       .id(2)
       .options({ windowSize: 50 })
@@ -63,42 +55,32 @@ class CandleStickChartWithMA extends React.Component {
       })
       .accessor((d) => d.sma200)
 
-    //   const sma20 = sma()
-    //   .options({ windowSize: 20 })
-    //   .merge((d, c) => {
-    //     d.sma20 = c
-    //   })
-    //   .accessor((d) => d.sma20)
-
-    // const wma20 = wma()
-    //   .options({ windowSize: 20 })
-    //   .merge((d, c) => {
-    //     d.wma20 = c
-    //   })
-    //   .accessor((d) => d.wma20)
-
-    // const tma20 = tma()
-    //   .options({ windowSize: 20 })
-    //   .merge((d, c) => {
-    //     d.tma20 = c
-    //   })
-    //   .accessor((d) => d.tma20)
-
     const { type, data: initialData, width, ratio, chartId, height, symbol, weekly, validShortSma, validLongSma } = this.props
-    const { clamp } = this.props
-    const volBarHeight = height / 5
-    // const { mouseMoveEvent, panEvent, zoomEvent, zoomAnchor } = this.props
 
+    let calculatedData
+    if (validLongSma && weekly) {
+      calculatedData = sma40(macdCalculator(ema12(ema26(initialData))))
+    } else if (validLongSma && !weekly) {
+      calculatedData = sma200(sma50((initialData)))
+    } else if (validShortSma && !weekly) {
+      calculatedData = sma50(macdCalculator(initialData))
+    } else {
+      calculatedData = initialData
+    }
+    // const { mouseMoveEvent, panEvent, zoomEvent, zoomAnchor } = this.props
     // const calculatedData = tma20(wma20(sma20(sma50(smaVolume50(initialData)))))
     // const calculatedData = weekly ? sma40(initialData) : sma200(sma20(sma50(initialData)))
-    const calculatedData = weekly ? sma40(initialData) : sma200(sma50(initialData))
+    // const calculatedData = weekly ? sma40(initialData) : sma200(sma50(initialData))
 
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor((d) => d.date)
     const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(calculatedData)
+    const { clamp } = this.props
 
     const start = xAccessor(last(data))
     const end = xAccessor(data[Math.max(0, data.length - 150)])
     const xExtents = [start, end]
+
+    const volBarHeight = height / 5
 
     let maLineSeries
     if (weekly) {

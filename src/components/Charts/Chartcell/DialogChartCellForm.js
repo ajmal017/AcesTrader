@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import dialogPolyfill from 'dialog-polyfill'
-import { getChartFlags } from '../../../lib/chartDataCache'
+// import { getChartFlags } from '../../../lib/chartDataCache'
 import './stylesDialogChartCellForm.css'
 
 class DialogChartCellForm extends Component {
@@ -50,10 +50,14 @@ class DialogChartCellForm extends Component {
   }
 
   render() {
+    const MINIMUMWEEKLYBARS = 3// NOTE this magic number is defined in 2 locations, keep in sync
     const cellObject = this.props.cellObject
-    this.weeklyBarCount = this.props.weeklyBarCount
+    const weeklyBarCount = this.props.weeklyBarCount
+
+    const chartSeries = (weeklyBarCount < MINIMUMWEEKLYBARS) ? 'Daily Bars' : this.props.cellObject.weeklyBars ? 'Weekly Bars' : 'Daily Bars'
+
     this.symbol = cellObject.symbol
-    const chartFlags = getChartFlags(this.symbol) //  { validShortSma: x, validLongSma: y, weeklyBarCount: z }
+    // const chartFlags = getChartFlags(this.symbol) //  { validShortSma: x, validLongSma: y, weeklyBarCount: z }
     this.tradeSide = cellObject.dashboard.tradeSide
     const chart_name = cellObject.symbol
     this.hash = cellObject.hash
@@ -81,7 +85,7 @@ class DialogChartCellForm extends Component {
           <form method='dialog'>
             <div className='chart-radio-grid'>
 
-              {this.weeklyBarCount > 2 ? (
+              {this.weeklyBarCount >= MINIMUMWEEKLYBARS ? (
                 <>
                   <input className='buttonDaily' type='radio' value='daily' name='seriesBars' onChange={this.handleRadioChange} checked={this.state.weeklyBars !== true} />
                   <span className='labelDaily'>Daily Bars</span>
@@ -112,7 +116,9 @@ class DialogChartCellForm extends Component {
         <div className='graph-header'>
           <span className='trade-desc'>{tradeDesc}</span>
           <span className='cell-title'>{chart_name}</span>
-          <span className='chart-series-label'>{this.props.cellObject.weeklyBars ? 'Weekly Bars' : 'Daily Bars'}</span>
+
+          <span className='chart-series-label'>{chartSeries}</span>
+          {/* <span className='chart-series-label'>{this.props.cellObject.weeklyBars ? 'Weekly Bars' : 'Daily Bars'}</span> */}
           <span className='chart-indicator-label'>{this.props.cellObject.macdChart ? 'With MACD' : 'With MA'}</span>
 
           <button onClick={this.handleEditChartParamsDialog} className={'chart-edit-button'}>
