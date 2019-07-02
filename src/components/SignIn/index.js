@@ -14,11 +14,14 @@ class SignIn extends Component {
   }
   componentDidMount() {
     document.title = 'AcesTrader'
+
     this.setState({ signedin: false })
+
     // if (process.env.NODE_ENV === 'development') {
     //   // Set the default sign in parameters for development testing
     //   this.setState({ signedin: false, email: 'z@g.com', password: 'bootonshop' }) //change to use default user's sign in
     // }
+
   }
 
   handleSubmit = async (event) => {
@@ -46,7 +49,7 @@ class SignIn extends Component {
   }
 
   render() {
-    const { signedin, email, password } = this.state
+    const { signedin } = this.state
 
     if (signedin === true) {
       return (
@@ -57,9 +60,8 @@ class SignIn extends Component {
     return (
       <SignInView
         onSubmit={this.handleSubmit}
-        onSignUp={this.handleSignUp}
-        email={email}
-        password={password}
+      // email={email}
+      // password={password}
       />
     )
   }

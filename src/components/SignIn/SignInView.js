@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 // import information from '../../images/help_icon.png'
 import './styles.css'
 
-const SignInView = ({ onSubmit, onSignUp, email, password }) => {
-
+const SignInView = ({ onSubmit }) => {
+  let email, password
   return (
     <div>
       <div className={'backgroundDollar'}>
@@ -33,9 +33,6 @@ const SignInView = ({ onSubmit, onSignUp, email, password }) => {
               <button type='submit' className={process.env.NODE_ENV === 'development' ? 'buttonSigninDev' : 'buttonSignin'}>
                 Sign In
               </button>
-              {/* <button className={'buttonSignup'} onClick={onSignUp}>
-              Sign Up
-            </button> */}
             </span>
           </div>
 
@@ -47,7 +44,6 @@ const SignInView = ({ onSubmit, onSignUp, email, password }) => {
 
 SignInView.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  onSignUp: PropTypes.func.isRequired,
   email: PropTypes.string,
   password: PropTypes.string,
 }

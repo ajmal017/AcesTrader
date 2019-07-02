@@ -183,7 +183,7 @@ class Chartcell extends Component {
       day = obj.getDay() // gets the day of the week (from 0-6)
       if (day < lastDay) {
         // day's index number is smaller than the prior day, so start of new week
-        // close current weekly bar if any started
+        // close current weekly bar if any was started
         if (open) {
           // saved data is present, this avoids a false weekly close
           // if the first day of this file is a Monday
