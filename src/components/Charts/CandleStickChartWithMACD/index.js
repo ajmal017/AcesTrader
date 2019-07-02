@@ -138,8 +138,8 @@ class CandleStickChartWithMACD extends React.Component {
         <>
           <LineSeries yAccessor={sma50.accessor()} stroke={sma50.stroke()} />
           <LineSeries yAccessor={sma200.accessor()} stroke={sma200.stroke()} />
-          <LineSeries yAccessor={ema26.accessor()} stroke={ema26.stroke()} />
-          <LineSeries yAccessor={ema12.accessor()} stroke={ema12.stroke()} />
+          {/* <LineSeries yAccessor={ema26.accessor()} stroke={ema26.stroke()} /> */}
+          {/* <LineSeries yAccessor={ema12.accessor()} stroke={ema12.stroke()} /> */}
         </>
       )
     }

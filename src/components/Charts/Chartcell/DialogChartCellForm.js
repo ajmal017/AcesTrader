@@ -85,7 +85,7 @@ class DialogChartCellForm extends Component {
           <form method='dialog'>
             <div className='chart-radio-grid'>
 
-              {this.weeklyBarCount >= MINIMUMWEEKLYBARS ? (
+              {weeklyBarCount >= MINIMUMWEEKLYBARS ? (
                 <>
                   <input className='buttonDaily' type='radio' value='daily' name='seriesBars' onChange={this.handleRadioChange} checked={this.state.weeklyBars !== true} />
                   <span className='labelDaily'>Daily Bars</span>
