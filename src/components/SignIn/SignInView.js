@@ -9,7 +9,7 @@ const SignInView = ({ onSubmit }) => {
   return (
     <div>
       <div className={'backgroundDollar'}>
-        0.2.9
+        1.0.9
         <span className={'header'}>
           <span>Sign In</span>
         </span>

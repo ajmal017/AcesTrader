@@ -103,10 +103,10 @@ class Chartcell extends Component {
   // dailyBars considered true if weeklyBars===false
   loadChartData = () => {
     const symbol = this.props.cellObject.symbol
-    // const weeklyBars = this.props.cellObject.weeklyBars
-    // this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
+    const weeklyBars = this.props.cellObject.weeklyBars
+    this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
     // Note: the 1yr range caused problems in creating some charts. Cause not determined.
-    this.range = '2y'
+    // this.range = '2y'
     const self = this
     // console.log(`getSymbolData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
     getSymbolData(symbol, this.range, this.closeOnly, this.useSandbox)
@@ -371,8 +371,6 @@ class Chartcell extends Component {
                       {/* Note: this problem has apparently been fixed by changing the stockchart's defaultProps */}
                       {/* to type:'svg' from type:'hybrid'. I think the errors came from operations on the html canvas. */}
 
-                      {/* NOTE 2nd CandleStickChartWithMA is temp'ly changed to CandleStickChartWithMACD for testing */}
-
                       {this.props.cellObject.macdChart ? (
                         <CandleStickChartWithMACD
                           chartId={chartId}
@@ -385,7 +383,7 @@ class Chartcell extends Component {
                           errorCount={this.props.errorCount}
                         />
                       ) : (
-                          <CandleStickChartWithMACD
+                          <CandleStickChartWithMA
                             chartId={chartId}
                             data={this.data}
                             symbol={chart_name}
