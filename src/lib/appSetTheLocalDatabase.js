@@ -12,8 +12,8 @@ export const setTheLocalDatabase = async function (date) {
     try {
         const MetaKey = "MetaKey-DateObject"
         const theDay = date.getDay()
-        const theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
         const defaultMetaData = { "date": date } // prepare a fresh metaData object with today's date
+        // const theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
         // const defaultMetaData = { "date": theDate } // prepare a fresh metaData object with today's date
 
         let metaData = await loadLocalDatabase(MetaKey) // get existing date marker if any

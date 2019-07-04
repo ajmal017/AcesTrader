@@ -146,8 +146,8 @@ class Chartcell extends Component {
 
           if (data.length > 200) {
             // Cache the sma200 values from the daily prices for subsequent use in trading alerts
-            buildSma200Array(symbol, data) // this includes saving the result (by symbol) in chartDataCache
             // Cache the sma40 values from the weekly prices for subsequent use in trend trading alerts
+            buildSma200Array(symbol, data) // this includes saving the result (by symbol) in chartDataCache
             buildSma40Array(symbol, weeklyPriceData) // this includes saving the result (by symbol) in chartDataCache
           } else {
             self.validLongSma = false
@@ -340,7 +340,7 @@ class Chartcell extends Component {
     this.validShortSma = chartFlags ? chartFlags.validShortSma : this.validShortSma // the initial render is before chart data available
     this.validLongSma = chartFlags ? chartFlags.validLongSma : this.validLongSma // the initial render is before chart data available
 
-    // Override weekly specification for insufficient bars which cause bug in CandleStickCharts
+    // If insufficient bars, override any current cellObject.weeklyBars specification which causes ceash in CandleStickCharts
     this.weeklyBars = this.weeklyBarCount >= this.MINIMUMWEEKLYBARS ? cellObject.weeklyBars : false
     this.data = this.weeklyBars ? getWeeklyPriceData(this.symbol) : getDailyPriceData(this.symbol)
 
