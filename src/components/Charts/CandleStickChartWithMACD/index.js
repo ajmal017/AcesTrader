@@ -98,6 +98,8 @@ class CandleStickChartWithMACD extends React.Component {
       calculatedData = sma40(macdCalculator(ema12(ema26(initialData))))
     } else if (validLongSma && !weekly) {
       calculatedData = sma200(sma50(macdCalculator(ema12(ema26(initialData)))))
+    } else if (validShortSma && weekly) {
+      calculatedData = sma50(macdCalculator(ema12(ema26(initialData))))
     } else if (validShortSma && !weekly) {
       calculatedData = sma50(macdCalculator(ema12(ema26(initialData))))
     } else {
