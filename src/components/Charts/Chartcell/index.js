@@ -38,6 +38,8 @@ import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import { AuthenticatedContext } from '../../../redux'
 import './styles.css'
 
+const MINIMUMWEEKLYBARS = 3 // NOTE this magic number is defined in 2 locations, keep in sync
+
 class Chartcell extends Component {
   static contextType = AuthenticatedContext
   constructor(props) {
@@ -51,11 +53,10 @@ class Chartcell extends Component {
     // this.getLastBar = this.getLastBar.bind(this)
     this.dialogChartParams = null
     this.closeOnly = false // New option for IEX Cloud data format
-    this.chartFlags = { validShortSma: true, validLongSma: true, weeklyBarCount: 10 } // default values
-    this.validShortSma = true // ShortSma usually at 50 days. Assume enough chart data exists
-    this.validLongSma = true // LongSma usually at 200 days. Assume enough chart data exists
-    this.weeklyBarCount = 10 // There's a CandleStickChart bug for short length bars. Assume enough chart data exists
-    this.MINIMUMWEEKLYBARS = 3 // NOTE this magic number is defined in 2 locations, keep in sync
+    this.chartFlags = { validShortSma: false, validLongSma: false, weeklyBarCount: MINIMUMWEEKLYBARS - 1 } // default values
+    this.validShortSma = false // ShortSma usually at 50 days. Assume not enough chart data exists
+    this.validLongSma = false // LongSma usually at 200 days. Assume not enough chart data exists
+    this.weeklyBarCount = MINIMUMWEEKLYBARS - 1// There's a CandleStickChart bug for short length bars. Assume not enough chart data exists
 
     // // ******BCM BCM**********************************************
     // this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads. 
@@ -133,6 +134,7 @@ class Chartcell extends Component {
           // Create the short term crossover trading sma for this symbol and cache it
           if (data.length > shortSmaPeriod) {
             buildSmaTradingArray(symbol, data, shortSmaPeriod)
+            self.validShortSma = true
           } else {
             // Assumed to be a newly listed security, without enough days
             // for the SmaTradingArray to be built.
@@ -149,6 +151,7 @@ class Chartcell extends Component {
             // Cache the sma40 values from the weekly prices for subsequent use in trend trading alerts
             buildSma200Array(symbol, data) // this includes saving the result (by symbol) in chartDataCache
             buildSma40Array(symbol, weeklyPriceData) // this includes saving the result (by symbol) in chartDataCache
+            self.validLongSma = true
           } else {
             self.validLongSma = false
           }
@@ -341,7 +344,7 @@ class Chartcell extends Component {
     this.validLongSma = chartFlags ? chartFlags.validLongSma : this.validLongSma // the initial render is before chart data available
 
     // If insufficient bars, override any current cellObject.weeklyBars specification which causes ceash in CandleStickCharts
-    this.weeklyBars = this.weeklyBarCount >= this.MINIMUMWEEKLYBARS ? cellObject.weeklyBars : false
+    this.weeklyBars = this.weeklyBarCount >= MINIMUMWEEKLYBARS ? cellObject.weeklyBars : false
     this.data = this.weeklyBars ? getWeeklyPriceData(this.symbol) : getDailyPriceData(this.symbol)
 
     return (
@@ -383,7 +386,7 @@ class Chartcell extends Component {
                           errorCount={this.props.errorCount}
                         />
                       ) : (
-                          <CandleStickChartWithMA
+                          <CandleStickChartWithMACD
                             chartId={chartId}
                             data={this.data}
                             symbol={chart_name}
