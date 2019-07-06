@@ -71,7 +71,11 @@
   padding: 5px 10px 5px 10px;
   font-size: 18px;
   font-size: 22px;
-  /* color: rgb(74, 33, 187); */
+  color: rgb(74, 33, 187);
+}
+button.buttonsigninDev {
+  padding: 5px 10px 5px 10px;
+  background-color: rgb(108, 240, 108);
 }
 button.buttonsignin {
   padding: 5px 10px 5px 10px;

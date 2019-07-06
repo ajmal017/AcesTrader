@@ -17,15 +17,15 @@ export async function removeLocalDatabase(key) {
 export async function loadLocalDatabase(key) {
   try {
     let val = await get(key)
-    // debugger
     return val
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
       debugger
     } else {
       alert('get() failed in loadLocalDatabase')
+      debugger
     }
-    return false
+    return false //not found
   }
 }
 

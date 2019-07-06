@@ -14,18 +14,28 @@ class SignIn extends Component {
   }
   componentDidMount() {
     document.title = 'AcesTrader'
-    if (process.env.NODE_ENV === 'development') {
-      // Set the default sign in parameters for development testing
-      this.setState({ signedin: false, email: 'z@g.com', password: 'bootonshop' }) //change to use default user's sign in
-    }
+
+    this.setState({ signedin: false })
+
+    // if (process.env.NODE_ENV === 'development') {
+    //   // Set the default sign in parameters for development testing
+    //   this.setState({ signedin: false, email: 'z@g.com', password: 'bootonshop' }) //change to use default user's sign in
+    // }
+
   }
 
   handleSubmit = async (event) => {
     event.preventDefault()
     const { email, password } = event.target.elements
     try {
-      // const user = await fire.auth().signInWithEmailAndPassword(email.value, password.value)
-      await fire.auth().signInWithEmailAndPassword(email.value, password.value)
+
+      if (process.env.NODE_ENV === 'development') {
+        await fire.auth().signInWithEmailAndPassword('z@g.com', 'bootonshop')
+      } else {
+        // const user = await fire.auth().signInWithEmailAndPassword(email.value, password.value)
+        await fire.auth().signInWithEmailAndPassword(email.value, password.value)
+      }
+
       this.setState({ signedin: true })
     } catch (error) {
       alert(error)
@@ -39,7 +49,7 @@ class SignIn extends Component {
   }
 
   render() {
-    const { signedin, email, password } = this.state
+    const { signedin } = this.state
 
     if (signedin === true) {
       return (
@@ -50,9 +60,8 @@ class SignIn extends Component {
     return (
       <SignInView
         onSubmit={this.handleSubmit}
-        onSignUp={this.handleSignUp}
-        email={email}
-        password={password}
+      // email={email}
+      // password={password}
       />
     )
   }

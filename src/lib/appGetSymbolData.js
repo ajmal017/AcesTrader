@@ -3,6 +3,7 @@
 import { getIEXData } from '../lib/apiGetIEXData'
 import { loadLocalDatabase, saveLocalDatabase } from '../lib/localDatabaseStorage'
 import { setTheLocalDatabase } from '../lib/appSetTheLocalDatabase'
+// import { clearLocalDatabase } from '../lib/localDatabaseStorage'
 let cloneDeep = require('lodash.clonedeep')
 
 export const getSymbolData = async function (symbol, range, closeOnly, useSandbox) {
@@ -12,7 +13,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     const date = new Date() // today's date
 
     // await clearLocalDatabase() //<==TEMP ===== use this to reset the DB content ==========
-
+    // debugger
 
     // //******************************** */
     // // const KEY1 = "testKey1"
@@ -38,34 +39,43 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     // debugger
     // //******************************** */
 
-
-    setTheLocalDatabase(date) // ensure the local DB will contain last trading day symbol price data
-
-    let symbolData = await loadLocalDatabase(symbolKey) // get price series from the cache
-    if (symbolData) {
-        // symbol price data is available for yesterday's end-of-day prices
-        // this data may have a constructed daily bar for today's prices (under development)
-        let values = cloneDeep(symbolData)
-        // formate the dates for expected charting format
-        let data = values.map((obj) => {
-            let date = obj.date
-            obj.date = new Date(date)
-            return obj
-        })
-        return data
+    await setTheLocalDatabase(date) // ensure the local DB will contain last trading day symbol price data
+    try {
+        // Get the price series from the local database cache if available
+        let symbolData = await loadLocalDatabase(symbolKey)
+        if (symbolData) {
+            // symbol price data is available for yesterday's end-of-day prices
+            // this data may have a constructed daily bar for today's prices (under development)
+            let values = cloneDeep(symbolData)
+            // format the dates for the required charting format
+            let data = values.map((obj) => {
+                let date = obj.date
+                obj.date = new Date(date)
+                return obj
+            })
+            return data
+        } else {
+            // Download the end-of-day price series for yesterday from IEX cloud
+            let symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
+            await saveLocalDatabase(symbolKey, symbolData) // add new data for today
+            // let testing = await loadLocalDatabase(symbolKey) //BCM test getting same object back
+            // debugger //BCM
+            return symbolData
+        }
+    } catch (err) {
+        alert(`getSymbolData(${symbolKey}) failed. Error=${err.message}`)
+        debugger
     }
-    // Download an end-of-day price series for yesterday
-    symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
-    await saveLocalDatabase(symbolKey, symbolData) // added data for today
-    // let testing = await loadLocalDatabase(symbolKey) // test get object back ==== BCM
-    // debugger //BCM
-    return symbolData
 }
 
 const downloadSymbolData = async function (symbol, range, closeOnly, useSandbox) {
     // get the symbol price series data from the IEX cloud
     let data = getIEXData(symbol, range, closeOnly, useSandbox)
-    let symbolData = await data
-    // debugger //BCM
-    return symbolData
+    try {
+        let symbolData = await data
+        return symbolData
+    } catch (err) {
+        alert(`getIEXData(${symbol}) failed in getSymbolData. Error=${err.message}`)
+        debugger
+    }
 }

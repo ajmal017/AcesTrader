@@ -137,12 +137,10 @@ class WelcomeTrader extends Component {
     this.loadPortfolio(event.target.value)
   }
 
-  toggleChange = (e) => {
-    e.preventDefault()
-    this.theName = e.target.name
-    this.isChecked = e.target.checked
-    setSandboxStatus(e.target.checked) // set for reference in other modules such as reducePeekData.js
-    this.setState({ [this.theName]: this.isChecked })
+  handleCheckboxChange = (e) => {
+    const { name, checked } = e.target
+    setSandboxStatus(checked) // set for reference in other modules such as reducePeekData.js
+    this.setState({ [name]: checked })
   }
 
 
@@ -191,7 +189,7 @@ class WelcomeTrader extends Component {
   }
 
   render() {
-    const { loading, reference, useSandbox } = this.state
+    const { loading, reference } = this.state
 
     if (!reference) return null //let componentDidMount decide on rendering
 
@@ -235,7 +233,7 @@ class WelcomeTrader extends Component {
 
             <ControlGroup>
               <LabelActionHeader>
-                <InputActionHeader type='checkbox' name='useSandbox' checked={useSandbox} onChange={this.toggleChange} />
+                <InputActionHeader type='checkbox' name='useSandbox' checked={this.state.useSandbox} onChange={this.handleCheckboxChange} />
                 <ActionDescHeader>Use Sandbox</ActionDescHeader>
               </LabelActionHeader>
             </ControlGroup>

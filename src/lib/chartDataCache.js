@@ -27,6 +27,7 @@ export const resetDataCache = () => {
   dataCache.tradeMarkers = {}
   dataCache.legendItems = {}
   dataCache.equityCharts = {}
+  dataCache.chartFlags = {}
 }
 
 var dataCache = {
@@ -84,6 +85,24 @@ var dataCache = {
     // dictionary of key/value pairs
     // key=symbol, value=array of objects [{date,close}, ...]
   },
+  chartFlags: {
+    // dictionary of key/value pairs
+    // key=symbol, value=object {flagName:flagValue, ...}
+  },
+}
+
+export const putChartFlags = (symbol, data) => {
+  // data is an object of chart flag properties {flagName:flagValue, ...}
+  dataCache.chartFlags[symbol] = data
+}
+
+export const getChartFlags = (symbol) => {
+  if (dataCache.chartFlags[symbol]) {
+    let chartFlags = cloneDeep(dataCache.chartFlags[symbol])
+    return chartFlags
+  } else {
+    return null
+  }
 }
 
 export const setStaleCharts = (status) => {

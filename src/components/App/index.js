@@ -10,6 +10,7 @@ import Root from '../../components/Root'
 import fire from '../../fire'
 import firebase from 'firebase/app'
 // import 'firebase/auth'
+// import 'firebase/database'
 import * as Sentry from '@sentry/browser'
 import { AuthenticatedContext } from '../../redux'
 
