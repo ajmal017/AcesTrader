@@ -104,7 +104,7 @@ class Chartcell extends Component {
   // dailyBars considered true if weeklyBars===false
   loadChartData = () => {
     const symbol = this.props.cellObject.symbol
-    const weeklyBars = this.props.cellObject.weeklyBars
+    // const weeklyBars = this.props.cellObject.weeklyBars
     // this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
     this.range = '1y' // New for IEX Cloud data to save money
     const self = this

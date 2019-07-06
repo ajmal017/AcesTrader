@@ -81,9 +81,7 @@ class CandleStickChartWithMA extends React.Component {
     const xExtents = [start, end]
 
     const volBarHeight = height / 5
-
     const barChartHeight = 200
-    const volumeChartHeight = 50
 
     let maLineSeries
     // This draws the available MA lines
