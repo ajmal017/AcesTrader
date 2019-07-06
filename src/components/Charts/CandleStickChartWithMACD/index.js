@@ -41,11 +41,7 @@ class CandleStickChartWithMACD extends React.Component {
       fill: '#BCDEFA',
     }
 
-    let sma200
-    let sma40
-    let sma50
-
-    sma200 = sma()
+    const sma200 = sma()
       .id(3)
       .options({ windowSize: 200 })
       .merge((d, c) => {
@@ -53,7 +49,7 @@ class CandleStickChartWithMACD extends React.Component {
       })
       .accessor((d) => d.sma200)
 
-    sma40 = sma()
+    const sma40 = sma()
       .id(0)
       .options({ windowSize: 40 })
       .merge((d, c) => {
@@ -61,7 +57,7 @@ class CandleStickChartWithMACD extends React.Component {
       })
       .accessor((d) => d.sma40)
 
-    sma50 = sma()
+    const sma50 = sma()
       .id(2)
       .options({ windowSize: 50 })
       .merge((d, c) => {
@@ -121,6 +117,7 @@ class CandleStickChartWithMACD extends React.Component {
 
     const barChartHeight = 200
     const volumeChartHeight = 50
+
     const MacdChartHeight = 100
 
     // {/* <EdgeIndicator
@@ -161,7 +158,6 @@ class CandleStickChartWithMACD extends React.Component {
     }
 
     let maCurrentCoordinate
-
     if (validLongSma && weekly) {
       maCurrentCoordinate = <CurrentCoordinate yAccessor={sma40.accessor()} fill={sma40.stroke()} />
     } else if (validLongSma && !weekly) {
@@ -320,9 +316,9 @@ class CandleStickChartWithMACD extends React.Component {
         {/* <Chart id={chartId + '2'} height={volumeChartHeight} yExtents={[(d) => d.volume, smaVolume50.accessor()]} origin={(w, h) => [0, h - volumeChartHeight * 3.22]}> */}
         <Chart id={chartId + '2'} height={volumeChartHeight} yExtents={[(d) => d.volume]} origin={(w, h) => [0, h - volumeChartHeight * 3.22]}>
           <YAxis axisAt="left" orient="left" ticks={2} tickFormat={format('.2s')} />
+          <MouseCoordinateX at="bottom" orient="bottom" displayFormat={timeFormat('%Y-%m-%d')} {...mouseEdgeAppearance} />
           <MouseCoordinateY at="left" orient="left" displayFormat={format('.2s')} {...mouseEdgeAppearance} />
           <BarSeries yAccessor={(d) => d.volume} fill={(d) => (d.close > d.open ? '#6BA583' : '#FF0000')} />
-          {/* <AreaSeries yAccessor={smaVolume50.accessor()} stroke={smaVolume50.stroke()} fill={smaVolume50.fill()} /> */}
         </Chart>
 
         {/* outerTickSize={6}  ticks={2} */}
@@ -343,6 +339,7 @@ class CandleStickChartWithMACD extends React.Component {
 
 CandleStickChartWithMACD.propTypes = {
   data: PropTypes.array.isRequired,
+  height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
   ratio: PropTypes.number.isRequired,
   type: PropTypes.oneOf(['svg', 'hybrid']).isRequired,
@@ -353,7 +350,7 @@ CandleStickChartWithMACD.defaultProps = {
   // type: 'hybrid',
   clamp: false, //true,
   height: 350, // 250,
-  weekly: true,
+  // weekly: true,
 }
 
 CandleStickChartWithMACD = fitWidth(CandleStickChartWithMACD)

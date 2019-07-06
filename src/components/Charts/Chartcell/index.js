@@ -105,9 +105,8 @@ class Chartcell extends Component {
   loadChartData = () => {
     const symbol = this.props.cellObject.symbol
     const weeklyBars = this.props.cellObject.weeklyBars
-    this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
-    // Note: the 1yr range caused problems in creating some charts. Cause not determined.
-    // this.range = '2y'
+    // this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
+    this.range = '1y' // New for IEX Cloud data to save money
     const self = this
     // console.log(`getSymbolData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
     getSymbolData(symbol, this.range, this.closeOnly, this.useSandbox)
@@ -137,7 +136,7 @@ class Chartcell extends Component {
             self.validShortSma = true
           } else {
             // Assumed to be a newly listed security, without enough days
-            // for the SmaTradingArray to be built.
+            // for the normal SmaTradingArray to be built.
             self.validShortSma = false
           }
 
@@ -386,7 +385,7 @@ class Chartcell extends Component {
                           errorCount={this.props.errorCount}
                         />
                       ) : (
-                          <CandleStickChartWithMACD
+                          <CandleStickChartWithMA
                             chartId={chartId}
                             data={this.data}
                             symbol={chart_name}
