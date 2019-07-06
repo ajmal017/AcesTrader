@@ -189,7 +189,7 @@ class CandleStickChartWithMA extends React.Component {
     const chartChildren = () => {
       return (
         <>
-          <XAxis axisAt="bottom" orient="bottom" showTicks={false} outerTickSize={0} />
+          {/* <XAxis axisAt="bottom" orient="bottom" showTicks={false} outerTickSize={0} /> */}
           <YAxis axisAt="right" orient="right" ticks={5} />
           <MouseCoordinateY at="right" orient="right" displayFormat={format('.2f')} {...mouseEdgeAppearance} />
           <CandlestickSeries />
@@ -240,6 +240,7 @@ class CandleStickChartWithMA extends React.Component {
 
         {/* <Chart id={chartId + '2'} yExtents={[(d) => d.volume, smaVolume50.accessor()]} height={volBarHeight} origin={(w, h) => [0, h - volBarHeight]}> */}
         <Chart id={chartId + '2'} yExtents={[(d) => d.volume]} height={volBarHeight} origin={(w, h) => [0, h - volBarHeight]}>
+          <XAxis axisAt="bottom" orient="bottom" />
           <YAxis axisAt="left" orient="left" ticks={3} tickFormat={format('.2s')} />
           <MouseCoordinateX at="bottom" orient="bottom" displayFormat={timeFormat('%Y-%m-%d')} {...mouseEdgeAppearance} />
           <MouseCoordinateY at="left" orient="left" displayFormat={format('.2s')} {...mouseEdgeAppearance} />
