@@ -228,28 +228,34 @@ class Chartcell extends Component {
 
     const theCellObject = this.props.cellObject //the target object originating the dispatch actions
     const issueType = theCellObject.issueType
-    const companyName = theCellObject.companyName
+    const symbolDescription = theCellObject.symbolDescription
 
     // Fetch the symbol price and puts it into appWatchedPrice for later use by redux thunk "addWatchPriceAndIssueType"
     getWatchedPrices([symbol])
 
     // Create a symbolDataObject for later use by redux thunk "addWatchPriceAndIssueType"
-    let symbolDataObjectArray = [{ symbol: { symbol }, issueType: { issueType }, companyName: { companyName } }]
-    putSymbolDataObjects(symbol, symbolDataObjectArray)
+    let symbolDataObjectArray = [{ symbol: { symbol }, issueType: { issueType }, symbolDescription: { symbolDescription } }]
 
-    if (tradeSide === 'BUYS') {
+    putSymbolDataObjects(symbol, symbolDataObjectArray) // prep this data for first dispatch 
+    if (tradeSide === 'LONGS') {
       this.props.dispatch(addBuysToList([symbol]))
-      this.props.dispatch(addWatchPriceAndIssueType(tradeSide)) //call thunk
-    } else if (tradeSide === 'SHORT SALES') {
+      putSymbolDataObjects(symbol, symbolDataObjectArray) // prep this data again for thunk dispatch
+      this.props.dispatch(addWatchPriceAndIssueType('BUYS')) //call thunk using prospects tradeside
+    } else if (tradeSide === 'SHORTS') {
       this.props.dispatch(addSellstoList([symbol]))
-      this.props.dispatch(addWatchPriceAndIssueType(tradeSide)) //call thunk
-    } else if (tradeSide === 'TREND BUYS') {
+      putSymbolDataObjects(symbol, symbolDataObjectArray) // prep this data again for thunk dispatch
+      this.props.dispatch(addWatchPriceAndIssueType('SHORT SALES')) //call thunk using prospects tradeside
+    } else if (tradeSide === 'TREND LONGS') {
       this.props.dispatch(addTrendBuysToList([symbol]))
-      this.props.dispatch(addWatchPriceAndIssueType(tradeSide)) //call thunk
+      putSymbolDataObjects(symbol, symbolDataObjectArray) // prep this data again for thunk dispatch
+      this.props.dispatch(addWatchPriceAndIssueType('TREND BUYS')) //call thunk using prospects tradeside
     } else {
       alert('ERROR2 Missing tradeSide in ChartCell/addSymbolToProspects')
       // debugger
     }
+    // putSymbolDataObjects(symbol, symbolDataObjectArray) // prep this data for thunk
+    // this.props.dispatch(addWatchPriceAndIssueType(tradeSide)) //call thunk
+
   }
 
   handleOrderEntry() {
@@ -270,7 +276,7 @@ class Chartcell extends Component {
     const theAccount = 'pending'
     const theCellObject = this.props.cellObject //the target object originating the dispatch action
     //use 'pending' until brokerage api interface is enabled, Guest will see the programmed calculated quantity
-    const filledQuantity = this.context.email === 'a@g.com' ? 'pending' : this.props.cellObject.dashboard.quantity
+    const filledQuantity = this.context.email === 'z@g.com' ? 'pending' : this.props.cellObject.dashboard.quantity
     const enteredQuantityType = this.props.cellObject.dashboard.quantityType
     const theHash = this.props.cellObject.hash //from target object before its removal by dispatch below
 
@@ -279,39 +285,39 @@ class Chartcell extends Component {
         this.props.dispatch(addLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
         // this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        this.addSymbolToProspects(this.symbol, this.tradeSide.toUpperCase()) // Re-list symbol in Prospects 
         break
       }
       case 'SHORT SALES': {
         this.props.dispatch(addShortToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeSellFromList(this.symbol, this.hash))
         // this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        this.addSymbolToProspects(this.symbol, this.tradeSide.toUpperCase()) // Re-list symbol in Prospects 
         break
       }
       case 'TREND BUYS': {
         this.props.dispatch(addTrendLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
         // this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        this.addSymbolToProspects(this.symbol, this.tradeSide.toUpperCase()) // Re-list symbol in Prospects 
         break
       }
       case 'LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeLongFromList(this.symbol, this.hash))
         // this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
+        this.addSymbolToProspects(this.symbol, this.tradeSide.toUpperCase()) // Re-list symbol in Prospects 
         break
       }
       case 'SHORTS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeShortFromList(this.symbol, this.hash))
         // this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
+        this.addSymbolToProspects(this.symbol, this.tradeSide.toUpperCase()) // Re-list symbol in Prospects 
         break
       }
       case 'TREND LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
         // this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
+        this.addSymbolToProspects(this.symbol, this.tradeSide.toUpperCase()) // Re-list symbol in Prospects 
         break
       }
       default:
