@@ -74,7 +74,7 @@ class ChartDashboard extends Component {
         // the returnValue has an object with key/value pairs for each form field: {name: value, name: value, ...}
         this.props.dispatch(editListObjectPrarmeters(this.hash, returnValue.formFields))
       } else if (returnValue.action === 'confirm') {
-        this.props.handleOrderEntry() // the order entry was confirmed
+        this.props.handleOrderEntry() // the order entry was confirmed, call into parent
       } else {
         alert('Missing returnValue.action in handleEditDialogClose')
         debugger // pause for developer

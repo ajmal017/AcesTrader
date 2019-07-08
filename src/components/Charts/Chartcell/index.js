@@ -18,7 +18,7 @@ import { removeLongFromList } from '../../../redux/reducerLongs'
 import { removeShortFromList } from '../../../redux/reducerShorts'
 import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
-import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
+// import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
 import buildSmaTradingArray from '../../../lib/appBuildSmaTradingArray'
 import { getSymbolData } from '../../../lib/appGetSymbolData'
 import { cleanSymbolData } from '../../../lib/appCleanSymbolData'
@@ -36,6 +36,12 @@ import { putChartFlags, getChartFlags } from '../../../lib/chartDataCache'
 // import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import { AuthenticatedContext } from '../../../redux'
+import { putSymbolDataObjects } from '../../../lib/appSymbolDataObject'
+import { getWatchedPrices } from '../../../lib/appGetWatchedPrices'
+import { addBuysToList } from '../../../redux/reducerBuys'
+import { addSellstoList } from '../../../redux/reducerSells'
+import { addTrendBuysToList } from '../../../redux/reducerTrendBuys'
+import { addWatchPriceAndIssueType } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 
 const MINIMUMWEEKLYBARS = 3 // NOTE this magic number is defined in 2 locations, keep in sync
@@ -217,6 +223,35 @@ class Chartcell extends Component {
     return weeklyBars //this is for a weekly bar chart of prices
   }
 
+  addSymbolToProspects = (symbol, tradeSide) => {
+    // Called when a symbol is moved fron Positions to Trades to re-list it in Prospects 
+
+    const theCellObject = this.props.cellObject //the target object originating the dispatch actions
+    const issueType = theCellObject.issueType
+    const companyName = theCellObject.companyName
+
+    // Fetch the symbol price and puts it into appWatchedPrice for later use by redux thunk "addWatchPriceAndIssueType"
+    getWatchedPrices([symbol])
+
+    // Create a symbolDataObject for later use by redux thunk "addWatchPriceAndIssueType"
+    let symbolDataObjectArray = [{ symbol: { symbol }, issueType: { issueType }, companyName: { companyName } }]
+    putSymbolDataObjects(symbol, symbolDataObjectArray)
+
+    if (tradeSide === 'BUYS') {
+      this.props.dispatch(addBuysToList([symbol]))
+      this.props.dispatch(addWatchPriceAndIssueType(tradeSide)) //call thunk
+    } else if (tradeSide === 'SHORT SALES') {
+      this.props.dispatch(addSellstoList([symbol]))
+      this.props.dispatch(addWatchPriceAndIssueType(tradeSide)) //call thunk
+    } else if (tradeSide === 'TREND BUYS') {
+      this.props.dispatch(addTrendBuysToList([symbol]))
+      this.props.dispatch(addWatchPriceAndIssueType(tradeSide)) //call thunk
+    } else {
+      alert('ERROR2 Missing tradeSide in ChartCell/addSymbolToProspects')
+      // debugger
+    }
+  }
+
   handleOrderEntry() {
     // fade-out this object before dispatching redux action,
     // which will remove this object and then
@@ -243,49 +278,40 @@ class Chartcell extends Component {
       case 'BUYS': {
         this.props.dispatch(addLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
-        if (false) {
-          this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        }
+        // this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
+        this.addSymbolToProspects(this.symbol, this.tradeSide.toUpperCase()) // Re-list symbol in Prospects 
         break
       }
       case 'SHORT SALES': {
         this.props.dispatch(addShortToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeSellFromList(this.symbol, this.hash))
-        if (false) {
-          this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        }
+        // this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
+        this.addSymbolToProspects(this.symbol, this.tradeSide.toUpperCase()) // Re-list symbol in Prospects 
         break
       }
       case 'TREND BUYS': {
         this.props.dispatch(addTrendLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
         this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
-        if (false) {
-          this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        }
+        // this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
+        this.addSymbolToProspects(this.symbol, this.tradeSide.toUpperCase()) // Re-list symbol in Prospects 
         break
       }
       case 'LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeLongFromList(this.symbol, this.hash))
-        if (false) {
-          this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        }
+        // this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         break
       }
       case 'SHORTS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeShortFromList(this.symbol, this.hash))
-        if (false) {
-          this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        }
+        // this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         break
       }
       case 'TREND LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
-        if (false) {
-          this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        }
+        // this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
         break
       }
       default:
