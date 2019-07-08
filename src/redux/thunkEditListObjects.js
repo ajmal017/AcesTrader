@@ -19,7 +19,7 @@ export const addExitPrice = (hash) => {
     }
     let newObject = cloneDeep(foundObject)
     getFillPrice(newObject.symbol)
-      .then(function(data11) {
+      .then(function (data11) {
         let data1 = +data11 // cast to a number to test validity:
         if (isNaN(data1)) {
           newObject['exitedPrice'] = 'Not Available'
@@ -28,7 +28,7 @@ export const addExitPrice = (hash) => {
         }
         dispatch(replaceEditedObject(newObject))
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log('getFillPrice axios error:', error.message)
         alert('getFillPrice axios error: ' + error.message) //rude interruption to user
       })
@@ -48,7 +48,7 @@ export const addEnterPrice = (hash) => {
     }
     let newObject = cloneDeep(foundObject)
     getFillPrice(newObject.symbol)
-      .then(function(data22) {
+      .then(function (data22) {
         let data2 = +data22 // cast to a number to test validity:
         if (isNaN(data2)) {
           newObject['enteredPrice'] = 'Not Available'
@@ -67,7 +67,7 @@ export const addEnterPrice = (hash) => {
         // *this is now part of the JSON default dashboard file* newObject['trailingStopPercent'] = 5 //this is the current default app value
         dispatch(replacePositionObject(newObject))
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log('getFillPrice axios error:', error.message)
         alert('getFillPrice axios error: ' + error.message) //rude interruption to user
       })
@@ -108,14 +108,15 @@ export const addWatchPriceAndIssueType = (tradeSide) => {
       } else {
         newObject['watchedPrice'] = price //the price when this symbol was added to the prospects' watch list
       }
-      if (tradeSide === 'TREND BUYS') {
-        newObject['weeklyBars'] = true // make this the default chart for trend trading
-      }
+      // Keep the default weeklyBars=false. Set it to true manually in chart window when desired.
+      // if (tradeSide === 'TREND BUYS') {
+      //   newObject['weeklyBars'] = true // make this the default chart for trend trading
+      // }
       // Add the IEX security issueType code
       let DataObject = getSymbolDataObject(newObject.symbol)
       newObject['issueType'] = DataObject.issueType
 
-      // Fill the description dashboard parameter
+      // Fill the description dashboard parameter to show company name
       newObject['symbolDescription'] = DataObject.companyName
 
       dispatch(replaceProspectObject(newObject))
