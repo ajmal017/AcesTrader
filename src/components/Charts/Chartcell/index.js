@@ -233,8 +233,6 @@ class Chartcell extends Component {
     const weeklyBars = theCellObject.weeklyBars // special extra property for this use case
     let symbolDataObjectArray = [{ data: { symbol: symbol, issueType: issueType, companyName: companyName, weeklyBars: weeklyBars } }]
 
-    // loadWatchedPrices([symbol]) // Fetch the symbol price and put it into appWatchedPrice for first dispatch 
-    // putSymbolDataObjects(symbolDataObjectArray) // prep this data for first dispatch 
     if (tradeSide === 'BUYS') {
       this.props.dispatch(addBuysToList([symbol]))
     } else if (tradeSide === 'SHORT SALES') {
