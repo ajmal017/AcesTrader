@@ -112,12 +112,12 @@ export const addWatchPriceAndIssueType = (tradeSide) => {
       // if (tradeSide === 'TREND BUYS') {
       //   newObject['weeklyBars'] = true // make this the default chart for trend trading
       // }
-      // Add the IEX security issueType code
       let DataObject = getSymbolDataObject(newObject.symbol)
+      newObject['weeklyBars'] = DataObject.weeklyBars // carry over existing choice
+      // Add the IEX security issueType code
       newObject['issueType'] = DataObject.issueType
-
-      // Fill the description dashboard parameter to show company name
-      newObject['symbolDescription'] = DataObject.companyName
+      // Fill the dashboard parameter to show company name
+      newObject['companyName'] = DataObject.companyName
 
       dispatch(replaceProspectObject(newObject))
     }
@@ -162,7 +162,7 @@ export const editListObjectPrarmeters = (hash, parameterData) => {
         key === 'weeklyBars' ||
         key === 'macdChart' ||
         key === 'trailingStopPercent' ||
-        key === 'symbolDescription'
+        key === 'companyName'
       ) {
         newObject[key] = parameterData[key]
       } else {

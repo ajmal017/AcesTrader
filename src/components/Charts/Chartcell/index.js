@@ -37,7 +37,7 @@ import { putChartFlags, getChartFlags } from '../../../lib/chartDataCache'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import { AuthenticatedContext } from '../../../redux'
 import { putSymbolDataObjects } from '../../../lib/appSymbolDataObject'
-import { getWatchedPrices } from '../../../lib/appGetWatchedPrices'
+import { loadWatchedPrices } from '../../../lib/appLoadWatchedPrices'
 import { addBuysToList } from '../../../redux/reducerBuys'
 import { addSellstoList } from '../../../redux/reducerSells'
 import { addTrendBuysToList } from '../../../redux/reducerTrendBuys'
@@ -223,39 +223,31 @@ class Chartcell extends Component {
     return weeklyBars //this is for a weekly bar chart of prices
   }
 
-  addSymbolToProspects = (symbol, tradeSide) => {
+  addSymbolToProspects = async (symbol, tradeSide) => {
     // Called when a symbol is moved fron Positions to Trades to re-list it in Prospects 
 
+    // Create a symbolDataObject for later use by redux thunk "addWatchPriceAndIssueType"
     const theCellObject = this.props.cellObject //the target object originating the dispatch actions
     const issueType = theCellObject.issueType
-    const symbolDescription = theCellObject.symbolDescription
+    const companyName = theCellObject.companyName
+    const weeklyBars = theCellObject.weeklyBars // special extra property for this use case
+    let symbolDataObjectArray = [{ data: { symbol: symbol, issueType: issueType, companyName: companyName, weeklyBars: weeklyBars } }]
 
-    // Fetch the symbol price and puts it into appWatchedPrice for later use by redux thunk "addWatchPriceAndIssueType"
-    getWatchedPrices([symbol])
-
-    // Create a symbolDataObject for later use by redux thunk "addWatchPriceAndIssueType"
-    let symbolDataObjectArray = [{ symbol: { symbol }, issueType: { issueType }, symbolDescription: { symbolDescription } }]
-
-    putSymbolDataObjects(symbol, symbolDataObjectArray) // prep this data for first dispatch 
-    if (tradeSide === 'LONGS') {
+    // loadWatchedPrices([symbol]) // Fetch the symbol price and put it into appWatchedPrice for first dispatch 
+    // putSymbolDataObjects(symbolDataObjectArray) // prep this data for first dispatch 
+    if (tradeSide === 'BUYS') {
       this.props.dispatch(addBuysToList([symbol]))
-      putSymbolDataObjects(symbol, symbolDataObjectArray) // prep this data again for thunk dispatch
-      this.props.dispatch(addWatchPriceAndIssueType('BUYS')) //call thunk using prospects tradeside
-    } else if (tradeSide === 'SHORTS') {
+    } else if (tradeSide === 'SHORT SALES') {
       this.props.dispatch(addSellstoList([symbol]))
-      putSymbolDataObjects(symbol, symbolDataObjectArray) // prep this data again for thunk dispatch
-      this.props.dispatch(addWatchPriceAndIssueType('SHORT SALES')) //call thunk using prospects tradeside
-    } else if (tradeSide === 'TREND LONGS') {
+    } else if (tradeSide === 'TREND BUYS') {
       this.props.dispatch(addTrendBuysToList([symbol]))
-      putSymbolDataObjects(symbol, symbolDataObjectArray) // prep this data again for thunk dispatch
-      this.props.dispatch(addWatchPriceAndIssueType('TREND BUYS')) //call thunk using prospects tradeside
     } else {
       alert('ERROR2 Missing tradeSide in ChartCell/addSymbolToProspects')
       // debugger
     }
-    // putSymbolDataObjects(symbol, symbolDataObjectArray) // prep this data for thunk
-    // this.props.dispatch(addWatchPriceAndIssueType(tradeSide)) //call thunk
-
+    await loadWatchedPrices([symbol]) // Put the symbol price into appWatchedPrice for dispatch to redux thunk
+    putSymbolDataObjects(symbolDataObjectArray) // prep this data for dispatch to redux thunk
+    this.props.dispatch(addWatchPriceAndIssueType(tradeSide)) //call redux thunk "addWatchPriceAndIssueType"
   }
 
   handleOrderEntry() {
@@ -278,7 +270,7 @@ class Chartcell extends Component {
     //use 'pending' until brokerage api interface is enabled, Guest will see the programmed calculated quantity
     const filledQuantity = this.context.email === 'z@g.com' ? 'pending' : this.props.cellObject.dashboard.quantity
     const enteredQuantityType = this.props.cellObject.dashboard.quantityType
-    const theHash = this.props.cellObject.hash //from target object before its removal by dispatch below
+    //Note that "this.hash" //is from target object before its removal by dispatch below
 
     switch (this.tradeSide.toUpperCase()) {
       case 'BUYS': {
@@ -303,21 +295,21 @@ class Chartcell extends Component {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeLongFromList(this.symbol, this.hash))
         // this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        this.addSymbolToProspects(this.symbol, this.tradeSide.toUpperCase()) // Re-list symbol in Prospects 
+        this.addSymbolToProspects(this.symbol, 'BUYS') // call thunk to re-list symbol in Prospects 
         break
       }
       case 'SHORTS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeShortFromList(this.symbol, this.hash))
         // this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        this.addSymbolToProspects(this.symbol, this.tradeSide.toUpperCase()) // Re-list symbol in Prospects 
+        this.addSymbolToProspects(this.symbol, 'SHORT SALES') // call thunk to re-list symbol in Prospects 
         break
       }
       case 'TREND LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
         // this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        this.addSymbolToProspects(this.symbol, this.tradeSide.toUpperCase()) // Re-list symbol in Prospects 
+        this.addSymbolToProspects(this.symbol, 'TREND BUYS') // call thunk to re-list symbol in Prospects 
         break
       }
       default:

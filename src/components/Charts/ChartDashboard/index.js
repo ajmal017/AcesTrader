@@ -98,7 +98,7 @@ class ChartDashboard extends Component {
     this.weekly = this.props.cellObject.weeklyBars
     this.hash = this.props.cellObject.hash
     this.listGroup = this.props.cellObject.listGroup
-    this.symbolDescription = this.props.cellObject.symbolDescription
+    this.companyName = this.props.cellObject.companyName
     this.trailingStopBasis = this.props.cellObject.trailingStopBasis
     this.peekDate = this.props.cellObject.peekDate
     this.peekPrice = this.props.cellObject.peekPrice
@@ -314,7 +314,7 @@ class ChartDashboard extends Component {
       entered: this.entered,
       enteredPrice: this.enteredPrice,
       filledQuantity: this.filledQuantity,
-      symbolDescription: this.symbolDescription,
+      companyName: this.companyName,
       session: this.session,
       instruction: this.instruction,
       quantity: this.quantity,
@@ -427,7 +427,7 @@ class ChartDashboard extends Component {
           </form>
 
           <div className='dashboard-securityname'>
-            <div>{this.symbolDescription !== undefined ? <span className='symbolDescription'>{this.symbolDescription}</span> : null}</div>
+            <div>{this.companyName !== undefined ? <span className='companyName'>{this.companyName}</span> : null}</div>
           </div>
           <div className='dashboard-footer'>
             {/* {process.env.NODE_ENV === 'development' ? <div className={'trailingStopBasis-absolute'}>{this.trailingStopBasis}</div> : ''} */}

@@ -82,6 +82,21 @@ export default function (state, peekPricesObject, theDate) {
      * End of another special operation
      */
 
+    /**
+     * Another special operation to move existing "symbolDescription" property value, which is currently
+     * the company name, into the correct property: "companyName". THIS IS ACTIVE ONLY ONCE.
+     * NOTE: THIS WAS DONE 7/9/2019
+     */
+    // if (obj.symbolDescription && obj['companyName'] === undefined) {
+    //   obj['companyName'] = obj.symbolDescription
+    //   obj.symbolDescription = undefined
+    //   updated = true
+    // }
+    /**
+   * End of another special operation
+   */
+
+
     let symbol = obj.symbol
     let listGroup = obj.listGroup
     let useSandbox = getSandboxStatus()

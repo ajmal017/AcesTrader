@@ -14,7 +14,7 @@ import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/redu
 import { addWatchPriceAndIssueType } from '../../redux/thunkEditListObjects'
 import { queryClearProspectsList } from '../../redux/reducerModal'
 import { putSymbolDataObjects } from '../../lib/appSymbolDataObject'
-import { getWatchedPrices } from '../../lib/appGetWatchedPrices'
+import { loadWatchedPrices } from '../../lib/appLoadWatchedPrices'
 import { verifySymbolLookups } from '../../lib/appVerifySymbolLookups'
 import './styles.css'
 
@@ -168,7 +168,7 @@ class ManageProspects extends Component {
           }.bind(this)
         )
         //this fetches the symbol prices and puts them into appWatchedPrice for later retrival by redux thunk "addWatchPriceAndIssueType"
-        getWatchedPrices(verifiedList) //this fetches prices and then puts them into this object for retrival later
+        loadWatchedPrices(verifiedList) //this fetches prices and then puts them into this object for retrival later
       }
     }
   }
