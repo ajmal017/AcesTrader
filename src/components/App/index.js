@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { applyMiddleware, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import { firebaseSaveState } from '../../lib/firebaseSaveState'
+import { clearLocalDatabase } from '../../lib/localDatabaseStorage'
 import rootReducer from '../../redux'
 import ErrorBoundary from '../../components/ErrorBoundary/'
 import Root from '../../components/Root'
@@ -31,15 +32,34 @@ class App extends Component {
       })
     }
 
+    let escapeKey = false
+    const catchKeyup = (event) => {
+      if (event.defaultPrevented) {
+        return
+      }
+      let key = event.key || event.keyCode;
+      if (key === 'Escape' || key === 'Esc' || key === 27) {
+        escapeKey = true
+      } else {
+        escapeKey = false
+      }
+    }
+
     // Showing configuration for martinapps / acestrader at Firebase
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
+        if (escapeKey) {
+          clearLocalDatabase() // initialize local database
+          escapeKey = false
+        }
+        document.removeEventListener('keyup', catchKeyup)
         this.setState({
           authenticated: true,
           currentUser: user,
           loading: false,
         })
       } else {
+        document.addEventListener('keyup', catchKeyup)
         this.setState({
           authenticated: false,
           currentUser: null,
