@@ -268,46 +268,46 @@ class Chartcell extends Component {
     //use 'pending' until brokerage api interface is enabled, Guest will see the programmed calculated quantity
     const filledQuantity = this.context.email === 'z@g.com' ? 'pending' : this.props.cellObject.dashboard.quantity
     const enteredQuantityType = this.props.cellObject.dashboard.quantityType
-    //Note that "this.hash" //is from target object before its removal by dispatch below
+    //Note that "this.hash" //is of the target object until its removal by dispatch below
 
     switch (this.tradeSide.toUpperCase()) {
       case 'BUYS': {
         this.props.dispatch(addLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
-        this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
-        // this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
+        // this.props.dispatch(addEnterPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
+        this.props.dispatch(removeBuyFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       case 'SHORT SALES': {
         this.props.dispatch(addShortToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
-        this.props.dispatch(removeSellFromList(this.symbol, this.hash))
-        // this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
+        // this.props.dispatch(addEnterPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
+        this.props.dispatch(removeSellFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       case 'TREND BUYS': {
         this.props.dispatch(addTrendLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
-        this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
-        // this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
+        // this.props.dispatch(addEnterPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
+        this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       case 'LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
-        this.props.dispatch(removeLongFromList(this.symbol, this.hash))
-        // this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
+        // this.props.dispatch(addExitPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
         this.addSymbolToProspects(this.symbol, 'BUYS') // call thunk to re-list symbol in Prospects 
+        this.props.dispatch(removeLongFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       case 'SHORTS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
-        this.props.dispatch(removeShortFromList(this.symbol, this.hash))
-        // this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
+        // this.props.dispatch(addExitPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
         this.addSymbolToProspects(this.symbol, 'SHORT SALES') // call thunk to re-list symbol in Prospects 
+        this.props.dispatch(removeShortFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       case 'TREND LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
-        this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
-        // this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
+        // this.props.dispatch(addExitPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
         this.addSymbolToProspects(this.symbol, 'TREND BUYS') // call thunk to re-list symbol in Prospects 
+        this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       default:
