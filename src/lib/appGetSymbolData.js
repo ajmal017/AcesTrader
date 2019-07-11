@@ -13,6 +13,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
     const date = new Date() // today's date
 
     // await clearLocalDatabase() //<==TEMP ===== use this to reset the DB content ==========
+    // alert('Cleared The Local Database')
     // debugger
 
     // //******************************** */
