@@ -49,6 +49,7 @@ class App extends Component {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
         if (escapeKey) {
+          alert('Clearing Local Database')
           clearLocalDatabase() // initialize local database
           escapeKey = false
         }
