@@ -13,6 +13,7 @@ import firebase from 'firebase/app'
 // import 'firebase/database'
 import * as Sentry from '@sentry/browser'
 import { AuthenticatedContext } from '../../redux'
+import { clearLocalDatabase } from '../../lib/localDatabaseStorage';
 
 export const ACESTRADERSTATE = 'at-state'
 
@@ -22,6 +23,10 @@ class App extends Component {
     this.state = { loading: true, authenticated: false, user: null, store: null }
   }
 
+  async clearChartPrices() {
+    alert('Clearing local database of chart prices')
+    await clearLocalDatabase() // initialize local database
+  }
   componentDidMount() {
     const RELEASE = '1.3.*'
     if (process.env.NODE_ENV === 'production') {
@@ -34,6 +39,11 @@ class App extends Component {
     // Showing configuration for martinapps / acestrader at Firebase
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
+
+        if (user.email === 'zzzz@g.com') {
+          this.clearChartPrices()
+        }
+
         this.setState({
           authenticated: true,
           currentUser: user,
