@@ -91,7 +91,7 @@ class ManageProspects extends Component {
     }
   }
 
-  handleSubmit() {
+  async handleSubmit() {
     // Verify the submitted list of symbols
     let cleanedInput
     let verifiedList
@@ -168,7 +168,7 @@ class ManageProspects extends Component {
           }.bind(this)
         )
         //this fetches the symbol prices and puts them into appWatchedPrice for later retrival by redux thunk "addWatchPriceAndIssueType"
-        loadWatchedPrices(verifiedList) //this fetches prices and then puts them into this object for retrival later
+        await loadWatchedPrices(verifiedList) //this fetches prices and then puts them into this object for retrival later
       }
     }
   }
