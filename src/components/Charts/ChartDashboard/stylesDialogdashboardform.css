@@ -99,3 +99,22 @@ hr {
 .dialog-button:hover {
   background: #cac8c8dc;
 }
+
+.dialog-form-companydata {
+  width: 300px;
+  padding: 20px;
+}
+.dialog-form-companydata-title {
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+.dialog-form-companydata-content {
+  display: flex;
+  justify-content: center;
+}
+.dialog-form-companydata-button {
+  display: flex;
+  justify-content: center;
+}

@@ -1,5 +1,9 @@
 /* ChartDashboard/styles.css */
 
+.companyName:hover {
+  cursor: pointer;
+}
+
 .dashboard {
   width: 100%;
   padding: 5px;
