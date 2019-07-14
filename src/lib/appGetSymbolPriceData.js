@@ -1,4 +1,4 @@
-// appGetSymbolData.js
+// appGetSymbolPriceData.js
 
 import { getIEXData } from '../lib/apiGetIEXData'
 import { loadLocalDatabase, saveLocalDatabase } from '../lib/localDatabaseStorage'
@@ -6,7 +6,7 @@ import { setTheLocalDatabase } from '../lib/appSetTheLocalDatabase'
 // import { clearLocalDatabase } from '../lib/localDatabaseStorage'
 let cloneDeep = require('lodash.clonedeep')
 
-export const getSymbolData = async function (symbol, range, closeOnly, useSandbox) {
+export const getSymbolPriceData = async function (symbol, range, closeOnly, useSandbox) {
 
     // Allow for different versions of the symbol's price file
     const symbolKey = `${symbol.toUpperCase()}-${range}${closeOnly ? '-CloseOnly' : ''}${useSandbox ? '-Sandbox' : ''}`
@@ -64,7 +64,7 @@ export const getSymbolData = async function (symbol, range, closeOnly, useSandbo
             return symbolData
         }
     } catch (err) {
-        alert(`getSymbolData(${symbolKey}) failed. Error=${err.message}`)
+        alert(`getSymbolPriceData(${symbolKey}) failed. Error=${err.message}`)
         debugger
     }
 }
@@ -76,7 +76,7 @@ const downloadSymbolData = async function (symbol, range, closeOnly, useSandbox)
         let symbolData = await data
         return symbolData
     } catch (err) {
-        alert(`getIEXData(${symbol}) failed in getSymbolData. Error=${err.message}`)
+        alert(`getIEXData(${symbol}) failed in getSymbolPriceData. Error=${err.message}`)
         debugger
     }
 }

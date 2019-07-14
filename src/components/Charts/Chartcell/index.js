@@ -20,7 +20,7 @@ import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
 // import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
 import buildSmaTradingArray from '../../../lib/appBuildSmaTradingArray'
-import { getSymbolData } from '../../../lib/appGetSymbolData'
+import { getSymbolPriceData } from '../../../lib/appGetSymbolPriceData'
 import { cleanSymbolData } from '../../../lib/appCleanSymbolData'
 // import getChartLastBar from '../../../lib/apiGetChartLastBar'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
@@ -93,7 +93,7 @@ class Chartcell extends Component {
   componentDidMount() {
     // Preloaded price data files from IEX are cached
     // in local storage to persist for the day,
-    // and are found in getSymbolData()
+    // and are found in getSymbolPriceData()
     this.loadChartData()
   }
 
@@ -114,8 +114,8 @@ class Chartcell extends Component {
     // this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
     this.range = '1y' // New for IEX Cloud data to save money
     const self = this
-    // console.log(`getSymbolData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
-    getSymbolData(symbol, this.range, this.closeOnly, this.useSandbox)
+    // console.log(`getSymbolPriceData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
+    getSymbolPriceData(symbol, this.range, this.closeOnly, this.useSandbox)
       .then(function (data) {
 
         if (!data || data === undefined || data === null) {
@@ -174,9 +174,9 @@ class Chartcell extends Component {
         }
       })
       .catch(function (error) {
-        console.log('getSymbolData axios error:', error.message)
+        console.log('getSymbolPriceData axios error:', error.message)
         // self.setState({ iexData: 4, noprices: true, hide: false })
-        alert('getSymbolData axios error: ' + error.message) //rude interruption to user
+        alert('getSymbolPriceData axios error: ' + error.message) //rude interruption to user
         debugger // pause for developer
       })
   }

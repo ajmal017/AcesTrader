@@ -1,9 +1,9 @@
-// appVerifySymbolLookups.js
+// appGetSymbolCompanyData.js
 
 import iexData from '../iex.json'
 import axios from 'axios'
 
-export const verifySymbolLookups = function (symbolList) {
+export const getSymbolCompanyData = function (symbolList) {
     const version = iexData.Version
     const token = `token=${iexData.PublishableToken}`
     const basehtml = iexData.BasehtmlCloud

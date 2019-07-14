@@ -15,7 +15,7 @@ import { addWatchPriceAndIssueType } from '../../redux/thunkEditListObjects'
 import { queryClearProspectsList } from '../../redux/reducerModal'
 import { putSymbolDataObjects } from '../../lib/appSymbolDataObject'
 import { loadWatchedPrices } from '../../lib/appLoadWatchedPrices'
-import { verifySymbolLookups } from '../../lib/appVerifySymbolLookups'
+import { getSymbolCompanyData } from '../../lib/appGetSymbolCompanyData'
 import './styles.css'
 
 class ManageProspects extends Component {
@@ -141,7 +141,7 @@ class ManageProspects extends Component {
         this.textAreaBox.value = '**No New Symbols In The List, All These Are Already Entered**'
       } else {
         this.textAreaBox.value = 'Verifying Symbols, Please Wait...'
-        verifySymbolLookups(verifiedList).then(
+        getSymbolCompanyData(verifiedList).then(
           function (data) {
             if (data.error) {
               // Extract symbol from string ".../stock/symbol/company" to use in reporting error
