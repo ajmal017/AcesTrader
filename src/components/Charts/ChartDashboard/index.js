@@ -12,6 +12,7 @@ import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import { getLast20Closes } from '../../../lib/chartDataCache'
 import { getHighestLowestCloses } from '../../../lib/appGetHighestLowestCloses'
 import { getDailyPriceDataLastBar } from '../../../lib/chartDataCache'
+import { getSymbolCompanyData } from '../../../lib/appGetSymbolCompanyData'
 // import { getChartFlags } from '../../../lib/chartDataCache'
 import { AuthenticatedContext } from '../../../redux'
 import './styles.css'
@@ -45,23 +46,59 @@ class ChartDashboard extends Component {
     this.handleOrderEntry = this.handleOrderEntry.bind(this)
     this.handleEditDialogOpen = this.handleEditDialogOpen.bind(this)
     this.handleEditDialogClose = this.handleEditDialogClose.bind(this)
-    this.state = { showDialog: false, showConfirm: false }
+    this.state = {
+      showDialog: false,
+      showConfirm: false,
+      showCompanyData: false,
+      companyData: ''
+    }
   }
 
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
+  async getCompanyData(symbol) {
+    try {
+      const data = await getSymbolCompanyData([symbol])
+      let content = data.arr[0].data.description
+      if (content === '') {
+        if (data.arr[0].data.issueType === 'et') {
+          content = 'This security is an ETF, there is no company description.' // in the ${data.arr[0].data.sector} sector`
+        } else {
+          content = "This security's description was not found."
+        }
+      }
+      return content
+    } catch (err) {
+      return `${symbol} company description not found. Error ${err.message}`
+    }
+  }
+
   handleEditDialogOpen(event) {
     event.preventDefault()
+    // note that EditDialog is the default target to show when the others are false
     this.setState({
       showDialog: true,
       showConfirm: false,
+      showCompanyData: false,
+      companyData: '',
     })
   }
   doConfirmDialogOpen() {
     this.setState({
       showDialog: true,
       showConfirm: true,
+      showCompanyData: false,
+      companyData: '',
+    })
+  }
+  async doCompanyDataDialogOpen() {
+    const companyData = await this.getCompanyData(this.props.cellObject.symbol)
+    this.setState({
+      showDialog: true,
+      showConfirm: false,
+      showCompanyData: true,
+      companyData: companyData,
     })
   }
 
@@ -88,6 +125,11 @@ class ChartDashboard extends Component {
   handleOrderEntry = (event) => {
     event.preventDefault()
     this.doConfirmDialogOpen() // Call for a confirmation dialog
+  }
+
+  handleCompanyDataRequest = (event) => {
+    event.preventDefault()
+    this.doCompanyDataDialogOpen() // Call for a CompanyData dialog
   }
 
   render() {
@@ -331,6 +373,8 @@ class ChartDashboard extends Component {
         <DialogDashboardForm
           showDialog={this.state.showDialog}
           showConfirm={this.state.showConfirm}
+          showCompanyData={this.state.showCompanyData}
+          companyData={this.state.companyData}
           hash={this.hash}
           symbol={this.symbol}
           formValues={this.dialogDashboardFormValues}
@@ -427,7 +471,7 @@ class ChartDashboard extends Component {
           </form>
 
           <div className='dashboard-securityname'>
-            <div>{this.companyName !== undefined ? <span className='companyName'>{this.companyName}</span> : null}</div>
+            <div>{this.companyName !== undefined ? <span onClick={this.handleCompanyDataRequest} className='companyName'>{this.companyName}</span> : null}</div>
           </div>
           <div className='dashboard-footer'>
             {/* {process.env.NODE_ENV === 'development' ? <div className={'trailingStopBasis-absolute'}>{this.trailingStopBasis}</div> : ''} */}

@@ -57,8 +57,17 @@ class DialogDashboardForm extends Component {
 
   render() {
     const showConfirm = this.props.showConfirm //get the boolean switch value
+    const showCompanyData = this.props.showCompanyData //get the boolean switch value
     let dialogContent
-    if (showConfirm) {
+    if (showCompanyData) {
+      dialogContent = (
+        <CompanyDataDialog
+          symbol={this.props.symbol}
+          companyData={this.props.companyData}
+          exitCallback={this.props.exitCallback}
+        />
+      )
+    } else if (showConfirm) {
       dialogContent = (
         <ConfirmDialog
           handleInputChange={this.handleInputChange}
@@ -84,13 +93,32 @@ class DialogDashboardForm extends Component {
       )
     }
     // let dialogClassName = `dialog-form ${showConfirm ? 'dialog-form-confirm' : 'dialog-form-edit'}`
-    let dialogClassName = `${showConfirm ? 'dialog-form-confirm' : 'dialog-form-edit'}`
+    let dialogClassName = `${showCompanyData ? 'dialog-form-companydata' : showConfirm ? 'dialog-form-confirm' : 'dialog-form-edit'}`
     return (
       <dialog id={'dialog-params' + this.hash} className={dialogClassName}>
         {dialogContent}
       </dialog>
     )
   }
+}
+
+function CompanyDataDialog(props) {
+  const symbol = props.symbol
+  const companyData = props.companyData
+  const exitCallback = props.exitCallback
+  return (
+    <>
+      <div className={'dialog-form-companydata-title'}> {symbol}</div>
+      <div className={'dialog-form-companydata-content'}> <p>{companyData}</p></div>
+      <div className={'dialog-form-companydata-button'}>
+        <button
+          className={'dialog-button'}
+          onClick={() => {
+            exitCallback(null)
+          }}>Close</button>
+      </div>
+    </>
+  )
 }
 
 function ConfirmDialog(props) {
