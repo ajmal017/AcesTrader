@@ -112,7 +112,7 @@ class Chartcell extends Component {
     const symbol = this.props.cellObject.symbol
     // const weeklyBars = this.props.cellObject.weeklyBars
     // this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
-    this.range = '1y' // New for IEX Cloud data to save money
+    this.range = '1y' // New standard small range for IEX Cloud data to save money
     const self = this
     // console.log(`getSymbolPriceData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
     getSymbolPriceData(symbol, this.range, this.closeOnly, this.useSandbox)

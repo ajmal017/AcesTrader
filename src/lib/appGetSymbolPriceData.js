@@ -3,6 +3,7 @@
 import { getIEXData } from '../lib/apiGetIEXData'
 import { loadLocalDatabase, saveLocalDatabase } from '../lib/localDatabaseStorage'
 import { setTheLocalDatabase } from '../lib/appSetTheLocalDatabase'
+// import { getLocalDatabaseKeys } from '../lib/localDatabaseStorage'
 // import { clearLocalDatabase } from '../lib/localDatabaseStorage'
 let cloneDeep = require('lodash.clonedeep')
 
@@ -40,7 +41,8 @@ export const getSymbolPriceData = async function (symbol, range, closeOnly, useS
     // debugger
     // //******************************** */
 
-    await setTheLocalDatabase(date) // ensure the local DB will contain last trading day symbol price data
+    // const keys = await getLocalDatabaseKeys() // check the cache contents for debugging
+    const daysOld = await setTheLocalDatabase(date) // ensure the local DB will contain last trading day symbol price data
     try {
         // Get the price series from the local database cache if available
         let symbolData = await loadLocalDatabase(symbolKey)
@@ -54,14 +56,14 @@ export const getSymbolPriceData = async function (symbol, range, closeOnly, useS
                 obj.date = new Date(date)
                 return obj
             })
-            return data
+            return data // return price series from cache
         } else {
             // Download the end-of-day price series for yesterday from IEX cloud
             let symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
             await saveLocalDatabase(symbolKey, symbolData) // add new data for today
             // let testing = await loadLocalDatabase(symbolKey) //BCM test getting same object back
             // debugger //BCM
-            return symbolData
+            return symbolData // return price series from IEX cloud
         }
     } catch (err) {
         alert(`getSymbolPriceData(${symbolKey}) failed. Error=${err.message}`)
