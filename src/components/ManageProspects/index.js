@@ -14,8 +14,8 @@ import { addTrendBuysToList, removeAllTrendBuysFromList } from '../../redux/redu
 import { addWatchPriceAndIssueType } from '../../redux/thunkEditListObjects'
 import { queryClearProspectsList } from '../../redux/reducerModal'
 import { putSymbolDataObjects } from '../../lib/appSymbolDataObject'
-import { getWatchedPrices } from '../../lib/appGetWatchedPrices'
-import { verifySymbolLookups } from '../../lib/appVerifySymbolLookups'
+import { loadWatchedPrices } from '../../lib/appLoadWatchedPrices'
+import { getSymbolCompanyData } from '../../lib/appGetSymbolCompanyData'
 import './styles.css'
 
 class ManageProspects extends Component {
@@ -91,7 +91,7 @@ class ManageProspects extends Component {
     }
   }
 
-  handleSubmit() {
+  async handleSubmit() {
     // Verify the submitted list of symbols
     let cleanedInput
     let verifiedList
@@ -141,7 +141,7 @@ class ManageProspects extends Component {
         this.textAreaBox.value = '**No New Symbols In The List, All These Are Already Entered**'
       } else {
         this.textAreaBox.value = 'Verifying Symbols, Please Wait...'
-        verifySymbolLookups(verifiedList).then(
+        getSymbolCompanyData(verifiedList).then(
           function (data) {
             if (data.error) {
               // Extract symbol from string ".../stock/symbol/company" to use in reporting error
@@ -167,8 +167,8 @@ class ManageProspects extends Component {
             }
           }.bind(this)
         )
-        // get symbol prices for appWatchedPrice object
-        getWatchedPrices(verifiedList) //this fetches prices and then puts them into this object for retrival later
+        //this fetches the symbol prices and puts them into appWatchedPrice for later retrival by redux thunk "addWatchPriceAndIssueType"
+        await loadWatchedPrices(verifiedList) //this fetches prices and then puts them into this object for retrival later
       }
     }
   }
@@ -190,15 +190,15 @@ class ManageProspects extends Component {
       if (this.tradeSide.toUpperCase() === 'BUYS') {
         this.props.dispatch(addBuysToList(this.newProspects))
         this.props.dispatch(addWatchPriceAndIssueType(this.tradeSide.toUpperCase())) //call thunk
-        this.props.handleClick('push', 'prospectbuys')
+        this.props.handleClick('push', 'prospectbuys') // return to last window
       } else if (this.tradeSide.toUpperCase() === 'SHORT SALES') {
         this.props.dispatch(addSellstoList(this.newProspects))
         this.props.dispatch(addWatchPriceAndIssueType(this.tradeSide.toUpperCase())) //call thunk
-        this.props.handleClick('push', 'prospectsells')
+        this.props.handleClick('push', 'prospectsells') // return to last window
       } else if (this.tradeSide.toUpperCase() === 'TREND BUYS') {
         this.props.dispatch(addTrendBuysToList(this.newProspects))
         this.props.dispatch(addWatchPriceAndIssueType(this.tradeSide.toUpperCase())) //call thunk
-        this.props.handleClick('push', 'prospecttrendbuys')
+        this.props.handleClick('push', 'prospecttrendbuys') // return to last window
       } else {
         alert('ERROR2 Missing tradeSide in ManageProspects')
         // debugger

@@ -49,14 +49,15 @@ class TradesChart extends React.Component {
       const tradePercentGain = tradeSide === 'Shorts' ? -tradePercentGainTemp : tradePercentGainTemp
       return { symbol: tradeObject.symbol, Gain: tradePercentGain, fillColor: '#00ca9d' }
     })
+    const chartWidth = this.props.width - 40
     const data = data1.reverse()
 
     return (
       <div id='tradeschartcontainer'>
-        <BarChart width={this.props.width - 40} height={200} data={data} margin={{ top: 35, right: 30, left: 20, bottom: 15 }}>
+        <BarChart width={chartWidth} height={200} data={data} margin={{ top: 35, right: 30, left: 20, bottom: 15 }}>
           <CartesianGrid strokeDasharray='3 3' />
           <XAxis dataKey='symbol' tick={{ value: 'symbol', angle: -90, textAnchor: 'end' }} />
-          <YAxis label={{ value: 'Gain %', angle: -90, position: 'outsideLeft' }} /> {/* <Tooltip /> */}
+          <YAxis label={{ value: 'Gain %', angle: -90, position: 'insideLeft' }} /> {/* <Tooltip /> */}
           <Tooltip />
           {/* <Legend /> */}
           <ReferenceLine y={0} stroke='#000' />

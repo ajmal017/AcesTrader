@@ -8,7 +8,7 @@ import './WelcomeTrader.css'
 import { setSandboxStatus, getSandboxStatus } from '../../lib/appUseSandboxStatus'
 import { resetDefaultState, resetPersistedState } from '../../redux/index.js'
 import { putReference, getReference, ameritrade, schwab, paper } from '../../lib/dbReference'
-import { resetPeekPrices } from '../../lib/appLastPeekPrice'
+import { setPeekPrices } from '../../lib/appSetPeekPrices'
 import { resetDataCache } from '../../lib/chartDataCache'
 import fire from '../../fire'
 
@@ -114,11 +114,11 @@ class WelcomeTrader extends Component {
     this.firstReference = props.firstReference
     this.dispatch = props.dispatch
     this.state = {}
-    // console.log(`WelcomeTrader: constructor, props.firstReference=${props.firstReference}`) //BCM
+    // console.log(`WelcomeTrader: constructor, props.firstReference=${props.firstReference}`)
   }
 
   componentDidMount() {
-    // console.log(`WelcomeTrader: componentDidMount, getReference=${getReference()}, props.firstReference=${props.firstReference}`) //BCM
+    // console.log(`WelcomeTrader: componentDidMount, getReference=${getReference()}, props.firstReference=${props.firstReference}`)
     if (this.firstReference) {
       this.sandboxChecked = process.env.NODE_ENV === 'development' ? true : false // by default development gets junk ohlc values to test the app, but free downloads (default is changeable by user) 
       setSandboxStatus(this.sandboxChecked) // set for reference in other modules such as Chartcell and reducePeekData.js
@@ -133,7 +133,7 @@ class WelcomeTrader extends Component {
 
   handleChange = (event) => {
     event.preventDefault()
-    // console.log(`WelcomeTrader: handleChange getReference=${getReference()}`) //BCM
+    // console.log(`WelcomeTrader: handleChange getReference=${getReference()}`)
     this.loadPortfolio(event.target.value)
   }
 
@@ -146,10 +146,9 @@ class WelcomeTrader extends Component {
 
   loadPortfolio = (reference) => {
     try {
-      resetDataCache() // clear all previously cached chart price data for fresh start
-      resetPeekPrices() //clear old peek symbol prices for fresh start
+      resetDataCache() // clear all previously cached charting data for fresh start
       let persistedState = null // receives the state loaded from database
-      // console.log(`loadPortfolioData begin:, reference=${reference}`) //BCM
+      // console.log(`loadPortfolioData begin:, reference=${reference}`)
       let that = this // for use below
       fire
         .database()
@@ -165,8 +164,14 @@ class WelcomeTrader extends Component {
             } else {
               // the saved data was recovered and can be used to set the app's state in memory
               that.props.dispatch(resetPersistedState(persistedState))
+
+              // Put the current peek prices into the LastPeekPrice cache for use later in ChartsView,
+              // this is an async operation that should be finished when accessed by ChartsView
+              let currentState = that.props.state
+              setPeekPrices(currentState)
+
             }
-            // console.log(`AppLoadData DB finish:, reference=${reference}`) //BCM
+            // console.log(`AppLoadData DB finish:, reference=${reference}`)
             putReference(reference) // establish the reference for the new portfolio
             document.title = 'AcesTrader ' + reference[0].toUpperCase() + reference.substr(1)
             that.setState({ loading: false, reference: reference }) //loading is finished, show the UI.
@@ -177,13 +182,13 @@ class WelcomeTrader extends Component {
           }
         })
         .catch((error) => {
-          console.log('Firebase: The App/index database read failed while retrieving the state. Error: ' + error)
-          alert('Firebase: The App/index database read failed while retrieving the state. Error: ' + error)
+          console.log('Firebase: The WelcomeTrader.js database read failed while retrieving the state. Error: ' + error)
+          alert('Firebase: The WelcomeTrader.js database read failed while retrieving the state. Error: ' + error)
           debugger //pause for developer
         })
     } catch (err) {
-      console.log('Firebase: The StartUp/index database read failed while retrieving the state. Error: ' + err.message)
-      alert('Firebase: The StartUp/index database read failed while retrieving the state. Error: ' + err.message)
+      console.log('Firebase: The WelcomeTrader.js database read failed while retrieving the state. Error: ' + err.message)
+      alert('Firebase: The WelcomeTrader.js database read failed while retrieving the state. Error: ' + err.message)
       debugger //pause for developer
     }
   }
@@ -193,12 +198,12 @@ class WelcomeTrader extends Component {
 
     if (!reference) return null //let componentDidMount decide on rendering
 
-    // console.log(`WelcomeTrader  render: reference=${reference}, loading=${loading}`) //BCM
+    // console.log(`WelcomeTrader  render: reference=${reference}, loading=${loading}`)
 
     const SelectedTitle = reference[0].toUpperCase() + reference.substr(1)
 
     if (loading) {
-      // console.log('WelcomeTrader,  returns: Loading...') //BCM
+      // console.log('WelcomeTrader,  returns: Loading...')
       return (
         <Wrapper>
           <Background>
@@ -207,7 +212,7 @@ class WelcomeTrader extends Component {
         </Wrapper>
       )
     } else {
-      // console.log('WelcomeTrader  return: DOM') //BCM
+      // console.log('WelcomeTrader  return: DOM')
       return (
         <Wrapper>
           <Background>
@@ -250,5 +255,9 @@ class WelcomeTrader extends Component {
 //Use a no-op function to avoid triggering a re-render due to a state change.
 //We are not concerned with state, we only want to run when called,
 //but we need access to dispatch()
-const mapStateToProps = () => ({})
+// const mapStateToProps = () => ({})
+const mapStateToProps = (state) => ({
+  state: state,
+})
+
 export default withRouter(connect(mapStateToProps)(WelcomeTrader))

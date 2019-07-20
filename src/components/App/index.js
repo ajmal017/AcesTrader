@@ -13,6 +13,7 @@ import firebase from 'firebase/app'
 // import 'firebase/database'
 import * as Sentry from '@sentry/browser'
 import { AuthenticatedContext } from '../../redux'
+import { clearLocalDatabase } from '../../lib/localDatabaseStorage';
 
 export const ACESTRADERSTATE = 'at-state'
 
@@ -22,6 +23,11 @@ class App extends Component {
     this.state = { loading: true, authenticated: false, user: null, store: null }
   }
 
+  async clearChartPrices() {
+    // This is used with special login which triggers this request
+    alert('Clearing local database of chart prices')
+    await clearLocalDatabase() // initialize local database
+  }
   componentDidMount() {
     const RELEASE = '1.3.*'
     if (process.env.NODE_ENV === 'production') {
@@ -34,6 +40,11 @@ class App extends Component {
     // Showing configuration for martinapps / acestrader at Firebase
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
+
+        if (user.email === 'zzzz@g.com') {
+          this.clearChartPrices()
+        }
+
         this.setState({
           authenticated: true,
           currentUser: user,
@@ -70,10 +81,10 @@ class App extends Component {
         .signOut()
         .then(
           function () {
-            // console.log('Signed Out') //BCM
+            // console.log('Signed Out')
           },
           function (error) {
-            // console.error('Sign Out Error', error) //BCM
+            // console.error('Sign Out Error', error)
           }
         )
       this.setState({ loading: true, store: theStore }) //wait for an onAuthStateChanged event to change this.state.loading
@@ -84,7 +95,7 @@ class App extends Component {
   render() {
     const { loading, store, authenticated, currentUser } = this.state
 
-    // console.log(`App: loading=${loading} currentUser=${currentUser}`) //BCM
+    // console.log(`App: loading=${loading} currentUser=${currentUser}`)
 
     if (loading) {
       const divStyle = { marginTop: 80, marginLeft: 50 }

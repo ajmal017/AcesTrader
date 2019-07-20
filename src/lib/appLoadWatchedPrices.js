@@ -1,10 +1,10 @@
-// appGetWatchedPrices.js
+// appLoadWatchedPrices.js
 
 import axios from 'axios'
 import iexData from '../iex.json'
 import { putWatchedPrice, finishWatchedPrices, resetWatchedPrices } from '../lib/appWatchedPrice'
 
-export const getWatchedPrices = async function (symbols) {
+export const loadWatchedPrices = async function (symbols) {
 
   // const useSandbox = true // use this when testing logic
   const useSandbox = false
@@ -23,13 +23,15 @@ export const getWatchedPrices = async function (symbols) {
       let data = values[symbol]
       if (typeof data !== 'undefined') {
         putWatchedPrice(symbol, data.quote.latestPrice) //save in the list of prices for use in Charts dashboards
+      } else {
+        debugger //pause for developer
       }
     }
     finishWatchedPrices() //this is the complete list of prices for use in Charts dashboards
 
   } catch (error) {
-    console.log('getWatchedPrices axios error:' + error.message)
-    // alert('getWatchedPrices axios error: ' + error.message) //rude interruption to user
+    console.log('loadWatchedPrices axios error:' + error.message)
+    // alert('loadWatchedPrices axios error: ' + error.message) //rude interruption to user
     debugger // pause for developer
   }
 }

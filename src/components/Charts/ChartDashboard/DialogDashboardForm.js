@@ -15,7 +15,7 @@ class DialogDashboardForm extends Component {
     this.listGroup = props.listGroup
     this.tradeSideLc = props.tradeSideLc
     this.trailingStopBasis = props.trailingStopBasis
-    this.symbolDescription = props.symbolDescription
+    this.companyName = props.companyName
     this.exitCallback = props.exitCallback
     this.state = props.formValues
   }
@@ -57,8 +57,17 @@ class DialogDashboardForm extends Component {
 
   render() {
     const showConfirm = this.props.showConfirm //get the boolean switch value
+    const showCompanyData = this.props.showCompanyData //get the boolean switch value
     let dialogContent
-    if (showConfirm) {
+    if (showCompanyData) {
+      dialogContent = (
+        <CompanyDataDialog
+          symbol={this.props.symbol}
+          companyData={this.props.companyData}
+          exitCallback={this.props.exitCallback}
+        />
+      )
+    } else if (showConfirm) {
       dialogContent = (
         <ConfirmDialog
           handleInputChange={this.handleInputChange}
@@ -77,20 +86,39 @@ class DialogDashboardForm extends Component {
           listGroup={this.props.listGroup}
           tradeSideLc={this.props.tradeSideLc}
           trailingStopBasis={this.props.trailingStopBasis}
-          symbolDescription={this.props.symbolDescription}
+          companyName={this.props.companyName}
           exitCallback={this.props.exitCallback}
           formValues={this.state}
         />
       )
     }
     // let dialogClassName = `dialog-form ${showConfirm ? 'dialog-form-confirm' : 'dialog-form-edit'}`
-    let dialogClassName = `${showConfirm ? 'dialog-form-confirm' : 'dialog-form-edit'}`
+    let dialogClassName = `${showCompanyData ? 'dialog-form-companydata' : showConfirm ? 'dialog-form-confirm' : 'dialog-form-edit'}`
     return (
       <dialog id={'dialog-params' + this.hash} className={dialogClassName}>
         {dialogContent}
       </dialog>
     )
   }
+}
+
+function CompanyDataDialog(props) {
+  const symbol = props.symbol
+  const companyData = props.companyData
+  const exitCallback = props.exitCallback
+  return (
+    <>
+      <div className={'dialog-form-companydata-title'}> {symbol}</div>
+      <div className={'dialog-form-companydata-content'}> <p>{companyData}</p></div>
+      <div className={'dialog-form-companydata-button'}>
+        <button
+          className={'dialog-button'}
+          onClick={() => {
+            exitCallback(null)
+          }}>Close</button>
+      </div>
+    </>
+  )
 }
 
 function ConfirmDialog(props) {
@@ -173,13 +201,13 @@ function EditDialog(props) {
           </span>
         ) : null}
         <span>
-          <label htmlFor='symbolDescription'>Desc</label>
+          <label htmlFor='companyName'>Desc</label>
           <input
-            className={'symbolDescription'}
+            className={'companyName'}
             type='text'
-            name='symbolDescription'
+            name='companyName'
             placeholder='Optional: Describe this security'
-            value={props.formValues.symbolDescription}
+            value={props.formValues.companyName}
             onChange={props.handleInputChange}
           />
           <br />

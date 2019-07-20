@@ -18,9 +18,9 @@ import { removeLongFromList } from '../../../redux/reducerLongs'
 import { removeShortFromList } from '../../../redux/reducerShorts'
 import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
-import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
+// import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
 import buildSmaTradingArray from '../../../lib/appBuildSmaTradingArray'
-import { getSymbolData } from '../../../lib/appGetSymbolData'
+import { getSymbolPriceData } from '../../../lib/appGetSymbolPriceData'
 import { cleanSymbolData } from '../../../lib/appCleanSymbolData'
 // import getChartLastBar from '../../../lib/apiGetChartLastBar'
 import CandleStickChartWithMA from '../CandleStickChartWithMA'
@@ -36,6 +36,12 @@ import { putChartFlags, getChartFlags } from '../../../lib/chartDataCache'
 // import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import { AuthenticatedContext } from '../../../redux'
+import { putSymbolDataObjects } from '../../../lib/appSymbolDataObject'
+import { loadWatchedPrices } from '../../../lib/appLoadWatchedPrices'
+import { addBuysToList } from '../../../redux/reducerBuys'
+import { addSellstoList } from '../../../redux/reducerSells'
+import { addTrendBuysToList } from '../../../redux/reducerTrendBuys'
+import { addWatchPriceAndIssueType } from '../../../redux/thunkEditListObjects'
 import './styles.css'
 
 const MINIMUMWEEKLYBARS = 3 // NOTE this magic number is defined in 2 locations, keep in sync
@@ -58,12 +64,12 @@ class Chartcell extends Component {
     this.validLongSma = false // LongSma usually at 200 days. Assume not enough chart data exists
     this.weeklyBarCount = MINIMUMWEEKLYBARS - 1// There's a CandleStickChart bug for short length bars. Assume not enough chart data exists
 
-    // // ******BCM BCM**********************************************
+    // // ****************************************************
     // this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads. 
     // // this.useSandbox = false // Override to false to test with real ohlc values, but usage rates apply
-    // // ******BCM BCM**********************************************
+    // // ****************************************************
     // setSandboxStatus(this.useSandbox) // set for reference in other modules such as reducePeekData.js
-    // // ******BCM BCM**********************************************
+    // // ****************************************************
 
     this.useSandbox = getSandboxStatus()
     this.data = null
@@ -87,7 +93,7 @@ class Chartcell extends Component {
   componentDidMount() {
     // Preloaded price data files from IEX are cached
     // in local storage to persist for the day,
-    // and are found in getSymbolData()
+    // and are found in getSymbolPriceData()
     this.loadChartData()
   }
 
@@ -106,10 +112,10 @@ class Chartcell extends Component {
     const symbol = this.props.cellObject.symbol
     // const weeklyBars = this.props.cellObject.weeklyBars
     // this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
-    this.range = '1y' // New for IEX Cloud data to save money
+    this.range = '1y' // New standard small range for IEX Cloud data to save money
     const self = this
-    // console.log(`getSymbolData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
-    getSymbolData(symbol, this.range, this.closeOnly, this.useSandbox)
+    // console.log(`getSymbolPriceData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
+    getSymbolPriceData(symbol, this.range, this.closeOnly, this.useSandbox)
       .then(function (data) {
 
         if (!data || data === undefined || data === null) {
@@ -168,9 +174,9 @@ class Chartcell extends Component {
         }
       })
       .catch(function (error) {
-        console.log('getSymbolData axios error:', error.message)
+        console.log('getSymbolPriceData axios error:', error.message)
         // self.setState({ iexData: 4, noprices: true, hide: false })
-        alert('getSymbolData axios error: ' + error.message) //rude interruption to user
+        alert('getSymbolPriceData axios error: ' + error.message) //rude interruption to user
         debugger // pause for developer
       })
   }
@@ -217,6 +223,31 @@ class Chartcell extends Component {
     return weeklyBars //this is for a weekly bar chart of prices
   }
 
+  addSymbolToProspects = async (symbol, tradeSide) => {
+    // Called when a symbol is moved fron Positions to Trades to re-list it in Prospects 
+
+    // Create a symbolDataObject for later use by redux thunk "addWatchPriceAndIssueType"
+    const theCellObject = this.props.cellObject //the target object originating the dispatch actions
+    const issueType = theCellObject.issueType
+    const companyName = theCellObject.companyName
+    const weeklyBars = theCellObject.weeklyBars // special extra property for this use case
+    let symbolDataObjectArray = [{ data: { symbol: symbol, issueType: issueType, companyName: companyName, weeklyBars: weeklyBars } }]
+
+    if (tradeSide === 'BUYS') {
+      this.props.dispatch(addBuysToList([symbol]))
+    } else if (tradeSide === 'SHORT SALES') {
+      this.props.dispatch(addSellstoList([symbol]))
+    } else if (tradeSide === 'TREND BUYS') {
+      this.props.dispatch(addTrendBuysToList([symbol]))
+    } else {
+      alert('ERROR2 Missing tradeSide in ChartCell/addSymbolToProspects')
+      // debugger
+    }
+    await loadWatchedPrices([symbol]) // Put the symbol price into appWatchedPrice for dispatch to redux thunk
+    putSymbolDataObjects(symbolDataObjectArray) // prep this data for dispatch to redux thunk
+    this.props.dispatch(addWatchPriceAndIssueType(tradeSide)) //call redux thunk "addWatchPriceAndIssueType"
+  }
+
   handleOrderEntry() {
     // fade-out this object before dispatching redux action,
     // which will remove this object and then
@@ -235,57 +266,48 @@ class Chartcell extends Component {
     const theAccount = 'pending'
     const theCellObject = this.props.cellObject //the target object originating the dispatch action
     //use 'pending' until brokerage api interface is enabled, Guest will see the programmed calculated quantity
-    const filledQuantity = this.context.email === 'a@g.com' ? 'pending' : this.props.cellObject.dashboard.quantity
+    const filledQuantity = this.context.email === 'z@g.com' ? 'pending' : this.props.cellObject.dashboard.quantity
     const enteredQuantityType = this.props.cellObject.dashboard.quantityType
-    const theHash = this.props.cellObject.hash //from target object before its removal by dispatch below
+    //Note that "this.hash" //is of the target object until its removal by dispatch below
 
     switch (this.tradeSide.toUpperCase()) {
       case 'BUYS': {
         this.props.dispatch(addLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
-        this.props.dispatch(removeBuyFromList(this.symbol, this.hash))
-        if (false) {
-          this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        }
+        // this.props.dispatch(addEnterPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
+        this.props.dispatch(removeBuyFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       case 'SHORT SALES': {
         this.props.dispatch(addShortToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
-        this.props.dispatch(removeSellFromList(this.symbol, this.hash))
-        if (false) {
-          this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        }
+        // this.props.dispatch(addEnterPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
+        this.props.dispatch(removeSellFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       case 'TREND BUYS': {
         this.props.dispatch(addTrendLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
-        this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash))
-        if (false) {
-          this.props.dispatch(addEnterPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        }
+        // this.props.dispatch(addEnterPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
+        this.props.dispatch(removeTrendBuyFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       case 'LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
-        this.props.dispatch(removeLongFromList(this.symbol, this.hash))
-        if (false) {
-          this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        }
+        // this.props.dispatch(addExitPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
+        this.addSymbolToProspects(this.symbol, 'BUYS') // call thunk to re-list symbol in Prospects 
+        this.props.dispatch(removeLongFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       case 'SHORTS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
-        this.props.dispatch(removeShortFromList(this.symbol, this.hash))
-        if (false) {
-          this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        }
+        // this.props.dispatch(addExitPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
+        this.addSymbolToProspects(this.symbol, 'SHORT SALES') // call thunk to re-list symbol in Prospects 
+        this.props.dispatch(removeShortFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       case 'TREND LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
-        this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash))
-        if (false) {
-          this.props.dispatch(addExitPrice(theHash)) //leave as 'pending' until brokerage api interface is enabled
-        }
+        // this.props.dispatch(addExitPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
+        this.addSymbolToProspects(this.symbol, 'TREND BUYS') // call thunk to re-list symbol in Prospects 
+        this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       default:

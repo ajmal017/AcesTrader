@@ -25,13 +25,13 @@ function TradeStatusLine({ hash, tradeSide, tradeDollarGain, tradePercentGain })
       </span>
     </div>
   ) : (
-    <div>
-      <span id={'gaininfo' + hash} className='watched'>
-        {tradeDollarGain < 0 ? 'Loss' : 'Gain'} &nbsp;&nbsp;&nbsp; {tradeDollarGain < 0 ? '-' : ''}${numberWithCommas(Math.abs(tradeDollarGain))}
-        &nbsp;&nbsp;&nbsp;&nbsp; {tradePercentGain}%
+      <div>
+        <span id={'gaininfo' + hash} className='watched'>
+          {tradeDollarGain < 0 ? 'Loss' : 'Gain'} &nbsp;&nbsp;&nbsp; {tradeDollarGain < 0 ? '-' : ''}${numberWithCommas(Math.abs(tradeDollarGain))}
+          &nbsp;&nbsp;&nbsp;&nbsp; {tradePercentGain}%
       </span>
-    </div>
-  )
+      </div>
+    )
 }
 
 class TradeCell extends Component {
@@ -68,7 +68,7 @@ class TradeCell extends Component {
     let el = document.getElementById('gaininfo' + this.hash)
     if (el !== null) {
       let rgbColor = this.tradePercentGain > 0 ? '0,255,0' : '255,107,107'
-      let rgbOpacity = Math.min(Math.abs(this.tradePercentGain / 100) * 20, 0.8)
+      let rgbOpacity = Math.min(Math.abs(this.tradePercentGain / 100) * 20, 0.6) //0.8
       el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
     }
   }
@@ -101,7 +101,7 @@ class TradeCell extends Component {
     this.listGroup = tradeObject.listGroup
     const symbol = tradeObject.symbol
     const entered = tradeObject.entered
-    this.symbolDescription = tradeObject.symbolDescription
+    this.companyName = tradeObject.companyName
     const exited = tradeObject.exited
     this.tradeSide = tradeObject.dashboard.tradeSide
     const enteredPrice = tradeObject.enteredPrice
@@ -149,9 +149,9 @@ class TradeCell extends Component {
               &times;
             </button>
           </div>
-          {this.symbolDescription !== undefined ? (
+          {this.companyName !== undefined ? (
             <div>
-              <span className='symbolDescription'>{this.symbolDescription}</span>{' '}
+              <span className='companyName'>{this.companyName}</span>{' '}
             </div>
           ) : null}
           <TradeStatusLine hash={this.hash} tradeSide={this.tradeSide} tradeDollarGain={this.tradeDollarGain} tradePercentGain={this.tradePercentGain} />

@@ -12,8 +12,10 @@ import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
 import { getLast20Closes } from '../../../lib/chartDataCache'
 import { getHighestLowestCloses } from '../../../lib/appGetHighestLowestCloses'
 import { getDailyPriceDataLastBar } from '../../../lib/chartDataCache'
+import { getSymbolCompanyData } from '../../../lib/appGetSymbolCompanyData'
 // import { getChartFlags } from '../../../lib/chartDataCache'
 import { AuthenticatedContext } from '../../../redux'
+import { getDaysDiff } from '../../../lib/appGetDaysDiff'
 import './styles.css'
 import './stylesTextWidths.css'
 
@@ -45,23 +47,59 @@ class ChartDashboard extends Component {
     this.handleOrderEntry = this.handleOrderEntry.bind(this)
     this.handleEditDialogOpen = this.handleEditDialogOpen.bind(this)
     this.handleEditDialogClose = this.handleEditDialogClose.bind(this)
-    this.state = { showDialog: false, showConfirm: false }
+    this.state = {
+      showDialog: false,
+      showConfirm: false,
+      showCompanyData: false,
+      companyData: ''
+    }
   }
 
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
+  async getCompanyData(symbol) {
+    try {
+      const data = await getSymbolCompanyData([symbol])
+      let content = data.arr[0].data.description
+      if (content === '') {
+        if (data.arr[0].data.issueType === 'et') {
+          content = 'This security is an ETF, there is no company description.' // in the ${data.arr[0].data.sector} sector`
+        } else {
+          content = "This security's description was not found."
+        }
+      }
+      return content
+    } catch (err) {
+      return `${symbol} company description not found. Error ${err.message}`
+    }
+  }
+
   handleEditDialogOpen(event) {
     event.preventDefault()
+    // note that EditDialog is the default target to show when the others are false
     this.setState({
       showDialog: true,
       showConfirm: false,
+      showCompanyData: false,
+      companyData: '',
     })
   }
   doConfirmDialogOpen() {
     this.setState({
       showDialog: true,
       showConfirm: true,
+      showCompanyData: false,
+      companyData: '',
+    })
+  }
+  async doCompanyDataDialogOpen() {
+    const companyData = await this.getCompanyData(this.props.cellObject.symbol)
+    this.setState({
+      showDialog: true,
+      showConfirm: false,
+      showCompanyData: true,
+      companyData: companyData,
     })
   }
 
@@ -74,7 +112,7 @@ class ChartDashboard extends Component {
         // the returnValue has an object with key/value pairs for each form field: {name: value, name: value, ...}
         this.props.dispatch(editListObjectPrarmeters(this.hash, returnValue.formFields))
       } else if (returnValue.action === 'confirm') {
-        this.props.handleOrderEntry() // the order entry was confirmed
+        this.props.handleOrderEntry() // the order entry was confirmed, call into parent
       } else {
         alert('Missing returnValue.action in handleEditDialogClose')
         debugger // pause for developer
@@ -90,6 +128,11 @@ class ChartDashboard extends Component {
     this.doConfirmDialogOpen() // Call for a confirmation dialog
   }
 
+  handleCompanyDataRequest = (event) => {
+    event.preventDefault()
+    this.doCompanyDataDialogOpen() // Call for a CompanyData dialog
+  }
+
   render() {
     //handle new props with changed state of cellObjects
     this.symbol = this.props.cellObject.symbol
@@ -98,7 +141,7 @@ class ChartDashboard extends Component {
     this.weekly = this.props.cellObject.weeklyBars
     this.hash = this.props.cellObject.hash
     this.listGroup = this.props.cellObject.listGroup
-    this.symbolDescription = this.props.cellObject.symbolDescription
+    this.companyName = this.props.cellObject.companyName
     this.trailingStopBasis = this.props.cellObject.trailingStopBasis
     this.peekDate = this.props.cellObject.peekDate
     this.peekPrice = this.props.cellObject.peekPrice
@@ -124,7 +167,7 @@ class ChartDashboard extends Component {
     this.stoplossAlert = false // until triggered by calculations below
 
     const defaultRgbaBackground = '206,212,218,0.3'
-    const alertRgbaBackground = '255, 219, 77,0.8'
+    const alertRgbaBackground = '255, 219, 77,0.6' //0.8
     const startPrice = this.listGroup === 'positions' ? this.enteredPrice : this.watchedPrice
     this.dollarGain = this.peekDate !== undefined ? (this.peekPrice - startPrice).toFixed(2) : 'pending'
     this.percentGain = this.peekDate !== undefined ? ((100 * (this.peekPrice - startPrice)) / startPrice).toFixed(1) : 'pending'
@@ -138,9 +181,7 @@ class ChartDashboard extends Component {
       this.rgbaValue = null // do not show red/green background color for prospects
     }
     const startDate = this.listGroup === 'positions' ? new Date(this.entered) : new Date(this.watched)
-    const endDate = new Date(this.peekDate)
-    const timeDiff = endDate - startDate
-    this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
+    this.daysHere = getDaysDiff(this.peekDate, startDate)
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
     if (this.listGroup === 'positions') {
       // The calculated trailing stop price is  shown in the dashboard
@@ -264,7 +305,7 @@ class ChartDashboard extends Component {
             this.currentState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
           }
 
-          // console.log(`currentState=${currentState}`) //BCM testing
+          // console.log(`currentState=${currentState}`) // testing
           this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
         }
 
@@ -314,7 +355,7 @@ class ChartDashboard extends Component {
       entered: this.entered,
       enteredPrice: this.enteredPrice,
       filledQuantity: this.filledQuantity,
-      symbolDescription: this.symbolDescription,
+      companyName: this.companyName,
       session: this.session,
       instruction: this.instruction,
       quantity: this.quantity,
@@ -331,6 +372,8 @@ class ChartDashboard extends Component {
         <DialogDashboardForm
           showDialog={this.state.showDialog}
           showConfirm={this.state.showConfirm}
+          showCompanyData={this.state.showCompanyData}
+          companyData={this.state.companyData}
           hash={this.hash}
           symbol={this.symbol}
           formValues={this.dialogDashboardFormValues}
@@ -427,7 +470,7 @@ class ChartDashboard extends Component {
           </form>
 
           <div className='dashboard-securityname'>
-            <div>{this.symbolDescription !== undefined ? <span className='symbolDescription'>{this.symbolDescription}</span> : null}</div>
+            <div>{this.companyName !== undefined ? <span onClick={this.handleCompanyDataRequest} className='companyName'>{this.companyName}</span> : null}</div>
           </div>
           <div className='dashboard-footer'>
             {/* {process.env.NODE_ENV === 'development' ? <div className={'trailingStopBasis-absolute'}>{this.trailingStopBasis}</div> : ''} */}

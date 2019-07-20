@@ -34,12 +34,12 @@ class Peek extends Component {
     const trendlongsSymbols = this.props.state.trendlongs.map((obj) => obj.symbol)
 
     const DEFAULT_PORTFOLIOS = [
-      { name: 'Buy Prospects', symbols: [...buysSymbols] },
-      { name: 'Short Sale Prospects', symbols: [...sellsSymbols] },
-      { name: 'Trend Buy Prospects', symbols: [...trendbuysSymbols] },
       { name: 'Long Positions', symbols: [...longsSymbols] },
       { name: 'Short Positions', symbols: [...shortsSymbols] },
       { name: 'Trend Long Positions', symbols: [...trendlongsSymbols] },
+      { name: 'Buy Prospects', symbols: [...buysSymbols] },
+      { name: 'Short Sale Prospects', symbols: [...sellsSymbols] },
+      { name: 'Trend Buy Prospects', symbols: [...trendbuysSymbols] },
       { name: 'Market ETFs', symbols: ['SPY', 'QQQ', 'IWM', 'DIA'] },
       // { name: 'Tech', symbols: ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'FB', 'TWTR', 'NFLX', 'SNAP', 'SPOT', 'DBX', 'BABA', 'INTC', 'AMD', 'NVDA', 'ORCL'] },
       // { name: 'Sector ETFs', symbols: ['XLF', 'XLK', 'XLV', 'XLP', 'XLY', 'XLE', 'XLB', 'XLI', 'XLU', 'XLRE'] },
@@ -112,10 +112,10 @@ class Peek extends Component {
 
       async function updateDataForBatch(symbols, addTitle) {
 
-        // ******BCMBCM**********************************************
+        // **********************************************************
         // const useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test with, but free downloads. 
         const useSandbox = false // Set to false to use real ohlc values, but usage rates apply
-        // ****************************************************
+        // **********************************************************
 
         const basehtml = useSandbox ? `${iexData.BasehtmlSandbox}` : `${iexData.BasehtmlCloud}`
         const token = useSandbox ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
@@ -161,7 +161,7 @@ class Peek extends Component {
               }
             }
           }
-          finishPeekPrices() //this is the complete list of prices for use in Charts dashboards
+          finishPeekPrices() //this completes the list of prices for use in Charts dashboards
 
         } catch (error) {
           console.log('Peek/index.js axios error:' + error.message)
