@@ -64,12 +64,12 @@ class Chartcell extends Component {
     this.validLongSma = false // LongSma usually at 200 days. Assume not enough chart data exists
     this.weeklyBarCount = MINIMUMWEEKLYBARS - 1// There's a CandleStickChart bug for short length bars. Assume not enough chart data exists
 
-    // // ******BCM BCM**********************************************
+    // // ****************************************************
     // this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads. 
     // // this.useSandbox = false // Override to false to test with real ohlc values, but usage rates apply
-    // // ******BCM BCM**********************************************
+    // // ****************************************************
     // setSandboxStatus(this.useSandbox) // set for reference in other modules such as reducePeekData.js
-    // // ******BCM BCM**********************************************
+    // // ****************************************************
 
     this.useSandbox = getSandboxStatus()
     this.data = null

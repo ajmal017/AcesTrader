@@ -88,9 +88,9 @@
 }
 .trailingstop-alert {
   font-size: 14px;
-  padding: 2px 6px 4px 6px;
-  color: white;
-  background-color: #ff6b6b;
+  padding: 1px 6px 3px 6px;
+  color: #495057;
+  background-color: #ffa8a8;
 }
 label {
   font-weight: 600;

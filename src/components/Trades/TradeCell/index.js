@@ -68,7 +68,7 @@ class TradeCell extends Component {
     let el = document.getElementById('gaininfo' + this.hash)
     if (el !== null) {
       let rgbColor = this.tradePercentGain > 0 ? '0,255,0' : '255,107,107'
-      let rgbOpacity = Math.min(Math.abs(this.tradePercentGain / 100) * 20, 0.8)
+      let rgbOpacity = Math.min(Math.abs(this.tradePercentGain / 100) * 20, 0.6) //0.8
       el.setAttribute('style', `background-color: rgba(${rgbColor}, ${rgbOpacity})`)
     }
   }

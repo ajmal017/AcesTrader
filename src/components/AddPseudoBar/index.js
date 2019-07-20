@@ -33,7 +33,7 @@ const AddPseudoBar = () => {
             // The market is just open, we only append pseudo bars after 10
             setDataReady({ loading: false, error: 'Too early, delayed quotes are used to build pseudo bars after 10am' })
 
-            // if (false) { // <***** BCM ************* temp to replace tests above
+            // if (false) { // <****************** temp to replace tests above
 
         } else if (loading) {
             // const daysOld = await setTheLocalDatabase(date) //the local DB contains last trading day symbol price data, returns the DB daysOld number
@@ -102,7 +102,7 @@ const AddPseudoBar = () => {
         const symbolData = await loadLocalDatabase(symbolKey) // get price series from the cache
         let currentLastBar = symbolData[symbolData.length - 1]
 
-        // Hack by BCM to workaround bug discovered 5/20/19, Monday after weekend of testing
+        // Hack to workaround bug discovered 5/20/19, Monday after weekend of testing
         if (currentLastBar === undefined) {
             symbolData.pop() // undefined array element result of testing AddPseudoBar?
             currentLastBar = symbolData[symbolData.length - 1] // get the new last bar

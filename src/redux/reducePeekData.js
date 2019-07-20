@@ -132,7 +132,7 @@ export default function (state, peekPricesObject, theDate) {
     //     // debugger
     //   }
     //   // if (symbol === 'SHOP') {
-    //   //   debugger //BCM
+    //   //   debugger 
     //   //   obj.trailingStopBasis = 0 // force a zero value to test effect of calling peek to update in dashboard
     //   //   updated = true
     //   // }

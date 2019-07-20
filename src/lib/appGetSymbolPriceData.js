@@ -42,7 +42,8 @@ export const getSymbolPriceData = async function (symbol, range, closeOnly, useS
     // //******************************** */
 
     // const keys = await getLocalDatabaseKeys() // check the cache contents for debugging
-    const daysOld = await setTheLocalDatabase(date) // ensure the local DB will contain last trading day symbol price data
+    // const daysOld = await setTheLocalDatabase(date) // ensure the local DB will contain last trading day symbol price data
+    await setTheLocalDatabase(date) // ensure the local DB will contain last trading day symbol price data
     try {
         // Get the price series from the local database cache if available
         let symbolData = await loadLocalDatabase(symbolKey)
@@ -61,8 +62,8 @@ export const getSymbolPriceData = async function (symbol, range, closeOnly, useS
             // Download the end-of-day price series for yesterday from IEX cloud
             let symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
             await saveLocalDatabase(symbolKey, symbolData) // add new data for today
-            // let testing = await loadLocalDatabase(symbolKey) //BCM test getting same object back
-            // debugger //BCM
+            // let testing = await loadLocalDatabase(symbolKey) // ***test getting same object back
+            // debugger // ***test getting same object back
             return symbolData // return price series from IEX cloud
         }
     } catch (err) {

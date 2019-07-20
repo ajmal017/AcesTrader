@@ -15,6 +15,7 @@ import { getDailyPriceDataLastBar } from '../../../lib/chartDataCache'
 import { getSymbolCompanyData } from '../../../lib/appGetSymbolCompanyData'
 // import { getChartFlags } from '../../../lib/chartDataCache'
 import { AuthenticatedContext } from '../../../redux'
+import { getDaysDiff } from '../../../lib/appGetDaysDiff'
 import './styles.css'
 import './stylesTextWidths.css'
 
@@ -166,7 +167,7 @@ class ChartDashboard extends Component {
     this.stoplossAlert = false // until triggered by calculations below
 
     const defaultRgbaBackground = '206,212,218,0.3'
-    const alertRgbaBackground = '255, 219, 77,0.8'
+    const alertRgbaBackground = '255, 219, 77,0.6' //0.8
     const startPrice = this.listGroup === 'positions' ? this.enteredPrice : this.watchedPrice
     this.dollarGain = this.peekDate !== undefined ? (this.peekPrice - startPrice).toFixed(2) : 'pending'
     this.percentGain = this.peekDate !== undefined ? ((100 * (this.peekPrice - startPrice)) / startPrice).toFixed(1) : 'pending'
@@ -180,9 +181,7 @@ class ChartDashboard extends Component {
       this.rgbaValue = null // do not show red/green background color for prospects
     }
     const startDate = this.listGroup === 'positions' ? new Date(this.entered) : new Date(this.watched)
-    const endDate = new Date(this.peekDate)
-    const timeDiff = endDate - startDate
-    this.daysHere = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
+    this.daysHere = getDaysDiff(this.peekDate, startDate)
     this.tradeSideLc = this.tradeSide.toLowerCase().replace(/[\W_]/g, '')
     if (this.listGroup === 'positions') {
       // The calculated trailing stop price is  shown in the dashboard
@@ -306,7 +305,7 @@ class ChartDashboard extends Component {
             this.currentState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
           }
 
-          // console.log(`currentState=${currentState}`) //BCM testing
+          // console.log(`currentState=${currentState}`) // testing
           this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
         }
 

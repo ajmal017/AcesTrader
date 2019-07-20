@@ -24,6 +24,7 @@ class App extends Component {
   }
 
   async clearChartPrices() {
+    // This is used with special login which triggers this request
     alert('Clearing local database of chart prices')
     await clearLocalDatabase() // initialize local database
   }
@@ -80,10 +81,10 @@ class App extends Component {
         .signOut()
         .then(
           function () {
-            // console.log('Signed Out') //BCM
+            // console.log('Signed Out')
           },
           function (error) {
-            // console.error('Sign Out Error', error) //BCM
+            // console.error('Sign Out Error', error)
           }
         )
       this.setState({ loading: true, store: theStore }) //wait for an onAuthStateChanged event to change this.state.loading
@@ -94,7 +95,7 @@ class App extends Component {
   render() {
     const { loading, store, authenticated, currentUser } = this.state
 
-    // console.log(`App: loading=${loading} currentUser=${currentUser}`) //BCM
+    // console.log(`App: loading=${loading} currentUser=${currentUser}`)
 
     if (loading) {
       const divStyle = { marginTop: 80, marginLeft: 50 }

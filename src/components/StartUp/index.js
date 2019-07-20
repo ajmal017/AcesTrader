@@ -6,9 +6,7 @@ import WelcomeTrader from '../Welcome/WelcomeTrader';
 class StartUp extends Component {
   render() {
     const divStyle = { marginTop: 80, marginLeft: 50 }
-
-    // console.log(`StartUp renders WelcomeTrader for first time`) //BCM
-
+    // console.log(`StartUp renders WelcomeTrader for first time`)
     return (
       <>
         <div style={divStyle}>

@@ -1,6 +1,7 @@
 // appSetTheLocalDatabase.js
 
 import { loadLocalDatabase, saveLocalDatabase, clearLocalDatabase } from '../lib/localDatabaseStorage'
+import { getDaysDiff } from '../lib/appGetDaysDiff'
 
 export const setTheLocalDatabase = async function (date) {
     // This tests the DB marker object's date against today's date
@@ -17,17 +18,15 @@ export const setTheLocalDatabase = async function (date) {
         // const defaultMetaData = { "date": theDate } // prepare a fresh metaData object with today's date
 
         let metaData = await loadLocalDatabase(MetaKey) // get existing date marker if any
-        // debugger //BCM
         if (!metaData || metaData === undefined) {
             await clearLocalDatabase() // start fresh today
             await saveLocalDatabase(MetaKey, defaultMetaData) // initialize with a date value for today
             return -1 // Established a new metaData record, the DB is empty of any price data
         }
-        // const existingDate = new Date(metaData.date) // the current DB date marker
+        // date = new Date(2020, 8, 26) //*********** */TEST TEST TEST****************
         const existingDate = metaData.date // the current DB date marker
-        // const timeDiff = new Date(theDate) - existingDate
-        const timeDiff = date - existingDate
-        const daysOld = Math.round(Math.abs(timeDiff / (1000 * 3600 * 24)))
+        const daysOld = getDaysDiff(existingDate, date)
+        // debugger //******** */TEST TEST TEST**using the fake date created above**************
         if (daysOld === 0) {
             // the existing DB is good and has cached price data downloaded so far today for the prior trading day
             return daysOld // no change, try to get specified symbol from cache
