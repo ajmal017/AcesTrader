@@ -8,10 +8,8 @@ import './WelcomeTrader.css'
 import { setSandboxStatus, getSandboxStatus } from '../../lib/appUseSandboxStatus'
 import { resetDefaultState, resetPersistedState } from '../../redux/index.js'
 import { putReference, getReference, ameritrade, schwab, paper } from '../../lib/dbReference'
-import { getPeekPrices, resetPeekPrices } from '../../lib/appLastPeekPrice'
 import { setPeekPrices } from '../../lib/appSetPeekPrices'
 import { resetDataCache } from '../../lib/chartDataCache'
-import { updateDashboardPeekData } from '../../redux'
 import fire from '../../fire'
 
 const Wrapper = styled.section`
