@@ -92,7 +92,7 @@ export const stateMachine = (theState, theSymbol) => {
       }
     } else {
       // let testDate2 = `${date.getFullYear()} ${date.getMonth() + 1} ${date.getDate()}`
-      // if (testDate2 === '2019 6 5') {
+      // if (testDate2 === '2019 7 19') {
       //   debugger
       // }
       // if (testDate2 === '2019 5 30' && symbol === 'AMZN') {
@@ -119,12 +119,16 @@ export const stateMachine = (theState, theSymbol) => {
   setStaleCharts(false) // update status
 
   // Note: When appStateMachine is used in AcesTrader, we need to know if the next
-  // action will be a Buy or Sell at the next day's open. Since we are in real time and
-  // not testing historical price charts, we can create dummy data for tomorrow and call
-  // doCurrentAction to see if a Buy or Sell is triggered. This result is passed back to 
-  // the caller in AcesTrader to set the State property in the symbol's dashboard.
-  // The only result from this call to doCurrentAction() that is important is the value of
-  //  'currentState', 
+  // action will be a Buy or Sell at the next day's open. While processing the price series,
+  // each new bar is first processed by doCurrentAction() using the nextState value
+  // which was set by the processing of the prior bar by setNextState(). This processing
+  // determines if a buy or sell is made on the bar's open price. But in AcesTrader we
+  // don't have the next bar at the end of the last day's chart prices. But we can fake
+  // a next day bar with the information needed for doCurrentAction() to determine the 
+  // next day's currentState value, which tells us what action to do tomorrow.
+  // This result is passed back to the caller in AcesTrader to set the State property
+  // in the symbol's dashboard. The only result from this call to doCurrentAction()
+  // that is important is the value of 'currentState' placed in the returned object.
   // Any caller from AcesTester ignores the second property in the returned object.
 
   const date = data[data.length - 1].date
