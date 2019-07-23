@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import SignInView from './SignInView'
 import fire from '../../fire'
+import martinduo from '../../martinduo';
 import WelcomeTrader from '../Welcome/WelcomeTrader';
 
 class SignIn extends Component {
@@ -22,7 +23,7 @@ class SignIn extends Component {
     const { email, password } = event.target.elements
     try {
       if (process.env.NODE_ENV === 'development') {
-        await fire.auth().signInWithEmailAndPassword('z@g.com', 'bootonshop')
+        await fire.auth().signInWithEmailAndPassword(martinduo.email, martinduo.password)
       } else {
         await fire.auth().signInWithEmailAndPassword(email.value, password.value)
       }
