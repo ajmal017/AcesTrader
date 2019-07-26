@@ -329,4 +329,3 @@ const mapSizesToProps = ({ height, width }) => ({
 // withSizes is used as a HOC to supply window demensions as a prop item
 // https://www.npmjs.com/package/react-sizes
 export default connect(mapStateToProps)(withSizes(mapSizesToProps)(ManageProspects))
-// export default connect(mapStateToProps)(ManageProspects)

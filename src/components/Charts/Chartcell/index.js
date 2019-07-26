@@ -126,8 +126,8 @@ class Chartcell extends Component {
         if (data.length < 2) {
           //a CandleStickChartWithMA bug seen with new issue "TRTY" when only 1 day's data available
           //a Memory leak reported by VSCode, seems to cause many weird code mistakes when running
+          alert(`The symbol ${symbol} does not have enough price history to chart. Please remove it and reload the program.`)
           debugger // pause for developer
-          self.setState({ iexData: 3, noprices: true, hide: false })
         } else {
 
           data = cleanSymbolData(data) // handle case of price data with OHLC zero values (i.e. CCOR)
