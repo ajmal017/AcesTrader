@@ -106,7 +106,7 @@ class TradeCell extends Component {
     this.tradeSide = tradeObject.dashboard.tradeSide
     const enteredPrice = tradeObject.enteredPrice
     const exitedPrice = tradeObject.exitedPrice //only defined for closed trades
-    const peekPrice = tradeObject.peekPrice //for use with open trades
+    // const peekPrice = tradeObject.peekPrice //for use with open trades
     const filledQuantity = tradeObject.filledQuantity
     this.tradePercentGainTemp = exitedPrice !== 'pending' ? ((100 * (exitedPrice - enteredPrice)) / enteredPrice).toFixed(1) : 'pending'
     this.tradePercentGain = this.tradeSide === 'Shorts' ? -this.tradePercentGainTemp : this.tradePercentGainTemp

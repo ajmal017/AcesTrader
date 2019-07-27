@@ -1,0 +1,25 @@
+/* TradesChart/index.css */
+
+#tradeschartbutons {
+  display: flex;
+  justify-content: center;
+  height: 30px;
+}
+#tradesleftbutton {
+  margin-right: 20px;
+}
+#tradesrightbutton {
+  margin-left: 20px;
+}
+.buttonPercent {
+  width: 20px;
+}
+.buttonDollar {
+  width: 20px;
+}
+.labelPercent {
+  margin-left: 4px;
+}
+.labelDollar {
+  margin-left: 4px;
+}

@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import withSizes from 'react-sizes'
 import { BarChart, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip, Cell } from 'recharts'
-var cloneDeep = require('lodash.clonedeep')
+import './styles.css'
+// var cloneDeep = require('lodash.clonedeep')
 
 // const colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]
 // const getPath = (x, y, width, height) => `M${x},${y + height}
@@ -27,9 +28,9 @@ var cloneDeep = require('lodash.clonedeep')
 //   height: PropTypes.number,
 // };
 
-const showDollarGain = false // set to false for PercentGain
+// const showDollarGain = false // set to false for PercentGain
 
-const chartBarArray = (objectArray) => {
+const chartBarArray = (objectArray, showDollarGain) => {
   let barData = objectArray.map((obj) => {
     const listGroup = obj.listGroup
     const tradeSide = obj.dashboard.tradeSide
@@ -48,8 +49,17 @@ const chartBarArray = (objectArray) => {
 }
 
 const chartBarColor = (element) => {
-  const closedTradeColors = ["#ffd43b", "#fab005", "#f08c00"] //yellow
-  const openTradeColors = ["#69db7c", "#40c057", "#2f9e44"] //green
+  // Colors from: https://yeun.github.io/open-color/
+  const closedTradeColors = [
+    "#ffd43b", //YELLOW 4
+    "#fab005", //YELLOW 6
+    "#f08c00", //YELLOW 8
+  ]
+  const openTradeColors = [
+    "#69db7c", //GREEN 4
+    "#3bc9db", //CYAN 4
+    "#339af0", //BLUE 5
+  ]
   let barColor
   if (element.exitedPrice === undefined) {
     barColor = openTradeColors // open trades
@@ -63,30 +73,47 @@ const chartBarColor = (element) => {
 
 
 class TradesChart extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleRadioChange = this.handleRadioChange.bind(this)
+    this.state = { dollar: false }
+  }
+
+  handleRadioChange(event) {
+    const value = event.target.value
+    if (value === 'percent') this.setState({ dollar: false })
+    if (value === 'dollar') this.setState({ dollar: true })
+  }
+
 
   render() {
-
-    // data for closed positions
-    const data1 = chartBarArray(this.props.tradesArray)
-    const dataClosed = data1.reverse()
-
-    // data for the open positions
-    const dataLongs = chartBarArray(this.props.state.longs)
-    const dataShorts = chartBarArray(this.props.state.shorts)
-    const dataTrendlongs = chartBarArray(this.props.state.trendlongs)
-
-    // const shortsSymbols = state.shorts.map((obj) => obj.symbol)
-    // const trendlongsSymbols = state.trendlongs.map((obj) => obj.symbol)
-    // const symbols = [...buysSymbols, ...sellsSymbols, ...longsSymbols, ...shortsSymbols, ...trendbuysSymbols, ...trendlongsSymbols]
-
-    const data = [...dataClosed, ...dataLongs, ...dataShorts, ...dataTrendlongs]
-
+    let showDollarGain = this.state.dollar
     const YAxisLabel = showDollarGain ? 'Gain $' : 'Gain %'
     const chartWidth = this.props.width - 40
 
+    // data for closed positions
+    const data1 = chartBarArray(this.props.tradesArray, showDollarGain)
+    const dataClosed = data1.reverse()
+
+    // data for the open positions
+    const dataLongs = chartBarArray(this.props.state.longs, showDollarGain)
+    const dataShorts = chartBarArray(this.props.state.shorts, showDollarGain)
+    const dataTrendlongs = chartBarArray(this.props.state.trendlongs, showDollarGain)
+
+    const data = [...dataClosed, ...dataLongs, ...dataShorts, ...dataTrendlongs]
+
     return (
       <>
-        <div id='tradeschartbutons'></div>
+        <div id='tradeschartbutons'>
+          <div id='tradesleftbutton'>
+            <input className='buttonPercent' type='radio' value='percent' name='yAxis' onChange={this.handleRadioChange} checked={this.state.dollar !== true} />
+            <span className='labelPercent'>Percent</span>
+          </div>
+          <div id='tradesrightbutton'>
+            <input className='buttonDollar' type='radio' value='dollar' name='yAxis' onChange={this.handleRadioChange} checked={this.state.dollar === true} />
+            <span className='labelDollar'>Dollars</span>
+          </div>
+        </div>
         <div id='tradeschartcontainer'>
           <BarChart width={chartWidth} height={200} data={data} margin={{ top: 0, right: 15, left: 15, bottom: 20 }}>
             <CartesianGrid strokeDasharray='3 3' />
