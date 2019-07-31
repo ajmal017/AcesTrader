@@ -301,9 +301,10 @@ class ChartDashboard extends Component {
           if (this.currentState === 'PENDING' && this.lastPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
             this.currentState = 'LONG' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
           }
-          if (this.currentState === 'PENDING' && this.lastPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
-            this.currentState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
-          }
+          //BCM EFA testing 7/31/2019
+          // if (this.currentState === 'PENDING' && this.lastPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
+          //   this.currentState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
+          // }
 
           // console.log(`currentState=${currentState}`) // testing
           this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
