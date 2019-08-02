@@ -8,8 +8,11 @@ export const getIEXData = async function (symbol, range, closeOnly, useSandbox =
     const version = iexData.Version
     const query = closeOnly ? 'chartCloseOnly=true' : 'filter=date,open,high,low,close,volume'
     const token = useSandbox ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
+
+    console.log(`### apiGetIEXData ###`) // BCM
     // console.log(`${basehtml}${version}/stock/${symbol}/chart/${range}?${query}&${token}`)
     // debugger // pause for developer
+
     try {
         const request = axios
             .get(`${basehtml}${version}/stock/${symbol}/chart/${range}?${query}&${token}`)

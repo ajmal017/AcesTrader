@@ -48,6 +48,10 @@ export const getSymbolPriceData = async function (symbol, range, closeOnly, useS
         // Get the price series from the local database cache if available
         let symbolData = await loadLocalDatabase(symbolKey)
         if (symbolData) {
+
+            // console.log(`Found: ${symbolKey}, Keys: ${await getLocalDatabaseKeys()}`) //BCM
+            console.log(`Found: ${symbolKey}`) //BCM
+
             // symbol price data is available for yesterday's end-of-day prices
             // this data may have a constructed daily bar for today's prices (under development)
             let values = cloneDeep(symbolData)
@@ -59,6 +63,10 @@ export const getSymbolPriceData = async function (symbol, range, closeOnly, useS
             })
             return data // return price series from cache
         } else {
+
+            // console.log(`****Missing: ${symbolKey}, Keys: ${await getLocalDatabaseKeys()}`) //BCM
+            console.log(`****Missing: ${symbolKey}`) //BCM
+
             // Download the end-of-day price series for yesterday from IEX cloud
             let symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
             await saveLocalDatabase(symbolKey, symbolData) // add new data for today

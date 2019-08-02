@@ -13,6 +13,10 @@ export const loadWatchedPrices = async function (symbols) {
   const token = useSandbox ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
   const filters = ['latestPrice']
   // const filters = ['latestPrice', 'change', 'changePercent', 'marketCap']
+
+  console.log(`### appLoadWatchedPrices ###`) // BCM
+  // debugger // pause for developer
+
   try {
     resetWatchedPrices() //reset the list of prices for use in Charts dashboards
     const request = axios

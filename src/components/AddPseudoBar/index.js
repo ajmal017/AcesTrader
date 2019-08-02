@@ -70,6 +70,10 @@ const AddPseudoBar = () => {
         const basehtml = `${iexData.BasehtmlCloud}`
         const token = `token=${iexData.PublishableToken}`
         const version = iexData.Version
+
+        console.log(`### AddPseudoBar ###`) // BCM
+        // debugger // pause for developer
+
         try {
             const request = axios
                 .get(`${basehtml}${version}/stock/market/batch?types=delayed-quote&symbols=${symbols.join(',')}&${token}`)
