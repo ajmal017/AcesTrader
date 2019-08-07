@@ -165,6 +165,7 @@ class ChartDashboard extends Component {
     this.instructionTest = this.tradeSide === 'Shorts' ? true : false
     this.instruction = this.instructionTest ? 'COVER' : this.instructionRaw
     this.stoplossAlert = false // until triggered by calculations below
+    this.stoplossBackgroundColor = 'transparent'
 
     const defaultRgbaBackground = '206,212,218,0.3'
     const alertRgbaBackground = '255, 219, 77,0.6' //0.8
@@ -301,6 +302,7 @@ class ChartDashboard extends Component {
           if (this.currentState === 'PENDING' && this.lastPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
             this.currentState = 'LONG' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
           }
+          //BCM EFA testing- comment out 7/31/2019, activated 8/5/2019 VEU VT VTV VWO
           if (this.currentState === 'PENDING' && this.lastPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
             this.currentState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
           }
@@ -332,6 +334,8 @@ class ChartDashboard extends Component {
             (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
           ) {
             this.stoplossAlert = true // show alert for trailing stop loss
+            this.stoplossBackgroundColor = 'rgba(255,107,107,0.3)'
+
           }
           // this.stoplossAlert = true // ***TESTING THE ALERT FOR TRAILING STOP LOSS***
         }
@@ -409,8 +413,7 @@ class ChartDashboard extends Component {
                     &nbsp; @{this.enteredPrice}
                   </span>
                 ) : null}
-                {/* </div>
-              <div> */}
+
                 {this.filledQuantity !== undefined ? (
                   <span className='filledquantity'>
                     Quantity {this.filledQuantity}
@@ -418,12 +421,25 @@ class ChartDashboard extends Component {
                   </span>
                 ) : null}
               </div>
+
               <div>{this.lastSma40 ? <span className='weeklysma'>Weekly Sma(40): &nbsp;{this.lastSma40.close.toFixed(2)}</span> : null}</div>
             </div>
 
-            {/* If current user is not a Guest user, then the content below */}
-            {/* is removed until online access to broker trading API enabled */}
-            {this.context && this.context.email !== 'z@g.com' ? (
+            <label htmlFor='daysInterval'>Fixed Days</label>
+            <input className={'daysIntervalValue'} readOnly type='text' name='daysInterval' value={this.daysInterval} />
+            <label htmlFor='currentState'>State</label>
+            <input className={'currentStateText'} readOnly type='text' name='currentState' value={this.currentState} />
+            <br />
+
+            <label htmlFor='tradeSma'>Trading Sma</label>
+            <input className={'tradeSmaPeriod'} readOnly type='text' name='tradeSma' value={this.tradeSma} />
+            <label htmlFor='lastTradeSma'>Last T Sma</label>
+            <input className={'lastTradeSmaPrice'} readOnly type='text' name='lastTradeSma' value={this.lastTradeSma} />
+            <br />
+
+
+            {/* The content below is removed until online access to broker trading API enabled. */}
+            {this.context && this.context.email === 'xxxxxxx@g.com' ? (
               <>
                 <label htmlFor='instruction'>Order</label>
                 <input className={'instruction-' + this.tradeSideLc} readOnly type='text' name='instruction' value={this.instruction} />
@@ -445,27 +461,17 @@ class ChartDashboard extends Component {
 
             {this.listGroup === 'positions' ? (
               <>
-                <br />
-                <label htmlFor='trailingStopPercent'>Stop Loss %</label>
-                <input className={'trailingstop-percent'} readOnly type='text' name='trailingStopPercent' value={this.trailingStopPercent} />
-                <label htmlFor='trailingStopPrice'>Stop Price</label>
-                <input className={'trailingstop-price'} readOnly type='text' name='trailingStopPrice' value={this.trailingStopPrice} />
+                {/* {this.stoplossAlert ? <br /> : null} */}
+                <div style={{ backgroundColor: this.stoplossBackgroundColor }}>
+                  <label htmlFor='trailingStopPercent'>Stop Loss %</label>
+                  <input className={'trailingstop-percent'} readOnly type='text' name='trailingStopPercent' value={this.trailingStopPercent} />
+                  <label htmlFor='trailingStopPrice'>Stop Price</label>
+                  <input className={'trailingstop-price'} readOnly type='text' name='trailingStopPrice' value={this.trailingStopPrice} />
+                </div>
               </>
             ) : null}
+            {/* {this.stoplossAlert ? <><br /><span className={'trailingstop-alert'}>Stop Loss</span></> : <br />} */}
 
-            {this.stoplossAlert ? <><br /><br /><span className={'trailingstop-alert'}>Stop Loss</span><br /><br /></> : <br />}
-
-            <label htmlFor='tradeSma'>Trading Sma</label>
-            <input className={'tradeSmaPeriod'} readOnly type='text' name='tradeSma' value={this.tradeSma} />
-            <label htmlFor='lastTradeSma'>Last T Sma</label>
-            <input className={'lastTradeSmaPrice'} readOnly type='text' name='lastTradeSma' value={this.lastTradeSma} />
-            <br />
-            <label htmlFor='daysInterval'>Fixed Days</label>
-            <input className={'daysIntervalValue'} readOnly type='text' name='daysInterval' value={this.daysInterval} />
-            <label htmlFor='currentState'>State</label>
-            {/* <input className={'currentStateText'} readOnly type='text' name='currentState' value={this.currentState} /> */}
-            <input className={'currentStateText'} readOnly type='text' name='currentState' value={this.currentState} />
-            <br />
 
           </form>
 

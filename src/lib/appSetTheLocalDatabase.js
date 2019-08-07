@@ -19,6 +19,9 @@ export const setTheLocalDatabase = async function (date) {
 
         let metaData = await loadLocalDatabase(MetaKey) // get existing date marker if any
         if (!metaData || metaData === undefined) {
+
+            // console.log('Start fresh symbol database')
+
             await clearLocalDatabase() // start fresh today
             await saveLocalDatabase(MetaKey, defaultMetaData) // initialize with a date value for today
             return -1 // Established a new metaData record, the DB is empty of any price data
@@ -42,6 +45,9 @@ export const setTheLocalDatabase = async function (date) {
             return daysOld // no change, try to get specified symbol from cache
         }
         // The current db price data is stale, so start fresh now
+
+        // console.log(`Reset symbol database, daysOld=${daysOld}`)
+
         await clearLocalDatabase() // start fresh today
         await saveLocalDatabase(MetaKey, defaultMetaData) // initialize with a date value for today
         // All requests for symbol data will download new end-of-day prices for prior trading day

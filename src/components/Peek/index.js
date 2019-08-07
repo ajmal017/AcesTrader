@@ -122,6 +122,10 @@ class Peek extends Component {
         const version = iexData.Version
         let filters = ['latestPrice', 'change', 'changePercent', 'marketCap']
         if (addTitle) filters.push('companyName')
+
+        // console.log(`### Peek/index ###`)
+        // debugger // pause for developer
+
         try {
           resetPeekPrices() //reset the list of prices for use in Charts dashboards
           const request = axios

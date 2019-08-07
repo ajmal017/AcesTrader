@@ -92,7 +92,7 @@ export const stateMachine = (theState, theSymbol) => {
       }
     } else {
       // let testDate2 = `${date.getFullYear()} ${date.getMonth() + 1} ${date.getDate()}`
-      // if (testDate2 === '2019 7 19') {
+      // if (testDate2 === '2019 7 29') {
       //   debugger
       // }
       // if (testDate2 === '2019 5 30' && symbol === 'AMZN') {

@@ -11,6 +11,10 @@ export const getSymbolCompanyData = function (symbolList) {
     let promiseArray = symbolList.map((symbol, i) => {
         return axios({ method: 'get', timeout: 2000, url: `${basehtml}${version}/stock/${symbol}/company?${token}` })
     })
+
+    // console.log(`### appGetSymbolCompanyData ###`)
+    // debugger // pause for developer
+
     return axios
         .all(promiseArray)
         .then(function (arr) {

@@ -35,6 +35,10 @@ export const setPeekPrices = async (state) => {
         const token = useSandbox ? `token=${iexData.PublishableTestToken}` : `token=${iexData.PublishableToken}`
         const version = iexData.Version
         let filters = ['latestPrice', 'change', 'changePercent', 'marketCap']
+
+        // console.log(`### appSetPeekPrices ###`)
+        // debugger // pause for developer
+
         try {
             const request = axios
                 .get(`${basehtml}${version}/stock/market/batch?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}&${token}`)
