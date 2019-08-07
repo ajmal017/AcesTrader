@@ -20,7 +20,7 @@ export const setTheLocalDatabase = async function (date) {
         let metaData = await loadLocalDatabase(MetaKey) // get existing date marker if any
         if (!metaData || metaData === undefined) {
 
-            console.log('Start fresh symbol database') // BCM
+            // console.log('Start fresh symbol database')
 
             await clearLocalDatabase() // start fresh today
             await saveLocalDatabase(MetaKey, defaultMetaData) // initialize with a date value for today
@@ -46,7 +46,7 @@ export const setTheLocalDatabase = async function (date) {
         }
         // The current db price data is stale, so start fresh now
 
-        console.log(`Reset symbol database, daysOld=${daysOld}`) // BCM
+        // console.log(`Reset symbol database, daysOld=${daysOld}`)
 
         await clearLocalDatabase() // start fresh today
         await saveLocalDatabase(MetaKey, defaultMetaData) // initialize with a date value for today

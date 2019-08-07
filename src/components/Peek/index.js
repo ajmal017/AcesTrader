@@ -123,7 +123,7 @@ class Peek extends Component {
         let filters = ['latestPrice', 'change', 'changePercent', 'marketCap']
         if (addTitle) filters.push('companyName')
 
-        console.log(`### Peek/index ###`) // BCM
+        // console.log(`### Peek/index ###`)
         // debugger // pause for developer
 
         try {

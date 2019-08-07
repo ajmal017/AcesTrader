@@ -36,7 +36,7 @@ export const setPeekPrices = async (state) => {
         const version = iexData.Version
         let filters = ['latestPrice', 'change', 'changePercent', 'marketCap']
 
-        console.log(`### appSetPeekPrices ###`) // BCM
+        // console.log(`### appSetPeekPrices ###`)
         // debugger // pause for developer
 
         try {

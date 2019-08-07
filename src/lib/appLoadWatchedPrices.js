@@ -14,7 +14,7 @@ export const loadWatchedPrices = async function (symbols) {
   const filters = ['latestPrice']
   // const filters = ['latestPrice', 'change', 'changePercent', 'marketCap']
 
-  console.log(`### appLoadWatchedPrices ###`) // BCM
+  // console.log(`### appLoadWatchedPrices ###`)
   // debugger // pause for developer
 
   try {

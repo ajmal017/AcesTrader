@@ -24,7 +24,7 @@ class SignIn extends Component {
     try {
       if (process.env.NODE_ENV === 'development') {
         await fire.auth().signInWithEmailAndPassword(martinduo.email, martinduo.password)
-        // await fire.auth().signInWithEmailAndPassword('martinduo.emailReset', martinduo.password) // BCM - resets database of symbols
+        // await fire.auth().signInWithEmailAndPassword('martinduo.emailReset', martinduo.password) // Changed emai will reset local database of symbols
       } else {
         await fire.auth().signInWithEmailAndPassword(email.value, password.value)
       }

@@ -12,7 +12,7 @@ export const getSymbolCompanyData = function (symbolList) {
         return axios({ method: 'get', timeout: 2000, url: `${basehtml}${version}/stock/${symbol}/company?${token}` })
     })
 
-    console.log(`### appGetSymbolCompanyData ###`) // BCM
+    // console.log(`### appGetSymbolCompanyData ###`)
     // debugger // pause for developer
 
     return axios

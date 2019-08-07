@@ -71,7 +71,7 @@ const AddPseudoBar = () => {
         const token = `token=${iexData.PublishableToken}`
         const version = iexData.Version
 
-        console.log(`### AddPseudoBar ###`) // BCM
+        // console.log(`### AddPseudoBar ###`)
         // debugger // pause for developer
 
         try {
