@@ -72,27 +72,31 @@ const AddPseudoBar = () => {
         const basehtml = `${iexData.BasehtmlCloud}`
         const token = `token=${iexData.PublishableToken}`
         const version = iexData.Version
+        const filters = ['latestPrice', 'change', 'changePercent']
 
         // console.log(`### AddPseudoBar ###`)
         // debugger // pause for developer
         try {
             const request = axios
-                .get(`${basehtml}${version}/stock/market/batch?types=delayed-quote&symbols=${symbols.join(',')}&${token}`)
+                .get(`${basehtml}${version}/stock/market/batch?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}&${token}`)
             let res = await request
-            let valueKeys = Object.keys(res.data)
-            // debugger
-            for (let i = 0; i < valueKeys.length; i++) {
-                let quoteData = res.data[valueKeys[i]]['delayed-quote']
-                // debugger
-                let fakeOpen = Math.round((quoteData.high + quoteData.low) / 2)
-                let fakeClose = quoteData.delayedPrice
-                let fakeHigh = quoteData.high
-                let fakeLow = quoteData.low
-                let fakeDate = quoteData.processedTime
-                let symbol = quoteData.symbol
-                let pseudoBar = { pseudoBar: true, symbol: symbol, open: fakeOpen, close: fakeClose, high: fakeHigh, low: fakeLow, date: fakeDate, volume: 10000 }
-                allPseudoBars[symbol] = pseudoBar
+            let values = res.data
+            for (let symbol in values) {
+                let data = values[symbol]
+                if (typeof data !== 'undefined') {
+                    // debugger
+                    let fakeClose = data.quote.latestPrice
+                    let fakeChange = fakeClose * 0.003
+                    let fakeOpen = fakeClose + fakeChange
+                    let fakeHigh = fakeOpen + fakeChange
+                    let fakeLow = fakeClose - fakeChange
+                    let fakeDate = date
+                    let key = symbol
+                    let pseudoBar = { pseudoBar: true, symbol: symbol, open: fakeOpen, close: fakeClose, high: fakeHigh, low: fakeLow, date: fakeDate, volume: 10000 }
+                    allPseudoBars[key] = pseudoBar
+                }
             }
+
         } catch (error) {
             console.log('makeBatchOfPseudoBars axios error:' + error.message)
             // alert('makeBatchOfPseudoBars axios error: ' + error.message) //rude interruption to user
@@ -107,7 +111,7 @@ const AddPseudoBar = () => {
         const symbolData = await loadLocalDatabase(symbolKey) // get price series from the cache
         let currentLastBar = symbolData[symbolData.length - 1]
 
-        // Hack to workaround bug discovered 5/20/19, Monday after weekend of testing
+        // BCM Hack to workaround leftover bad bar. This bug discovered 5/20/19, Monday after weekend of testing AddPseudoBar
         if (currentLastBar === undefined) {
             symbolData.pop() // undefined array element result of testing AddPseudoBar?
             currentLastBar = symbolData[symbolData.length - 1] // get the new last bar

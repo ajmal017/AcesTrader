@@ -54,6 +54,13 @@ export const getSymbolPriceData = async function (symbol, range, closeOnly, useS
 
             // symbol price data is available for yesterday's end-of-day prices
             // this data may have a constructed daily bar for today's prices (under development)
+
+            // BCM Hack to workaround leftover bad bar. This bug discovered 5/20/19, Monday after weekend of testing AddPseudoBar
+            let currentLastBar = symbolData[symbolData.length - 1] // get the last bar
+            if (currentLastBar === undefined) {
+                symbolData.pop() // undefined array element result of testing AddPseudoBar
+            }
+
             let values = cloneDeep(symbolData)
             // format the dates for the required charting format
             let data = values.map((obj) => {
