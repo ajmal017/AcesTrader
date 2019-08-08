@@ -9,6 +9,7 @@ import { loadLocalDatabase, saveLocalDatabase, getLocalDatabaseKeys } from '../.
 import WelcomeTrader from '../Welcome/WelcomeTrader'
 
 const AddPseudoBar = () => {
+
     const [dataReady, setDataReady] = useState({ loading: true, error: false })
     const date = new Date() // today's date
     const theDay = date.getDay() //returns the week day of a date as a number (0-6)
@@ -30,24 +31,25 @@ const AddPseudoBar = () => {
             // Today is Saturday or Sunday, all price series have correct last trading day bar
             setDataReady({ loading: false, error: 'Today is a weekend, all price series have correct last day trading bar' })
         } else if (theHour < 10) {
-            // The market is just open, we only append pseudo bars after 10
-            setDataReady({ loading: false, error: 'Too early, delayed quotes are used to build pseudo bars after 10am' })
-
-            // if (false) { // <****************** temp to replace tests above
-
+            // The market is just open at 9:30, we only append pseudo bars after 10
+            setDataReady({ loading: false, error: 'Too early, delayed quotes are used to build pseudo bars half-hour after market open' })
         } else if (loading) {
-            // const daysOld = await setTheLocalDatabase(date) //the local DB contains last trading day symbol price data, returns the DB daysOld number
-            await setTheLocalDatabase(date) //the local DB contains last trading day symbol price data
-            const allKeys = await getLocalDatabaseKeys() // get the keys of objects from the cache
-            const symbolKeys = allKeys.filter((key) => { return (key !== 'MetaKey-DateObject') })
-            const extractedSymbols = symbolKeys.map((symbolKey) => {
-                let result = /(.*)(-.*)/.exec(symbolKey) // extract the symbol from the symbolKey
-                return result[1] // make array of the extracted symbols.
-            })
-            let symbols = extractedSymbols.filter((element, index) => extractedSymbols.indexOf(element) === index) // remove dups
-            await makePseudoBars(symbols)
-            symbolKeys.forEach((symbolKey) => { appendPseudoBar(symbolKey) }) // add pseudo end-of-day bar to each symbol's price series
-            setDataReady({ loading: false, error: false })
+            // We need to create an array of symbols of the securities in the local data base cache
+            const daysOld = await setTheLocalDatabase(date) //the local DB contains last trading day symbol price data, returns the DB daysOld number if data exists
+            if (daysOld === -1) {
+                setDataReady({ loading: false, error: 'The cache of symbol price data is empty, load the charts first.' })
+            } else {
+                const allKeys = await getLocalDatabaseKeys() // get the keys of objects from the cache
+                const symbolKeys = allKeys.filter((key) => { return (key !== 'MetaKey-DateObject') }) //remove the MetaKey
+                const extractedSymbols = symbolKeys.map((symbolKey) => {
+                    let result = /(.*)(-.*)/.exec(symbolKey) // extract the barebones symbol from the symbolKey
+                    return result[1] // make array of the extracted barebones symbols.
+                })
+                let symbols = extractedSymbols.filter((element, index) => extractedSymbols.indexOf(element) === index) // remove dups
+                await makePseudoBars(symbols) // use the extracted barebones symbol
+                symbolKeys.forEach((symbolKey) => { appendPseudoBar(symbolKey) }) // add pseudo end-of-day bar to each symbol's price series
+                setDataReady({ loading: false, error: false })
+            }
         }
     }
 
@@ -59,7 +61,7 @@ const AddPseudoBar = () => {
         // debugger
         for (let i = 0; i < numberOfBatches; i++) {
             let symbolsBatch = symbols.slice(i * BATCH_SIZE, (i + 1) * BATCH_SIZE)
-            await makeBatchOfPseudoBars(symbolsBatch) // the pseudo bars are cached in allPseudoBars
+            await makeBatchOfPseudoBars(symbolsBatch) // the pseudo bars are cached in allPseudoBars indexed by symbol
         }
         // debugger
     }
@@ -73,7 +75,6 @@ const AddPseudoBar = () => {
 
         // console.log(`### AddPseudoBar ###`)
         // debugger // pause for developer
-
         try {
             const request = axios
                 .get(`${basehtml}${version}/stock/market/batch?types=delayed-quote&symbols=${symbols.join(',')}&${token}`)
@@ -113,9 +114,9 @@ const AddPseudoBar = () => {
         }
 
         if (currentLastBar.pseudoBar) {
-            symbolData.pop()
+            symbolData.pop() // remove the last created pseudoBar
         }
-        symbolData.push(pseudoBar)
+        symbolData.push(pseudoBar) // add the newly created pseudoBar
         await saveLocalDatabase(symbolKey, symbolData) // save the modified symbol data
         // let testing = await loadLocalDatabase(symbolKey) // test get object back
         // debugger

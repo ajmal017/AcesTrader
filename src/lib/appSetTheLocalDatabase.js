@@ -51,7 +51,7 @@ export const setTheLocalDatabase = async function (date) {
         await clearLocalDatabase() // start fresh today
         await saveLocalDatabase(MetaKey, defaultMetaData) // initialize with a date value for today
         // All requests for symbol data will download new end-of-day prices for prior trading day
-        return daysOld // Established a new metaData record, the DB is empty of any price data
+        return -1 // Established a new metaData record, the DB is empty of any price data
 
     } catch (error) {
         console.log('setTheLocalDatabase error:', error.message)
