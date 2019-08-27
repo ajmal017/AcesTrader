@@ -91,11 +91,9 @@ export const stateMachine = (theState, theSymbol) => {
         currentState = CashBelow
       }
     } else {
+
       // let testDate2 = `${date.getFullYear()} ${date.getMonth() + 1} ${date.getDate()}`
-      // if (testDate2 === '2019 7 29') {
-      //   debugger
-      // }
-      // if (testDate2 === '2019 5 30' && symbol === 'AMZN') {
+      // if (testDate2 === '2019 8 21') {
       //   debugger
       // }
 
@@ -131,13 +129,13 @@ export const stateMachine = (theState, theSymbol) => {
   // that is important is the value of 'currentState' placed in the returned object.
   // Any caller from AcesTester ignores the second property in the returned object.
 
-  const date = data[data.length - 1].date
-  const open = data[data.length - 1].open
-  const close = data[data.length - 1].close
-  const fakeYesterday = date.getDay() // a fake yesterday date for this use of doCurrentAction() at this exit.
-  const fakeTodayDate = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000)
+  const fakeDate = data[data.length - 1].date //fakes are created from the last bar in the time series
+  const fakeOpen = data[data.length - 1].open
+  const fakeClose = data[data.length - 1].close
+  const fakeYesterday = fakeDate.getDay() // a fake yesterday date for this use of doCurrentAction() at this exit.
+  const fakeTodayDate = new Date(fakeDate.getTime() + 1 * 24 * 60 * 60 * 1000) //the fake day for which the signal is generated
 
-  doCurrentAction(state, fakeTodayDate, fakeYesterday, open, close, nextState) // this sets the currentState of the asset for the next day
+  doCurrentAction(state, fakeTodayDate, fakeYesterday, fakeOpen, fakeClose, nextState) // this sets the currentState of the asset for the next day
 
   return { positionValues: positionValues, currentState: currentState } //the finished positionValues array and the currentState for this symbol
 }
