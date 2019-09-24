@@ -5,9 +5,16 @@
   },
   "env": {
     "browser": true,
+    "jest": true,
+    "es6": true,
     "node": true
   },
   "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "rules": {
     "quotes": [2, "single"],
     "strict": [2, "never"],
@@ -18,7 +25,14 @@
     "react/prop-types": 0,
     "react/no-did-mount-set-state": 1,
     "react/no-did-update-set-state": 1,
-    "indent": ["error", 2, { "SwitchCase": 1 }]
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ]
   },
-  "plugins": ["react"]
+  "plugins": ["react"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended"]
 }
