@@ -46,9 +46,9 @@ const AddPseudoBar = () => {
     const basehtml = `${iexData.BasehtmlCloud}`
     const token = `token=${iexData.PublishableToken}`
     const version = iexData.Version
-    // const filters = ['latestPrice', 'change', 'changePercent']
+    const filters = ['latestPrice', 'change', 'changePercent']
 
-    // Use the IEX Price API to get the latest price:
+    // Use the IEX Quote API to get the latest price:
     // Refers to the latest relevant price of the security which is derived from multiple sources.
     // We first look for an IEX real time price.If an IEX real time price is older than 15 minutes,
     // 15 minute delayed market price is used.If a 15 minute delayed price is not available,
@@ -61,8 +61,8 @@ const AddPseudoBar = () => {
     // NOTE: This will not include pre or post market prices.
 
     try {
-      const request = axios.get(`${basehtml}${version}/stock/market/batch?types=price&symbols=${symbols.join(',')}&${token}`)
-      // const request = axios.get(`${basehtml}${version}/stock/market/batch?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}&${token}`)
+      // const request = axios.get(`${basehtml}${version}/stock/market/batch?types=price&symbols=${symbols.join(',')}&${token}`)
+      const request = axios.get(`${basehtml}${version}/stock/market/batch?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}&${token}`)
       let res = await request
       // debugger //bcm
 
@@ -70,7 +70,7 @@ const AddPseudoBar = () => {
       for (let symbol in values) {
         let data = values[symbol]
         if (typeof data !== 'undefined') {
-          let fakeClose = data.latestPrice
+          let fakeClose = data.quote.latestPrice
           let fakeChange = fakeClose * 0.004
           let fakeOpen = fakeClose + fakeChange
           let fakeHigh = fakeOpen + fakeChange
