@@ -23,6 +23,9 @@ class ErrorBoundary extends Component {
       })
       Sentry.captureException(error)
       // Sentry.showReportDialog()
+    } else {
+      alert('ErrorBoundary', error.message)
+      debugger // pause for developer
     }
   }
 
@@ -31,8 +34,8 @@ class ErrorBoundary extends Component {
       //render fallback UI
       if (this.props.chart) {
         return (
-          <div className="errorboundary-wrapper">
-            <div className="errorboundary-content">
+          <div className='errorboundary-wrapper'>
+            <div className='errorboundary-content'>
               <h3>Oops- Something went wrong drawing your chart.</h3>
               {/* <a onClick={() => Sentry.showReportDialog()}> Please click here to send feedback</a> */}
               <h4>Click the back arrow,</h4>
@@ -42,8 +45,8 @@ class ErrorBoundary extends Component {
         )
       } else {
         return (
-          <div className="errorboundary-wrapper">
-            <div className="errorboundary-content">
+          <div className='errorboundary-wrapper'>
+            <div className='errorboundary-content'>
               <h3>Oops- Something went wrong.</h3>
               {/* <a onClick={() => Sentry.showReportDialog()}> Please click here to send feedback</a> */}
               <h4>Please refresh the page to retry</h4>
