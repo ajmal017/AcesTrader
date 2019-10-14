@@ -110,6 +110,10 @@ const AddPseudoBar = () => {
   }
 
   const extractSymbolFromSymbolKey = (symbolKey) => {
+    if (/-CloseOnly/i.test(symbolKey)) {
+      // this is not an expected suffix in AcesTrade, only in acesTESTER
+      debugger // pause for developer
+    }
     let result
     if (/-Sandbox/i.test(symbolKey)) {
       result = /(.*)-.*-.*/.exec(symbolKey) // extract the barebones symbol from a symbolKey having 2 suffixes
