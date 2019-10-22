@@ -171,11 +171,11 @@ export const getLast20Closes = (symbol) => {
   }
 }
 
-export const putlast20Highs = (symbol, data) => {
+export const putLast20Highs = (symbol, data) => {
   dataCache.last20Highs[symbol] = cloneDeep(data)
 }
 
-export const getlast20Highs = (symbol) => {
+export const getLast20Highs = (symbol) => {
   if (dataCache.last20Highs[symbol]) {
     let last20Highs = cloneDeep(dataCache.last20Highs[symbol])
     return last20Highs
@@ -184,11 +184,11 @@ export const getlast20Highs = (symbol) => {
   }
 }
 
-export const putlast20Lows = (symbol, data) => {
+export const putLast20Lows = (symbol, data) => {
   dataCache.last20Lows[symbol] = cloneDeep(data)
 }
 
-export const getlast20Lows = (symbol) => {
+export const getLast20Lows = (symbol) => {
   if (dataCache.last20Lows[symbol]) {
     let last20Lows = cloneDeep(dataCache.last20Lows[symbol])
     return last20Lows

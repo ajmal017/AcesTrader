@@ -30,8 +30,12 @@ import DialogChartCellForm from './DialogChartCellForm'
 import { putDailyPriceData, getDailyPriceData, putWeeklyPriceData, getWeeklyPriceData } from '../../../lib/chartDataCache'
 import { getSma50Data, getSma200Data } from '../../../lib/chartDataCache'
 import buildSma200Array from '../../../lib/appBuildSma200Array'
+import buildSma50Array from '../../../lib/appBuildSma50Array'
 import buildSma40Array from '../../../lib/appBuildSma40Array'
 import buildLast20Closes from '../../../lib/appBuildLast20Closes'
+import buildLast20Highs from '../../../lib/appBuildLast20Highs'
+import buildLast20Lows from '../../../lib/appBuildLast20Lows'
+import { putSmaTradingData } from '../../../lib/chartDataCache'
 import { getSandboxStatus } from '../../../lib/appUseSandboxStatus'
 import { putChartFlags, getChartFlags } from '../../../lib/chartDataCache'
 // import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
@@ -157,9 +161,9 @@ class Chartcell extends Component {
           } else {
             self.validShortSma = false
           }
-          if (weeklyBars && validLongSma) {
+          if (weeklyBars && self.validLongSma) {
             putSmaTradingData(symbol, getSma200Data(symbol)) //cache the smaTrading data for subsequent use for chart alerts
-          } else if (validShortSma) {
+          } else if (self.validShortSma) {
             putSmaTradingData(symbol, getSma50Data(symbol)) //cache the smaTrading data for subsequent use for chart alerts
           }
 
