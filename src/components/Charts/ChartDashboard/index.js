@@ -19,6 +19,7 @@ import { getDaysDiff } from '../../../lib/appGetDaysDiff'
 import './styles.css'
 import './stylesTextWidths.css'
 
+/*** Create the Peek price data to be shown in the chart dashboard */
 function PeekStatusLine({ hash, listGroup, peekDate, peekPrice, dollarGain, percentGain, daysHere, positionValue, rgbaValue }) {
   // let thePositionValue = listGroup === 'positions' ? `, Value: ${positionValue}` : null
   let nd = new Date(peekDate)
@@ -51,13 +52,14 @@ class ChartDashboard extends Component {
       showDialog: false,
       showConfirm: false,
       showCompanyData: false,
-      companyData: ''
+      companyData: '',
     }
   }
 
   // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
   numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
+  /*** Get the security's description to be shown in the chart dashboard */
   async getCompanyData(symbol) {
     try {
       const data = await getSymbolCompanyData([symbol])
@@ -136,8 +138,8 @@ class ChartDashboard extends Component {
   render() {
     //handle new props with changed state of cellObjects
     this.symbol = this.props.cellObject.symbol
-    this.validShortSma = this.props.validShortSma // special test to handle listing with short array of daily prices
-    this.validLongSma = this.props.validLongSma // special test to handle listing with short array of daily prices
+    this.validShortSma = this.props.validShortSma // special tag identify symbol listing with short array of daily prices (>50)
+    this.validLongSma = this.props.validLongSma // special tag identify symbol listing with long array of daily prices (>200)
     this.weekly = this.props.cellObject.weeklyBars
     this.hash = this.props.cellObject.hash
     this.listGroup = this.props.cellObject.listGroup
@@ -168,7 +170,7 @@ class ChartDashboard extends Component {
     this.stoplossBackgroundColor = 'transparent'
 
     const defaultRgbaBackground = '206,212,218,0.3'
-    const alertRgbaBackground = '255, 219, 77,0.6' //0.8
+    const alertRgbaBackground = '255, 219, 77,0.6'
     const startPrice = this.listGroup === 'positions' ? this.enteredPrice : this.watchedPrice
     this.dollarGain = this.peekDate !== undefined ? (this.peekPrice - startPrice).toFixed(2) : 'pending'
     this.percentGain = this.peekDate !== undefined ? ((100 * (this.peekPrice - startPrice)) / startPrice).toFixed(1) : 'pending'
@@ -194,21 +196,21 @@ class ChartDashboard extends Component {
       }
     }
 
-
-    // Action codes
+    /**Translate the state code returned from the statemachine to readable terms for display in the dashboard */
     const stateXlate = {
-      'Long>SMA': 'LONG',  // Long>SMA and Long<SMA
-      'Long<SMA': 'LONG',  // Long>SMA and Long<SMA
-      'Cash>SMA': 'CASH',  // Cash>SMA and Cash<SMA
-      'Cash<SMA': 'CASH',  // Cash>SMA and Cash<SMA
-      LongAboveLater: 'PENDING', //'Buy above ma at interval end',
-      LongAboveNow: 'BUY',        //'Buy above ma now, skipping interval period',
-      LongAboveRevert: 'BUY',     //'Buy above ma now, reverting panic sell',
-      CashBelowLater: 'PENDING', //'Sell below ma at interval end',
-      CashBelowNow: 'SELL',       //'Sell below ma now, skipping interval period',
-      CashBelowRevert: 'SELL',    //'Sell below ma now, reverting urgent buy',
-      LongBelowNow: 'BUY',        //'Urgent Buy below ma cross',
-      CashAboveNow: 'SELL',       //'Urgent Sell above ma cross',
+      'Long>SMA': 'LONG', // Long>SMA and Long<SMA
+      'Long<SMA': 'LONG', // Long>SMA and Long<SMA
+      'Cash>SMA': 'CASH', // Cash>SMA and Cash<SMA
+      'Cash<SMA': 'CASH', // Cash>SMA and Cash<SMA
+      LongAboveLater: 'PENDING', //'Buy above ma will be active at interval end',
+      LongAboveNow: 'BUY', //'Buy above ma now, skipping interval period',
+      LongAboveRevert: 'BUY', //'Buy above ma now, reverting panic sell',
+      CashBelowLater: 'PENDING', //'Sell below ma will be active at interval end',
+      CashBelowNow: 'SELL', //'Sell below ma now, skipping interval period',
+      CashBelowRevert: 'SELL', //'Sell below ma now, reverting urgent buy',
+      LongBelowNow: 'BUY', //'Urgent Buy below ma cross',
+      CashAboveNow: 'SELL', //'Urgent Sell above ma cross',
+      // Obsolete returned codes below
       'Buy above ma at interval end': 'PENDING',
       'Buy above ma now, skipping interval period': 'BUY',
       'Buy above ma now, reverting panic sell': 'BUY',
@@ -219,7 +221,7 @@ class ChartDashboard extends Component {
       'Urgent Sell above ma cross': 'SELL',
     }
 
-    // **NOTE the condition on this.props.iexData which controls processing past this point**
+    // **TAKE NOTE of the value of this.props.iexData which controls processing past this point**
 
     if (this.props.iexData === 0) {
       this.rgbaBackground = defaultRgbaBackground // chart data not available yet, not able to test for any alert now
@@ -238,7 +240,8 @@ class ChartDashboard extends Component {
       } else {
         const peekDate = new Date(this.peekDate)
         const barDate = new Date(this.lastBar.date)
-        if (peekDate < barDate) { //peekDate is stale
+        if (peekDate < barDate) {
+          //peekDate is stale
           this.lastPrice = this.lastBar.close
         } else {
           this.lastPrice = this.peekPrice
@@ -254,7 +257,6 @@ class ChartDashboard extends Component {
         this.tradeSma = ' '
         // this.trailingStopPercent = ' '
         // this.trailingStopPrice = ' '
-
       } else {
         this.daysInterval = this.props.cellObject.dashboard.daysInterval
         this.currentState = this.props.cellObject.dashboard.currentState
@@ -284,7 +286,7 @@ class ChartDashboard extends Component {
         }
 
         if (this.validShortSma) {
-          // Both daily and weekly charts get the appStateMachine trading strategy signals using the daily price array 
+          // Both daily and weekly charts get the appStateMachine trading strategy signals using the daily price array
           // Prepare the parameters for use by stateMachine()
           this.testState = {
             SMA: 'D', //use fixed days interval
@@ -293,8 +295,8 @@ class ChartDashboard extends Component {
             TS1: 4, //crossover sell %
             ET4: false, //enable crossover buy
             TS4: 4, //crossover buy %
-            CLOSEONLY: false, // OHLC is available
-            USESANDBOX: this.props.useSandbox, // OHLC values are random garbage if this is true
+            CLOSEONLY: false, // OHLC is available and used
+            USESANDBOX: this.props.useSandbox, // OHLC values are randomly distorted if this is true
           }
           const { currentState } = stateMachine(this.testState, this.symbol) //get the last state
           this.currentState = stateXlate[currentState] //get appropriate text for dashboard display
@@ -328,18 +330,16 @@ class ChartDashboard extends Component {
           }
           // Calculate any trailing stop loss alert
           this.stopGap = this.peekPrice - this.trailingStopBasis
-          this.percentTrailingStopGap = (100 * this.stopGap) / this.trailingStopBasis    //.toFixed(1)
+          this.percentTrailingStopGap = (100 * this.stopGap) / this.trailingStopBasis //.toFixed(1)
           if (
             (this.tradeSide === 'Shorts' && this.percentTrailingStopGap > this.trailingStopPercent) ||
             (this.tradeSide !== 'Shorts' && this.percentTrailingStopGap < -this.trailingStopPercent)
           ) {
             this.stoplossAlert = true // show alert for trailing stop loss
             this.stoplossBackgroundColor = 'rgba(255,107,107,0.3)'
-
           }
           // this.stoplossAlert = true // ***TESTING THE ALERT FOR TRAILING STOP LOSS***
         }
-
       }
     }
     // console.log(` ${this.symbol} - trailingStopBasis: ${this.trailingStopBasis}`)
@@ -437,7 +437,6 @@ class ChartDashboard extends Component {
             <input className={'lastTradeSmaPrice'} readOnly type='text' name='lastTradeSma' value={this.lastTradeSma} />
             <br />
 
-
             {/* The content below is removed until online access to broker trading API enabled. */}
             {this.context && this.context.email === 'xxxxxxx@g.com' ? (
               <>
@@ -471,12 +470,16 @@ class ChartDashboard extends Component {
               </>
             ) : null}
             {/* {this.stoplossAlert ? <><br /><span className={'trailingstop-alert'}>Stop Loss</span></> : <br />} */}
-
-
           </form>
 
           <div className='dashboard-securityname'>
-            <div>{this.companyName !== undefined ? <span onClick={this.handleCompanyDataRequest} className='companyName'>{this.companyName}</span> : null}</div>
+            <div>
+              {this.companyName !== undefined ? (
+                <span onClick={this.handleCompanyDataRequest} className='companyName'>
+                  {this.companyName}
+                </span>
+              ) : null}
+            </div>
           </div>
           <div className='dashboard-footer'>
             {/* {process.env.NODE_ENV === 'development' ? <div className={'trailingStopBasis-absolute'}>{this.trailingStopBasis}</div> : ''} */}
@@ -504,7 +507,7 @@ ChartDashboard.propTypes = {
   handleOrderEntry: PropTypes.func.isRequired,
   cellObject: PropTypes.object.isRequired,
   iexData: PropTypes.number.isRequired,
-  useSandbox: PropTypes.bool
+  useSandbox: PropTypes.bool,
 }
 
 //Note: this used only to get access to "this.props.dispatch", not for state access

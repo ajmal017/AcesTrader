@@ -16,7 +16,7 @@ export const getSymbolPriceData = async function(symbol, range, closeOnly, useSa
   // alert('Cleared The Local Database')
   // debugger
 
-  // //******************************** */
+  // //***********TESTING CODE BELOW********************* */
   // // const KEY1 = "testKey1"
   // // const VALUE1 = [{ date: "2019-5-7" }, { close: 111 }]
   // // await set(KEY1, VALUE1)
@@ -27,9 +27,9 @@ export const getSymbolPriceData = async function(symbol, range, closeOnly, useSa
   // await saveLocalDatabase(KEY2, VALUE2)
   // const value2 = await loadLocalDatabase(KEY2)
   // debugger
-  // //******************************** */
+  // //***********TESTING CODE ABOVE********************* */
 
-  // // ******************************** */
+  // //***********TESTING CODE BELOW********************* */
   // const MetaKey = "MetaKey-DateObject"
   // // const theDay = date.getDay()
   // const theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
@@ -38,7 +38,7 @@ export const getSymbolPriceData = async function(symbol, range, closeOnly, useSa
   // let metaData = await loadLocalDatabase(MetaKey) // get existing date marker if any
   // const metaDate = metaData.date
   // debugger
-  // //******************************** */
+  // //***********TESTING CODE ABOVE********************* */
 
   // const keys = await getLocalDatabaseKeys() // check the cache contents for debugging
   // const daysOld = await setTheLocalDatabase(date) // ensure the local DB will contain last trading day symbol price data
