@@ -249,8 +249,9 @@ class ChartDashboard extends Component {
       }
 
       if (!this.validShortSma || (this.weekly && !this.validLongSma)) {
-        // This is a listing with a short array of daily prices, so trading strategy data will not be processed
-        // But trailing sell stops can still be calculated and shown
+        // This is a chart with a too short array of prices to build a SMA,
+        // so a trading strategy signal will not be produced.
+        // But trailing sell stops can still be calculated and shown.
         this.currentState = 'ChartOnly'
         this.daysInterval = ' '
         this.lastTradeSma = ' '
@@ -258,7 +259,7 @@ class ChartDashboard extends Component {
         // this.trailingStopPercent = ' '
         // this.trailingStopPrice = ' '
       } else {
-        this.daysInterval = this.props.cellObject.dashboard.daysInterval
+        this.daysInterval = this.props.cellObject.dashboard.daysInterval //equivalent to bars interval for weekly charts
         this.currentState = this.props.cellObject.dashboard.currentState
 
         if (this.weekly && this.validLongSma) {
