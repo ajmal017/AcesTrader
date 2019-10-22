@@ -20,10 +20,12 @@ export const resetDataCache = () => {
   dataCache.sma10 = {}
   dataCache.ema20 = {}
   dataCache.sma40 = {}
-  dataCache.ema50 = {}
+  dataCache.sma50 = {}
   dataCache.sma200 = {}
   dataCache.smaTrading = {}
   dataCache.last20Closes = {}
+  dataCache.last20Highs = {}
+  dataCache.last20Lows = {}
   dataCache.tradeMarkers = {}
   dataCache.legendItems = {}
   dataCache.equityCharts = {}
@@ -70,6 +72,14 @@ var dataCache = {
     // key=symbol, value=array of objects [{date,sma-value}, ...]
   },
   last20Closes: {
+    // dictionary of key/value pairs
+    // key=symbol, value=array of the last 20 daily close objects [{date,close}...]
+  },
+  last20Highs: {
+    // dictionary of key/value pairs
+    // key=symbol, value=array of the last 20 daily close objects [{date,close}...]
+  },
+  last20Lows: {
     // dictionary of key/value pairs
     // key=symbol, value=array of the last 20 daily close objects [{date,close}...]
   },
@@ -161,6 +171,32 @@ export const getLast20Closes = (symbol) => {
   }
 }
 
+export const putlast20Highs = (symbol, data) => {
+  dataCache.last20Highs[symbol] = cloneDeep(data)
+}
+
+export const getlast20Highs = (symbol) => {
+  if (dataCache.last20Highs[symbol]) {
+    let last20Highs = cloneDeep(dataCache.last20Highs[symbol])
+    return last20Highs
+  } else {
+    return null
+  }
+}
+
+export const putlast20Lows = (symbol, data) => {
+  dataCache.last20Lows[symbol] = cloneDeep(data)
+}
+
+export const getlast20Lows = (symbol) => {
+  if (dataCache.last20Lows[symbol]) {
+    let last20Lows = cloneDeep(dataCache.last20Lows[symbol])
+    return last20Lows
+  } else {
+    return null
+  }
+}
+
 export const putSmaTradingData = (symbol, data) => {
   dataCache.smaTrading[symbol] = cloneDeep(data)
 }
@@ -182,8 +218,6 @@ export const getLastSmaTradingPrice = (symbol) => {
   }
 }
 
-
-
 export const putSma200Data = (symbol, data) => {
   dataCache.sma200[symbol] = cloneDeep(data)
 }
@@ -200,6 +234,27 @@ export const getLastSma200Price = (symbol) => {
     let sma200Array = dataCache.sma200[symbol]
     let lastSma200 = sma200Array[sma200Array.length - 1]
     return lastSma200
+  } else {
+    return null
+  }
+}
+
+export const putSma50Data = (symbol, data) => {
+  dataCache.sma50[symbol] = cloneDeep(data)
+}
+export const getSma50Data = (symbol) => {
+  if (dataCache.sma50[symbol]) {
+    let smaData = cloneDeep(dataCache.sma50[symbol])
+    return smaData
+  } else {
+    return null
+  }
+}
+export const getLastSma50Price = (symbol) => {
+  if (dataCache.sma50[symbol]) {
+    let sma50Array = dataCache.sma50[symbol]
+    let lastSma50 = sma50Array[sma50Array.length - 1]
+    return lastSma50
   } else {
     return null
   }
@@ -259,7 +314,6 @@ export const getDailyPriceDataLastBar = (symbol) => {
   let dailyPriceDataLastBar = dailyPriceData[dailyPriceData.length - 1]
   return dailyPriceDataLastBar
 }
-
 
 export const putWeeklyPriceData = (symbol, data) => {
   dataCache.weeklyPrices[symbol] = cloneDeep(data)

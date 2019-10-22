@@ -259,11 +259,24 @@ class ChartDashboard extends Component {
         // this.trailingStopPercent = ' '
         // this.trailingStopPrice = ' '
       } else {
-        this.daysInterval = this.props.cellObject.dashboard.daysInterval //equivalent to bars interval for weekly charts
+        // Set these defaults
+        this.daysInterval = 4 // override the this.props.cellObject.dashboard.daysInterval //equivalent to bars interval for weekly charts
         this.currentState = this.props.cellObject.dashboard.currentState
 
         if (this.weekly && this.validLongSma) {
-          // Calculate action signal for trend following prospects and positions using weekly bar charts
+          // Calculate action signal for TrendLong positions using weekly bar charts
+          this.testState = {
+            // Prepare the parameters for use by stateMachine()
+            SMA: 'W', // use fixed weekly bars interval
+            SMA3: this.daysInterval, // the weekly bars interval count
+            ET1: false, // do not enable crossover sell
+            TS1: 4, //crossover sell stop %
+            ET4: false, // do not enable crossover buy
+            TS4: 4, //crossover buy stop %
+            CLOSEONLY: false, // OHLC is available to be used
+            USESANDBOX: this.props.useSandbox, // the input series OHLC values are randomly distorted if this is true
+          }
+
           // Determine the status of the long term SMA40 buy/sell alert signals
           this.lastSma40 = getLastSma40Price(this.symbol)
           if (this.lastSma40) {
@@ -284,35 +297,35 @@ class ChartDashboard extends Component {
               }
             }
           }
-        }
-
-        if (this.validShortSma) {
-          // Both daily and weekly charts get the appStateMachine trading strategy signals using the daily price array
-          // Prepare the parameters for use by stateMachine()
+        } else if (this.validShortSma) {
+          // Calculate action signal for Long positions using daily bar charts
           this.testState = {
-            SMA: 'D', //use fixed days interval
-            SMA3: this.daysInterval, //fixed days count
-            ET1: false, //enable crossover sell
-            TS1: 4, //crossover sell %
-            ET4: false, //enable crossover buy
-            TS4: 4, //crossover buy %
-            CLOSEONLY: false, // OHLC is available and used
-            USESANDBOX: this.props.useSandbox, // OHLC values are randomly distorted if this is true
+            // Prepare the parameters for use by stateMachine()
+            SMA: 'D', // use fixed day bars interval
+            SMA3: this.daysInterval, // the daily bars interval count
+            ET1: false, // do not enable crossover sell
+            TS1: 4, //crossover sell stop %
+            ET4: false, // do not enable crossover buy
+            TS4: 4, //crossover buy stop %
+            CLOSEONLY: false, // OHLC is available to be used
+            USESANDBOX: this.props.useSandbox, // the input series OHLC values are randomly distorted if this is true
           }
-          const { currentState } = stateMachine(this.testState, this.symbol) //get the last state
-          this.currentState = stateXlate[currentState] //get appropriate text for dashboard display
-
-          if (this.currentState === 'PENDING' && this.lastPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
-            this.currentState = 'LONG' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
-          }
-          //BCM EFA testing- comment out 7/31/2019, activated 8/5/2019 VEU VT VTV VWO
-          if (this.currentState === 'PENDING' && this.lastPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
-            this.currentState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
-          }
-
-          // console.log(`currentState=${currentState}`) // testing
-          this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
         }
+
+        // Use the stateMachine to get the last state
+        const { currentState } = stateMachine(this.testState, this.symbol)
+        this.currentState = stateXlate[currentState] //get appropriate text for dashboard display
+
+        if (this.currentState === 'PENDING' && this.lastPrice > getLastSmaTradingPrice(this.symbol) && this.listGroup === 'positions') {
+          this.currentState = 'LONG' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
+        }
+        //BCM EFA testing- comment out 7/31/2019, activated 8/5/2019 VEU VT VTV VWO
+        if (this.currentState === 'PENDING' && this.lastPrice < getLastSmaTradingPrice(this.symbol) && this.listGroup === 'prospects') {
+          this.currentState = 'CASH' // correct for trade done ahead of fixed-days interval and unknown to the stateEngine logic
+        }
+
+        // console.log(`currentState=${currentState}`) // testing
+        this.rgbaBackground = defaultRgbaBackground // only weekly bars charts get trend alerts
 
         if (this.listGroup === 'positions') {
           // The trailing stop loss alert is only for positions.
