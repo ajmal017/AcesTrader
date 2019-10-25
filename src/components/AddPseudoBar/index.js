@@ -87,7 +87,7 @@ const AddPseudoBar = () => {
   }
 
   const appendPseudoBar = async (symbolKey) => {
-    // const result = /(.*)(-.*)/.exec(symbolKey) // extract the symbol from the symbolKey
+    // get one of the prepared pseudoBars and append it to end of the price series array
     const symbol = extractSymbolFromSymbolKey(symbolKey)
     const pseudoBar = allPseudoBars[symbol]
     const symbolData = await loadLocalDatabase(symbolKey) // get price series from the cache
@@ -110,17 +110,14 @@ const AddPseudoBar = () => {
   }
 
   const extractSymbolFromSymbolKey = (symbolKey) => {
-    if (/-CloseOnly/i.test(symbolKey)) {
-      // this is not an expected suffix in AcesTrade, only in acesTESTER
-      debugger // pause for developer
-    }
+    // symbolKey is the symbol with one or more suffixes each with a "-" as first character
+    let thePossibleSymbol = symbolKey //initial value
     let result
-    if (/-Sandbox/i.test(symbolKey)) {
-      result = /(.*)-.*-.*/.exec(symbolKey) // extract the barebones symbol from a symbolKey having 2 suffixes
-    } else {
-      result = /(.*)-.*/.exec(symbolKey) // extract the barebones symbol from a symbolKey having 1 suffix
-    }
-    return result[1] // from array of the extracted barebones symbols.
+    do {
+      result = /(.*)-.*/.exec(thePossibleSymbol) // remove one suffix to extract the symbol
+      thePossibleSymbol = result[1]
+    } while (/-/.test(thePossibleSymbol) === true) //another suffix remains
+    return result[1] // the extracted barebones symbol.
   }
 
   const buildPseudoBars = async () => {

@@ -36,7 +36,7 @@ class Modal extends Component {
 
   // these props come from mapStateToProps in the parent component
   // every call to here with nextProps triggers a modal display
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({ isDialogOpen: true })
   }
 
