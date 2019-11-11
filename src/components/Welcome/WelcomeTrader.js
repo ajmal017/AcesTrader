@@ -91,21 +91,21 @@ const HR = styled.hr`
 `
 
 const LabelActionHeader = styled.label`
-    margin-top: 20px;
-    margin-left: 20px;
-    font-weight: 500;
-  `
+  margin-top: 20px;
+  margin-left: 20px;
+  font-weight: 500;
+`
 const InputActionHeader = styled.input`
-    // margin-left: 15px;
-    // margin-top: 8px;
-    padding: 1px 0;
-    height: 20px;
-    width: 24px;
-  `
+  // margin-left: 15px;
+  // margin-top: 8px;
+  padding: 1px 0;
+  height: 20px;
+  width: 24px;
+`
 const ActionDescHeader = styled.span`
-    margin-left: 10px;
-    margin-bottom: 8px;
-  `
+  margin-left: 10px;
+  margin-bottom: 8px;
+`
 
 class WelcomeTrader extends Component {
   //
@@ -120,7 +120,7 @@ class WelcomeTrader extends Component {
   componentDidMount() {
     // console.log(`WelcomeTrader: componentDidMount, getReference=${getReference()}, props.firstReference=${props.firstReference}`)
     if (this.firstReference) {
-      this.sandboxChecked = process.env.NODE_ENV === 'development' ? true : false // by default development gets junk ohlc values to test the app, but free downloads (default is changeable by user) 
+      this.sandboxChecked = process.env.NODE_ENV === 'development' ? true : false // by default development gets junk ohlc values to test the app, but free downloads (default is changeable by user)
       setSandboxStatus(this.sandboxChecked) // set for reference in other modules such as Chartcell and reducePeekData.js
       this.setState({ loading: true, reference: this.firstReference, useSandbox: getSandboxStatus() })
       // load a portfolio from persistant state now, only for first-time mounting
@@ -137,12 +137,11 @@ class WelcomeTrader extends Component {
     this.loadPortfolio(event.target.value)
   }
 
-  handleCheckboxChange = (e) => {
+  handleSandboxCheckboxChange = (e) => {
     const { name, checked } = e.target
     setSandboxStatus(checked) // set for reference in other modules such as reducePeekData.js
     this.setState({ [name]: checked })
   }
-
 
   loadPortfolio = (reference) => {
     try {
@@ -154,7 +153,7 @@ class WelcomeTrader extends Component {
         .database()
         .ref(reference) // see lib/dbReference.js for possible values
         .once('value')
-        .then(function (snapshot) {
+        .then(function(snapshot) {
           if (snapshot) {
             persistedState = snapshot.val()
             if (persistedState === null) {
@@ -169,7 +168,6 @@ class WelcomeTrader extends Component {
               // this is an async operation that should be finished when accessed by ChartsView
               let currentState = that.props.state
               setPeekPrices(currentState)
-
             }
             // console.log(`AppLoadData DB finish:, reference=${reference}`)
             putReference(reference) // establish the reference for the new portfolio
@@ -238,12 +236,10 @@ class WelcomeTrader extends Component {
 
             <ControlGroup>
               <LabelActionHeader>
-                <InputActionHeader type='checkbox' name='useSandbox' checked={this.state.useSandbox} onChange={this.handleCheckboxChange} />
+                <InputActionHeader type='checkbox' name='useSandbox' checked={this.state.useSandbox} onChange={this.handleSandboxCheckboxChange} />
                 <ActionDescHeader>Use Sandbox</ActionDescHeader>
               </LabelActionHeader>
             </ControlGroup>
-
-
           </Content>
         </Wrapper>
       )
