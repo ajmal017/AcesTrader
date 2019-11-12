@@ -9,18 +9,20 @@ import { setSandboxStatus, getSandboxStatus } from '../../lib/appUseSandboxStatu
 import { resetDefaultState, resetPersistedState } from '../../redux/index.js'
 import { putReference, getReference, ameritrade, schwab, paper } from '../../lib/dbReference'
 import { setPeekPrices } from '../../lib/appSetPeekPrices'
+import { setDailyPrices } from '../../lib/appSetDailyPrices'
+
 import { resetDataCache } from '../../lib/chartDataCache'
 import fire from '../../fire'
 
 const Wrapper = styled.section`
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto; 1fr 30px;
+  grid-template-rows: auto 1fr 30px;
   grid-template-areas:
-  'title'
-  'header'
-  'content'
-  'footer';
+    'title'
+    'header'
+    'content'
+    'footer';
 `
 const Background = styled.div.attrs({
   className: 'backgroundDollar',
@@ -111,7 +113,7 @@ class WelcomeTrader extends Component {
   //
   constructor(props) {
     super(props)
-    this.firstReference = props.firstReference
+    this.firstReference = props.firstReference //this prop is set by SignIn and StartUp only
     this.dispatch = props.dispatch
     this.state = {}
     // console.log(`WelcomeTrader: constructor, props.firstReference=${props.firstReference}`)
@@ -120,6 +122,7 @@ class WelcomeTrader extends Component {
   componentDidMount() {
     // console.log(`WelcomeTrader: componentDidMount, getReference=${getReference()}, props.firstReference=${props.firstReference}`)
     if (this.firstReference) {
+      // a first time mount from signIn or startup
       this.sandboxChecked = process.env.NODE_ENV === 'development' ? true : false // by default development gets junk ohlc values to test the app, but free downloads (default is changeable by user)
       setSandboxStatus(this.sandboxChecked) // set for reference in other modules such as Chartcell and reducePeekData.js
       this.setState({ loading: true, reference: this.firstReference, useSandbox: getSandboxStatus() })
@@ -164,10 +167,11 @@ class WelcomeTrader extends Component {
               // the saved data was recovered and can be used to set the app's state in memory
               that.props.dispatch(resetPersistedState(persistedState))
 
-              // Put the current peek prices into the LastPeekPrice cache for use later in ChartsView,
-              // this is an async operation that should be finished when accessed by ChartsView
               let currentState = that.props.state
-              setPeekPrices(currentState)
+
+              // These are async operations that should be finished when accessed by ChartsView
+              setPeekPrices(currentState) // Put the current peek prices into the LastPeekPrice cache for use later in ChartsView
+              setDailyPrices(currentState) // Load the daily price data for the portfolio's symbols
             }
             // console.log(`AppLoadData DB finish:, reference=${reference}`)
             putReference(reference) // establish the reference for the new portfolio
