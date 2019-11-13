@@ -3,8 +3,8 @@
 import fire from '../fire'
 import { getReference } from './dbReference'
 
-export const saveTheNewState = async function(newState) {
-  let cleanState = JSON.parse(JSON.stringify(newState))
+export const saveTheNewState = async function(state) {
+  let cleanState = JSON.parse(JSON.stringify(state))
   // Because state can contain properties with value=func(), the above hack removes them.
   // For example after a modal dialog sequence, because of the callback provided we have:
   // property 'papertrader.modal.handleModalResonse' with contents = function ()

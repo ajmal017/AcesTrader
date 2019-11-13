@@ -11,7 +11,7 @@ import { saveTheNewState } from '../lib/appSaveTheState'
 // import { clearLocalDatabase } from '../lib/localDatabaseStorage'
 let cloneDeep = require('lodash.clonedeep')
 
-export const getSymbolPriceData = async function(symbol, state, dispatch) {
+export const getSymbolPriceData = async function(symbol, state) {
   const range = iexData.range //default value
   const closeOnly = iexData.closeOnly //default value
   const useSandbox = getSandboxStatus()
@@ -24,9 +24,8 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
   // alert('Cleared The Local Database')
   // debugger
 
-  // const keys = await getLocalDatabaseKeys() // checking the cache contents when debugging
-  // const daysOld = await setTheLocalDatabase(date) // ensure the daily prices will contain last trading day symbol price data
-  await setDailyPrices(date, state, dispatch) // ensure the daily prices will contain last trading day symbol price data
+  // const daysOld = setDailyPrices(state) // ensure the daily prices will contain last trading day symbol price data
+  await setDailyPrices(state) // ensure the daily prices will contain last trading day symbol price data
   try {
     // Get the price series from the pricedata object if available
     let symbolData = state.pricedata[symbolKey]
