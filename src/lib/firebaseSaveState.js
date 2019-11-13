@@ -1,4 +1,5 @@
 // firebaseSaveState.js
+// Note: this is a Redux middleware function
 
 import fire from '../fire'
 import { getReference } from './dbReference'
@@ -14,16 +15,16 @@ export function firebaseSaveState() {
     }
     if (action.type === RESET_PERSISTED_STATE) {
       // STOP HERE, do not write state back to storage during this operation
-      // there are no state changes 
+      // there are no state changes
       // we are copying state from persisted storage into app's memory state
       return next(action)
     }
 
     next(action) // run the reducers now to do any state changes
-
-    let newState = getState()
+    let newState = getState() // get the resulting state
     // console.log(JSON.stringify(newState, null, 2)) // a readable log of the state's json
     // note: you can Right click > Copy All in the Console panel to copy to clipboard
+
     let cleanState = JSON.parse(JSON.stringify(newState))
     // Because state can contain properties with value=func(), the above hack removes them.
     // For example after a modal dialog sequence, because of the callback provided we have:
@@ -33,10 +34,12 @@ export function firebaseSaveState() {
     fire
       .database()
       .ref(reference)
-      .set(cleanState, function (error) {
+      .set(cleanState, function(error) {
         if (error) {
           console.log("Firebase: The database write failed while saving the changed list's state. Error: " + error)
-          if (process.env.NODE_ENV === 'development') { debugger } //pause for developer
+          if (process.env.NODE_ENV === 'development') {
+            debugger
+          } //pause for developer
           alert("Firebase: The database write failed while saving the changed list's state. Error: " + error) //rude interruption to user
         }
       })

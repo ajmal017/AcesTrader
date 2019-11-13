@@ -117,16 +117,14 @@ class Chartcell extends Component {
     const symbol = this.props.cellObject.symbol
     const weeklyBars = this.props.cellObject.weeklyBars
     // this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
-    this.range = '1y' // Always use the small range from IEX Cloud data to save money
+    //this.range = '1y' // This is spec'ed in iex.json // Always use the small range from IEX Cloud data to save money
     const self = this
-    // console.log(`getSymbolPriceData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
-    getSymbolPriceData(symbol, this.range, this.closeOnly, this.useSandbox)
+    getSymbolPriceData(symbol, this.props.state, this.props.dispatch)
       .then(function(data) {
         if (!data || data === undefined || data === null) {
           debugger // pause for developer
           self.setState({ iexData: 3, noprices: true, hide: false })
         }
-
         if (data.length < 2) {
           //a CandleStickChartWithMA bug seen with new issue "TRTY" when only 1 day's data available
           //a Memory leak reported by VSCode, seems to cause many weird code mistakes when running
@@ -436,7 +434,7 @@ class Chartcell extends Component {
                 handleOrderEntry={this.handleOrderEntry}
                 cellObject={cellObject}
                 iexData={this.state.iexData}
-                useSandbox={this.useSandbox}
+                useSandbox={false} //{this.useSandbox}
                 validShortSma={this.validShortSma}
                 validLongSma={this.validLongSma}
               />

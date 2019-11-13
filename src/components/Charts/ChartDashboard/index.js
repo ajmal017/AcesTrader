@@ -308,7 +308,8 @@ class ChartDashboard extends Component {
             ET4: false, // do not enable crossover buy
             TS4: 4, //crossover buy stop %
             CLOSEONLY: false, // OHLC is available to be used
-            USESANDBOX: this.props.useSandbox, // the input series OHLC values are randomly distorted if this is true
+            USESANDBOX: false, // the input series OHLC values are randomly distorted if this is true
+            // USESANDBOX: this.props.useSandbox, // the input series OHLC values are randomly distorted if this is true
           }
         }
 

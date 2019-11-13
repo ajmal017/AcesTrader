@@ -25,8 +25,9 @@ export const setDailyPrices = async (state) => {
     // Add the default daily price series for portfolio
     const symbols = getPortfolioSymbols(state) // collect all the symbols in currently loaded portfolio
     const item = symbols[0] //temp testing
+
     debugger //pause for dev
-    return -1 // Established a new metaData record, the pricedata is empty of any price data
+    return -1 // Established a new metaData record, the pricedata is loaded with IEX data
   }
   debugger //pause for dev
 
