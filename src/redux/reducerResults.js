@@ -42,7 +42,7 @@ const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 // so we create a corresponding slice of the defaultState as well.
 const defaultResults = cloneDeep(defaultState.results) //in case state is undefined
 
-export default function chartsReducer(state = defaultResults, action) {
+export default function resultsReducer(state = defaultResults, action) {
   switch (action.type) {
     case RESET_PERSISTED_STATE: {
       if (action.persistedState.results) {
