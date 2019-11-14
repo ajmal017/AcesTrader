@@ -1,8 +1,8 @@
 // appGetSymbolPriceData.js
 
-import { getIEXData } from '../lib/apiGetIEXData'
-import { loadLocalDatabase, saveLocalDatabase } from '../lib/localDatabaseStorage'
-import { setTheLocalDatabase } from '../lib/appSetTheLocalDatabase'
+import { getIEXData } from './apiGetIEXData'
+import { loadLocalDatabase, saveLocalDatabase } from './localDatabaseStorage'
+import { setTheLocalDatabase } from './appSetTheLocalDatabase'
 // import { getLocalDatabaseKeys } from '../lib/localDatabaseStorage'
 // import { clearLocalDatabase } from '../lib/localDatabaseStorage'
 let cloneDeep = require('lodash.clonedeep')

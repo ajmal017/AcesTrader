@@ -24,11 +24,12 @@ export const getSymbolPriceData = async function(symbol, state) {
   // alert('Cleared The Local Database')
   // debugger
 
-  // const daysOld = setDailyPrices(state) // ensure the daily prices will contain last trading day symbol price data
-  await setDailyPrices(state) // ensure the daily prices will contain last trading day symbol price data
   try {
+    // const daysOld = setDailyPrices(state) // ensure the daily prices will contain last trading day symbol price data
+    await setDailyPrices(state) // Ensures the daily prices will contain the last trading day price data
+    // Note: the price data is refreshed each day with last day prices from yesterday
     // Get the price series from the pricedata object if available
-    let symbolData = state.pricedata[symbolKey]
+    let symbolData = state.pricedata[symbolKey] // get the symbol's price data if there
     if (symbolData && symbolData.length > 0) {
       // console.log(`Found: ${symbolKey}, Keys: ${await getLocalDatabaseKeys()}`)
       // console.log(`Found: ${symbolKey}`)
@@ -49,18 +50,17 @@ export const getSymbolPriceData = async function(symbol, state) {
         obj.date = new Date(date)
         return obj
       })
-      return data // return price series from cache
+      return data // return price series from app state.
     } else {
       // console.log(`****Missing: ${symbolKey}, Keys: ${await getLocalDatabaseKeys()}`)
       // console.log(`****Missing: ${symbolKey}`)
       // Download the end-of-day price series for yesterday from IEX cloud
       let symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
-      state.pricedata[symbolKey] = symbolData // add data for new symbol
+      state.pricedata[symbolKey] = symbolData // add the new symbol's data the the app state
 
       // console.log(JSON.stringify(state.pricedata, null, 2)) // a readable log of the state's json
       // note: you can Right click > Copy All in the Console panel to copy to clipboard
-
-      saveTheNewState(state) // write the new state to firebase
+      saveTheNewState(state) // save the new state back in firebase
       return symbolData // return price series from IEX cloud
     }
   } catch (err) {

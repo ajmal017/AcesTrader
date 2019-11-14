@@ -1,5 +1,6 @@
 // appSetDailyPrices.js
 import { getDaysDiff } from './appGetDaysDiff'
+import { loadPriceData } from './appLoadPriceData'
 
 export const setDailyPrices = async (state) => {
   // This tests the pricedata marker object's date against today's date
@@ -22,7 +23,7 @@ export const setDailyPrices = async (state) => {
       state.pricedata.metaKey = expectedMetaData // initialize with a date value for today
 
       // Established a new metaData record, the pricedata is empty of any price data
-      loadPriceData(state) // Add all the daily price series for portfolio's symbols
+      await loadPriceData(state) // Add all the daily price series for portfolio's symbols
       // debugger //pause for dev
       return -1 // Established a new metaData record, the pricedata is loaded with IEX data
     }
@@ -47,10 +48,10 @@ export const setDailyPrices = async (state) => {
     }
     // The current price data is stale, so start fresh now
     // console.log(`Reset symbol database, daysOld=${daysOld}`)
-    state.pricedata = {} // Create a new pricedata object
+    state.pricedata = {} // Create a empty pricedata object
     state.pricedata.metaKey = expectedMetaData // initialize with a date value for today
     // Established a new metaData record, the pricedata is empty of any price data
-    loadPriceData(state) // Add all the daily price series for portfolio's symbols
+    await loadPriceData(state) // Add all the daily price series for portfolio's symbols
     return -1 // Established a new metaData record, the pricedata is loaded with IEX data
     //
   } catch (error) {
