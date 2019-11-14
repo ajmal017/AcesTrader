@@ -18,7 +18,6 @@ export const getSymbolPriceData = async function(symbol, state) {
 
   // Allow for different versions of the symbol's price file
   const symbolKey = `${symbol.toUpperCase()}-${range}${closeOnly ? '-CloseOnly' : ''}${useSandbox ? '-Sandbox' : ''}`
-  const date = new Date() // today's date
 
   // await clearLocalDatabase() //<==TEMP ===== use this to reset the DB content ==========
   // alert('Cleared The Local Database')

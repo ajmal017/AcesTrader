@@ -10,7 +10,6 @@ export const setDailyPrices = async (state) => {
   // This reduces IEX costs by not repeating downloads unnecessarily.
   // This fuction returns the found daysOld value for optional use by the caller.
   try {
-    const metaKey = 'metaKey-dailyprices'
     const date = new Date() // today's date
     const theDay = date.getDay()
     const expectedMetaData = { date: date } // prepare a metaData object with today's date
@@ -20,7 +19,7 @@ export const setDailyPrices = async (state) => {
     state.pricedata = state.pricedata || {} // Create a new pricedata object when required
     let metaData = state.pricedata.metaKey // get existing metaData date marker if any
     if (!metaData || metaData === undefined) {
-      state.pricedata.metaKey = expectedMetaData // initialize with a date value for today
+      state.pricedata.metaKey = expectedMetaData // initialize metaKey with a date value for today
 
       // Established a new metaData record, the pricedata is empty of any price data
       await loadPriceData(state) // Add all the daily price series for portfolio's symbols

@@ -56,6 +56,7 @@ const rootReducer = combineReducers({
   trendlongs: trendlongsReducer,
   results: resultsReducer,
   modal: modalReducer,
+  pricedata: pricedataReducer,
 })
 
 export default rootReducer

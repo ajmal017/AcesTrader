@@ -1,6 +1,6 @@
 // appSetPeekPrices
 
-import { resetPeekPrices, putPeekLastPrice, finishPeekPrices } from './appLastPeekPrice'
+import { resetPeekPrices, finishPeekPrices } from './appLastPeekPrice'
 import { getIEXBatchData } from './apiGetIEXBatchData'
 
 export const setPeekPrices = async (state) => {

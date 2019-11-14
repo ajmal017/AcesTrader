@@ -4,12 +4,14 @@ import axios from 'axios'
 import iexData from '../iex.json'
 import { getPortfolioSymbols } from './appGetPortfolioSymbols'
 import { getSandboxStatus } from '../lib/appUseSandboxStatus'
+import { putPeekLastPrice } from './appLastPeekPrice'
+import { saveTheNewState } from '../lib/appSaveTheState'
 
 export const getIEXBatchData = async (state, options) => {
   // Get batched symbol data and apply as per input's options parameter
   const { peekData, priceData } = options
   const range = iexData.range
-  const closeOnly = iex.closeOnly
+  const closeOnly = iexData.closeOnly
   const useSandbox = getSandboxStatus()
   // const useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test with, but free downloads.
   const BATCH_SIZE = 100
@@ -39,8 +41,10 @@ export const getIEXBatchData = async (state, options) => {
         }
         return true // resolve promise
       } else if (priceData) {
+        // Example of a test batch call that fetches news, 5 year historical prices, and 5 years of splits data for AAPL, GOOG, and FB
+        // https://sandbox.iexapis.com/v1/stock/market/batch?types=chart,splits,news&symbols=aapl,goog,fb&range=5y&token=YOUR_TEST_TOKEN_HERE
         const query = closeOnly ? 'chartCloseOnly=true' : 'filter=date,open,high,low,close,volume'
-        const requestURL = `${basehtml}${version}/stock/market/batch?types=chart &symbols=${symbols.join(',')}&range=${range}${query}&${token}`
+        const requestURL = `${basehtml}${version}/stock/market/batch?types=chart&symbols=${symbols.join(',')}&range=${range}&${query}&${token}`
         const request = axios.get(requestURL)
         let res = await request
         let values = res.data
