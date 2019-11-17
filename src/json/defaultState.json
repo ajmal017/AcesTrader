@@ -6,6 +6,7 @@
   "trendbuys": [],
   "trendlongs": [],
   "results": [],
-  "pricedata": {},
+  "normalpricedata": {},
+  "sandboxpricedata": {},
   "modal": null
 }

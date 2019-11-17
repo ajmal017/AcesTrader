@@ -1,8 +1,13 @@
 // appSetDailyPrices.js
 import { getDaysDiff } from './appGetDaysDiff'
 import { loadPriceData } from './appLoadPriceData'
-import { saveTheNewState } from './appSaveTheState'
+// import { saveTheNewState } from './appSaveTheState'
+import { getSandboxStatus } from '../lib/appUseSandboxStatus'
 var cloneDeep = require('lodash.clonedeep')
+
+// IS STATE THE PORTFOLIO SLICE???
+
+//decide here if selectedpricedata is pricedata or sandboxpricedata===
 
 export const setDailyPrices = async (state, dispatch) => {
   // Use a copied state in this function as it mutates the data
@@ -11,13 +16,15 @@ export const setDailyPrices = async (state, dispatch) => {
   // This reduces IEX costs by not repeating downloads unnecessarily.
   // This fuction returns the found daysOld value for optional use by the caller.
   try {
-    let xstate = cloneDeep(state) // make a working copy of the state to be passed to components that need it
-    let pricedata = cloneDeep(state.pricedata) // make a working copy of the state.pricedata which will be mutated and then passed to Redux
+    // make a working copy of the state.pricedata which will be mutated and then passed to Redux
+    let pricedata = getSandboxStatus() ? cloneDeep(state.sandboxpricedata) : cloneDeep(state.normalpricedata)
+    // let xstate = cloneDeep(state) // make a working copy of the state to be passed to components that need it
+    // let pricedata = cloneDeep(state.pricedata) // make a working copy of the state.pricedata which will be mutated and then passed to Redux
     // debugger //==== BCM =====
-    let priceDataArray // receives the priceData array provided by loadPriceData()
+    // let priceDataArray // receives the priceData array provided by loadPriceData()
     const date = new Date() // today's date
     const theDay = date.getDay()
-    const expectedMetaData = date // prepare a metaData property value with today's date
+    // const expectedMetaData = date // prepare a metaData property value with today's date
     // const theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
     // const expectedMetaData = { "date": theDate } // prepare a fresh metaData object with today's date
 
@@ -29,17 +36,18 @@ export const setDailyPrices = async (state, dispatch) => {
     // debugger //==== BCM =====
     if (!metaData || metaData === undefined) {
       // Established a new pricedata property, the pricedata is empty of any price data
-      pricedata.metaKey = expectedMetaData // initialize metaKey with a date value for today
+
+      // BCM do later>> pricedata.metaKey = expectedMetaData // initialize metaKey with a date value for today
       // debugger //==== BCM =====
-      priceDataArray = await loadPriceData(xstate) // All the daily price series for portfolio's symbols - Supply the copied state to this function as it mutates the data
-      // do {
-      //   console.log(JSON.stringify(priceDataArray, null, 2)) // a readable log of the state's json
-      //   // note: you can Right click > Copy All in the Console panel to copy to clipboard
-      // } while (false) // BCM BCM
+
+      // BCM this is new: loadPriceData completes the actions and calls dispatch for redux to update state
+      await loadPriceData(state, dispatch, pricedata) // get all the daily price series for portfolio's symbols
 
       debugger //pause for dev
-      saveTheNewState(pricedata, dispatch) // dispatch redux to save the new state back to firebase
-      return -1 // Established a new metaData record, state.pricedata was loaded with IEX data
+      //  saveTheNewState(pricedata, dispatch) // dispatch redux to save the new state back to firebase
+      // priceDataArray = await loadPriceData(xstate) // All the daily price series for portfolio's symbols
+
+      return -1 // Established a new state.pricedata loaded with IEX data
     }
     debugger //==== BCM =====
     // date = new Date(2020, 8, 26) //*********** */TEST TEST TEST****************
@@ -62,11 +70,17 @@ export const setDailyPrices = async (state, dispatch) => {
     }
     // The current price data is stale, so start fresh now
     // console.log(`Reset symbol database, daysOld=${daysOld}`)
-    pricedata = { metaKey: expectedMetaData } // Create a new pricedata property with its value initialized with today's date
+
+    // BCM do later>> pricedata = { metaKey: expectedMetaData } // Create a new pricedata property with its value initialized with today's date
     // we established a new metaData record, the pricedata is empty of any price data
+
+    // BCM this is new: loadPriceData completes the actions and calls dispatch for redux to update state
+    await loadPriceData(state, dispatch, pricedata) // get all the daily price series for portfolio's symbols
+
     debugger //==== BCM =====
-    priceDataArray = await loadPriceData(xstate) // All the daily price series for portfolio's symbols - Supply the copied state to this function as it mutates the data
-    saveTheNewState(pricedata, dispatch) // dispatch redux to save the new state back to firebase
+    // priceDataArray = await loadPriceData(xstate) // All the daily price series for portfolio's symbols - Supply the copied state to this function as it mutates the data
+    // saveTheNewState(pricedata, dispatch) // dispatch redux to save the new state back to firebase
+
     return -1 // Established a new metaData record, the pricedata is loaded with IEX data
     //
   } catch (error) {

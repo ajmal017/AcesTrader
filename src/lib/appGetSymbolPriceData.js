@@ -4,7 +4,6 @@ import iexData from '../iex.json'
 import { getIEXData } from '../lib/apiGetIEXData'
 import { getSandboxStatus } from '../lib/appUseSandboxStatus'
 import { setDailyPrices } from '../lib/appSetDailyPrices'
-import { saveTheNewState } from '../lib/appSaveTheState'
 let cloneDeep = require('lodash.clonedeep')
 
 export const getSymbolPriceData = async function(symbol, state, dispatch) {
@@ -20,8 +19,7 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
   // debugger
 
   try {
-    // const daysOld = setDailyPrices(state) // ensure the daily prices will contain last trading day symbol price data
-    await setDailyPrices(state) // Ensures the daily prices will contain the last trading day price data
+    await setDailyPrices(state, dispatch) // Ensures the daily prices will contain the last trading day price data
     // Note: the price data is refreshed each day with last day prices from yesterday
     // Get the price series from the pricedata object if available
     let symbolData = state.pricedata[symbolKey] // get the symbol's price data if there
@@ -51,11 +49,13 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
       // console.log(`****Missing: ${symbolKey}`)
       // Download the end-of-day price series for yesterday from IEX cloud
       let symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
-      state.pricedata[symbolKey] = symbolData // add the new symbol's data the the app state
 
-      // console.log(JSON.stringify(state.pricedata, null, 2)) // a readable log of the state's json
-      // note: you can Right click > Copy All in the Console panel to copy to clipboard
-      saveTheNewState(state, dispatch) // save the new state back in firebase
+      debugger // BCM BCM Call dispatch here to have redux add the price data to pricedata
+      // state.pricedata[symbolKey] = symbolData // add the new symbol's data the the app state
+      // // console.log(JSON.stringify(state.pricedata, null, 2)) // a readable log of the state's json
+      // // note: you can Right click > Copy All in the Console panel to copy to clipboard
+      // saveTheNewState(state, dispatch) // save the new state back in firebase
+
       return symbolData // return price series from IEX cloud
     }
   } catch (err) {

@@ -5,12 +5,13 @@ import { useState } from 'react'
 import axios from 'axios'
 import iexData from '../../iex.json'
 import { setDailyPrices } from '../../lib/appSetDailyPrices'
-import { saveTheNewState } from '../../lib/appSaveTheState'
+// import { saveTheNewState } from '../../lib/appSaveTheState'
 // import { setTheLocalDatabase } from '../../lib/appSetTheLocalDatabase'
 // import { loadLocalDatabase, saveLocalDatabase, getLocalDatabaseKeys } from '../../lib/localDatabaseStorage'
 import WelcomeTrader from '../Welcome/WelcomeTrader'
 
 export const BuildPseudoBar = (state, dispatch) => {
+  // Note: This mutates the store's <portfolio>.pricedata state. Added pseudobars are not persisted to the cloud.
   const [dataReady, setDataReady] = useState({ loading: true, error: false })
   const pricedata = state.pricedata // the current pricedata object in our portfolio's state
   const date = new Date() // today's date
@@ -120,7 +121,7 @@ export const BuildPseudoBar = (state, dispatch) => {
     return result[1] // the extracted barebones symbol.
   }
 
-  const buildPseudoBars = async () => {
+  const buildPseudoBars = async (state, dispatch) => {
     //the state contains last trading day symbol price data, returns the daysOld number if data exists
     const daysOld = setDailyPrices(state, dispatch)
     // const daysOld = await setTheLocalDatabase(date)
@@ -173,7 +174,7 @@ export const BuildPseudoBar = (state, dispatch) => {
   if (loading) {
     ;(async function() {
       try {
-        await buildPseudoBars()
+        await buildPseudoBars(state)
       } catch (err) {
         console.log('BuildPseudoBar error:', error.message)
         alert('BuildPseudoBar error: ' + error.message) //rude interruption to user
@@ -196,6 +197,5 @@ export const BuildPseudoBar = (state, dispatch) => {
       </div>
     )
   }
-  saveTheNewState(state, dispatch) // call redux reducer
   return <WelcomeTrader /> // exit to welcome screen
 }
