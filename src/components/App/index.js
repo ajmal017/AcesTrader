@@ -13,7 +13,7 @@ import firebase from 'firebase/app'
 // import 'firebase/database'
 import * as Sentry from '@sentry/browser'
 import { AuthenticatedContext } from '../../redux'
-import { clearLocalDatabase } from '../../lib/localDatabaseStorage';
+import { clearLocalDatabase } from '../../lib/localDatabaseStorage'
 
 export const ACESTRADERSTATE = 'at-state'
 
@@ -25,7 +25,7 @@ class App extends Component {
 
   async clearChartPrices() {
     // This is used with special login which triggers this request
-    alert('Clearing local database of chart prices')
+    alert('Clearing chart prices is not available yet with new cache in app state')
     await clearLocalDatabase() // initialize local database
   }
   componentDidMount() {
@@ -40,7 +40,6 @@ class App extends Component {
     // Showing configuration for martinapps / acestrader at Firebase
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
-
         if (user.email === 'zzzz@g.com') {
           this.clearChartPrices()
         }
@@ -62,10 +61,10 @@ class App extends Component {
     fire
       .auth()
       .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-      .then(function () {
+      .then(function() {
         // Existing and future Auth states are now persisted in the current session only.
       })
-      .catch(function (error) {
+      .catch(function(error) {
         var errorCode = error.code
         var errorMessage = error.message
         alert(errorCode, errorMessage)
@@ -80,10 +79,10 @@ class App extends Component {
         .auth()
         .signOut()
         .then(
-          function () {
+          function() {
             // console.log('Signed Out')
           },
-          function (error) {
+          function(error) {
             // console.error('Sign Out Error', error)
           }
         )

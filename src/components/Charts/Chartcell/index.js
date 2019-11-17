@@ -120,7 +120,7 @@ class Chartcell extends Component {
     // this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
     //this.range = '1y' // This is spec'ed in iex.json // Always use the small range from IEX Cloud data to save money
     const self = this
-    getSymbolPriceData(symbol, this.props.state)
+    getSymbolPriceData(symbol, this.props.state, this.props.dispatch)
       .then(function(data) {
         if (!data || data === undefined || data === null) {
           debugger // pause for developer
@@ -456,4 +456,10 @@ Chartcell.propTypes = {
 const mapStateToProps = (state) => ({
   state: state,
 })
-export default connect(mapStateToProps)(Chartcell)
+const mapDispatchToProps = (dispatch) => ({
+  dispatch: dispatch,
+})
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Chartcell)

@@ -5,13 +5,9 @@ import { getIEXData } from '../lib/apiGetIEXData'
 import { getSandboxStatus } from '../lib/appUseSandboxStatus'
 import { setDailyPrices } from '../lib/appSetDailyPrices'
 import { saveTheNewState } from '../lib/appSaveTheState'
-// import { loadLocalDatabase, saveLocalDatabase } from '../lib/localDatabaseStorage'
-// import { setTheLocalDatabase } from '../lib/appSetTheLocalDatabase'
-// import { getLocalDatabaseKeys } from '../lib/localDatabaseStorage'
-// import { clearLocalDatabase } from '../lib/localDatabaseStorage'
 let cloneDeep = require('lodash.clonedeep')
 
-export const getSymbolPriceData = async function(symbol, state) {
+export const getSymbolPriceData = async function(symbol, state, dispatch) {
   const range = iexData.range //default value
   const closeOnly = iexData.closeOnly //default value
   const useSandbox = getSandboxStatus()
@@ -59,7 +55,7 @@ export const getSymbolPriceData = async function(symbol, state) {
 
       // console.log(JSON.stringify(state.pricedata, null, 2)) // a readable log of the state's json
       // note: you can Right click > Copy All in the Console panel to copy to clipboard
-      saveTheNewState(state) // save the new state back in firebase
+      saveTheNewState(state, dispatch) // save the new state back in firebase
       return symbolData // return price series from IEX cloud
     }
   } catch (err) {

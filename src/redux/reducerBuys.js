@@ -49,6 +49,7 @@ const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 const defaultBuys = cloneDeep(defaultState.buys) //in case state is undefined
 
 export default function buysReducer(state = defaultBuys, action) {
+  // state: The current target array of objects, either Prospects or Positions
   switch (action.type) {
     case UPDATE_DASHBOARD_PEEK_DATA: {
       let newState = reducePeekData(state, action.peekdataobject, action.theDate)
@@ -77,7 +78,7 @@ export default function buysReducer(state = defaultBuys, action) {
         return state //target object is not in this list
       }
       let prunedState = state.filter((obj) => obj.hash !== hash) //remove the old object versiom
-      let newState = reduceInsertedObject(prunedState, action.theObject) //replace with new version
+      let newState = reduceInsertedObject(prunedState, action.theObject) //returns a rebuilt array of objects with new Object inserted.
       return newState
     }
     case REPLACE_EDITED_OBJECT: {

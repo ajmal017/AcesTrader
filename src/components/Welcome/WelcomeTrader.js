@@ -171,10 +171,11 @@ class WelcomeTrader extends Component {
               that.props.dispatch(resetPersistedState(persistedState))
 
               let currentState = that.props.state
+              let dispatch = that.props.dispatch
 
               // These are async operations that should be finished when accessed by ChartsView
               setPeekPrices(currentState) // Put the current peek prices into the LastPeekPrice cache for use later in ChartsView
-              setDailyPrices(currentState) // Load the daily price data for the portfolio's symbols
+              setDailyPrices(currentState, dispatch) // Load the daily price data for the portfolio's symbols
             }
             // console.log(`AppLoadData DB finish:, reference=${reference}`)
             putReference(reference) // establish the reference for the new portfolio
@@ -262,5 +263,13 @@ class WelcomeTrader extends Component {
 const mapStateToProps = (state) => ({
   state: state,
 })
+const mapDispatchToProps = (dispatch) => ({
+  dispatch: dispatch,
+})
 
-export default withRouter(connect(mapStateToProps)(WelcomeTrader))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(WelcomeTrader)
+)
