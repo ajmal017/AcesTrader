@@ -28,16 +28,16 @@ export default function normalpricedataReducer(state = defaultNormalPricedata, a
   // state: The pricedata object whose properties are key/value pairs, each pair being "symbol/array" where array contains daily price objects
   switch (action.type) {
     case RESET_PERSISTED_STATE: {
-      if (action.persistedState.pricedata) {
-        return cloneDeep(action.persistedState.pricedata) //reset this state's slice to the persisted value
-      }
-      return cloneDeep(defaultPricedata)
-    }
-    case REPLACE_MODIFIED_PRICEDATA: {
-      if (action.state.pricedata) {
-        return cloneDeep(action.state.pricedata) //reset this state's slice to the modified value
+      if (action.persistedState.normalpricedata) {
+        return cloneDeep(action.persistedState.normalpricedata) //reset this state's slice to the persisted value
       }
       return cloneDeep(defaultNormalPricedata)
+    }
+    case REPLACE_NORMAL_PRICEDATA: {
+      if (action.state.pricedata) {
+        return cloneDeep(action.pricedata) //reset this state's slice to the modified value
+      }
+      return state
     }
     case REMOVE_NORMAL_PRICEDATA: {
       return cloneDeep(defaultNormalPricedata)

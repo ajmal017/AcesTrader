@@ -4,6 +4,8 @@ import axios from 'axios'
 import iexData from '../iex.json'
 import { getPortfolioSymbols } from './appGetPortfolioSymbols'
 import { getSandboxStatus } from '../lib/appUseSandboxStatus'
+import replaceNornalPricedata from '../redux/reducerNormalPriceData'
+import replaceSandboxPricedata from '../redux/reducerSandboxPriceData'
 
 export const loadPriceData = async function(state, dispatch, pricedata) {
   // Supply the copied pricedata to this function and get batched symbol data and apply via dispatch
@@ -42,16 +44,28 @@ export const loadPriceData = async function(state, dispatch, pricedata) {
         }
       }
 
-      do {
-        console.log(JSON.stringify(pricedata, null, 2)) // a readable log of the state's json
-        // note: you can Right click > Copy All in the Console panel to copy to clipboard
-      } while (false) // BCM BCM
-      debugger // BCM ====
+      // do {
+      //   console.log(JSON.stringify(pricedata, null, 2)) // a readable log of the state's json
+      //   // note: you can Right click > Copy All in the Console panel to copy to clipboard
+      // } while (false) // BCM BCM
+      // debugger // BCM ====
 
-      dispatch(addTrendLongToList(theCellObject, enteredPrice, filledQuantity, enteredQuantityType, theAccount))
+      if (useSandbox) {
+        // dispatch(replaceSandboxPricedata(pricedata))
+        dispatch({
+          type: 'REPLACE_SANDBOX_PRICEDATA',
+          pricedata,
+        })
+      } else {
+        // dispatch(replaceNornalPricedata(pricedata))
+        dispatch({
+          type: 'REPLACE_NORMAL_PRICEDATA',
+          pricedata,
+        })
+      }
     } catch (error) {
-      console.log('appSetPeekPrices.js axios error:' + error.message)
-      // alert('Peek/index.js axios error: ' + error.message) //rude interruption to user
+      console.log('apploadPriceData.js error: ' + error.message)
+      // alert('apploadPriceData.js error: ' + error.message) //rude interruption to user
       debugger // pause for developer
     }
   }

@@ -7,10 +7,10 @@ const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 const REPLACE_SANDBOX_PRICEDATA = 'REPLACE_SANDBOX_PRICEDATA'
 const REMOVE_SANDBOX_PRICEDATA = 'REMOVE_SANDBOX_PRICEDATA'
 
-export const replaceSandboxPricedata = (priceData) => {
+export const replaceSandboxPricedata = (pricedata) => {
   return {
     type: REPLACE_SANDBOX_PRICEDATA,
-    priceData: priceData,
+    pricedata: pricedata,
   }
 }
 export const removeSandboxPricedata = () => {
@@ -28,16 +28,16 @@ export default function sandboxpricedataReducer(state = defaultSandboxPricedata,
   // state: The pricedata object whose properties are key/value pairs, each pair being "symbol/array" where array contains daily price objects
   switch (action.type) {
     case RESET_PERSISTED_STATE: {
-      if (action.persistedState.pricedata) {
-        return cloneDeep(action.persistedState.pricedata) //reset this state's slice to the persisted value
-      }
-      return cloneDeep(defaultPricedata)
-    }
-    case REPLACE_SANDBOX_PRICEDATA: {
-      if (action.state.pricedata) {
-        return cloneDeep(action.state.pricedata) //reset this state's slice to the modified value
+      if (action.persistedState.sandboxpricedata) {
+        return cloneDeep(action.persistedState.sandboxpricedata) //reset this state's slice to the persisted value
       }
       return cloneDeep(defaultSandboxPricedata)
+    }
+    case REPLACE_SANDBOX_PRICEDATA: {
+      if (action.pricedata) {
+        return cloneDeep(action.pricedata) //reset this state's slice to the modified value
+      }
+      return state
     }
     case REMOVE_SANDBOX_PRICEDATA: {
       return cloneDeep(defaultSandboxPricedata)

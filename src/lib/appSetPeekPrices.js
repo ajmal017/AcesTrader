@@ -31,6 +31,13 @@ export const setPeekPrices = async (state) => {
       const request = axios.get(requestURL)
       let res = await request
       let values = res.data
+
+      // do {
+      //   console.log(JSON.stringify(values, null, 2)) // a readable log of the state's json
+      //   // note: you can Right click > Copy All in the Console panel to copy to clipboard
+      // } while (false) // BCM BCM
+      // debugger // BCM ====
+
       for (let symbol in values) {
         let data = values[symbol]
         if (typeof data !== 'undefined') {
@@ -39,8 +46,8 @@ export const setPeekPrices = async (state) => {
         }
       }
     } catch (error) {
-      console.log('appSetPeekPrices.js axios error:' + error.message)
-      // alert('appSetPeekPrices.js axios error: ' + error.message) //rude interruption to user
+      console.log('appSetPeekPrices.js error:' + error.message)
+      // alert('appSetPeekPrices.js error: ' + error.message) //rude interruption to user
       debugger // pause for developer
     }
   }

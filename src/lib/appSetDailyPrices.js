@@ -5,10 +5,6 @@ import { loadPriceData } from './appLoadPriceData'
 import { getSandboxStatus } from '../lib/appUseSandboxStatus'
 var cloneDeep = require('lodash.clonedeep')
 
-// IS STATE THE PORTFOLIO SLICE???
-
-//decide here if selectedpricedata is pricedata or sandboxpricedata===
-
 export const setDailyPrices = async (state, dispatch) => {
   // Use a copied state in this function as it mutates the data
   // This tests the pricedata marker object's date against today's date to ensure that the pricedata will return
@@ -28,7 +24,7 @@ export const setDailyPrices = async (state, dispatch) => {
     // const theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
     // const expectedMetaData = { "date": theDate } // prepare a fresh metaData object with today's date
 
-    pricedata = { metaKey: null } // BCM reset to empty ======TEST TEST================================
+    // pricedata = { metaKey: null } // BCM reset to empty ======TEST TEST================================
 
     pricedata = pricedata || { metaKey: null } // Creates a new pricedata object with first keyed item if required
     pricedata.metaKey = pricedata.metaKey || null // get existing metaData date marker if any
@@ -43,7 +39,7 @@ export const setDailyPrices = async (state, dispatch) => {
       // BCM this is new: loadPriceData completes the actions and calls dispatch for redux to update state
       await loadPriceData(state, dispatch, pricedata) // get all the daily price series for portfolio's symbols
 
-      debugger //pause for dev
+      // debugger //pause for dev
       //  saveTheNewState(pricedata, dispatch) // dispatch redux to save the new state back to firebase
       // priceDataArray = await loadPriceData(xstate) // All the daily price series for portfolio's symbols
 
@@ -53,7 +49,7 @@ export const setDailyPrices = async (state, dispatch) => {
     // date = new Date(2020, 8, 26) //*********** */TEST TEST TEST****************
     const existingDate = pricedata.metaKey // the current date marker
     const daysOld = getDaysDiff(existingDate, date)
-    debugger //******** */TEST TEST TEST**using the fake date created above**************
+    // debugger //******** */TEST TEST TEST**using the fake date created above**************
     if (daysOld === 0) {
       // the existing data is good and has price data downloaded so far today for the prior trading day
       return daysOld // no change, try to get specified symbol from here
