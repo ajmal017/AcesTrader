@@ -25,10 +25,8 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
     if (symbolData && symbolData.length > 0) {
       // console.log(`Found: ${symbolKey}, Keys: ${await getLocalDatabaseKeys()}`)
       console.log(`Found: ${symbolKey}`)
-
       // symbol price data is available for yesterday's end-of-day prices
       // this data may also have a constructed pseudo daily bar for today's prices
-
       // BCM Hack to workaround leftover bad bar. This bug discovered 5/20/19, Monday after weekend of testing AddPseudoBar
       let currentLastBar = symbolData[symbolData.length - 1] // get the last bar
       if (currentLastBar === undefined) {
@@ -39,6 +37,7 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
       // format the dates for the required charting format
       let data = values.map((obj) => {
         let date = obj.date
+        date = date + 'T15:00:00.000Z'
         obj.date = new Date(date)
         return obj
       })
@@ -49,7 +48,7 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
       // Download the end-of-day price series for yesterday from IEX cloud
       let symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
 
-      debugger // BCM BCM Call dispatch here to have redux add the price data to pricedata
+      // debugger // BCM BCM Call dispatch here to have redux add the price data to pricedata
       // state.pricedata[symbolKey] = symbolData // add the new symbol's data the the app state
       // // console.log(JSON.stringify(state.pricedata, null, 2)) // a readable log of the state's json
       // // note: you can Right click > Copy All in the Console panel to copy to clipboard

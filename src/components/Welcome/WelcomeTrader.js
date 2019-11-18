@@ -151,6 +151,7 @@ class WelcomeTrader extends Component {
 
   loadPortfolio = (reference) => {
     try {
+      putReference(reference) // establish the reference for the new portfolio
       resetDataCache() // clear all previously cached charting data for fresh start
       let persistedState = null // receives the state loaded from database
       // console.log(`loadPortfolioData begin:, reference=${reference}`)
@@ -177,7 +178,6 @@ class WelcomeTrader extends Component {
               setDailyPrices(currentState, that.props.dispatch) // Load the daily price data for the portfolio's symbols
             }
             // console.log(`AppLoadData DB finish:, reference=${reference}`)
-            putReference(reference) // establish the reference for the new portfolio
             document.title = 'AcesTrader ' + reference[0].toUpperCase() + reference.substr(1)
             that.setState({ loading: false, reference: reference }) //loading is finished, show the UI.
           } else {
