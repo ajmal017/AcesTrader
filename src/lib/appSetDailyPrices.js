@@ -41,7 +41,7 @@ export const setDailyPrices = async (state, dispatch) => {
     if (!metaData || metaData === undefined) {
       // We need to create a new pricedata property, this pricedata is empty of any price data
       // This loadPriceData creates the object and calls dispatch for redux to update state
-      console.log(`metaData=null: calling LoadPriceData for ${getReference()} ${symbolType}`)
+      // console.log(`metaData=null: calling LoadPriceData for ${getReference()} ${symbolType}`)
       await loadPriceData(state, dispatch) // get all the daily price series for portfolio's symbols
       return -1 // Established a new state.pricedata loaded with IEX data
     }
@@ -66,7 +66,7 @@ export const setDailyPrices = async (state, dispatch) => {
     // console.log(`Reset symbol database, daysOld=${daysOld}`)
     // We need to create a new pricedata property, this current price data is stale
     // This loadPriceData creates the object and calls dispatch for redux to update state
-    console.log(`metaData.date=stale: calling LoadPriceData for ${getReference()} ${symbolType}`)
+    // console.log(`metaData.date=stale: calling LoadPriceData for ${getReference()} ${symbolType}`)
     await loadPriceData(state, dispatch) // get all the daily price series for portfolio's symbols
 
     // debugger //==== BCM =====

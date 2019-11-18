@@ -13,9 +13,7 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
 
   // Allow for different versions of the symbol's price file
   const symbolKey = `${symbol.toUpperCase()}-${range}${closeOnly ? '-CloseOnly' : ''}${useSandbox ? '-Sandbox' : ''}`
-
-  console.log('getSymbolPriceData for: ' + symbolKey)
-
+  // console.log('getSymbolPriceData for: ' + symbolKey)
   try {
     await setDailyPrices(state, dispatch) // Ensures the daily prices will contain the last trading day price data
     // Note: the price data is refreshed each day with last day prices from yesterday
@@ -24,7 +22,7 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
     let symbolData = state[pricedata][symbolKey] // get the symbol's price data
     if (symbolData && symbolData.length > 0) {
       // console.log(`Found: ${symbolKey}, Keys: ${await getLocalDatabaseKeys()}`)
-      console.log(`Found: ${symbolKey}`)
+      // console.log(`Found: ${symbolKey}`)
       // symbol price data is available for yesterday's end-of-day prices
       // this data may also have a constructed pseudo daily bar for today's prices
       // BCM Hack to workaround leftover bad bar. This bug discovered 5/20/19, Monday after weekend of testing AddPseudoBar
@@ -44,7 +42,7 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
       return data // return price series from app state.
     } else {
       // console.log(`****Missing: ${symbolKey}, Keys: ${await getLocalDatabaseKeys()}`)
-      console.log(`****Missing: ${symbolKey}`)
+      // console.log(`****Missing: ${symbolKey}`)
       // Download the end-of-day price series for yesterday from IEX cloud
       let symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
 
