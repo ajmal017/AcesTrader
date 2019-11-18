@@ -4,14 +4,15 @@ import axios from 'axios'
 import iexData from '../iex.json'
 import { getPortfolioSymbols } from './appGetPortfolioSymbols'
 import { getSandboxStatus } from '../lib/appUseSandboxStatus'
-import replaceNornalPricedata from '../redux/reducerNormalPriceData'
-import replaceSandboxPricedata from '../redux/reducerSandboxPriceData'
+// import replaceNornalPricedata from '../redux/reducerNormalPriceData'
+// import replaceSandboxPricedata from '../redux/reducerSandboxPriceData'
 
-export const loadPriceData = async function(state, dispatch, pricedata) {
-  // Supply the copied pricedata to this function and get batched symbol data and apply via dispatch
+export const loadPriceData = async function(state, dispatch) {
+  // Use a new pricedata object to get batched symbol data and apply to state via dispatch
+  let pricedata = {}
   const date = new Date() // today's date
   const expectedMetaData = date // prepare a metaData property value with today's date
-  pricedata = { metaKey: expectedMetaData } // initialize the pricedata metaData object with its key value initialized with today's date
+  pricedata = { metaKey: expectedMetaData } // initialize the pricedata metaData property with its key value initialized with today's date
   const range = iexData.range
   const closeOnly = iexData.closeOnly
   const useSandbox = getSandboxStatus()
@@ -54,13 +55,13 @@ export const loadPriceData = async function(state, dispatch, pricedata) {
         // dispatch(replaceSandboxPricedata(pricedata))
         dispatch({
           type: 'REPLACE_SANDBOX_PRICEDATA',
-          pricedata,
+          pricedata: pricedata,
         })
       } else {
         // dispatch(replaceNornalPricedata(pricedata))
         dispatch({
           type: 'REPLACE_NORMAL_PRICEDATA',
-          pricedata,
+          pricedata: pricedata,
         })
       }
     } catch (error) {

@@ -9,8 +9,6 @@ import { resetPeekPrices, putPeekLastPrice, finishPeekPrices } from './appLastPe
 export const setPeekPrices = async (state) => {
   resetPeekPrices() //reset the list of prices for new content now
 
-  const range = iexData.range
-  const closeOnly = iexData.closeOnly
   const useSandbox = getSandboxStatus()
   // const useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test with, but free downloads.
   const BATCH_SIZE = 100

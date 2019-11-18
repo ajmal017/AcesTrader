@@ -35,7 +35,9 @@ export default function sandboxpricedataReducer(state = defaultSandboxPricedata,
     }
     case REPLACE_SANDBOX_PRICEDATA: {
       if (action.pricedata) {
-        return cloneDeep(action.pricedata) //reset this state's slice to the modified value
+        let newState = cloneDeep(state) // start with the current object to have the object replaced
+        newState = action.pricedata
+        return newState //reset this state's slice to the modified value
       }
       return state
     }

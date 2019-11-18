@@ -46,7 +46,7 @@ import { addBuysToList } from '../../../redux/reducerBuys'
 import { addSellstoList } from '../../../redux/reducerSells'
 import { addTrendBuysToList } from '../../../redux/reducerTrendBuys'
 import { addWatchPriceAndIssueType } from '../../../redux/thunkEditListObjects'
-import { setSandboxStatus, getSandboxStatus } from '../../../lib/appUseSandboxStatus'
+// import { setSandboxStatus, getSandboxStatus } from '../../../lib/appUseSandboxStatus'
 import './styles.css'
 
 const MINIMUMWEEKLYBARS = 3 // NOTE this magic number is defined in 2 locations, keep in sync
@@ -75,9 +75,10 @@ class Chartcell extends Component {
     // // ****************************************************
     // setSandboxStatus(this.useSandbox) // set for reference in other modules such as reducePeekData.js
     // // ****************************************************
-    setSandboxStatus(true) // BCM TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
 
-    this.useSandbox = getSandboxStatus()
+    // setSandboxStatus(true) // BCM TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
+
+    // this.useSandbox = getSandboxStatus()
     this.data = null
     this.dispatch = this.props.dispatch
     this.state = {

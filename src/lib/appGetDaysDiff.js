@@ -1,8 +1,6 @@
 // appGetDaysDiff.js
 
 export const getDaysDiff = (aa, bb) => {
-  debugger //==== BCM =====
-
   const a = new Date(aa)
   const b = new Date(bb)
 

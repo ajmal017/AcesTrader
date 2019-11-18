@@ -7,10 +7,10 @@ const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 const REPLACE_NORMAL_PRICEDATA = 'REPLACE_NORMAL_PRICEDATA'
 const REMOVE_NORMAL_PRICEDATA = 'REMOVE_NORMAL_PRICEDATA'
 
-export const replaceNornalPricedata = (priceData) => {
+export const replaceNornalPricedata = (pricedata) => {
   return {
     type: REPLACE_NORMAL_PRICEDATA,
-    priceData: priceData,
+    pricedata: pricedata,
   }
 }
 export const removeNormalPricedata = () => {
@@ -34,8 +34,10 @@ export default function normalpricedataReducer(state = defaultNormalPricedata, a
       return cloneDeep(defaultNormalPricedata)
     }
     case REPLACE_NORMAL_PRICEDATA: {
-      if (action.state.pricedata) {
-        return cloneDeep(action.pricedata) //reset this state's slice to the modified value
+      if (action.pricedata) {
+        let newState = cloneDeep(state) // start with the current object to have the object replaced
+        newState = action.pricedata
+        return newState //reset this state's slice to the modified value
       }
       return state
     }

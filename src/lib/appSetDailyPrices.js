@@ -6,18 +6,25 @@ import { getSandboxStatus } from '../lib/appUseSandboxStatus'
 var cloneDeep = require('lodash.clonedeep')
 
 export const setDailyPrices = async (state, dispatch) => {
-  // Use a copied state in this function as it mutates the data
   // This tests the pricedata marker object's date against today's date to ensure that the pricedata will return
   // the correct end-of-day price data for the previous trading day for any symbols that were downloaded already.
   // This reduces IEX costs by not repeating downloads unnecessarily.
-  // This fuction returns the found daysOld value for optional use by the caller.
+  // This function returns the found daysOld value for optional use by the caller, unless the data needs to be reloaded.
   try {
-    // make a working copy of the state.pricedata which will be mutated and then passed to Redux
+    // // BCM TEST TEST TEST ============================================================================================
+    // let testSandbox = getSandboxStatus()
+    // if (testSandbox) {
+    //   dispatch({ type: 'REMOVE_SANDBOX_PRICEDATA' })
+    //   debugger
+    //   return 0 //dummy days old
+    // } else {
+    //   // await loadPriceData(state, dispatch) // get all the normal daily price series for portfolio's symbols
+    //   // dispatch({ type: 'REMOVE_NORMAL_PRICEDATA' })
+    // }
+    // // BCM TEST TEST TEST ============================================================================================
+
+    // make a copy of the state.pricedata //BCM which will be mutated and then passed to Redux
     let pricedata = getSandboxStatus() ? cloneDeep(state.sandboxpricedata) : cloneDeep(state.normalpricedata)
-    // let xstate = cloneDeep(state) // make a working copy of the state to be passed to components that need it
-    // let pricedata = cloneDeep(state.pricedata) // make a working copy of the state.pricedata which will be mutated and then passed to Redux
-    // debugger //==== BCM =====
-    // let priceDataArray // receives the priceData array provided by loadPriceData()
     const date = new Date() // today's date
     const theDay = date.getDay()
     // const expectedMetaData = date // prepare a metaData property value with today's date
@@ -26,26 +33,18 @@ export const setDailyPrices = async (state, dispatch) => {
 
     // pricedata = { metaKey: null } // BCM reset to empty ======TEST TEST================================
 
-    pricedata = pricedata || { metaKey: null } // Creates a new pricedata object with first keyed item if required
+    pricedata = pricedata || { metaKey: null } // Creates a new pricedata object with first keyed item if no existing object
     pricedata.metaKey = pricedata.metaKey || null // get existing metaData date marker if any
     let metaData = pricedata.metaKey // get existing metaData date marker if any
     // debugger //==== BCM =====
     if (!metaData || metaData === undefined) {
-      // Established a new pricedata property, the pricedata is empty of any price data
-
-      // BCM do later>> pricedata.metaKey = expectedMetaData // initialize metaKey with a date value for today
-      // debugger //==== BCM =====
-
-      // BCM this is new: loadPriceData completes the actions and calls dispatch for redux to update state
-      await loadPriceData(state, dispatch, pricedata) // get all the daily price series for portfolio's symbols
-
-      // debugger //pause for dev
-      //  saveTheNewState(pricedata, dispatch) // dispatch redux to save the new state back to firebase
-      // priceDataArray = await loadPriceData(xstate) // All the daily price series for portfolio's symbols
-
+      // We need to create a new pricedata property, this pricedata is empty of any price data
+      // This loadPriceData creates the object and calls dispatch for redux to update state
+      console.log('line 32: calling LoadPriceData')
+      await loadPriceData(state, dispatch) // get all the daily price series for portfolio's symbols
       return -1 // Established a new state.pricedata loaded with IEX data
     }
-    debugger //==== BCM =====
+    // debugger //==== BCM =====
     // date = new Date(2020, 8, 26) //*********** */TEST TEST TEST****************
     const existingDate = pricedata.metaKey // the current date marker
     const daysOld = getDaysDiff(existingDate, date)
@@ -64,18 +63,13 @@ export const setDailyPrices = async (state, dispatch) => {
       // These prices are good and do not need to be downloaded again.
       return daysOld // no change, try to get specified symbol from here
     }
-    // The current price data is stale, so start fresh now
     // console.log(`Reset symbol database, daysOld=${daysOld}`)
+    // We need to create a new pricedata property, this current price data is stale
+    // This loadPriceData creates the object and calls dispatch for redux to update state
+    console.log('line 58: calling LoadPriceData')
+    await loadPriceData(state, dispatch) // get all the daily price series for portfolio's symbols
 
-    // BCM do later>> pricedata = { metaKey: expectedMetaData } // Create a new pricedata property with its value initialized with today's date
-    // we established a new metaData record, the pricedata is empty of any price data
-
-    // BCM this is new: loadPriceData completes the actions and calls dispatch for redux to update state
-    await loadPriceData(state, dispatch, pricedata) // get all the daily price series for portfolio's symbols
-
-    debugger //==== BCM =====
-    // priceDataArray = await loadPriceData(xstate) // All the daily price series for portfolio's symbols - Supply the copied state to this function as it mutates the data
-    // saveTheNewState(pricedata, dispatch) // dispatch redux to save the new state back to firebase
+    // debugger //==== BCM =====
 
     return -1 // Established a new metaData record, the pricedata is loaded with IEX data
     //

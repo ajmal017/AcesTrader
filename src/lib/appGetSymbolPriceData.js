@@ -14,18 +14,17 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
   // Allow for different versions of the symbol's price file
   const symbolKey = `${symbol.toUpperCase()}-${range}${closeOnly ? '-CloseOnly' : ''}${useSandbox ? '-Sandbox' : ''}`
 
-  // await clearLocalDatabase() //<==TEMP ===== use this to reset the DB content ==========
-  // alert('Cleared The Local Database')
-  // debugger
+  console.log('getSymbolPriceData for: ' + symbolKey)
 
   try {
     await setDailyPrices(state, dispatch) // Ensures the daily prices will contain the last trading day price data
     // Note: the price data is refreshed each day with last day prices from yesterday
     // Get the price series from the pricedata object if available
-    let symbolData = state.pricedata[symbolKey] // get the symbol's price data if there
+    let pricedata = getSandboxStatus() ? 'sandboxpricedata' : 'normalpricedata'
+    let symbolData = state[pricedata][symbolKey] // get the symbol's price data
     if (symbolData && symbolData.length > 0) {
       // console.log(`Found: ${symbolKey}, Keys: ${await getLocalDatabaseKeys()}`)
-      // console.log(`Found: ${symbolKey}`)
+      console.log(`Found: ${symbolKey}`)
 
       // symbol price data is available for yesterday's end-of-day prices
       // this data may also have a constructed pseudo daily bar for today's prices
@@ -46,7 +45,7 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
       return data // return price series from app state.
     } else {
       // console.log(`****Missing: ${symbolKey}, Keys: ${await getLocalDatabaseKeys()}`)
-      // console.log(`****Missing: ${symbolKey}`)
+      console.log(`****Missing: ${symbolKey}`)
       // Download the end-of-day price series for yesterday from IEX cloud
       let symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
 
@@ -59,6 +58,7 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
       return symbolData // return price series from IEX cloud
     }
   } catch (err) {
+    console.log(`getSymbolPriceData(${symbolKey}) failed. Error=${err.message}`)
     alert(`getSymbolPriceData(${symbolKey}) failed. Error=${err.message}`)
     debugger
   }
