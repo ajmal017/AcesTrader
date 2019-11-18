@@ -19,7 +19,7 @@ import { removeShortFromList } from '../../../redux/reducerShorts'
 import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
 // import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
-import buildSmaTradingArray from '../../../lib/appBuildSmaTradingArray'
+// import buildSmaTradingArray from '../../../lib/appBuildSmaTradingArray'
 import { getSymbolPriceData } from '../../../lib/appGetSymbolPriceData'
 import { cleanSymbolData } from '../../../lib/appCleanSymbolData'
 // import getChartLastBar from '../../../lib/apiGetChartLastBar'
@@ -36,7 +36,6 @@ import buildLast20Closes from '../../../lib/appBuildLast20Closes'
 import buildLast20Highs from '../../../lib/appBuildLast20Highs'
 import buildLast20Lows from '../../../lib/appBuildLast20Lows'
 import { putSmaTradingData } from '../../../lib/chartDataCache'
-import { getSandboxStatus } from '../../../lib/appUseSandboxStatus'
 import { putChartFlags, getChartFlags } from '../../../lib/chartDataCache'
 // import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
@@ -47,6 +46,7 @@ import { addBuysToList } from '../../../redux/reducerBuys'
 import { addSellstoList } from '../../../redux/reducerSells'
 import { addTrendBuysToList } from '../../../redux/reducerTrendBuys'
 import { addWatchPriceAndIssueType } from '../../../redux/thunkEditListObjects'
+// import { setSandboxStatus, getSandboxStatus } from '../../../lib/appUseSandboxStatus'
 import './styles.css'
 
 const MINIMUMWEEKLYBARS = 3 // NOTE this magic number is defined in 2 locations, keep in sync
@@ -76,7 +76,9 @@ class Chartcell extends Component {
     // setSandboxStatus(this.useSandbox) // set for reference in other modules such as reducePeekData.js
     // // ****************************************************
 
-    this.useSandbox = getSandboxStatus()
+    // setSandboxStatus(true) // BCM TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
+
+    // this.useSandbox = getSandboxStatus()
     this.data = null
     this.dispatch = this.props.dispatch
     this.state = {
@@ -117,16 +119,14 @@ class Chartcell extends Component {
     const symbol = this.props.cellObject.symbol
     const weeklyBars = this.props.cellObject.weeklyBars
     // this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
-    this.range = '1y' // Always use the small range from IEX Cloud data to save money
+    //this.range = '1y' // This is spec'ed in iex.json // Always use the small range from IEX Cloud data to save money
     const self = this
-    // console.log(`getSymbolPriceData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
-    getSymbolPriceData(symbol, this.range, this.closeOnly, this.useSandbox)
+    getSymbolPriceData(symbol, this.props.state, this.props.dispatch)
       .then(function(data) {
         if (!data || data === undefined || data === null) {
           debugger // pause for developer
           self.setState({ iexData: 3, noprices: true, hide: false })
         }
-
         if (data.length < 2) {
           //a CandleStickChartWithMA bug seen with new issue "TRTY" when only 1 day's data available
           //a Memory leak reported by VSCode, seems to cause many weird code mistakes when running
@@ -141,8 +141,8 @@ class Chartcell extends Component {
           self.weeklyBarCount = weeklyPriceData.length // prevents user from requesting weekly chart if insufficient bars
 
           // Get the short term crossover trading sma period as defined by user
-          let shortSmaPeriod = 50 // overrides the default 50 of self.props.cellObject.dashboard.tradeSma
-          let longSmaPeriod = 200 // equilvalent to 10 months, allows 40 bar Sma of weekly chart to be built
+          // let shortSmaPeriod = 50 // overrides the default 50 of self.props.cellObject.dashboard.tradeSma
+          // let longSmaPeriod = 200 // equilvalent to 10 months, allows 40 bar Sma of weekly chart to be built
 
           // Create the crossover trading sma for this symbol and cache it
           if (data.length > 200) {
@@ -161,6 +161,7 @@ class Chartcell extends Component {
           } else {
             self.validShortSma = false
           }
+          // Get the crossover trading sma periods as defined by the chart configuration
           if (weeklyBars && self.validLongSma) {
             putSmaTradingData(symbol, getSma200Data(symbol)) //cache the smaTrading data for subsequent use for chart alerts
           } else if (self.validShortSma) {
@@ -436,7 +437,7 @@ class Chartcell extends Component {
                 handleOrderEntry={this.handleOrderEntry}
                 cellObject={cellObject}
                 iexData={this.state.iexData}
-                useSandbox={this.useSandbox}
+                useSandbox={false} //{this.useSandbox}
                 validShortSma={this.validShortSma}
                 validLongSma={this.validLongSma}
               />
@@ -456,4 +457,10 @@ Chartcell.propTypes = {
 const mapStateToProps = (state) => ({
   state: state,
 })
-export default connect(mapStateToProps)(Chartcell)
+const mapDispatchToProps = (dispatch) => ({
+  dispatch: dispatch,
+})
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Chartcell)

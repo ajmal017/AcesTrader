@@ -125,6 +125,9 @@ class WelcomeTrader extends Component {
       // a first time mount from signIn or startup
       this.sandboxChecked = process.env.NODE_ENV === 'development' ? true : false // by default development gets junk ohlc values to test the app, but free downloads (default is changeable by user)
       setSandboxStatus(this.sandboxChecked) // set for reference in other modules such as Chartcell and reducePeekData.js
+
+      // setSandboxStatus(true) // BCM TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
+
       this.setState({ loading: true, reference: this.firstReference, useSandbox: getSandboxStatus() })
       // load a portfolio from persistant state now, only for first-time mounting
       this.loadPortfolio(this.firstReference)
@@ -171,7 +174,7 @@ class WelcomeTrader extends Component {
 
               // These are async operations that should be finished when accessed by ChartsView
               setPeekPrices(currentState) // Put the current peek prices into the LastPeekPrice cache for use later in ChartsView
-              setDailyPrices(currentState) // Load the daily price data for the portfolio's symbols
+              setDailyPrices(currentState, that.props.dispatch) // Load the daily price data for the portfolio's symbols
             }
             // console.log(`AppLoadData DB finish:, reference=${reference}`)
             putReference(reference) // establish the reference for the new portfolio
@@ -259,5 +262,13 @@ class WelcomeTrader extends Component {
 const mapStateToProps = (state) => ({
   state: state,
 })
+const mapDispatchToProps = (dispatch) => ({
+  dispatch: dispatch,
+})
 
-export default withRouter(connect(mapStateToProps)(WelcomeTrader))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(WelcomeTrader)
+)

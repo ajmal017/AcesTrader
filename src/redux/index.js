@@ -9,6 +9,8 @@ import shortsReducer from './reducerShorts'
 import trendbuysReducer from './reducerTrendBuys'
 import trendlongsReducer from './reducerTrendLongs'
 import resultsReducer from './reducerResults'
+import normalpricedataReducer from './reducerNormalPriceData'
+import sandboxpricedataReducer from './reducerSandboxPriceData'
 import modalReducer from './reducerModal'
 
 export const AuthenticatedContext = React.createContext(false)
@@ -55,6 +57,8 @@ const rootReducer = combineReducers({
   trendbuys: trendbuysReducer,
   trendlongs: trendlongsReducer,
   results: resultsReducer,
+  normalpricedata: normalpricedataReducer,
+  sandboxpricedata: sandboxpricedataReducer,
   modal: modalReducer,
 })
 

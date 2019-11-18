@@ -53,7 +53,7 @@ const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 // so we create a corresponding slice of the defaultState as well.
 const defaultShorts = cloneDeep(defaultState.shorts) //in case state is undefined
 
-export default function chartsReducer(state = defaultShorts, action) {
+export default function shortsReducer(state = defaultShorts, action) {
   switch (action.type) {
     case UPDATE_DASHBOARD_PEEK_DATA: {
       let newState = reducePeekData(state, action.peekdataobject, action.theDate)
