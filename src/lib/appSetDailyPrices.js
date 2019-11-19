@@ -1,8 +1,9 @@
 // appSetDailyPrices.js
 import { getDaysDiff } from './appGetDaysDiff'
 import { loadPriceData } from './appLoadPriceData'
-import { getReference } from '../lib/dbReference'
+import { getPortfolioSymbols } from './appGetPortfolioSymbols'
 import { getSandboxStatus } from '../lib/appUseSandboxStatus'
+// import { getReference } from '../lib/dbReference'
 var cloneDeep = require('lodash.clonedeep')
 
 export const setDailyPrices = async (state, dispatch) => {
@@ -25,7 +26,7 @@ export const setDailyPrices = async (state, dispatch) => {
 
     // make a copy of the state.pricedata //BCM which will be mutated and then passed to Redux
     let pricedata = getSandboxStatus() ? cloneDeep(state.sandboxpricedata) : cloneDeep(state.normalpricedata)
-    const symbolType = getSandboxStatus() ? 'sandbox' : 'normal'
+    // const symbolType = getSandboxStatus() ? 'sandbox' : 'normal'
     const date = new Date() // today's date
     const theDay = date.getDay()
     // const expectedMetaData = date // prepare a metaData property value with today's date
@@ -42,7 +43,7 @@ export const setDailyPrices = async (state, dispatch) => {
       // We need to create a new pricedata property, this pricedata is empty of any price data
       // This loadPriceData creates the object and calls dispatch for redux to update state
       // console.log(`metaData=null: calling LoadPriceData for ${getReference()} ${symbolType}`)
-      await loadPriceData(state, dispatch) // get all the daily price series for portfolio's symbols
+      await loadPriceData(state, dispatch, getPortfolioSymbols(state), { updateExisting: false }) // build new collection of daily price series for portfolio's symbols
       return -1 // Established a new state.pricedata loaded with IEX data
     }
     // date = new Date(2020, 8, 26) //*********** */TEST TEST TEST****************
@@ -67,7 +68,7 @@ export const setDailyPrices = async (state, dispatch) => {
     // We need to create a new pricedata property, this current price data is stale
     // This loadPriceData creates the object and calls dispatch for redux to update state
     // console.log(`metaData.date=stale: calling LoadPriceData for ${getReference()} ${symbolType}`)
-    await loadPriceData(state, dispatch) // get all the daily price series for portfolio's symbols
+    await loadPriceData(state, dispatch, getPortfolioSymbols(state), { updateExisting: false }) // build new collection of daily price series for portfolio's symbols
 
     // debugger //==== BCM =====
 

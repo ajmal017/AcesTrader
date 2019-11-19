@@ -2,22 +2,26 @@
 
 import axios from 'axios'
 import iexData from '../iex.json'
-import { getPortfolioSymbols } from './appGetPortfolioSymbols'
 import { getSandboxStatus } from '../lib/appUseSandboxStatus'
 // import replaceNornalPricedata from '../redux/reducerNormalPriceData'
 // import replaceSandboxPricedata from '../redux/reducerSandboxPriceData'
+var cloneDeep = require('lodash.clonedeep')
 
-export const loadPriceData = async function(state, dispatch) {
-  // Use a new pricedata object to get batched symbol data and apply to state via dispatch
-  let pricedata = {}
-  const date = new Date() // today's date
-  const expectedMetaData = date // prepare a metaData property value with today's date
-  pricedata = { metaKey: expectedMetaData } // initialize the pricedata metaData property with its key value initialized with today's date
+export const loadPriceData = async function(state, dispatch, symbols, options) {
+  let pricedata
+  const useSandbox = getSandboxStatus()
+  const { updateExisting } = options
+  if (updateExisting) {
+    pricedata = getSandboxStatus() ? cloneDeep(state.sandboxpricedata) : cloneDeep(state.normalpricedata)
+  } else {
+    pricedata = {} // Use a new pricedata object to get symbol data and apply to state via dispatch
+    const date = new Date() // today's date
+    const expectedMetaData = date // prepare a metaData property value with today's date
+    pricedata = { metaKey: expectedMetaData } // initialize the pricedata metaData property with its key value initialized with today's date
+  }
   const range = iexData.range
   const closeOnly = iexData.closeOnly
-  const useSandbox = getSandboxStatus()
   const BATCH_SIZE = 100
-  const symbols = getPortfolioSymbols(state) // all the Buys, Longs, Shorts, etc...
   let numberOfBatches = Math.ceil(symbols.length / BATCH_SIZE)
   for (let i = 0; i < numberOfBatches; i++) {
     let symbolsBatch = symbols.slice(i * BATCH_SIZE, (i + 1) * BATCH_SIZE)
