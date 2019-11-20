@@ -41,8 +41,11 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
       })
       return data // return price series from app state.
     } else {
-      // console.log(`****Missing: ${symbolKey}, Keys: ${await getLocalDatabaseKeys()}`)
       // console.log(`****Missing: ${symbolKey}`)
+      console.log('appGetSymbolPriceData - Unexpected missing price data in app state: ' + symbolKey)
+      alert('appGetSymbolPriceData - Unexpected missing price data in app state: ' + symbolKey) //rude interruption to user
+      debugger // BCM
+
       // Download the end-of-day price series for yesterday from IEX cloud
       let symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
 
