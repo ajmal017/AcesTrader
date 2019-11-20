@@ -24,7 +24,7 @@ export const setDailyPrices = async (state, dispatch) => {
     // }
     // // BCM TEST TEST TEST ============================================================================================
 
-    // make a copy of the state.pricedata //BCM which will be mutated and then passed to Redux
+    // make a copy of the state.pricedata
     let pricedata = getSandboxStatus() ? cloneDeep(state.sandboxpricedata) : cloneDeep(state.normalpricedata)
     // const symbolType = getSandboxStatus() ? 'sandbox' : 'normal'
     const date = new Date() // today's date
@@ -36,8 +36,8 @@ export const setDailyPrices = async (state, dispatch) => {
     // pricedata = { metaKey: null } // BCM reset to empty ======TEST TEST================================
 
     pricedata = pricedata || { metaKey: null } // Creates a new pricedata object with first keyed item if no existing object
-    pricedata.metaKey = pricedata.metaKey || null // get existing metaData date marker if any
-    let metaData = pricedata.metaKey // get existing metaData date marker if any
+    pricedata['metaKey'] = pricedata['metaKey'] || null // get existing metaData date marker if any
+    let metaData = pricedata['metaKey'] // get existing metaData date marker if any
     // debugger //==== BCM =====
     if (!metaData || metaData === undefined) {
       // We need to create a new pricedata property, this pricedata is empty of any price data

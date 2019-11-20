@@ -5,7 +5,9 @@ import { BuildPseudoBar } from '../../components/BuildPseudoBar'
 
 class AddPseudoBar extends Component {
   render() {
-    return <BuildPseudoBar state={(this.props.state, this.props.dispatch)} />
+    const state = this.props.state
+    const dispatch = this.props.dispatch
+    return <BuildPseudoBar state={state} dispatch={dispatch} />
   }
 }
 

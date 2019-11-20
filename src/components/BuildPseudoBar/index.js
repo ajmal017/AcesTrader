@@ -5,29 +5,44 @@ import { useState } from 'react'
 import axios from 'axios'
 import iexData from '../../iex.json'
 import { setDailyPrices } from '../../lib/appSetDailyPrices'
-// import { saveTheNewState } from '../../lib/appSaveTheState'
-// import { setTheLocalDatabase } from '../../lib/appSetTheLocalDatabase'
-// import { loadLocalDatabase, saveLocalDatabase, getLocalDatabaseKeys } from '../../lib/localDatabaseStorage'
+import { getSandboxStatus } from '../../lib/appUseSandboxStatus'
 import WelcomeTrader from '../Welcome/WelcomeTrader'
+var cloneDeep = require('lodash.clonedeep')
 
-export const BuildPseudoBar = (state, dispatch) => {
-  // Note: This mutates the store's <portfolio>.pricedata state. Added pseudobars are not persisted to the cloud.
+export const BuildPseudoBar = (props) => {
   const [dataReady, setDataReady] = useState({ loading: true, error: false })
-  const pricedata = state.pricedata // the current pricedata object in our portfolio's state
+  const state = props.state
+  const dispatch = props.dispatch
   const date = new Date() // today's date
-  const theDay = date.getDay() //returns the week day of a date as a number (0-6)
-  const theHour = date.getHours() //returns the hours of a date as a number (0-23)
-
-  // const theMinute = date.getMinutes() //returns the minutes of a date as a number (0-59)
-  // // useEffect has a missing dependency: 'buildPseudoBars'.
-  // // Either include it or remove the dependency array  react-hooks/exhaustive-deps
-  // // eslint-disable-next-line
-  // useEffect(() => {
-  //     buildPseudoBars()
-  // }, [theMinute]) // allows a retry after the minute changes
-
+  const nowYear = date.getFullYear()
+  const nowMonth = date.getMonth() + 1
+  const nowDay = date.getDate()
+  const pseudoDate = `${nowYear}-${nowMonth}-${nowDay}` // today's date
   let allPseudoBars = {} // holds all the constructed pseudobars keyed by symbol
   let errorMessage = null
+  // NOTE: PseudoBars are saved to app state, so old ones show when app is opened later. Select "Add PseudoBar" to update
+  let pricedata = getSandboxStatus() ? cloneDeep(state.sandboxpricedata) : cloneDeep(state.normalpricedata)
+
+  // Test if correct circumstances else return error
+  const theDay = date.getDay() //returns the week day of a date as a number (0-6)
+  const theHour = date.getHours() //returns the hours of a date as a number (0-23)
+  const daysOld = setDailyPrices(state, dispatch) //this returns the daysOld number since data exists at this stage
+  if (theDay === 6 || theDay === 0) {
+    // Today is Saturday or Sunday, all price series have correct last trading day bar
+    errorMessage = 'Today is a weekend, all price series have correct last day trading bar'
+    setDataReady({ loading: false, error: errorMessage })
+  } else if (theHour < 10) {
+    // The market is just open at 9:30, we only append pseudo bars after 10
+    errorMessage = 'Too early, delayed quotes are used to build pseudo bars half-hour after market open'
+    setDataReady({ loading: false, error: errorMessage })
+  } else if (daysOld === -1) {
+    errorMessage = 'The cache of symbol price data is empty, load the charts first.'
+    setDataReady({ loading: false, error: errorMessage })
+    // } else {
+    // Create fake error to test error handling
+    // errorMessage = 'The cache of symbol price data is empty, FAKE FAKE.'
+    // setDataReady({ loading: false, error: errorMessage })
+  }
 
   const handleClick = (event) => {
     event.preventDefault()
@@ -73,7 +88,7 @@ export const BuildPseudoBar = (state, dispatch) => {
           let fakeOpen = fakeClose + fakeChange
           let fakeHigh = fakeOpen + fakeChange
           let fakeLow = fakeClose - fakeChange
-          let fakeDate = date
+          let fakeDate = pseudoDate
           let pseudoBar = { pseudoBar: true, symbol: symbol, open: fakeOpen, close: fakeClose, high: fakeHigh, low: fakeLow, date: fakeDate, volume: 10000 }
           allPseudoBars[symbol] = pseudoBar // add this pseudoBar obj to the indexed object
         } else {
@@ -121,51 +136,65 @@ export const BuildPseudoBar = (state, dispatch) => {
     return result[1] // the extracted barebones symbol.
   }
 
-  const buildPseudoBars = async (state, dispatch) => {
-    //the state contains last trading day symbol price data, returns the daysOld number if data exists
-    const daysOld = setDailyPrices(state, dispatch)
-    // const daysOld = await setTheLocalDatabase(date)
-    if (theDay === 6 || theDay === 0) {
-      // Today is Saturday or Sunday, all price series have correct last trading day bar
-      errorMessage = 'Today is a weekend, all price series have correct last day trading bar'
-      setDataReady({ loading: false, error: errorMessage })
-    } else if (theHour < 10) {
-      // The market is just open at 9:30, we only append pseudo bars after 10
-      errorMessage = 'Too early, delayed quotes are used to build pseudo bars half-hour after market open'
-      setDataReady({ loading: false, error: errorMessage })
-    } else if (daysOld === -1) {
+  const buildPseudoBars = async () => {
+    // const daysOld = setDailyPrices(state, dispatch) //this returns the daysOld number since data exists at this stage
+    // // const daysOld = await setTheLocalDatabase(date)
+    // if (theDay === 6 || theDay === 0) {
+    //   // Today is Saturday or Sunday, all price series have correct last trading day bar
+    //   errorMessage = 'Today is a weekend, all price series have correct last day trading bar'
+    //   setDataReady({ loading: false, error: errorMessage })
+    // } else if (theHour < 10) {
+    //   // The market is just open at 9:30, we only append pseudo bars after 10
+    //   errorMessage = 'Too early, delayed quotes are used to build pseudo bars half-hour after market open'
+    //   setDataReady({ loading: false, error: errorMessage })
+    // } else if (daysOld === -1) {
+    //   errorMessage = 'The cache of symbol price data is empty, load the charts first.'
+    //   setDataReady({ loading: false, error: errorMessage })
+    // } else {
+    //   // Create fake error to test error handling
+    //   // errorMessage = 'The cache of symbol price data is empty, FAKE FAKE.'
+    //   // setDataReady({ loading: false, error: errorMessage })
+
+    // We need to create an array of symbols of the securities in the local data base cache
+    const allKeys = Object.keys(pricedata) // get the keys (symbols) of the pricedata object
+    // remove the MetaKey
+    const symbolKeys = allKeys.filter((key) => {
+      return key !== 'metaKey'
+    })
+
+    // get the bare bones symbols
+    const extractedSymbols = symbolKeys.map((symbolKey) => {
+      return extractSymbolFromSymbolKey(symbolKey)
+    })
+
+    let symbols = extractedSymbols.filter((element, index) => extractedSymbols.indexOf(element) === index) // remove dups if same symbol was present with different symbolKey suffixes
+
+    if (symbols.length === 0) {
       errorMessage = 'The cache of symbol price data is empty, load the charts first.'
       setDataReady({ loading: false, error: errorMessage })
     } else {
-      // Create fake error to test error handling
-      // errorMessage = 'The cache of symbol price data is empty, FAKE FAKE.'
-      // setDataReady({ loading: false, error: errorMessage })
-
-      // We need to create an array of symbols of the securities in the local data base cache
-      const allKeys = Object.keys(pricedata) // get the keys (symbols) of the pricedata object
-      // remove the MetaKey
-      const symbolKeys = allKeys.filter((key) => {
-        return key !== 'metaKey'
+      await makePseudoBars(symbols) // use the extracted barebones symbols for IEX queries
+      // add pseudo end-of-day bar to each symbol's price series
+      symbolKeys.forEach(async (symbolKey) => {
+        await appendPseudoBar(symbolKey)
       })
-
-      // get the bare bones symbols
-      const extractedSymbols = symbolKeys.map((symbolKey) => {
-        return extractSymbolFromSymbolKey(symbolKey)
-      })
-
-      let symbols = extractedSymbols.filter((element, index) => extractedSymbols.indexOf(element) === index) // remove dups if same symbol was present with different symbolKey suffixes
-
-      if (symbols.length === 0) {
-        errorMessage = 'The cache of symbol price data is empty, load the charts first.'
-        setDataReady({ loading: false, error: errorMessage })
-      } else {
-        await makePseudoBars(symbols) // use the extracted barebones symbols for IEX queries
-        // add pseudo end-of-day bar to each symbol's price series
-        symbolKeys.forEach(async (symbolKey) => {
-          await appendPseudoBar(symbolKey)
-        })
-        setDataReady({ loading: false, error: errorMessage }) //finished
+      if (!errorMessage) {
+        // finished with no error
+        if (getSandboxStatus()) {
+          // dispatch(replaceSandboxPricedata(pricedata))
+          dispatch({
+            type: 'REPLACE_SANDBOX_PRICEDATA',
+            pricedata: pricedata,
+          })
+        } else {
+          // dispatch(replaceNornalPricedata(pricedata))
+          dispatch({
+            type: 'REPLACE_NORMAL_PRICEDATA',
+            pricedata: pricedata,
+          })
+        }
       }
+      setDataReady({ loading: false, error: errorMessage }) //finished
     }
   }
 
@@ -174,7 +203,7 @@ export const BuildPseudoBar = (state, dispatch) => {
   if (loading) {
     ;(async function() {
       try {
-        await buildPseudoBars(state)
+        await buildPseudoBars()
       } catch (err) {
         console.log('BuildPseudoBar error:', error.message)
         alert('BuildPseudoBar error: ' + error.message) //rude interruption to user
