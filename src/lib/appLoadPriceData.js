@@ -53,26 +53,11 @@ export const loadPriceData = async function(state, dispatch, symbols, options) {
             pricedata[symbolKey] = thePriceData // update the pricedata object with a new key & new data which is an array of price series objects
           }
         }
-
         // do {
         //   console.log(JSON.stringify(pricedata, null, 2)) // a readable log of the state's json
         //   // note: you can Right click > Copy All in the Console panel to copy to clipboard
-        // } while (false) // BCM BCM
-        // debugger // BCM ====
-
-        // if (useSandbox) {
-        //   // dispatch(replaceSandboxPricedata(pricedata))
-        //   dispatch({
-        //     type: 'REPLACE_SANDBOX_PRICEDATA',
-        //     pricedata: pricedata,
-        //   })
-        // } else {
-        //   // dispatch(replaceNornalPricedata(pricedata))
-        //   dispatch({
-        //     type: 'REPLACE_NORMAL_PRICEDATA',
-        //     pricedata: pricedata,
-        //   })
-        // }
+        // } while (false)
+        // debugger
       } catch (error) {
         console.log('apploadPriceData.js error: ' + error.message)
         // alert('apploadPriceData.js error: ' + error.message) //rude interruption to user

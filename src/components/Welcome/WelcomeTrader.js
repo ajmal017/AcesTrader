@@ -126,7 +126,7 @@ class WelcomeTrader extends Component {
       this.sandboxChecked = process.env.NODE_ENV === 'development' ? true : false // by default development gets junk ohlc values to test the app, but free downloads (default is changeable by user)
       setSandboxStatus(this.sandboxChecked) // set for reference in other modules such as Chartcell and reducePeekData.js
 
-      // setSandboxStatus(true) // BCM TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
+      // setSandboxStatus(true) // TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
 
       this.setState({ loading: true, reference: this.firstReference, useSandbox: getSandboxStatus() })
       // load a portfolio from persistant state now, only for first-time mounting

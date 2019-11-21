@@ -75,8 +75,7 @@ class Chartcell extends Component {
     // // ****************************************************
     // setSandboxStatus(this.useSandbox) // set for reference in other modules such as reducePeekData.js
     // // ****************************************************
-
-    // setSandboxStatus(true) // BCM TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
+    // setSandboxStatus(true) // TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
 
     // this.useSandbox = getSandboxStatus()
     this.data = null

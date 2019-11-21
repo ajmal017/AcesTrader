@@ -33,8 +33,8 @@ export const setPeekPrices = async (state) => {
       // do {
       //   console.log(JSON.stringify(values, null, 2)) // a readable log of the state's json
       //   // note: you can Right click > Copy All in the Console panel to copy to clipboard
-      // } while (false) // BCM BCM
-      // debugger // BCM ====
+      // } while (false)
+      // debugger
 
       for (let symbol in values) {
         let data = values[symbol]

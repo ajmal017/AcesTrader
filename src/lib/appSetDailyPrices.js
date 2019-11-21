@@ -12,33 +12,14 @@ export const setDailyPrices = async (state, dispatch) => {
   // This reduces IEX costs by not repeating downloads unnecessarily.
   // This function returns the found daysOld value for optional use by the caller, unless the data needs to be reloaded.
   try {
-    // // BCM TEST TEST TEST ============================================================================================
-    // let testSandbox = getSandboxStatus()
-    // if (testSandbox) {
-    //   dispatch({ type: 'REMOVE_SANDBOX_PRICEDATA' })
-    //   debugger
-    //   return 0 //dummy days old
-    // } else {
-    //   // await loadPriceData(state, dispatch) // get all the normal daily price series for portfolio's symbols
-    //   // dispatch({ type: 'REMOVE_NORMAL_PRICEDATA' })
-    // }
-    // // BCM TEST TEST TEST ============================================================================================
-
     // make a copy of the state.pricedata
     let pricedata = getSandboxStatus() ? cloneDeep(state.sandboxpricedata) : cloneDeep(state.normalpricedata)
     // const symbolType = getSandboxStatus() ? 'sandbox' : 'normal'
     const date = new Date() // today's date
     const theDay = date.getDay()
-    // const expectedMetaData = date // prepare a metaData property value with today's date
-    // const theDate = `${date.getMonth() + 1}/${date.getDate()}/${('' + date.getFullYear()).substring(2, 4)}`
-    // const expectedMetaData = { "date": theDate } // prepare a fresh metaData object with today's date
-
-    // pricedata = { metaKey: null } // BCM reset to empty ======TEST TEST================================
-
     pricedata = pricedata || { metaKey: null } // Creates a new pricedata object with first keyed item if no existing object
     pricedata['metaKey'] = pricedata['metaKey'] || null // get existing metaData date marker if any
     let metaData = pricedata['metaKey'] // get existing metaData date marker if any
-    // debugger //==== BCM =====
     if (!metaData || metaData === undefined) {
       // We need to create a new pricedata property, this pricedata is empty of any price data
       // This loadPriceData creates the object and calls dispatch for redux to update state
@@ -69,9 +50,6 @@ export const setDailyPrices = async (state, dispatch) => {
     // This loadPriceData creates the object and calls dispatch for redux to update state
     // console.log(`metaData.date=stale: calling LoadPriceData for ${getReference()} ${symbolType}`)
     await loadPriceData(state, dispatch, getPortfolioSymbols(state), { updateExisting: false }) // build new collection of daily price series for portfolio's symbols
-
-    // debugger //==== BCM =====
-
     return -1 // Established a new metaData record, the pricedata is loaded with IEX data
     //
   } catch (error) {

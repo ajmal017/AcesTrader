@@ -25,7 +25,8 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
       // console.log(`Found: ${symbolKey}`)
       // symbol price data is available for yesterday's end-of-day prices
       // this data may also have a constructed pseudo daily bar for today's prices
-      // BCM Hack to workaround leftover bad bar. This bug discovered 5/20/19, Monday after weekend of testing AddPseudoBar
+
+      // Hack to workaround leftover bad bar. This bug discovered 5/20/19, Monday after weekend of testing AddPseudoBar
       let currentLastBar = symbolData[symbolData.length - 1] // get the last bar
       if (currentLastBar === undefined) {
         symbolData.pop() // undefined array element result of testing AddPseudoBar
@@ -44,18 +45,14 @@ export const getSymbolPriceData = async function(symbol, state, dispatch) {
       // console.log(`****Missing: ${symbolKey}`)
       console.log('appGetSymbolPriceData - Unexpected missing price data in app state: ' + symbolKey)
       alert('appGetSymbolPriceData - Unexpected missing price data in app state: ' + symbolKey) //rude interruption to user
-      debugger // BCM
 
-      // Download the end-of-day price series for yesterday from IEX cloud
+      // Download the end-of-day price series for yesterday from IEX cloud if not in our cache
       let symbolData = await downloadSymbolData(symbol, range, closeOnly, useSandbox)
 
-      // debugger // BCM BCM Call dispatch here to have redux add the price data to pricedata
-      // state.pricedata[symbolKey] = symbolData // add the new symbol's data the the app state
-      // // console.log(JSON.stringify(state.pricedata, null, 2)) // a readable log of the state's json
-      // // note: you can Right click > Copy All in the Console panel to copy to clipboard
-      // saveTheNewState(state, dispatch) // save the new state back in firebase
-
-      return symbolData // return price series from IEX cloud
+      // Note we do not call dispatch here to have redux add this solo price data object to pricedata,
+      // because the Edit component which adds new symbols includes downstream logic which groups the symbols
+      // and calls appLoadPriceData do a batch download from IEX and update the priceData app state slice.
+      return symbolData // return price series that was found in our cache
     }
   } catch (err) {
     console.log(`getSymbolPriceData(${symbolKey}) failed. Error=${err.message}`)
