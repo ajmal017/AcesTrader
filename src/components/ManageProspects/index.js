@@ -16,6 +16,7 @@ import { queryClearProspectsList } from '../../redux/reducerModal'
 import { putSymbolDataObjects } from '../../lib/appSymbolDataObject'
 import { loadWatchedPrices } from '../../lib/appLoadWatchedPrices'
 import { getSymbolCompanyData } from '../../lib/appGetSymbolCompanyData'
+import { loadPriceData } from '../../lib/appLoadPriceData'
 import './styles.css'
 
 class ManageProspects extends Component {
@@ -142,7 +143,7 @@ class ManageProspects extends Component {
       } else {
         this.textAreaBox.value = 'Verifying Symbols, Please Wait...'
         getSymbolCompanyData(verifiedList).then(
-          function (data) {
+          function(data) {
             if (data.error) {
               // Extract symbol from string ".../stock/symbol/company" to use in reporting error
               let result = /.*\/stock\/(\w+).*/.exec(data.error.request.responseURL)
@@ -169,6 +170,7 @@ class ManageProspects extends Component {
         )
         //this fetches the symbol prices and puts them into appWatchedPrice for later retrival by redux thunk "addWatchPriceAndIssueType"
         await loadWatchedPrices(verifiedList) //this fetches prices and then puts them into this object for retrival later
+        await loadPriceData(this.props.state, this.props.dispatch, verifiedList, { updateExisting: true }) // add the daily price series for verifiedList's symbols
       }
     }
   }
@@ -253,38 +255,38 @@ class ManageProspects extends Component {
     this.setRenderWindowHeight(this.props.height)
     let title = this.tradeSide
     return (
-      <div id="saveas-host">
-        <div id="saveas-container">
-          <div id="saveas-layout">
-            <div className="title">
+      <div id='saveas-host'>
+        <div id='saveas-container'>
+          <div id='saveas-layout'>
+            <div className='title'>
               <span>Add Prospective {title}</span>
             </div>
-            <div className="content-box">
+            <div className='content-box'>
               <p>
                 This form takes one or more symbols to be added to the {this.tradeSide} prospect list.
                 <br />
                 Enter the symbols and click the Verfy button to verify the entries.
               </p>
-              <label htmlFor="pname">Enter prospective {title.toLowerCase()}:</label>
-              <input type="text" id="pname" value={this.state.textValue} onChange={this.handleChange} />
+              <label htmlFor='pname'>Enter prospective {title.toLowerCase()}:</label>
+              <input type='text' id='pname' value={this.state.textValue} onChange={this.handleChange} />
 
-              <p className="acceptdescription">
+              <p className='acceptdescription'>
                 Symbols already in the {this.tradeSide} list are removed from the prospects list when you click Verfy.
                 <br />
                 The remaining new symbols shown are added to the {this.tradeSide} list when you click Accept.
               </p>
-              <label id="textareacaption" htmlFor="syms">
+              <label id='textareacaption' htmlFor='syms'>
                 Add these new prospective {title.toLowerCase()}?
               </label>
-              <textarea id="syms" readOnly={true} />
-              <div className="buttons">
-                <button id="buttonsubmit" onClick={() => this.handleLocalClick('submit')} type="button" aria-label="">
+              <textarea id='syms' readOnly={true} />
+              <div className='buttons'>
+                <button id='buttonsubmit' onClick={() => this.handleLocalClick('submit')} type='button' aria-label=''>
                   Verify
                 </button>
-                <button id="buttonaccept" onClick={() => this.handleLocalClick('accept')} type="button" aria-label="" disabled={this.state.isAcceptButtonDisabled}>
+                <button id='buttonaccept' onClick={() => this.handleLocalClick('accept')} type='button' aria-label='' disabled={this.state.isAcceptButtonDisabled}>
                   Accept
                 </button>
-                <button id="buttondelete" onClick={() => this.handleLocalClick('delete')} type="button" aria-label="no">
+                <button id='buttondelete' onClick={() => this.handleLocalClick('delete')} type='button' aria-label='no'>
                   Delete All {this.tradeSide} List Symbols
                 </button>
               </div>
@@ -320,6 +322,9 @@ class ManageProspects extends Component {
 const mapStateToProps = (state) => ({
   state: state,
 })
+const mapDispatchToProps = (dispatch) => ({
+  dispatch: dispatch,
+})
 
 const mapSizesToProps = ({ height, width }) => ({
   height: height,
@@ -328,4 +333,7 @@ const mapSizesToProps = ({ height, width }) => ({
 
 // withSizes is used as a HOC to supply window demensions as a prop item
 // https://www.npmjs.com/package/react-sizes
-export default connect(mapStateToProps)(withSizes(mapSizesToProps)(ManageProspects))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withSizes(mapSizesToProps)(ManageProspects))

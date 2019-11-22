@@ -9,18 +9,20 @@ import { setSandboxStatus, getSandboxStatus } from '../../lib/appUseSandboxStatu
 import { resetDefaultState, resetPersistedState } from '../../redux/index.js'
 import { putReference, getReference, ameritrade, schwab, paper } from '../../lib/dbReference'
 import { setPeekPrices } from '../../lib/appSetPeekPrices'
+import { setDailyPrices } from '../../lib/appSetDailyPrices'
+
 import { resetDataCache } from '../../lib/chartDataCache'
 import fire from '../../fire'
 
 const Wrapper = styled.section`
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto; 1fr 30px;
+  grid-template-rows: auto 1fr 30px;
   grid-template-areas:
-  'title'
-  'header'
-  'content'
-  'footer';
+    'title'
+    'header'
+    'content'
+    'footer';
 `
 const Background = styled.div.attrs({
   className: 'backgroundDollar',
@@ -91,27 +93,27 @@ const HR = styled.hr`
 `
 
 const LabelActionHeader = styled.label`
-    margin-top: 20px;
-    margin-left: 20px;
-    font-weight: 500;
-  `
+  margin-top: 20px;
+  margin-left: 20px;
+  font-weight: 500;
+`
 const InputActionHeader = styled.input`
-    // margin-left: 15px;
-    // margin-top: 8px;
-    padding: 1px 0;
-    height: 20px;
-    width: 24px;
-  `
+  // margin-left: 15px;
+  // margin-top: 8px;
+  padding: 1px 0;
+  height: 20px;
+  width: 24px;
+`
 const ActionDescHeader = styled.span`
-    margin-left: 10px;
-    margin-bottom: 8px;
-  `
+  margin-left: 10px;
+  margin-bottom: 8px;
+`
 
 class WelcomeTrader extends Component {
   //
   constructor(props) {
     super(props)
-    this.firstReference = props.firstReference
+    this.firstReference = props.firstReference //this prop is set by SignIn and StartUp only
     this.dispatch = props.dispatch
     this.state = {}
     // console.log(`WelcomeTrader: constructor, props.firstReference=${props.firstReference}`)
@@ -120,8 +122,12 @@ class WelcomeTrader extends Component {
   componentDidMount() {
     // console.log(`WelcomeTrader: componentDidMount, getReference=${getReference()}, props.firstReference=${props.firstReference}`)
     if (this.firstReference) {
-      this.sandboxChecked = process.env.NODE_ENV === 'development' ? true : false // by default development gets junk ohlc values to test the app, but free downloads (default is changeable by user) 
+      // a first time mount from signIn or startup
+      this.sandboxChecked = process.env.NODE_ENV === 'development' ? true : false // by default development gets junk ohlc values to test the app, but free downloads (default is changeable by user)
       setSandboxStatus(this.sandboxChecked) // set for reference in other modules such as Chartcell and reducePeekData.js
+
+      // setSandboxStatus(true) // TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
+
       this.setState({ loading: true, reference: this.firstReference, useSandbox: getSandboxStatus() })
       // load a portfolio from persistant state now, only for first-time mounting
       this.loadPortfolio(this.firstReference)
@@ -137,15 +143,15 @@ class WelcomeTrader extends Component {
     this.loadPortfolio(event.target.value)
   }
 
-  handleCheckboxChange = (e) => {
+  handleSandboxCheckboxChange = (e) => {
     const { name, checked } = e.target
     setSandboxStatus(checked) // set for reference in other modules such as reducePeekData.js
     this.setState({ [name]: checked })
   }
 
-
   loadPortfolio = (reference) => {
     try {
+      putReference(reference) // establish the reference for the new portfolio
       resetDataCache() // clear all previously cached charting data for fresh start
       let persistedState = null // receives the state loaded from database
       // console.log(`loadPortfolioData begin:, reference=${reference}`)
@@ -154,7 +160,7 @@ class WelcomeTrader extends Component {
         .database()
         .ref(reference) // see lib/dbReference.js for possible values
         .once('value')
-        .then(function (snapshot) {
+        .then(function(snapshot) {
           if (snapshot) {
             persistedState = snapshot.val()
             if (persistedState === null) {
@@ -165,14 +171,13 @@ class WelcomeTrader extends Component {
               // the saved data was recovered and can be used to set the app's state in memory
               that.props.dispatch(resetPersistedState(persistedState))
 
-              // Put the current peek prices into the LastPeekPrice cache for use later in ChartsView,
-              // this is an async operation that should be finished when accessed by ChartsView
               let currentState = that.props.state
-              setPeekPrices(currentState)
 
+              // These are async operations that should be finished when accessed by ChartsView
+              setPeekPrices(currentState) // Put the current peek prices into the LastPeekPrice cache for use later in ChartsView
+              setDailyPrices(currentState, that.props.dispatch) // Load the daily price data for the portfolio's symbols
             }
             // console.log(`AppLoadData DB finish:, reference=${reference}`)
-            putReference(reference) // establish the reference for the new portfolio
             document.title = 'AcesTrader ' + reference[0].toUpperCase() + reference.substr(1)
             that.setState({ loading: false, reference: reference }) //loading is finished, show the UI.
           } else {
@@ -238,12 +243,10 @@ class WelcomeTrader extends Component {
 
             <ControlGroup>
               <LabelActionHeader>
-                <InputActionHeader type='checkbox' name='useSandbox' checked={this.state.useSandbox} onChange={this.handleCheckboxChange} />
+                <InputActionHeader type='checkbox' name='useSandbox' checked={this.state.useSandbox} onChange={this.handleSandboxCheckboxChange} />
                 <ActionDescHeader>Use Sandbox</ActionDescHeader>
               </LabelActionHeader>
             </ControlGroup>
-
-
           </Content>
         </Wrapper>
       )
@@ -259,5 +262,13 @@ class WelcomeTrader extends Component {
 const mapStateToProps = (state) => ({
   state: state,
 })
+const mapDispatchToProps = (dispatch) => ({
+  dispatch: dispatch,
+})
 
-export default withRouter(connect(mapStateToProps)(WelcomeTrader))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(WelcomeTrader)
+)

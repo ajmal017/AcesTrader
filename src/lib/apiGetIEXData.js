@@ -3,7 +3,7 @@
 import axios from 'axios'
 import iexData from '../iex.json'
 
-export const getIEXData = async function (symbol, range, closeOnly, useSandbox = false) {
+export const getIEXData = async function(symbol, range, closeOnly, useSandbox = false) {
     const basehtml = useSandbox ? `${iexData.BasehtmlSandbox}` : `${iexData.BasehtmlCloud}`
     const version = iexData.Version
     const query = closeOnly ? 'chartCloseOnly=true' : 'filter=date,open,high,low,close,volume'
@@ -14,8 +14,7 @@ export const getIEXData = async function (symbol, range, closeOnly, useSandbox =
     // debugger // pause for developer
 
     try {
-        const request = axios
-            .get(`${basehtml}${version}/stock/${symbol}/chart/${range}?${query}&${token}`)
+        const request = axios.get(`${basehtml}${version}/stock/${symbol}/chart/${range}?${query}&${token}`)
         let res = await request
         let values = res.data
         let data = values.map((obj) => {
@@ -32,19 +31,18 @@ export const getIEXData = async function (symbol, range, closeOnly, useSandbox =
     }
 }
 
-
-    //     .then((res) => {
-    //         let values = res.data
-    //         let data = values.map((obj) => {
-    //             let date = obj.date
-    //             date = date + 'T15:00:00.000Z'
-    //             obj.date = new Date(date)
-    //             return obj
-    //         })
-    //         return data
-    //     })
-    //     .catch((error) => {
-    //         debugger // pause for developer
-    //         return error
-    //     })
-    // return request //let caller handle the promise's .then/.catch completion}
+//     .then((res) => {
+//         let values = res.data
+//         let data = values.map((obj) => {
+//             let date = obj.date
+//             date = date + 'T15:00:00.000Z'
+//             obj.date = new Date(date)
+//             return obj
+//         })
+//         return data
+//     })
+//     .catch((error) => {
+//         debugger // pause for developer
+//         return error
+//     })
+// return request //let caller handle the promise's .then/.catch completion}

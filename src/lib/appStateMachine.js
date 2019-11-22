@@ -1,5 +1,11 @@
 // appStateMachine.js
 
+// This code is used in both AcesTrader and AcesTester.
+// It's use in AcesTrader is to run the trading simulation up to the last bar
+// and report the resulting state for trading on the next open.
+// It's use in AcesTester is to run the simulation while doing pesudo trades
+// on each signal, tracking profit and loss to generate a report of trading results.
+
 import { getDailyPriceChart } from './appGetDailyPriceChart'
 import { putEquityChart } from './chartDataCache'
 import { getSmaTradingData } from './chartDataCache'
@@ -10,6 +16,7 @@ import { putTradeMarker, putLegendItem } from './chartDataCache'
 const ts1 = 'Early ma cross exit'
 const ts2 = 'Immediate exit'
 const ts6 = 'Revert to cash'
+
 // Stop codes returned from TrailingBuyStops()
 const ts3 = 'Revert to long'
 const ts4 = 'Early ma cross entry'
@@ -21,7 +28,7 @@ const CashAbove = 'Cash>SMA'
 const LongBelow = 'Long<SMA'
 const CashBelow = 'Cash<SMA'
 
-// Action codes
+// Action codes.
 const LongAboveLater = 'Buy above ma at interval end'
 const LongAboveNow = 'Buy above ma now, skipping interval period'
 const LongAboveRevert = 'Buy above ma now, reverting panic sell'
@@ -33,7 +40,7 @@ const CashBelowRevert = 'Sell below ma now, reverting urgent buy'
 const LongBelowNow = 'Urgent Buy below ma cross'
 const CashAboveNow = 'Urgent Sell above ma cross'
 
-const startValue = 10000 // all symbol positions are funded the same
+const startValue = 10000 // all symbol positions are funded with the same initial value
 
 let state
 let symbol
@@ -65,7 +72,7 @@ export const stateMachine = (theState, theSymbol) => {
     // run as Buy & Hold, no trading done, portfolio value is equal to a position of one share
     putEquityChart(symbol, data) // rawEquityChart data array
     setStaleCharts(false)
-    return { positionValues: data, nextState: null }//data is the finished positionValues array
+    return { positionValues: data, nextState: null } //data is the finished positionValues array
   }
 
   // record the daily positionValue at the close and get a trading signal based on the close
@@ -92,10 +99,7 @@ export const stateMachine = (theState, theSymbol) => {
       }
     } else {
       // let testDate2 = `${date.getFullYear()} ${date.getMonth() + 1} ${date.getDate()}`
-      // if (testDate2 === '2019 7 29') {
-      //   debugger
-      // }
-      // if (testDate2 === '2019 5 30' && symbol === 'AMZN') {
+      // if (testDate2 === '2019 8 21') {
       //   debugger
       // }
 
@@ -111,7 +115,6 @@ export const stateMachine = (theState, theSymbol) => {
 
     // get the NextState based on today's close and the currentState
     setNextState(state, ma, close, currentState)
-
   } //<--loop back for the next bar
 
   // Finished processing the daily position values
@@ -124,20 +127,20 @@ export const stateMachine = (theState, theSymbol) => {
   // which was set by the processing of the prior bar by setNextState(). This processing
   // determines if a buy or sell is made on the bar's open price. But in AcesTrader we
   // don't have the next bar at the end of the last day's chart prices. But we can fake
-  // a next day bar with the information needed for doCurrentAction() to determine the 
+  // a next day bar with the information needed for doCurrentAction() to determine the
   // next day's currentState value, which tells us what action to do tomorrow.
   // This result is passed back to the caller in AcesTrader to set the State property
   // in the symbol's dashboard. The only result from this call to doCurrentAction()
   // that is important is the value of 'currentState' placed in the returned object.
   // Any caller from AcesTester ignores the second property in the returned object.
 
-  const date = data[data.length - 1].date
-  const open = data[data.length - 1].open
-  const close = data[data.length - 1].close
-  const fakeYesterday = date.getDay() // a fake yesterday date for this use of doCurrentAction() at this exit.
-  const fakeTodayDate = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000)
+  const fakeDate = data[data.length - 1].date //fakes are created from the last bar in the time series
+  const fakeOpen = data[data.length - 1].open
+  const fakeClose = data[data.length - 1].close
+  const fakeYesterday = fakeDate.getDay() // a fake yesterday date for this use of doCurrentAction() at this exit.
+  const fakeTodayDate = new Date(fakeDate.getTime() + 1 * 24 * 60 * 60 * 1000) //the fake day for which the signal is generated
 
-  doCurrentAction(state, fakeTodayDate, fakeYesterday, open, close, nextState) // this sets the currentState of the asset for the next day
+  doCurrentAction(state, fakeTodayDate, fakeYesterday, fakeOpen, fakeClose, nextState) // this sets the currentState of the asset for the next day
 
   return { positionValues: positionValues, currentState: currentState } //the finished positionValues array and the currentState for this symbol
 }
@@ -286,7 +289,7 @@ const doCurrentAction = (state, date, yesterday, open, close, nextState) => {
           positionValue = Math.trunc(positionSize * close) // today's positionValue is based on the close price
           TrailingSellStops(state, close, basis) //set the trailing sell stop basis
           currentState = LongAbove
-          let intervalCode = state.SMA === 'M' ? 'L1' : 'L2'  // deprecated 'L2' is for Weekly interval 
+          let intervalCode = state.SMA === 'M' ? 'L1' : 'L2' // deprecated 'L2' is for Weekly interval
           tradeMarker(symbol, date, intervalCode) // sma cross Long at fixed interval
         }
       }

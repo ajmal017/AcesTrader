@@ -19,7 +19,7 @@ import { removeShortFromList } from '../../../redux/reducerShorts'
 import { removeTrendLongFromList } from '../../../redux/reducerTrendLongs'
 import { addResultToList } from '../../../redux/reducerResults'
 // import { addEnterPrice, addExitPrice } from '../../../redux/thunkEditListObjects'
-import buildSmaTradingArray from '../../../lib/appBuildSmaTradingArray'
+// import buildSmaTradingArray from '../../../lib/appBuildSmaTradingArray'
 import { getSymbolPriceData } from '../../../lib/appGetSymbolPriceData'
 import { cleanSymbolData } from '../../../lib/appCleanSymbolData'
 // import getChartLastBar from '../../../lib/apiGetChartLastBar'
@@ -28,10 +28,14 @@ import CandleStickChartWithMACD from '../CandleStickChartWithMACD'
 import ChartDashboard from '../ChartDashboard'
 import DialogChartCellForm from './DialogChartCellForm'
 import { putDailyPriceData, getDailyPriceData, putWeeklyPriceData, getWeeklyPriceData } from '../../../lib/chartDataCache'
+import { getSma50Data, getSma200Data } from '../../../lib/chartDataCache'
 import buildSma200Array from '../../../lib/appBuildSma200Array'
+import buildSma50Array from '../../../lib/appBuildSma50Array'
 import buildSma40Array from '../../../lib/appBuildSma40Array'
 import buildLast20Closes from '../../../lib/appBuildLast20Closes'
-import { getSandboxStatus } from '../../../lib/appUseSandboxStatus'
+import buildLast20Highs from '../../../lib/appBuildLast20Highs'
+import buildLast20Lows from '../../../lib/appBuildLast20Lows'
+import { putSmaTradingData } from '../../../lib/chartDataCache'
 import { putChartFlags, getChartFlags } from '../../../lib/chartDataCache'
 // import { initSma, addSmaPrice, getSmaArray } from '../../../lib/appMovingAverage'
 import { editListObjectPrarmeters } from '../../../redux/thunkEditListObjects'
@@ -42,6 +46,7 @@ import { addBuysToList } from '../../../redux/reducerBuys'
 import { addSellstoList } from '../../../redux/reducerSells'
 import { addTrendBuysToList } from '../../../redux/reducerTrendBuys'
 import { addWatchPriceAndIssueType } from '../../../redux/thunkEditListObjects'
+// import { setSandboxStatus, getSandboxStatus } from '../../../lib/appUseSandboxStatus'
 import './styles.css'
 
 const MINIMUMWEEKLYBARS = 3 // NOTE this magic number is defined in 2 locations, keep in sync
@@ -62,16 +67,17 @@ class Chartcell extends Component {
     this.chartFlags = { validShortSma: false, validLongSma: false, weeklyBarCount: MINIMUMWEEKLYBARS - 1 } // default values
     this.validShortSma = false // ShortSma usually at 50 days. Assume not enough chart data exists
     this.validLongSma = false // LongSma usually at 200 days. Assume not enough chart data exists
-    this.weeklyBarCount = MINIMUMWEEKLYBARS - 1// There's a CandleStickChart bug for short length bars. Assume not enough chart data exists
+    this.weeklyBarCount = MINIMUMWEEKLYBARS - 1 // There's a CandleStickChart bug for short length bars. Assume not enough chart data exists
 
     // // ****************************************************
-    // this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads. 
+    // this.useSandbox = process.env.NODE_ENV === 'development' ? true : false // development gets junk ohlc values to test the app, but free downloads.
     // // this.useSandbox = false // Override to false to test with real ohlc values, but usage rates apply
     // // ****************************************************
     // setSandboxStatus(this.useSandbox) // set for reference in other modules such as reducePeekData.js
     // // ****************************************************
+    // setSandboxStatus(true) // TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
 
-    this.useSandbox = getSandboxStatus()
+    // this.useSandbox = getSandboxStatus()
     this.data = null
     this.dispatch = this.props.dispatch
     this.state = {
@@ -110,47 +116,34 @@ class Chartcell extends Component {
   // dailyBars considered true if weeklyBars===false
   loadChartData = () => {
     const symbol = this.props.cellObject.symbol
-    // const weeklyBars = this.props.cellObject.weeklyBars
+    const weeklyBars = this.props.cellObject.weeklyBars
     // this.range = weeklyBars ? '2y' : '1y' // New for IEX Cloud data to save money
-    this.range = '1y' // New standard small range for IEX Cloud data to save money
+    //this.range = '1y' // This is spec'ed in iex.json // Always use the small range from IEX Cloud data to save money
     const self = this
-    // console.log(`getSymbolPriceData ${symbol}, range=${this.range}, closeOnly=${this.closeOnly}, useSandbox=${this.useSandbox}`)
-    getSymbolPriceData(symbol, this.range, this.closeOnly, this.useSandbox)
-      .then(function (data) {
-
+    getSymbolPriceData(symbol, this.props.state, this.props.dispatch)
+      .then(function(data) {
         if (!data || data === undefined || data === null) {
           debugger // pause for developer
           self.setState({ iexData: 3, noprices: true, hide: false })
         }
-
         if (data.length < 2) {
           //a CandleStickChartWithMA bug seen with new issue "TRTY" when only 1 day's data available
           //a Memory leak reported by VSCode, seems to cause many weird code mistakes when running
           alert(`The symbol ${symbol} does not have enough price history to chart. Please remove it and reload the program.`)
           debugger // pause for developer
         } else {
-
           data = cleanSymbolData(data) // handle case of price data with OHLC zero values (i.e. CCOR)
           putDailyPriceData(symbol, data) //cache the daily price data for retrieval before rendering
-
-          // Get the short term crossover trading sma period as defined by user
-          let shortSmaPeriod = self.props.cellObject.dashboard.tradeSma
-
-          // Create the short term crossover trading sma for this symbol and cache it
-          if (data.length > shortSmaPeriod) {
-            buildSmaTradingArray(symbol, data, shortSmaPeriod)
-            self.validShortSma = true
-          } else {
-            // Assumed to be a newly listed security, without enough days
-            // for the normal SmaTradingArray to be built.
-            self.validShortSma = false
-          }
 
           const weeklyPriceData = self.convertToWeeklyBars(data)
           putWeeklyPriceData(symbol, weeklyPriceData) //cache the weekly price data for retrieval before rendering
           self.weeklyBarCount = weeklyPriceData.length // prevents user from requesting weekly chart if insufficient bars
 
+          // Get the short term crossover trading sma period as defined by user
+          // let shortSmaPeriod = 50 // overrides the default 50 of self.props.cellObject.dashboard.tradeSma
+          // let longSmaPeriod = 200 // equilvalent to 10 months, allows 40 bar Sma of weekly chart to be built
 
+          // Create the crossover trading sma for this symbol and cache it
           if (data.length > 200) {
             // Cache the sma200 values from the daily prices for subsequent use in trading alerts
             // Cache the sma40 values from the weekly prices for subsequent use in trend trading alerts
@@ -160,12 +153,29 @@ class Chartcell extends Component {
           } else {
             self.validLongSma = false
           }
+          if (data.length > 50) {
+            // Cache the sma50 values from the daily prices for subsequent use in trading alerts
+            buildSma50Array(symbol, data) // this includes saving the result (by symbol) in chartDataCache
+            self.validShortSma = true
+          } else {
+            self.validShortSma = false
+          }
+          // Get the crossover trading sma periods as defined by the chart configuration
+          if (weeklyBars && self.validLongSma) {
+            putSmaTradingData(symbol, getSma200Data(symbol)) //cache the smaTrading data for subsequent use for chart alerts
+          } else if (self.validShortSma) {
+            putSmaTradingData(symbol, getSma50Data(symbol)) //cache the smaTrading data for subsequent use for chart alerts
+          }
 
           if (data.length > 20) {
             // Get the last 20 close prices and dates from the daily data
             // for subsequent use in trailingStopBasis adjustments
             // if you missed running the app for a few days
             buildLast20Closes(symbol, data)
+            // Get the last 20 high/low prices and dates from the daily data
+            // for possible use in the bars intervals test
+            buildLast20Highs(symbol, data)
+            buildLast20Lows(symbol, data)
           }
 
           putChartFlags(symbol, { validShortSma: self.validShortSma, validLongSma: self.validLongSma, weeklyBarCount: self.weeklyBarCount })
@@ -173,7 +183,7 @@ class Chartcell extends Component {
           self.setState({ iexData: 1, noprices: false, hide: false }) //triggers render using the cached data
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log('getSymbolPriceData axios error:', error.message)
         // self.setState({ iexData: 4, noprices: true, hide: false })
         alert('getSymbolPriceData axios error: ' + error.message) //rude interruption to user
@@ -224,7 +234,7 @@ class Chartcell extends Component {
   }
 
   addSymbolToProspects = async (symbol, tradeSide) => {
-    // Called when a symbol is moved fron Positions to Trades to re-list it in Prospects 
+    // Called when a symbol is moved fron Positions to Trades to re-list it in Prospects
 
     // Create a symbolDataObject for later use by redux thunk "addWatchPriceAndIssueType"
     const theCellObject = this.props.cellObject //the target object originating the dispatch actions
@@ -292,21 +302,21 @@ class Chartcell extends Component {
       case 'LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         // this.props.dispatch(addExitPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
-        this.addSymbolToProspects(this.symbol, 'BUYS') // call thunk to re-list symbol in Prospects 
+        this.addSymbolToProspects(this.symbol, 'BUYS') // call thunk to re-list symbol in Prospects
         this.props.dispatch(removeLongFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       case 'SHORTS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         // this.props.dispatch(addExitPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
-        this.addSymbolToProspects(this.symbol, 'SHORT SALES') // call thunk to re-list symbol in Prospects 
+        this.addSymbolToProspects(this.symbol, 'SHORT SALES') // call thunk to re-list symbol in Prospects
         this.props.dispatch(removeShortFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
       case 'TREND LONGS': {
         this.props.dispatch(addResultToList(theCellObject, exitedPrice))
         // this.props.dispatch(addExitPrice(this.hash)) //leave as 'pending' until brokerage api interface is enabled
-        this.addSymbolToProspects(this.symbol, 'TREND BUYS') // call thunk to re-list symbol in Prospects 
+        this.addSymbolToProspects(this.symbol, 'TREND BUYS') // call thunk to re-list symbol in Prospects
         this.props.dispatch(removeTrendLongFromList(this.symbol, this.hash)) // this action changes "this" to reference the following object
         break
       }
@@ -390,39 +400,46 @@ class Chartcell extends Component {
                   <h4>{`Loading Chart ${chart_name}. Please Wait...`}</h4>
                 </div>
               ) : (
-                    <ErrorBoundary chart={true}>
-                      {/* Catch the random D3 errors here, but don't abort. Continue on (with possible bad chart?!) */}
-                      {/* Note: this problem has apparently been fixed by changing the stockchart's defaultProps */}
-                      {/* to type:'svg' from type:'hybrid'. I think the errors came from operations on the html canvas. */}
+                <ErrorBoundary chart={true}>
+                  {/* Catch the random D3 errors here, but don't abort. Continue on (with possible bad chart?!) */}
+                  {/* Note: this problem has apparently been fixed by changing the stockchart's defaultProps */}
+                  {/* to type:'svg' from type:'hybrid'. I think the errors came from operations on the html canvas. */}
 
-                      {this.props.cellObject.macdChart ? (
-                        <CandleStickChartWithMACD
-                          chartId={chartId}
-                          data={this.data}
-                          symbol={chart_name}
-                          // {/* dailyBarsOnly={this.dailyBarsOnly} */}
-                          validShortSma={this.validShortSma}
-                          validLongSma={this.validLongSma}
-                          weekly={!this.validShortSma ? false : this.props.cellObject.weeklyBars ? true : false}
-                          errorCount={this.props.errorCount}
-                        />
-                      ) : (
-                          <CandleStickChartWithMA
-                            chartId={chartId}
-                            data={this.data}
-                            symbol={chart_name}
-                            // {/* dailyBarsOnly={this.dailyBarsOnly} */}
-                            validShortSma={this.validShortSma}
-                            validLongSma={this.validLongSma}
-                            weekly={!this.validShortSma ? false : this.props.cellObject.weeklyBars ? true : false}
-                            errorCount={this.props.errorCount}
-                          />
-                        )}
-                    </ErrorBoundary>
+                  {this.props.cellObject.macdChart ? (
+                    <CandleStickChartWithMACD
+                      chartId={chartId}
+                      data={this.data}
+                      symbol={chart_name}
+                      // {/* dailyBarsOnly={this.dailyBarsOnly} */}
+                      validShortSma={this.validShortSma}
+                      validLongSma={this.validLongSma}
+                      weekly={!this.validShortSma ? false : this.props.cellObject.weeklyBars ? true : false}
+                      errorCount={this.props.errorCount}
+                    />
+                  ) : (
+                    <CandleStickChartWithMA
+                      chartId={chartId}
+                      data={this.data}
+                      symbol={chart_name}
+                      // {/* dailyBarsOnly={this.dailyBarsOnly} */}
+                      validShortSma={this.validShortSma}
+                      validLongSma={this.validLongSma}
+                      weekly={!this.validShortSma ? false : this.props.cellObject.weeklyBars ? true : false}
+                      errorCount={this.props.errorCount}
+                    />
                   )}
+                </ErrorBoundary>
+              )}
             </div>
             <div className='dashboard-center'>
-              <ChartDashboard handleOrderEntry={this.handleOrderEntry} cellObject={cellObject} iexData={this.state.iexData} useSandbox={this.useSandbox} validShortSma={this.validShortSma} validLongSma={this.validLongSma} />
+              <ChartDashboard
+                handleOrderEntry={this.handleOrderEntry}
+                cellObject={cellObject}
+                iexData={this.state.iexData}
+                useSandbox={false} //{this.useSandbox}
+                validShortSma={this.validShortSma}
+                validLongSma={this.validLongSma}
+              />
             </div>
           </div>
         </div>
@@ -439,4 +456,10 @@ Chartcell.propTypes = {
 const mapStateToProps = (state) => ({
   state: state,
 })
-export default connect(mapStateToProps)(Chartcell)
+const mapDispatchToProps = (dispatch) => ({
+  dispatch: dispatch,
+})
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Chartcell)
