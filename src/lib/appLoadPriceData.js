@@ -3,8 +3,8 @@
 import axios from 'axios'
 import iexData from '../iex.json'
 import { getSandboxStatus } from '../lib/appUseSandboxStatus'
-// import replaceNornalPricedata from '../redux/reducerNormalPriceData'
-// import replaceSandboxPricedata from '../redux/reducerSandboxPriceData'
+import endOfToday from 'date-fns/endOfToday'
+import addHours from 'date-fns/addHours'
 var cloneDeep = require('lodash.clonedeep')
 
 export const loadPriceData = async function(state, dispatch, symbols, options) {
@@ -18,8 +18,8 @@ export const loadPriceData = async function(state, dispatch, symbols, options) {
       pricedata = getSandboxStatus() ? cloneDeep(state.sandboxpricedata) : cloneDeep(state.normalpricedata) // copy existing pricdata object
     } else {
       pricedata = {} // Create a new pricedata object to hold symbol price data
-      const date = new Date() // today's date
-      const newMetaData = date // prepare a metaData property value with today's date
+      let newMetaData = endOfToday() // If today is 6 October 2014: endOfToday= Mon Oct 6 2014 23:59:59.999
+      newMetaData = addHours(new Date(newMetaData), -6) // adjust time to account for Firebase shifting to Z time, new time= Mon Oct 6 2014 17:59:59.999
       pricedata = { metaKey: newMetaData } // initialize the pricedata metaData property with its key value initialized with today's date
     }
     if (symbols.length > 0) {

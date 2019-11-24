@@ -23,7 +23,7 @@ class App extends Component {
     this.state = { loading: true, authenticated: false, user: null, store: null }
   }
 
-  async clearChartPrices() {
+  async clearIEXLogs() {
     // This is used with special login which triggers this request
     alert('Clearing chart prices is not available yet with new cache in app state')
     await clearLocalDatabase() // initialize local database
@@ -41,7 +41,7 @@ class App extends Component {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
         if (user.email === 'zzzz@g.com') {
-          this.clearChartPrices()
+          this.clearIEXLogs()
         }
 
         this.setState({

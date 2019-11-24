@@ -3,30 +3,31 @@
 import iexData from '../iex.json'
 import axios from 'axios'
 
-export const getSymbolCompanyData = function (symbolList) {
-    const version = iexData.Version
-    const token = `token=${iexData.PublishableToken}`
-    const basehtml = iexData.BasehtmlCloud
+export const getSymbolCompanyData = function(symbolList) {
+  const version = iexData.Version
+  const token = `token=${iexData.PublishableToken}`
+  const basehtml = iexData.BasehtmlCloud
 
-    let promiseArray = symbolList.map((symbol, i) => {
-        return axios({ method: 'get', timeout: 2000, url: `${basehtml}${version}/stock/${symbol}/company?${token}` })
+  let promiseArray = symbolList.map((symbol, i) => {
+    return axios({ method: 'get', timeout: 2000, url: `${basehtml}${version}/stock/${symbol}/company?${token}` })
+  })
+
+  // console.log(`### appGetSymbolCompanyData ###`)
+  // debugger // pause for developer
+
+  console.log(`IEX getSymbolCompanyData`) // BCM IEX
+  return axios
+    .all(promiseArray)
+    .then(function(arr) {
+      return {
+        arr,
+      }
     })
-
-    // console.log(`### appGetSymbolCompanyData ###`)
-    // debugger // pause for developer
-
-    return axios
-        .all(promiseArray)
-        .then(function (arr) {
-            return {
-                arr,
-            }
-        })
-        .catch(function (error) {
-            return {
-                error: error,
-            }
-        })
+    .catch(function(error) {
+      return {
+        error: error,
+      }
+    })
 }
 
 // Below is the original code from the example of promise.all,
