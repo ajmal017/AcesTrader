@@ -56,7 +56,9 @@ export const BuildPseudoBar = (props) => {
     let numberOfBatches = Math.ceil(symbols.length / BATCH_SIZE)
     for (let i = 0; i < numberOfBatches; i++) {
       let symbolsBatch = symbols.slice(i * BATCH_SIZE, (i + 1) * BATCH_SIZE)
+      debugger // BCM
       await makeBatchOfPseudoBars(symbolsBatch) // the pseudo bars are put in allPseudoBars indexed by symbol
+      debugger // BCM
     }
   }
 
@@ -138,24 +140,6 @@ export const BuildPseudoBar = (props) => {
   }
 
   const buildPseudoBars = async () => {
-    // const daysOld = setDailyPrices(state, dispatch) //this returns the daysOld number since data exists at this stage
-    // // const daysOld = await setTheLocalDatabase(date)
-    // if (theDay === 6 || theDay === 0) {
-    //   // Today is Saturday or Sunday, all price series have correct last trading day bar
-    //   errorMessage = 'Today is a weekend, all price series have correct last day trading bar'
-    //   setDataReady({ loading: false, error: errorMessage })
-    // } else if (theHour < 10) {
-    //   // The market is just open at 9:30, we only append pseudo bars after 10
-    //   errorMessage = 'Too early, delayed quotes are used to build pseudo bars half-hour after market open'
-    //   setDataReady({ loading: false, error: errorMessage })
-    // } else if (daysOld === -1) {
-    //   errorMessage = 'The cache of symbol price data is empty, load the charts first.'
-    //   setDataReady({ loading: false, error: errorMessage })
-    // } else {
-    //   // Create fake error to test error handling
-    //   // errorMessage = 'The cache of symbol price data is empty, FAKE FAKE.'
-    //   // setDataReady({ loading: false, error: errorMessage })
-
     // We need to create an array of symbols of the securities in the local data base cache
     const allKeys = Object.keys(pricedata) // get the keys (symbols) of the pricedata object
     // remove the MetaKey
@@ -169,16 +153,19 @@ export const BuildPseudoBar = (props) => {
     })
 
     let symbols = extractedSymbols.filter((element, index) => extractedSymbols.indexOf(element) === index) // remove dups if same symbol was present with different symbolKey suffixes
+    debugger // BCM
 
     if (symbols.length === 0) {
       errorMessage = 'The cache of symbol price data is empty, load the charts first.'
       setDataReady({ loading: false, error: errorMessage })
     } else {
       await makePseudoBars(symbols) // use the extracted barebones symbols for IEX queries
+      debugger // BCM
       // add pseudo end-of-day bar to each symbol's price series
       symbolKeys.forEach(async (symbolKey) => {
         await appendPseudoBar(symbolKey)
       })
+      debugger // BCM
       if (!errorMessage) {
         // finished with no error
         if (getSandboxStatus()) {
