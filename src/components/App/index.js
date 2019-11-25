@@ -5,7 +5,6 @@ import { applyMiddleware, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import { firebaseSaveState } from '../../lib/firebaseSaveState'
 import rootReducer from '../../redux'
-import ErrorBoundary from '../../components/ErrorBoundary/'
 import Root from '../../components/Root'
 import fire from '../../fire'
 import firebase from 'firebase/app'
@@ -106,11 +105,9 @@ class App extends Component {
     }
 
     return (
-      <ErrorBoundary>
-        <AuthenticatedContext.Provider value={currentUser}>
-          <Root store={store} authenticated={authenticated} /> {/* shows Navbar */}
-        </AuthenticatedContext.Provider>
-      </ErrorBoundary>
+      <AuthenticatedContext.Provider value={currentUser}>
+        <Root store={store} authenticated={authenticated} /> {/* shows Navbar */}
+      </AuthenticatedContext.Provider>
     )
   }
 }
