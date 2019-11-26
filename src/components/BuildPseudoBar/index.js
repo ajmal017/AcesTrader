@@ -79,7 +79,7 @@ export const BuildPseudoBar = (props) => {
     // 15 minute delayed prices are from all markets using the Consolidated Tape.
     // NOTE: This will not include pre or post market prices.
     try {
-      console.log(`IEX BuildPseudoBar`) // BCM IEX
+      // console.log(`IEX BuildPseudoBar`) // BCM IEX
       const request = axios.get(`${basehtml}${version}/stock/market/batch?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}&${token}`)
       let res = await request
       let values = res.data
