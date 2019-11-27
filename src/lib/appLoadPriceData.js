@@ -15,11 +15,11 @@ export const loadPriceData = async function(state, dispatch, symbols, options) {
     const useSandbox = getSandboxStatus()
     const { updateExisting } = options
     if (updateExisting) {
-      pricedata = getSandboxStatus() ? cloneDeep(state.sandboxpricedata) : cloneDeep(state.normalpricedata) // copy existing pricdata object
+      pricedata = useSandbox ? cloneDeep(state.sandboxpricedata) : cloneDeep(state.normalpricedata) // copy existing pricdata object
     } else {
       pricedata = {} // Create a new pricedata object to hold symbol price data
-      let newMetaData = endOfToday() // If today is 6 October 2014: endOfToday= Mon Oct 6 2014 23:59:59.999
-      newMetaData = addHours(new Date(newMetaData), -6) // adjust time to account for Firebase shifting to Z time, new time= Mon Oct 6 2014 17:59:59.999
+      let newMetaData = endOfToday() // If today is 6 October 2014: endOfToday= Mon Oct 6 2014 23:59:59.999 (this is a problem for calculating day's difference)
+      newMetaData = addHours(new Date(newMetaData), -6) //subtract 6 hours to account for Firebase shifting to Z time, new date = today at Eastern 17:59:59.999
       pricedata = { metaKey: newMetaData } // initialize the pricedata metaData property with its key value initialized with today's date
     }
     if (symbols.length > 0) {
