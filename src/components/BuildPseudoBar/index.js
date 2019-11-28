@@ -81,9 +81,7 @@ export const BuildPseudoBar = (props) => {
         let numberOfBatches = Math.ceil(symbols.length / BATCH_SIZE)
         for (let i = 0; i < numberOfBatches; i++) {
           let symbolsBatch = symbols.slice(i * BATCH_SIZE, (i + 1) * BATCH_SIZE)
-          debugger // BCM
           await makeBatchOfPseudoBars(symbolsBatch) // the pseudo bars are put in allPseudoBars indexed by symbol
-          debugger // BCM
         }
       }
 
@@ -182,7 +180,8 @@ export const BuildPseudoBar = (props) => {
       alert('BuildPseudoBar error: ' + error.message) //rude interruption to user
       debugger // pause for developer
     }
-  }, [])
+    // }, ['allPseudoBars', 'dispatch', 'error.message', 'errorMessage', 'pricedata', 'pseudoDate', 'symbolKeys', 'symbols'])
+  })
 
   const { loading, error } = dataReady
   const divStyle = { marginTop: 80, marginLeft: 50 }
