@@ -15,7 +15,7 @@ export const getSymbolCompanyData = function(symbolList) {
   // console.log(`### appGetSymbolCompanyData ###`)
   // debugger // pause for developer
 
-  console.log(`IEX getSymbolCompanyData`) // BCM IEX
+  // console.log(`IEX getSymbolCompanyData`) // BCM IEX
   return axios
     .all(promiseArray)
     .then(function(arr) {

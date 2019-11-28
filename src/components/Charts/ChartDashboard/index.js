@@ -452,7 +452,7 @@ class ChartDashboard extends Component {
             <input className={'lastTradeSmaPrice'} readOnly type='text' name='lastTradeSma' value={this.lastTradeSma} />
             <br />
 
-            {/* The content below is removed until online access to broker trading API enabled. */}
+            {/* The content below is disabled by false condition until online access to broker trading API enabled. */}
             {this.context && this.context.email === 'xxxxxxx@g.com' ? (
               <>
                 <label htmlFor='instruction'>Order</label>

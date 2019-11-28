@@ -18,7 +18,7 @@ export const loadWatchedPrices = async function(symbols) {
 
   try {
     resetWatchedPrices() //reset the list of prices for use in Charts dashboards
-    console.log(`loadWatchedPrices`) // BCM IEX
+    // console.log(`loadWatchedPrices`) // BCM IEX
     const request = axios.get(`${basehtml}${version}/stock/market/batch?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}&${token}`)
     let res = await request
     let values = res.data

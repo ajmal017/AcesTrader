@@ -26,7 +26,7 @@ export const setPeekPrices = async (state) => {
     try {
       const filters = ['latestPrice', 'change', 'changePercent', 'marketCap']
       const requestURL = `${basehtml}${version}/stock/market/batch?types=quote&symbols=${symbols.join(',')}&filter=${filters.join(',')}&${token}`
-      console.log(`IEX setPeekPrices`) // BCM IEX
+      // console.log(`IEX setPeekPrices`) // BCM IEX
       const request = axios.get(requestURL)
       let res = await request
       let values = res.data

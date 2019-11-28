@@ -14,7 +14,7 @@ export const getIEXData = async function(symbol, range, closeOnly, useSandbox = 
   // debugger // pause for developer
 
   try {
-    console.log(`IEX getIEXData`) // BCM IEX
+    // console.log(`IEX getIEXData`) // BCM IEX
     const request = axios.get(`${basehtml}${version}/stock/${symbol}/chart/${range}?${query}&${token}`)
     let res = await request
     let values = res.data
