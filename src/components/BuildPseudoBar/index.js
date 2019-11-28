@@ -57,7 +57,7 @@ export const BuildPseudoBar = (props) => {
     } while (/-/.test(thePossibleSymbol) === true) //another suffix remains
     return result[1] // the extracted barebones symbol.
   }
-  // get the bare bones symbols
+  // remove suffixes to get the bare bones symbols
   const extractedSymbols = symbolKeys.map((symbolKey) => {
     return extractSymbolFromSymbolKey(symbolKey)
   })
