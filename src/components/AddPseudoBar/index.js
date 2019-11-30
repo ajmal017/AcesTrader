@@ -19,6 +19,7 @@ class AddPseudoBar extends Component {
   componentDidMount() {
     buildPseudoBar(this.props.state, this.props.dispatch).then(
       (errorMessage) => {
+        // note that if buildPseudoBar is successful, errorMessage is null so loading=false allows render of WelcomeTrader
         this.setState({ loading: false, error: errorMessage })
       },
       (error) => {
