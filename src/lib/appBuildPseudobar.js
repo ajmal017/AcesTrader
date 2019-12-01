@@ -4,6 +4,8 @@ import axios from 'axios'
 import iexData from '../iex.json'
 import { setDailyPrices } from './appSetDailyPrices'
 import { getSandboxStatus } from './appUseSandboxStatus'
+import replaceSandboxPricedata from '../redux/reducerSandboxPriceData'
+import replaceNormalPricedata from '../redux/reducerNormalPriceData'
 var cloneDeep = require('lodash.clonedeep')
 
 export const buildPseudoBar = async (state, dispatch) => {
@@ -26,16 +28,13 @@ export const buildPseudoBar = async (state, dispatch) => {
   if (theDay === 6 || theDay === 0) {
     // Today is Saturday or Sunday, all price series have correct last trading day bar
     errorMessage = 'Today is a weekend, all price series have correct last day trading bar'
-    // setDataReady({ loading: false, error: errorMessage })
     return errorMessage //<===EXIT===
   } else if (theHour < 10) {
     // The market is just open at 9:30, we only append pseudo bars after 10
     errorMessage = 'Too early, delayed quotes are used to build pseudo bars half-hour after market open'
-    // setDataReady({ loading: false, error: errorMessage })
     return errorMessage //<===EXIT===
   } else if (daysOld === -1) {
     errorMessage = 'The cache of symbol price data is empty, load the charts first.'
-    // setDataReady({ loading: false, error: errorMessage })
     return errorMessage //<===EXIT===
   }
 
@@ -66,27 +65,8 @@ export const buildPseudoBar = async (state, dispatch) => {
   let symbols = extractedSymbols.filter((element, index) => extractedSymbols.indexOf(element) === index) // remove dups if same symbol was present with different symbolKey suffixes
   if (symbols.length === 0) {
     errorMessage = 'The cache of symbol price data is empty, load the charts first.'
-    // setDataReady({ loading: false, error: errorMessage })
     return errorMessage //<===EXIT===
   }
-
-  // const extractedSymbols = symbolKeys.map((symbolKey) => {
-  //   // remove suffixes to get the bare bones symbol
-  //   return extractSymbolFromSymbolKey(symbolKey)
-  // })
-
-  // let symbols = extractedSymbols.filter((element, index) => extractedSymbols.indexOf(element) === index) // remove dups if same symbol was present with different symbolKey suffixes
-  // if (symbols.length === 0) {
-  //   errorMessage = 'The cache of symbol price data is empty, load the charts first.'
-  //   // setDataReady({ loading: false, error: errorMessage })
-  //   return errorMessage
-  // }
-
-  // const handleClick = (event) => {
-  //   event.preventDefault()
-  //   errorMessage = null
-  //   setDataReady({ loading: false, error: errorMessage })
-  // }
 
   const makePseudoBars = async (symbols) => {
     // This function returns after having filled the allPseudoBars indexed objectwith a pseudoBar for each symbol
@@ -142,44 +122,18 @@ export const buildPseudoBar = async (state, dispatch) => {
     const symbol = extractSymbolFromSymbolKey(symbolKey)
     const pseudoBar = allPseudoBars[symbol] // the symbol's pseudobar obj
     const symbolData = pricedata[symbolKey] // the price series array from the state pricedata object
-
     let currentLastBar = symbolData[symbolData.length - 1]
-
     // Hack to workaround leftover bad bar. This problem discovered Monday 5/20/19, after weekend of testing AddPseudoBar
     if (currentLastBar === undefined) {
       symbolData.pop() // undefined array element result of testing AddPseudoBar?
       currentLastBar = symbolData[symbolData.length - 1] // get the new last bar
     }
-
     if (currentLastBar.pseudoBar) {
       symbolData.pop() // remove the last created pseudoBar
     }
     symbolData.push(pseudoBar) // add the newly created pseudoBar
     pricedata[symbolKey] = symbolData // update the modified price series in the state
   }
-
-  // buildPseudoBars() // Run the function
-
-  // const { loading, error } = dataReady
-  // const divStyle = { marginTop: 80, marginLeft: 50 }
-  // if (loading) {
-  //   return (
-  //     <div style={divStyle}>
-  //       <h4>{'Working, please wait...'}</h4>
-  //     </div>
-  //   )
-  // }
-  // if (error) {
-  //   return (
-  //     <div style={divStyle}>
-  //       <h4>{`${error}`}</h4>
-  //       <p>
-  //         <button onClick={handleClick}> OK </button>
-  //       </p>
-  //     </div>
-  //   )
-  // }
-  // return <WelcomeTrader /> // exit to welcome screen
 
   await makePseudoBars(symbols) // use the extracted barebones symbols for IEX queries
   // add pseudo end-of-day bar to each symbol's price series
@@ -189,21 +143,19 @@ export const buildPseudoBar = async (state, dispatch) => {
   if (!errorMessage) {
     // finished without error
     if (getSandboxStatus()) {
-      // dispatch(replaceSandboxPricedata(pricedata))
-      dispatch({
-        type: 'REPLACE_SANDBOX_PRICEDATA',
-        pricedata: pricedata,
-      })
+      dispatch(replaceSandboxPricedata(pricedata))
+      // dispatch({
+      //   type: 'REPLACE_SANDBOX_PRICEDATA',
+      //   pricedata: pricedata,
+      // })
     } else {
-      // dispatch(replaceNornalPricedata(pricedata))
-      dispatch({
-        type: 'REPLACE_NORMAL_PRICEDATA',
-        pricedata: pricedata,
-      })
+      dispatch(replaceNormalPricedata(pricedata))
+      // dispatch({
+      //   type: 'REPLACE_NORMAL_PRICEDATA',
+      //   pricedata: pricedata,
+      // })
     }
   }
-  // setDataReady({ loading: false, error: errorMessage })
-  // return errorMessage //<===EXIT===
 
-  return null //<===NORMAL EXIT===no errorMessage
+  return null //<===NORMAL EXIT=== No errorMessage
 }

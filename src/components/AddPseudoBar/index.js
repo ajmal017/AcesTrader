@@ -48,7 +48,7 @@ class AddPseudoBar extends Component {
         </div>
       )
     }
-    return <WelcomeTrader /> // e
+    return <WelcomeTrader />
   }
 }
 
@@ -64,22 +64,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(AddPseudoBar)
-
-//     let errorMessage
-//     buildPseudoBar(this.props.state, this.props.dispatch).then(function(errorMsg) {
-//       debugger
-//       if (errorMsg) {
-//         errorMessage = errorMsg
-//       } else {
-//         return <WelcomeTrader /> // exit to welcome screen
-//       }
-//     })
-//     return (
-//       <div style={{ marginTop: 80, marginLeft: 50 }}>
-//         <h4>{`${errorMessage}`}</h4>
-//         <p>
-//           <button onClick={this.handleClick}> OK </button>
-//         </p>
-//       </div>
-//     )
-//   }
