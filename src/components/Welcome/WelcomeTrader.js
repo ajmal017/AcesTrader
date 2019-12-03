@@ -160,7 +160,7 @@ class WelcomeTrader extends Component {
         .database()
         .ref(reference) // see lib/dbReference.js for possible values
         .once('value')
-        .then(function(snapshot) {
+        .then(async function(snapshot) {
           if (snapshot) {
             persistedState = snapshot.val()
             if (persistedState === null) {
@@ -174,8 +174,8 @@ class WelcomeTrader extends Component {
               let currentState = that.props.state
 
               // These are async operations that should be finished when accessed by ChartsView
-              setPeekPrices(currentState) // Put the current peek prices into the LastPeekPrice cache for use later in ChartsView
-              setDailyPrices(currentState, that.props.dispatch) // Load the daily price data for the portfolio's symbols
+              await setPeekPrices(currentState) // Put the current peek prices into the LastPeekPrice cache for use later in ChartsView
+              await setDailyPrices(currentState, that.props.dispatch) // Load the daily price data for the portfolio's symbols
             }
             // console.log(`AppLoadData DB finish:, reference=${reference}`)
             document.title = 'AcesTrader ' + reference[0].toUpperCase() + reference.substr(1)

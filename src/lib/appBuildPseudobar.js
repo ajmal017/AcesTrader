@@ -16,7 +16,7 @@ export const buildPseudoBar = async (state, dispatch) => {
   const nowYear = date.getFullYear()
   const nowMonth = date.getMonth() + 1
   const nowDay = date.getDate()
-  const pseudoDate = `${nowYear}-${nowMonth}-${nowDay}` // today's date
+  const pseudoDate = `${nowYear}-${nowMonth}-${nowDay < 10 ? 0 : null}${nowDay}` // today's date
   let allPseudoBars = {} // holds all the constructed pseudobars keyed by symbol
   let errorMessage = null
   // NOTE: PseudoBars are saved to app state, so old ones show when app is opened later. Select "Add PseudoBar" to update
@@ -24,7 +24,7 @@ export const buildPseudoBar = async (state, dispatch) => {
   // Test if correct circumstances else return error
   const theDay = date.getDay() //returns the week day of a date as a number (0-6)
   const theHour = date.getHours() //returns the hours of a date as a number (0-23)
-  const daysOld = setDailyPrices(state, dispatch) //this returns the daysOld number since data exists at this stage
+  const daysOld = await setDailyPrices(state, dispatch) //this returns the daysOld number since data exists at this stage
   if (theDay === 6 || theDay === 0) {
     // Today is Saturday or Sunday, all price series have correct last trading day bar
     errorMessage = 'Today is a weekend, all price series have correct last day trading bar'
@@ -140,20 +140,21 @@ export const buildPseudoBar = async (state, dispatch) => {
   symbolKeys.forEach(async (symbolKey) => {
     appendPseudoBar(symbolKey)
   })
+
   if (!errorMessage) {
     // finished without error
     if (getSandboxStatus()) {
-      dispatch(replaceSandboxPricedata(pricedata))
-      // dispatch({
-      //   type: 'REPLACE_SANDBOX_PRICEDATA',
-      //   pricedata: pricedata,
-      // })
+      // dispatch(replaceSandboxPricedata(pricedata))
+      dispatch({
+        type: 'REPLACE_SANDBOX_PRICEDATA',
+        pricedata: pricedata,
+      })
     } else {
-      dispatch(replaceNormalPricedata(pricedata))
-      // dispatch({
-      //   type: 'REPLACE_NORMAL_PRICEDATA',
-      //   pricedata: pricedata,
-      // })
+      // dispatch(replaceNormalPricedata(pricedata))
+      dispatch({
+        type: 'REPLACE_NORMAL_PRICEDATA',
+        pricedata: pricedata,
+      })
     }
   }
 
