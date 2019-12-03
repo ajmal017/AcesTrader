@@ -7,7 +7,7 @@ const RESET_PERSISTED_STATE = 'RESET_PERSISTED_STATE' // a "magic string"
 const REPLACE_NORMAL_PRICEDATA = 'REPLACE_NORMAL_PRICEDATA'
 const REMOVE_NORMAL_PRICEDATA = 'REMOVE_NORMAL_PRICEDATA'
 
-export const replaceNornalPricedata = (pricedata) => {
+export const replaceNormalPricedata = (pricedata) => {
   return {
     type: REPLACE_NORMAL_PRICEDATA,
     pricedata: pricedata,
