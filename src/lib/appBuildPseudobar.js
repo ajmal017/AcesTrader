@@ -16,7 +16,7 @@ export const buildPseudoBar = async (state, dispatch) => {
   const nowYear = date.getFullYear()
   const nowMonth = date.getMonth() + 1
   const nowDay = date.getDate()
-  const pseudoDate = `${nowYear}-${nowMonth}-${nowDay < 10 ? 0 : null}${nowDay}` // today's date
+  const pseudoDate = `${nowYear}-${nowMonth < 10 ? 0 : null}${nowMonth}-${nowDay < 10 ? 0 : null}${nowDay}` // today's date with 2 digit month-day
   let allPseudoBars = {} // holds all the constructed pseudobars keyed by symbol
   let errorMessage = null
   // NOTE: PseudoBars are saved to app state, so old ones show when app is opened later. Select "Add PseudoBar" to update
