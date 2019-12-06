@@ -4,24 +4,19 @@ import axios from 'axios'
 import iexData from '../iex.json'
 import { setDailyPrices } from './appSetDailyPrices'
 import { getSandboxStatus } from './appUseSandboxStatus'
-import replaceSandboxPricedata from '../redux/reducerSandboxPriceData'
-import replaceNormalPricedata from '../redux/reducerNormalPriceData'
+import { getTheDateAsString } from '../lib/appGetTheDateAsString'
+// import replaceSandboxPricedata from '../redux/reducerSandboxPriceData'
+// import replaceNormalPricedata from '../redux/reducerNormalPriceData'
 var cloneDeep = require('lodash.clonedeep')
 
 export const buildPseudoBar = async (state, dispatch) => {
-  // const [dataReady, setDataReady] = useState({ loading: true, error: false })
-  // const state = props.state
-  // const dispatch = props.dispatch
   const date = new Date() // today's date
-  const nowYear = date.getFullYear()
-  const nowMonth = date.getMonth() + 1
-  const nowDay = date.getDate()
-  const pseudoDate = `${nowYear}-${nowMonth < 10 ? 0 : ''}${nowMonth}-${nowDay < 10 ? 0 : ''}${nowDay}` // today's date with 2 digit month-day
+  const pseudoDate = getTheDateAsString() // current date as string
   let allPseudoBars = {} // holds all the constructed pseudobars keyed by symbol
   let errorMessage = null
   // NOTE: PseudoBars are saved to app state, so old ones show when app is opened later. Select "Add PseudoBar" to update
 
-  // Test if correct circumstances else return error
+  // If not correct circumstances then return with message
   const theDay = date.getDay() //returns the week day of a date as a number (0-6)
   const theHour = date.getHours() //returns the hours of a date as a number (0-23)
   const daysOld = await setDailyPrices(state, dispatch) //this returns the daysOld number since data exists at this stage
