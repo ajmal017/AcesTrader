@@ -13,9 +13,6 @@
 
 # production
 /build
-/src/fire.js
-/src/iex.json
-/src/martinduo.js
 
 # misc
 .DS_Store
@@ -32,6 +29,10 @@ firebase-debug.log
 # secrets
 .env
 .iex
+/src/fire.js
+/src/iex.json
+/src/martinduo.js
+/src/martinapps.js
 
 # other
 .vs
