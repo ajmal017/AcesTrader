@@ -44,7 +44,7 @@ class SignIn extends Component {
     const { signedin } = this.state
 
     if (signedin === true) {
-      return <WelcomeTrader P={'paper'} />
+      return <WelcomeTrader firstReference={'paper'} />
     }
 
     return <SignInView onSubmit={this.handleSubmit} />
