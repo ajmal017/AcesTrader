@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import SignInView from './SignInView'
 import fire from '../../fire'
-import martinduo from '../../martinduo'
+import martinapps from '../../martinapps'
 import WelcomeTrader from '../Welcome/WelcomeTrader'
 
 class SignIn extends Component {
@@ -23,8 +23,7 @@ class SignIn extends Component {
     const { email, password } = event.target.elements
     try {
       if (process.env.NODE_ENV === 'development') {
-        await fire.auth().signInWithEmailAndPassword(martinduo.email, martinduo.password)
-        // await fire.auth().signInWithEmailAndPassword('martinduo.emailReset', martinduo.password) // Changed emai will reset local database of symbols
+        await fire.auth().signInWithEmailAndPassword(martinapps.email, martinapps.password)
       } else {
         await fire.auth().signInWithEmailAndPassword(email.value, password.value)
       }
