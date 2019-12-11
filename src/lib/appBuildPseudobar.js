@@ -124,7 +124,7 @@ export const buildPseudoBar = async (state, dispatch) => {
       currentLastBar = symbolData[symbolData.length - 1] // get the new last bar
     }
     if (currentLastBar.pseudoBar) {
-      symbolData.pop() // remove the last created pseudoBar
+      symbolData.pop() // remove last created pseudoBar
     }
     symbolData.push(pseudoBar) // add the newly created pseudoBar
     pricedata[symbolKey] = symbolData // update the modified price series in the state
