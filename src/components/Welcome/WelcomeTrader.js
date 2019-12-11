@@ -110,7 +110,6 @@ const ActionDescHeader = styled.span`
 `
 
 class WelcomeTrader extends Component {
-  //
   constructor(props) {
     super(props)
     this.firstReference = props.firstReference //this prop is set by SignIn and StartUp only
@@ -122,7 +121,7 @@ class WelcomeTrader extends Component {
   componentDidMount() {
     // console.log(`WelcomeTrader: componentDidMount, getReference=${getReference()}, props.firstReference=${props.firstReference}`)
     if (this.firstReference) {
-      // a first time mount from signIn or startup
+      // the first time mount from signIn or startup
       this.sandboxChecked = process.env.NODE_ENV === 'development' ? true : false // by default development gets junk ohlc values to test the app, but free downloads (default is changeable by user)
       setSandboxStatus(this.sandboxChecked) // set for reference in other modules such as Chartcell and reducePeekData.js
 

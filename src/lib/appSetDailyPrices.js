@@ -3,7 +3,7 @@ import { getDaysDiff } from './appGetDaysDiff'
 import { loadPriceData } from './appLoadPriceData'
 import { getPortfolioSymbols } from './appGetPortfolioSymbols'
 import { getSandboxStatus } from '../lib/appUseSandboxStatus'
-// import { getReference } from '../lib/dbReference'
+import { getTheDateAsString } from '../lib/appGetTheDateAsString'
 var cloneDeep = require('lodash.clonedeep')
 
 export const setDailyPrices = async (state, dispatch) => {
@@ -16,7 +16,7 @@ export const setDailyPrices = async (state, dispatch) => {
     let pricedata = getSandboxStatus() ? cloneDeep(state.sandboxpricedata) : cloneDeep(state.normalpricedata)
     // const symbolType = getSandboxStatus() ? 'sandbox' : 'normal'
     const date = new Date() // today's date
-    const theDay = date.getDay()
+    const theDay = date.getDay() //returns the week day of a date as a number (0-6)
     pricedata = pricedata || { metaKey: null } // Creates a new pricedata object with first keyed item if no existing object
     pricedata['metaKey'] = pricedata['metaKey'] || null // get existing metaData date marker if any
     let metaData = pricedata['metaKey'] // get existing metaData date marker if any
@@ -27,10 +27,12 @@ export const setDailyPrices = async (state, dispatch) => {
       await loadPriceData(state, dispatch, getPortfolioSymbols(state), { updateExisting: false }) // build new collection of daily price series for portfolio's symbols
       return -1 // Established a new state.pricedata loaded with IEX data
     }
-    // date = new Date(2020, 8, 26) //*********** */TEST TEST TEST****************
-    const existingDate = pricedata.metaKey // the current date marker
-    const daysOld = getDaysDiff(existingDate, date)
-    // debugger //******** */TEST TEST TEST**using the fake date created above**************
+    // date = new Date(2020, 8, 26) //*********** */TEST TEST TEST** fake date **************
+    // const existingDate = pricedata.metaKey // existing date string key
+    const existingDate = getTheDateAsString(pricedata.metaKey) // normalize existing key date to string format without time
+    const currentDate = getTheDateAsString() // current date as string
+    const daysOld = getDaysDiff(existingDate, currentDate) // compare using string formats
+    // debugger //******** */TEST TEST TEST** using the fake date created above **************
     if (daysOld === 0) {
       // the existing data is good and has price data downloaded so far today for the prior trading day
       return daysOld // no change, try to get specified symbol from here
