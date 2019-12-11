@@ -4,8 +4,8 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import SignInView from './SignInView'
 import fire from '../../fire'
-import martinduo from '../../martinduo';
-import WelcomeTrader from '../Welcome/WelcomeTrader';
+import martinduo from '../../martinduo'
+import WelcomeTrader from '../Welcome/WelcomeTrader'
 
 class SignIn extends Component {
   constructor(props) {
@@ -44,14 +44,10 @@ class SignIn extends Component {
     const { signedin } = this.state
 
     if (signedin === true) {
-      return (
-        <WelcomeTrader firstReference={'paper'} />
-      )
+      return <WelcomeTrader P={'paper'} />
     }
 
-    return (
-      <SignInView onSubmit={this.handleSubmit} />
-    )
+    return <SignInView onSubmit={this.handleSubmit} />
   }
 }
 
